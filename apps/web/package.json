@@ -1,0 +1,41 @@
+{
+  "name": "@adpilot/web",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest watch"
+  },
+  "dependencies": {
+    "@adpilot/db": "workspace:*",
+    "@adpilot/shared": "workspace:*",
+    "@adpilot/ui": "workspace:*",
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "next-auth": "^5.0.0-beta.25",
+    "@auth/prisma-adapter": "^2.7.0",
+    "stripe": "^17.4.0",
+    "bullmq": "^5.30.0",
+    "ioredis": "^5.4.0",
+    "rate-limiter-flexible": "^5.0.0",
+    "zod": "^3.24.0",
+    "resend": "^4.0.0",
+    "posthog-js": "^1.200.0",
+    "posthog-node": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  }
+}
