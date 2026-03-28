@@ -122,6 +122,9 @@ importers:
         specifier: ^6.2.0
         version: 6.19.2(prisma@6.19.2(typescript@5.9.3))(typescript@5.9.3)
     devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.19.15
       prisma:
         specifier: ^6.2.0
         version: 6.19.2(typescript@5.9.3)
@@ -132,12 +135,28 @@ importers:
         specifier: ^5.7.0
         version: 5.9.3
 
+  packages/platform-sdk:
+    dependencies:
+      '@adpilot/shared':
+        specifier: workspace:*
+        version: link:../shared
+    devDependencies:
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.1.0
+        version: 2.1.9(@types/node@22.19.15)
+
   packages/shared:
     dependencies:
       zod:
         specifier: ^3.24.0
         version: 3.25.76
     devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.19.15
       typescript:
         specifier: ^5.7.0
         version: 5.9.3
