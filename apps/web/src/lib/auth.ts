@@ -26,13 +26,28 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.userId = user.id;
       }
 
+      // Check for org switch cookie
+      const { cookies: getCookies } = await import("next/headers");
+      const cookieStore = await getCookies();
+      const orgCookie = cookieStore.get("adpilot-org-id");
+
+      if (orgCookie?.value && token.userId) {
+        const membership = await prisma.membership.findUnique({
+          where: { userId_orgId: { userId: token.userId as string, orgId: orgCookie.value } },
+        });
+        if (membership) {
+          token.currentOrgId = membership.orgId;
+          token.currentRole = membership.role;
+          return token;
+        }
+      }
+
+      // Fallback: auto-select if single org
       if (token.userId && !token.currentOrgId) {
         const memberships = await prisma.membership.findMany({
           where: { userId: token.userId as string },
-          include: { organization: true },
           orderBy: { createdAt: "asc" },
         });
-
         if (memberships.length === 1) {
           token.currentOrgId = memberships[0].orgId;
           token.currentRole = memberships[0].role;

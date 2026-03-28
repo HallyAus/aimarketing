@@ -38,15 +38,25 @@ export default async function OrgPickerPage() {
       <h1 className="text-xl font-bold mb-6">Select Organization</h1>
       <div className="space-y-2">
         {memberships.map((m) => (
-          <button
-            key={m.organization.id}
-            className="w-full text-left border rounded-lg p-4 hover:bg-gray-50"
-          >
-            <div className="font-medium">{m.organization.name}</div>
-            <div className="text-sm text-gray-500">
-              {m.organization.plan} &middot; {m.role}
-            </div>
-          </button>
+          <form action={async () => {
+            "use server";
+            const { cookies: getCookies } = await import("next/headers");
+            const cookieStore = await getCookies();
+            cookieStore.set("adpilot-org-id", m.organization.id, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "strict",
+              path: "/",
+              maxAge: 60 * 60 * 24 * 30,
+            });
+            const { redirect } = await import("next/navigation");
+            redirect("/dashboard");
+          }} key={m.organization.id}>
+            <button type="submit" className="w-full text-left border rounded-lg p-4 hover:bg-gray-50">
+              <div className="font-medium">{m.organization.name}</div>
+              <div className="text-sm text-gray-500">{m.organization.plan} &middot; {m.role}</div>
+            </button>
+          </form>
         ))}
       </div>
     </div>
