@@ -9,10 +9,10 @@ const PLATFORM_ORDER: Platform[] = [
   "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT",
 ];
 
-const STATUS_COLORS: Record<string, string> = {
-  ACTIVE: "bg-green-100 text-green-800",
-  EXPIRED: "bg-yellow-100 text-yellow-800",
-  REVOKED: "bg-red-100 text-red-800",
+const STATUS_BADGE: Record<string, string> = {
+  ACTIVE: "badge-success",
+  EXPIRED: "badge-warning",
+  REVOKED: "badge-error",
 };
 
 export default async function ConnectionsPage({
@@ -20,7 +20,6 @@ export default async function ConnectionsPage({
 }: {
   searchParams: Promise<{ success?: string; error?: string }>;
 }) {
-  
   if (false) {
     redirect("/org-picker");
   }
@@ -38,19 +37,33 @@ export default async function ConnectionsPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-2">Platform Connections</h1>
-      <p className="text-gray-500 mb-6">
+      <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Platform Connections</h1>
+      <p className="mb-6" style={{ color: "var(--text-secondary)" }}>
         Connect your social media accounts to manage campaigns.
       </p>
 
       {params.success === "connected" && (
-        <div className="mb-4 rounded-md bg-green-50 border border-green-200 p-3 text-sm text-green-800">
+        <div
+          className="mb-4 rounded-md p-3 text-sm"
+          style={{
+            background: "rgba(16,185,129,0.1)",
+            border: "1px solid rgba(16,185,129,0.3)",
+            color: "var(--accent-emerald)",
+          }}
+        >
           Platform connected successfully!
         </div>
       )}
 
       {params.error && (
-        <div className="mb-4 rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-800">
+        <div
+          className="mb-4 rounded-md p-3 text-sm"
+          style={{
+            background: "rgba(239,68,68,0.1)",
+            border: "1px solid rgba(239,68,68,0.3)",
+            color: "var(--accent-red)",
+          }}
+        >
           Connection failed: {params.error.replace(/_/g, " ")}
         </div>
       )}
@@ -63,21 +76,19 @@ export default async function ConnectionsPage({
           return (
             <div
               key={platform}
-              className="border rounded-lg p-4 flex flex-col justify-between"
+              className="card flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-medium">{config.displayName}</h3>
+                  <h3 className="font-medium" style={{ color: "var(--text-primary)" }}>{config.displayName}</h3>
                   {connection && (
-                    <span
-                      className={`text-xs px-2 py-0.5 rounded-full ${STATUS_COLORS[connection.status]}`}
-                    >
+                    <span className={STATUS_BADGE[connection.status] ?? "badge-neutral"}>
                       {connection.status}
                     </span>
                   )}
                 </div>
                 {connection && (
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
                     {connection.platformAccountName ?? connection.platformUserId}
                   </p>
                 )}
@@ -87,14 +98,18 @@ export default async function ConnectionsPage({
                 {!connection ? (
                   <a
                     href={`/api/platforms/${platform}/authorize`}
-                    className="inline-flex items-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
+                    className="btn-primary text-sm inline-flex items-center"
                   >
                     Connect
                   </a>
                 ) : connection.status === "EXPIRED" ? (
                   <a
                     href={`/api/platforms/${platform}/authorize`}
-                    className="inline-flex items-center rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-yellow-700"
+                    className="inline-flex items-center rounded px-3 py-1.5 text-sm font-medium"
+                    style={{
+                      background: "var(--accent-amber)",
+                      color: "#000",
+                    }}
                   >
                     Reconnect
                   </a>
@@ -116,7 +131,7 @@ export default async function ConnectionsPage({
                   >
                     <button
                       type="submit"
-                      className="inline-flex items-center rounded-md border border-red-300 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50"
+                      className="btn-danger text-sm inline-flex items-center"
                     >
                       Disconnect
                     </button>

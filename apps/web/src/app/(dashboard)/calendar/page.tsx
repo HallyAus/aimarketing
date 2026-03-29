@@ -2,16 +2,16 @@ import { getOrgId } from "@/lib/get-org";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 
-const PLATFORM_COLORS: Record<string, string> = {
-  FACEBOOK: "border-l-blue-600",
-  INSTAGRAM: "border-l-pink-500",
-  TIKTOK: "border-l-gray-900",
-  LINKEDIN: "border-l-blue-700",
-  TWITTER_X: "border-l-gray-800",
-  YOUTUBE: "border-l-red-600",
-  GOOGLE_ADS: "border-l-green-600",
-  PINTEREST: "border-l-red-500",
-  SNAPCHAT: "border-l-yellow-400",
+const PLATFORM_ACCENT: Record<string, string> = {
+  FACEBOOK: "var(--accent-blue)",
+  INSTAGRAM: "#e1306c",
+  TIKTOK: "var(--text-primary)",
+  LINKEDIN: "#0077b5",
+  TWITTER_X: "var(--text-secondary)",
+  YOUTUBE: "var(--accent-red)",
+  GOOGLE_ADS: "var(--accent-emerald)",
+  PINTEREST: "#e60023",
+  SNAPCHAT: "var(--accent-amber)",
 };
 
 export default async function CalendarPage({
@@ -19,9 +19,6 @@ export default async function CalendarPage({
 }: {
   searchParams: Promise<{ month?: string; year?: string }>;
 }) {
-  
-  
-
   const params = await searchParams;
   const now = new Date();
   const year = parseInt(params.year ?? String(now.getFullYear()), 10);
@@ -66,26 +63,54 @@ export default async function CalendarPage({
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Content Calendar</h1>
+        <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>Content Calendar</h1>
         <div className="flex items-center gap-4">
-          <a href={`/calendar?month=${prevMonth}&year=${prevYear}`} className="text-sm text-gray-500 hover:text-gray-800">&larr; Prev</a>
-          <span className="font-medium">{monthName} {year}</span>
-          <a href={`/calendar?month=${nextMonth}&year=${nextYear}`} className="text-sm text-gray-500 hover:text-gray-800">Next &rarr;</a>
+          <a
+            href={`/calendar?month=${prevMonth}&year=${prevYear}`}
+            className="text-sm"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            &larr; Prev
+          </a>
+          <span className="font-medium" style={{ color: "var(--text-primary)" }}>{monthName} {year}</span>
+          <a
+            href={`/calendar?month=${nextMonth}&year=${nextYear}`}
+            className="text-sm"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            Next &rarr;
+          </a>
         </div>
       </div>
 
       {/* Day headers */}
-      <div className="grid grid-cols-7 gap-px bg-gray-200 rounded-t-lg overflow-hidden">
+      <div
+        className="grid grid-cols-7 rounded-t-lg overflow-hidden"
+        style={{ gap: "1px", background: "var(--border-primary)" }}
+      >
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-          <div key={d} className="bg-gray-50 p-2 text-center text-xs font-medium text-gray-500">{d}</div>
+          <div
+            key={d}
+            className="p-2 text-center text-xs font-medium"
+            style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)" }}
+          >
+            {d}
+          </div>
         ))}
       </div>
 
       {/* Calendar grid */}
-      <div className="grid grid-cols-7 gap-px bg-gray-200 rounded-b-lg overflow-hidden">
+      <div
+        className="grid grid-cols-7 rounded-b-lg overflow-hidden"
+        style={{ gap: "1px", background: "var(--border-primary)" }}
+      >
         {/* Empty cells before first day */}
         {Array.from({ length: startDay }).map((_, i) => (
-          <div key={`empty-${i}`} className="bg-white p-2 min-h-[100px]" />
+          <div
+            key={`empty-${i}`}
+            className="p-2 min-h-[100px]"
+            style={{ background: "var(--bg-primary)" }}
+          />
         ))}
 
         {/* Day cells */}
@@ -95,20 +120,40 @@ export default async function CalendarPage({
           const isToday = day === now.getDate() && month === now.getMonth() + 1 && year === now.getFullYear();
 
           return (
-            <div key={day} className={`bg-white p-2 min-h-[100px] ${isToday ? "ring-2 ring-blue-500 ring-inset" : ""}`}>
-              <div className={`text-xs mb-1 ${isToday ? "font-bold text-blue-600" : "text-gray-400"}`}>{day}</div>
+            <div
+              key={day}
+              className="p-2 min-h-[100px]"
+              style={{
+                background: "var(--bg-secondary)",
+                outline: isToday ? `2px solid var(--accent-blue)` : "none",
+                outlineOffset: "-2px",
+              }}
+            >
+              <div
+                className="text-xs mb-1 font-medium"
+                style={{ color: isToday ? "var(--accent-blue)" : "var(--text-tertiary)" }}
+              >
+                {day}
+              </div>
               <div className="space-y-1">
                 {dayPosts.slice(0, 3).map((post) => (
                   <div
                     key={post.id}
-                    className={`text-xs p-1 rounded border-l-2 bg-gray-50 truncate ${PLATFORM_COLORS[post.platform] ?? "border-l-gray-300"}`}
+                    className="text-xs p-1 rounded truncate"
+                    style={{
+                      borderLeft: `2px solid ${PLATFORM_ACCENT[post.platform] ?? "var(--border-primary)"}`,
+                      background: "var(--bg-tertiary)",
+                      color: "var(--text-secondary)",
+                    }}
                     title={`${post.platform}: ${post.content.substring(0, 100)}`}
                   >
                     {post.campaign.name}
                   </div>
                 ))}
                 {dayPosts.length > 3 && (
-                  <div className="text-xs text-gray-400">+{dayPosts.length - 3} more</div>
+                  <div className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+                    +{dayPosts.length - 3} more
+                  </div>
                 )}
               </div>
             </div>

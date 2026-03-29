@@ -11,11 +11,23 @@ export default async function SignInPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-sm space-y-6 p-8">
+    <main
+      className="flex min-h-screen items-center justify-center"
+      style={{ background: "var(--bg-primary)" }}
+    >
+      <div
+        className="w-full max-w-sm space-y-6 p-8 rounded-xl"
+        style={{
+          background: "var(--bg-secondary)",
+          border: "1px solid var(--border-primary)",
+        }}
+      >
         <div className="text-center">
-          <h1 className="text-2xl font-bold">Sign in to AdPilot</h1>
-          <p className="text-sm text-gray-500 mt-2">
+          <div className="section-label mb-3">Marketing Intelligence Platform</div>
+          <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
+            Sign in to AdPilot
+          </h1>
+          <p className="text-sm mt-2" style={{ color: "var(--text-secondary)" }}>
             Manage your marketing campaigns
           </p>
         </div>
@@ -32,11 +44,11 @@ export default async function SignInPage() {
             type="email"
             placeholder="you@example.com"
             required
-            className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm"
+            className="w-full rounded-md px-4 py-2 text-sm"
           />
           <button
             type="submit"
-            className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            className="btn-primary w-full text-sm py-2"
           >
             Sign In
           </button>

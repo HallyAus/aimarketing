@@ -20,11 +20,13 @@ export default function AIStudioPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-2">AI Studio</h1>
-      <p className="text-gray-500 mb-6">Generate content, images, and campaign ideas with AI.</p>
+      <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>AI Studio</h1>
+      <p className="mb-6" style={{ color: "var(--text-secondary)" }}>
+        Generate content, images, and campaign ideas with AI.
+      </p>
 
       {/* Tabs */}
-      <div className="flex gap-1 border-b mb-6">
+      <div className="flex gap-1 mb-6" style={{ borderBottom: "1px solid var(--border-primary)" }}>
         {[
           { id: "post" as const, label: "Generate Post" },
           { id: "improve" as const, label: "Improve Post" },
@@ -34,11 +36,13 @@ export default function AIStudioPage() {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px ${
-              activeTab === tab.id
-                ? "border-blue-600 text-blue-600"
-                : "border-transparent text-gray-500 hover:text-gray-700"
-            }`}
+            className="px-4 py-2 text-sm font-medium"
+            style={{
+              borderBottom: activeTab === tab.id ? "2px solid var(--accent-blue)" : "2px solid transparent",
+              marginBottom: "-1px",
+              color: activeTab === tab.id ? "var(--accent-blue)" : "var(--text-secondary)",
+              background: "transparent",
+            }}
           >
             {tab.label}
           </button>
@@ -83,48 +87,63 @@ function GeneratePostTab() {
     <div className="grid grid-cols-2 gap-6">
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Platform</label>
-          <select value={platform} onChange={(e) => setPlatform(e.target.value)} className="w-full rounded-md border px-3 py-2 text-sm">
+          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Platform</label>
+          <select value={platform} onChange={(e) => setPlatform(e.target.value)} className="w-full rounded-md px-3 py-2 text-sm">
             {PLATFORMS.map((p) => <option key={p} value={p}>{p.replace("_", " ")}</option>)}
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Topic / Description</label>
+          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Topic / Description</label>
           <textarea
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             rows={4}
             placeholder="e.g. Summer sale on all products, 30% off, limited time only"
-            className="w-full rounded-md border px-3 py-2 text-sm"
+            className="w-full rounded-md px-3 py-2 text-sm"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Tone</label>
-          <select value={tone} onChange={(e) => setTone(e.target.value)} className="w-full rounded-md border px-3 py-2 text-sm">
+          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Tone</label>
+          <select value={tone} onChange={(e) => setTone(e.target.value)} className="w-full rounded-md px-3 py-2 text-sm">
             {TONES.map((t) => <option key={t} value={t}>{t}</option>)}
           </select>
         </div>
         <div className="flex gap-4">
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex items-center gap-2 text-sm" style={{ color: "var(--text-secondary)" }}>
             <input type="checkbox" checked={includeHashtags} onChange={(e) => setIncludeHashtags(e.target.checked)} />
             Include hashtags
           </label>
-          <label className="flex items-center gap-2 text-sm">
+          <label className="flex items-center gap-2 text-sm" style={{ color: "var(--text-secondary)" }}>
             <input type="checkbox" checked={includeEmojis} onChange={(e) => setIncludeEmojis(e.target.checked)} />
             Include emojis
           </label>
         </div>
-        <button onClick={generate} disabled={loading || !topic} className="rounded-md bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50">
+        <button
+          onClick={generate}
+          disabled={loading || !topic}
+          className="btn-primary text-sm disabled:opacity-50"
+        >
           {loading ? "Generating..." : "Generate Post"}
         </button>
       </div>
       <div>
-        <label className="block text-sm font-medium mb-1">Generated Content</label>
-        <div className="border rounded-lg p-4 min-h-[200px] bg-gray-50 whitespace-pre-wrap text-sm">
+        <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Generated Content</label>
+        <div
+          className="rounded-lg p-4 min-h-[200px] whitespace-pre-wrap text-sm"
+          style={{
+            border: "1px solid var(--border-primary)",
+            background: "var(--bg-secondary)",
+            color: result ? "var(--text-primary)" : "var(--text-tertiary)",
+          }}
+        >
           {result || "Your AI-generated post will appear here..."}
         </div>
         {result && (
-          <button onClick={() => navigator.clipboard.writeText(result)} className="mt-2 text-sm text-blue-600 hover:underline">
+          <button
+            onClick={() => navigator.clipboard.writeText(result)}
+            className="mt-2 text-sm"
+            style={{ color: "var(--accent-blue)" }}
+          >
             Copy to clipboard
           </button>
         )}
@@ -161,30 +180,55 @@ function ImprovePostTab() {
     <div className="grid grid-cols-2 gap-6">
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Platform</label>
-          <select value={platform} onChange={(e) => setPlatform(e.target.value)} className="w-full rounded-md border px-3 py-2 text-sm">
+          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Platform</label>
+          <select value={platform} onChange={(e) => setPlatform(e.target.value)} className="w-full rounded-md px-3 py-2 text-sm">
             {PLATFORMS.map((p) => <option key={p} value={p}>{p.replace("_", " ")}</option>)}
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Current Post Content</label>
-          <textarea value={content} onChange={(e) => setContent(e.target.value)} rows={5} placeholder="Paste your existing post here..." className="w-full rounded-md border px-3 py-2 text-sm" />
+          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Current Post Content</label>
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            rows={5}
+            placeholder="Paste your existing post here..."
+            className="w-full rounded-md px-3 py-2 text-sm"
+          />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Improvement Instructions</label>
-          <input value={instruction} onChange={(e) => setInstruction(e.target.value)} className="w-full rounded-md border px-3 py-2 text-sm" />
+          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Improvement Instructions</label>
+          <input
+            value={instruction}
+            onChange={(e) => setInstruction(e.target.value)}
+            className="w-full rounded-md px-3 py-2 text-sm"
+          />
         </div>
-        <button onClick={improve} disabled={loading || !content} className="rounded-md bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50">
+        <button
+          onClick={improve}
+          disabled={loading || !content}
+          className="btn-primary text-sm disabled:opacity-50"
+        >
           {loading ? "Improving..." : "Improve Post"}
         </button>
       </div>
       <div>
-        <label className="block text-sm font-medium mb-1">Improved Content</label>
-        <div className="border rounded-lg p-4 min-h-[200px] bg-gray-50 whitespace-pre-wrap text-sm">
+        <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Improved Content</label>
+        <div
+          className="rounded-lg p-4 min-h-[200px] whitespace-pre-wrap text-sm"
+          style={{
+            border: "1px solid var(--border-primary)",
+            background: "var(--bg-secondary)",
+            color: result ? "var(--text-primary)" : "var(--text-tertiary)",
+          }}
+        >
           {result || "Improved version will appear here..."}
         </div>
         {result && (
-          <button onClick={() => navigator.clipboard.writeText(result)} className="mt-2 text-sm text-blue-600 hover:underline">
+          <button
+            onClick={() => navigator.clipboard.writeText(result)}
+            className="mt-2 text-sm"
+            style={{ color: "var(--accent-blue)" }}
+          >
             Copy to clipboard
           </button>
         )}
@@ -219,12 +263,17 @@ function CampaignIdeasTab() {
   return (
     <div className="max-w-2xl space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-1">Your Industry / Business</label>
-        <input value={industry} onChange={(e) => setIndustry(e.target.value)} placeholder="e.g. E-commerce fashion brand, SaaS startup, Local restaurant" className="w-full rounded-md border px-3 py-2 text-sm" />
+        <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Your Industry / Business</label>
+        <input
+          value={industry}
+          onChange={(e) => setIndustry(e.target.value)}
+          placeholder="e.g. E-commerce fashion brand, SaaS startup, Local restaurant"
+          className="w-full rounded-md px-3 py-2 text-sm"
+        />
       </div>
       <div>
-        <label className="block text-sm font-medium mb-1">Campaign Objective</label>
-        <select value={objective} onChange={(e) => setObjective(e.target.value)} className="w-full rounded-md border px-3 py-2 text-sm">
+        <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Campaign Objective</label>
+        <select value={objective} onChange={(e) => setObjective(e.target.value)} className="w-full rounded-md px-3 py-2 text-sm">
           <option value="AWARENESS">Brand Awareness</option>
           <option value="TRAFFIC">Website Traffic</option>
           <option value="ENGAGEMENT">Engagement</option>
@@ -232,11 +281,22 @@ function CampaignIdeasTab() {
           <option value="LEADS">Lead Generation</option>
         </select>
       </div>
-      <button onClick={generate} disabled={loading || !industry} className="rounded-md bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50">
+      <button
+        onClick={generate}
+        disabled={loading || !industry}
+        className="btn-primary text-sm disabled:opacity-50"
+      >
         {loading ? "Generating Ideas..." : "Generate Campaign Ideas"}
       </button>
       {result && (
-        <div className="border rounded-lg p-4 bg-gray-50 whitespace-pre-wrap text-sm mt-4">
+        <div
+          className="rounded-lg p-4 whitespace-pre-wrap text-sm mt-4"
+          style={{
+            border: "1px solid var(--border-primary)",
+            background: "var(--bg-secondary)",
+            color: "var(--text-primary)",
+          }}
+        >
           {result}
         </div>
       )}
@@ -277,38 +337,69 @@ function CreateImageTab() {
     <div className="grid grid-cols-2 gap-6">
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Main Text</label>
-          <textarea value={text} onChange={(e) => setText(e.target.value)} rows={3} placeholder="Your headline or caption text" className="w-full rounded-md border px-3 py-2 text-sm" />
+          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Main Text</label>
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            rows={3}
+            placeholder="Your headline or caption text"
+            className="w-full rounded-md px-3 py-2 text-sm"
+          />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Subtitle (optional)</label>
-          <input value={subtitle} onChange={(e) => setSubtitle(e.target.value)} placeholder="Additional line of text" className="w-full rounded-md border px-3 py-2 text-sm" />
+          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Subtitle (optional)</label>
+          <input
+            value={subtitle}
+            onChange={(e) => setSubtitle(e.target.value)}
+            placeholder="Additional line of text"
+            className="w-full rounded-md px-3 py-2 text-sm"
+          />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Size Preset</label>
-          <select value={preset} onChange={(e) => setPreset(e.target.value)} className="w-full rounded-md border px-3 py-2 text-sm">
+          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Size Preset</label>
+          <select value={preset} onChange={(e) => setPreset(e.target.value)} className="w-full rounded-md px-3 py-2 text-sm">
             {IMAGE_PRESETS.map((p) => <option key={p.id} value={p.id}>{p.label}</option>)}
           </select>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Background</label>
+            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Background</label>
             <div className="flex gap-2">
-              <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="h-9 w-12 rounded border cursor-pointer" />
-              <input value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="flex-1 rounded-md border px-3 py-2 text-sm" />
+              <input
+                type="color"
+                value={bgColor}
+                onChange={(e) => setBgColor(e.target.value)}
+                className="h-9 w-12 rounded cursor-pointer"
+                style={{ border: "1px solid var(--border-primary)" }}
+              />
+              <input
+                value={bgColor}
+                onChange={(e) => setBgColor(e.target.value)}
+                className="flex-1 rounded-md px-3 py-2 text-sm"
+              />
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Text Color</label>
+            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Text Color</label>
             <div className="flex gap-2">
-              <input type="color" value={textColor} onChange={(e) => setTextColor(e.target.value)} className="h-9 w-12 rounded border cursor-pointer" />
-              <input value={textColor} onChange={(e) => setTextColor(e.target.value)} className="flex-1 rounded-md border px-3 py-2 text-sm" />
+              <input
+                type="color"
+                value={textColor}
+                onChange={(e) => setTextColor(e.target.value)}
+                className="h-9 w-12 rounded cursor-pointer"
+                style={{ border: "1px solid var(--border-primary)" }}
+              />
+              <input
+                value={textColor}
+                onChange={(e) => setTextColor(e.target.value)}
+                className="flex-1 rounded-md px-3 py-2 text-sm"
+              />
             </div>
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Font Size</label>
-          <select value={fontSize} onChange={(e) => setFontSize(e.target.value)} className="w-full rounded-md border px-3 py-2 text-sm">
+          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Font Size</label>
+          <select value={fontSize} onChange={(e) => setFontSize(e.target.value)} className="w-full rounded-md px-3 py-2 text-sm">
             <option value="small">Small</option>
             <option value="medium">Medium</option>
             <option value="large">Large</option>
@@ -317,24 +408,43 @@ function CreateImageTab() {
         </div>
         <div className="flex gap-2">
           {["#1a1a2e", "#000000", "#16213e", "#0f3460", "#533483", "#e94560", "#1b4332", "#2d3436"].map((c) => (
-            <button key={c} onClick={() => setBgColor(c)} className="w-8 h-8 rounded-full border-2 border-gray-200" style={{ backgroundColor: c }} />
+            <button
+              key={c}
+              onClick={() => setBgColor(c)}
+              className="w-8 h-8 rounded-full"
+              style={{ backgroundColor: c, border: "2px solid var(--border-primary)" }}
+            />
           ))}
         </div>
-        <button onClick={generateImage} disabled={loading || !text} className="rounded-md bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50">
+        <button
+          onClick={generateImage}
+          disabled={loading || !text}
+          className="btn-primary text-sm disabled:opacity-50"
+        >
           {loading ? "Creating..." : "Create Image"}
         </button>
       </div>
       <div>
-        <label className="block text-sm font-medium mb-1">Preview</label>
-        <div className="border rounded-lg overflow-hidden bg-gray-100 min-h-[300px] flex items-center justify-center">
+        <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Preview</label>
+        <div
+          className="rounded-lg overflow-hidden min-h-[300px] flex items-center justify-center"
+          style={{ border: "1px solid var(--border-primary)", background: "var(--bg-secondary)" }}
+        >
           {imageUrl ? (
             <img src={imageUrl} alt="Generated" className="max-w-full max-h-[500px] object-contain" />
           ) : (
-            <span className="text-gray-400 text-sm">Image preview will appear here</span>
+            <span className="text-sm" style={{ color: "var(--text-tertiary)" }}>
+              Image preview will appear here
+            </span>
           )}
         </div>
         {imageUrl && (
-          <a href={imageUrl} download="adpilot-image.png" className="mt-2 inline-block text-sm text-blue-600 hover:underline">
+          <a
+            href={imageUrl}
+            download="adpilot-image.png"
+            className="mt-2 inline-block text-sm"
+            style={{ color: "var(--accent-blue)" }}
+          >
             Download Image
           </a>
         )}

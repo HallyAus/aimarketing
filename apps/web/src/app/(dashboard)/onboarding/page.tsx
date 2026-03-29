@@ -4,9 +4,6 @@ import { prisma } from "@adpilot/db";
 import Link from "next/link";
 
 export default async function OnboardingPage() {
-  
-  
-
   const orgId = await getOrgId();
 
   // Check onboarding progress
@@ -30,8 +27,10 @@ export default async function OnboardingPage() {
 
   return (
     <div className="max-w-lg mx-auto mt-8">
-      <h1 className="text-2xl font-bold mb-2">Welcome to AdPilot!</h1>
-      <p className="text-gray-500 mb-8">
+      <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
+        Welcome to AdPilot!
+      </h1>
+      <p className="mb-8" style={{ color: "var(--text-secondary)" }}>
         {allDone
           ? "You're all set! Start managing your campaigns."
           : `Complete these steps to get started (${completedCount}/${steps.length})`}
@@ -42,21 +41,39 @@ export default async function OnboardingPage() {
           <Link
             key={i}
             href={step.href}
-            className={`flex items-center gap-3 p-4 border rounded-lg ${step.done ? "bg-green-50 border-green-200" : "hover:bg-gray-50"}`}
+            className="flex items-center gap-3 p-4 rounded-lg card-hover"
+            style={{
+              border: step.done
+                ? "1px solid rgba(16,185,129,0.3)"
+                : "1px solid var(--border-primary)",
+              background: step.done
+                ? "rgba(16,185,129,0.07)"
+                : "var(--bg-secondary)",
+            }}
           >
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${step.done ? "bg-green-600 text-white" : "bg-gray-200 text-gray-600"}`}>
+            <div
+              className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0"
+              style={{
+                background: step.done ? "var(--accent-emerald)" : "var(--bg-elevated)",
+                color: step.done ? "#fff" : "var(--text-secondary)",
+              }}
+            >
               {step.done ? "\u2713" : i + 1}
             </div>
-            <span className={step.done ? "line-through text-gray-400" : ""}>{step.label}</span>
+            <span
+              style={{
+                color: step.done ? "var(--text-tertiary)" : "var(--text-primary)",
+                textDecoration: step.done ? "line-through" : "none",
+              }}
+            >
+              {step.label}
+            </span>
           </Link>
         ))}
       </div>
 
       {allDone && (
-        <Link
-          href="/dashboard"
-          className="mt-6 inline-block rounded-md bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700"
-        >
+        <Link href="/dashboard" className="btn-primary mt-6 inline-block text-sm">
           Go to Dashboard
         </Link>
       )}
