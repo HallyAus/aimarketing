@@ -5,7 +5,9 @@ import { prisma } from "@adpilot/db";
 import { Queue } from "bullmq";
 import { redis } from "@/lib/redis";
 
-const publishQueue = new Queue("campaign:publish", { connection: redis });
+function getPublishQueue() {
+  return new Queue("campaign:publish", { connection: redis });
+}
 
 // POST /api/campaigns/[campaignId]/publish — schedule or publish now
 export const POST = withErrorHandler(withRole("EDITOR", async (req, context) => {
@@ -40,7 +42,7 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req, context) => 
   for (const post of campaign.posts) {
     if (publishNow || !post.scheduledAt || post.scheduledAt <= new Date()) {
       // Publish immediately — enqueue to worker
-      await publishQueue.add("publish", {
+      await getPublishQueue().add("publish", {
         postId: post.id,
         orgId: req.orgId,
         platform: post.platform,

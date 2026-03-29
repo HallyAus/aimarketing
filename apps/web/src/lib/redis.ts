@@ -4,10 +4,21 @@ const globalForRedis = globalThis as unknown as {
   redis: IORedis | undefined;
 };
 
-export const redis =
-  globalForRedis.redis ??
-  new IORedis(process.env.REDIS_URL ?? "redis://localhost:6379", {
-    maxRetriesPerRequest: null,
-  });
+function getRedisClient(): IORedis {
+  if (!globalForRedis.redis) {
+    globalForRedis.redis = new IORedis(
+      process.env.REDIS_URL ?? "redis://localhost:6379",
+      { maxRetriesPerRequest: null }
+    );
+  }
+  return globalForRedis.redis;
+}
 
-if (process.env.NODE_ENV !== "production") globalForRedis.redis = redis;
+// Lazy proxy — doesn't connect until first method call
+export const redis = new Proxy({} as IORedis, {
+  get(_target, prop, receiver) {
+    const client = getRedisClient();
+    const value = Reflect.get(client, prop, receiver);
+    return typeof value === "function" ? value.bind(client) : value;
+  },
+});

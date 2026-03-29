@@ -7,7 +7,9 @@ import { uploadToR2 } from "@/lib/r2";
 import { Queue } from "bullmq";
 import { redis } from "@/lib/redis";
 
-const mediaQueue = new Queue("media:process", { connection: redis });
+function getMediaQueue() {
+  return new Queue("media:process", { connection: redis });
+}
 
 // GET /api/creatives — list creatives for current org
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
@@ -82,7 +84,7 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
   });
 
   // Enqueue thumbnail generation
-  await mediaQueue.add("process", {
+  await getMediaQueue().add("process", {
     creativeId: creative.id,
     orgId: req.orgId,
     r2Key,
