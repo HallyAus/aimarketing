@@ -26,7 +26,7 @@ export default async function BillingPage() {
           {plan === "FREE" && <a href="/api/billing/checkout" className="btn-primary">Upgrade</a>}
         </div>
 
-        <div className="grid grid-cols-3 gap-4 pt-4" style={{ borderTop: "1px solid var(--border-secondary)" }}>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4" style={{ borderTop: "1px solid var(--border-secondary)" }}>
           <div>
             <div className="text-xs mb-1" style={{ color: "var(--text-tertiary)" }}>Platforms</div>
             <div className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>

@@ -39,7 +39,7 @@ export default async function CampaignDetailPage({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>{campaign.name}</h1>
           <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>
@@ -48,7 +48,7 @@ export default async function CampaignDetailPage({
         </div>
         <Link
           href={`/campaigns/${campaignId}/posts/new`}
-          className="btn-primary text-sm"
+          className="btn-primary text-sm min-h-[44px] inline-flex items-center justify-center"
         >
           Add Post
         </Link>
@@ -76,7 +76,7 @@ export default async function CampaignDetailPage({
                         const { redirect: r } = await import("next/navigation");
                         r(`/campaigns/${campaignId}`);
                       }}>
-                        <button type="submit" className="btn-primary text-xs px-3 py-1">Approve</button>
+                        <button type="submit" className="btn-primary text-xs px-4 py-2 min-h-[44px]">Approve</button>
                       </form>
                       <form action={async () => {
                         "use server";
@@ -88,7 +88,7 @@ export default async function CampaignDetailPage({
                         const { redirect: r } = await import("next/navigation");
                         r(`/campaigns/${campaignId}`);
                       }}>
-                        <button type="submit" className="btn-danger text-xs px-3 py-1">Reject</button>
+                        <button type="submit" className="btn-danger text-xs px-4 py-2 min-h-[44px]">Reject</button>
                       </form>
                     </>
                   )}

@@ -16,7 +16,7 @@ export default async function SignInPage() {
       style={{ background: "var(--bg-primary)" }}
     >
       <div
-        className="w-full max-w-sm space-y-6 p-8 rounded-xl"
+        className="w-full max-w-sm space-y-6 p-6 md:p-8 rounded-xl mx-4 md:mx-0"
         style={{
           background: "var(--bg-secondary)",
           border: "1px solid var(--border-primary)",
@@ -44,11 +44,11 @@ export default async function SignInPage() {
             type="email"
             placeholder="you@example.com"
             required
-            className="w-full rounded-md px-4 py-2 text-sm"
+            className="w-full rounded-md px-4 py-3 md:py-2 text-sm"
           />
           <button
             type="submit"
-            className="btn-primary w-full text-sm py-2"
+            className="btn-primary w-full text-sm py-3 md:py-2 min-h-[44px]"
           >
             Sign In
           </button>

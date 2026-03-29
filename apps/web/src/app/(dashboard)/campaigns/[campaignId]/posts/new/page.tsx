@@ -41,7 +41,7 @@ export default async function NewPostPage({
   }
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-2xl w-full">
       <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Add Post</h1>
       <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>Campaign: {campaign.name}</p>
 
@@ -96,7 +96,7 @@ export default async function NewPostPage({
         </div>
 
         <div className="flex gap-3">
-          <button type="submit" className="btn-primary text-sm">
+          <button type="submit" className="btn-primary text-sm min-h-[44px]">
             Create Post
           </button>
         </div>

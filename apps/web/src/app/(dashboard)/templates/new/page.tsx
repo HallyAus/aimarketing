@@ -20,7 +20,7 @@ export default async function NewTemplatePage() {
   }
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-2xl w-full">
       <h1 className="text-2xl font-bold mb-6" style={{ color: "var(--text-primary)" }}>Create Template</h1>
       <form action={createTemplate} className="space-y-4">
         <div>
@@ -61,7 +61,7 @@ export default async function NewTemplatePage() {
             placeholder="promo, launch, product"
           />
         </div>
-        <button type="submit" className="btn-primary text-sm">
+        <button type="submit" className="btn-primary text-sm min-h-[44px]">
           Create Template
         </button>
       </form>

@@ -3,13 +3,13 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main
-      className="flex min-h-screen flex-col items-center justify-center p-24"
+      className="flex min-h-screen flex-col items-center justify-center p-6 md:p-12 lg:p-24"
       style={{ background: "var(--bg-primary)" }}
     >
       <div className="text-center max-w-xl">
         <div className="section-label mb-4">Marketing Intelligence Platform</div>
         <h1
-          className="text-5xl font-bold mb-4 tracking-tight"
+          className="text-3xl md:text-5xl font-bold mb-4 tracking-tight"
           style={{ color: "var(--text-primary)" }}
         >
           AdPilot

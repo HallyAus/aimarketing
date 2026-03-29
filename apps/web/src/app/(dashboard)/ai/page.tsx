@@ -26,7 +26,7 @@ export default function AIStudioPage() {
       </p>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-6" style={{ borderBottom: "1px solid var(--border-primary)" }}>
+      <div className="flex gap-1 mb-6 overflow-x-auto" style={{ borderBottom: "1px solid var(--border-primary)" }}>
         {[
           { id: "post" as const, label: "Generate Post" },
           { id: "improve" as const, label: "Improve Post" },
@@ -36,7 +36,7 @@ export default function AIStudioPage() {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className="px-4 py-2 text-sm font-medium"
+            className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium whitespace-nowrap min-h-[44px]"
             style={{
               borderBottom: activeTab === tab.id ? "2px solid var(--accent-blue)" : "2px solid transparent",
               marginBottom: "-1px",
@@ -84,7 +84,7 @@ function GeneratePostTab() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Platform</label>
@@ -121,7 +121,7 @@ function GeneratePostTab() {
         <button
           onClick={generate}
           disabled={loading || !topic}
-          className="btn-primary text-sm disabled:opacity-50"
+          className="btn-primary text-sm disabled:opacity-50 min-h-[44px]"
         >
           {loading ? "Generating..." : "Generate Post"}
         </button>
@@ -177,7 +177,7 @@ function ImprovePostTab() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Platform</label>
@@ -206,7 +206,7 @@ function ImprovePostTab() {
         <button
           onClick={improve}
           disabled={loading || !content}
-          className="btn-primary text-sm disabled:opacity-50"
+          className="btn-primary text-sm disabled:opacity-50 min-h-[44px]"
         >
           {loading ? "Improving..." : "Improve Post"}
         </button>
@@ -261,7 +261,7 @@ function CampaignIdeasTab() {
   }
 
   return (
-    <div className="max-w-2xl space-y-4">
+    <div className="max-w-2xl w-full space-y-4">
       <div>
         <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Your Industry / Business</label>
         <input
@@ -334,7 +334,7 @@ function CreateImageTab() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Main Text</label>
