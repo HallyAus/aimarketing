@@ -29,6 +29,9 @@ export default async function DashboardLayout({
           <Link href="/templates" className="block rounded px-3 py-2 text-sm hover:bg-gray-200">
             Templates
           </Link>
+          <Link href="/ai" className="block rounded px-3 py-2 text-sm hover:bg-gray-200 font-medium text-blue-600">
+            AI Studio
+          </Link>
           <div className="pt-4 mt-4 border-t">
             <div className="text-xs font-medium text-gray-400 uppercase mb-2">Settings</div>
             <Link href="/settings/connections" className="block rounded px-3 py-2 text-sm hover:bg-gray-200">
