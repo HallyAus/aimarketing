@@ -4,8 +4,20 @@ import Google from "next-auth/providers/google";
 import Resend from "next-auth/providers/resend";
 import { prisma } from "@adpilot/db";
 
+const basePrismaAdapter = PrismaAdapter(prisma);
+
 const nextAuth = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  adapter: {
+    ...basePrismaAdapter,
+    // Fix: PrismaAdapter throws when deleting an already-consumed verification token
+    async useVerificationToken(params) {
+      try {
+        return await basePrismaAdapter.useVerificationToken!(params);
+      } catch {
+        return null;
+      }
+    },
+  },
   session: { strategy: "jwt" },
   providers: [
     ...(process.env.GOOGLE_CLIENT_ID
