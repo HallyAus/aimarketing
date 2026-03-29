@@ -60,3 +60,20 @@ export const STRIPE_PLAN_PRICE_IDS: Record<string, string> = {
   PRO: process.env.STRIPE_PRO_PRICE_ID ?? "",
   AGENCY: process.env.STRIPE_AGENCY_PRICE_ID ?? "",
 };
+
+/** Valid post status transitions */
+export const POST_STATUS_TRANSITIONS: Record<string, string[]> = {
+  DRAFT: ["PENDING_APPROVAL", "SCHEDULED", "DELETED"],
+  PENDING_APPROVAL: ["APPROVED", "REJECTED"],
+  APPROVED: ["SCHEDULED"],
+  REJECTED: ["DRAFT", "DELETED"],
+  SCHEDULED: ["PUBLISHING", "DRAFT"],
+  PUBLISHING: ["PUBLISHED", "FAILED"],
+  PUBLISHED: ["DELETED"],
+  FAILED: ["SCHEDULED", "DRAFT", "DELETED"],
+  DELETED: [],
+};
+
+export function isValidTransition(from: string, to: string): boolean {
+  return POST_STATUS_TRANSITIONS[from]?.includes(to) ?? false;
+}
