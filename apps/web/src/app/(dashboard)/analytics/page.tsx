@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 
 export default async function AnalyticsPage() {
-  
+
   if (false) {
     redirect("/org-picker");
   }
@@ -43,77 +43,92 @@ export default async function AnalyticsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Analytics</h1>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>Analytics</h1>
+          <p className="text-sm mt-1" style={{ color: "var(--text-tertiary)" }}>Post performance overview</p>
+        </div>
         <a
-          href={`/api/analytics/export?days=30`}
-          className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium hover:bg-gray-50"
+          href="/api/analytics/export?days=30"
+          className="btn-secondary"
         >
           Export CSV
         </a>
       </div>
 
-      {/* Overview Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-        <div className="border rounded-lg p-4">
-          <div className="text-sm text-gray-500">Impressions</div>
-          <div className="text-2xl font-bold">{totals.impressions.toLocaleString()}</div>
-        </div>
-        <div className="border rounded-lg p-4">
-          <div className="text-sm text-gray-500">Reach</div>
-          <div className="text-2xl font-bold">{totals.reach.toLocaleString()}</div>
-        </div>
-        <div className="border rounded-lg p-4">
-          <div className="text-sm text-gray-500">Clicks</div>
-          <div className="text-2xl font-bold">{totals.clicks.toLocaleString()}</div>
-        </div>
-        <div className="border rounded-lg p-4">
-          <div className="text-sm text-gray-500">Engagement</div>
-          <div className="text-2xl font-bold">{totals.engagement.toLocaleString()}</div>
-        </div>
-        <div className="border rounded-lg p-4">
-          <div className="text-sm text-gray-500">Spend</div>
-          <div className="text-2xl font-bold">${totals.spend.toFixed(2)}</div>
-        </div>
-        <div className="border rounded-lg p-4">
-          <div className="text-sm text-gray-500">Conversions</div>
-          <div className="text-2xl font-bold">{totals.conversions.toLocaleString()}</div>
-        </div>
+      {/* Overview metric cards */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+        {[
+          { label: "Impressions", value: totals.impressions.toLocaleString(), accent: "var(--accent-blue)" },
+          { label: "Reach", value: totals.reach.toLocaleString(), accent: "var(--accent-purple)" },
+          { label: "Clicks", value: totals.clicks.toLocaleString(), accent: "var(--accent-emerald)" },
+          { label: "Engagement", value: totals.engagement.toLocaleString(), accent: "var(--accent-amber)" },
+          { label: "Spend", value: `$${totals.spend.toFixed(2)}`, accent: "var(--accent-red)" },
+          { label: "Conversions", value: totals.conversions.toLocaleString(), accent: "var(--accent-blue)" },
+        ].map((m) => (
+          <div key={m.label} className="metric-card">
+            <div className="section-label mb-2">{m.label}</div>
+            <div className="text-2xl font-bold tracking-tight" style={{ color: m.accent }}>{m.value}</div>
+          </div>
+        ))}
       </div>
 
       {/* Post Performance Table */}
-      <h2 className="text-lg font-semibold mb-4">Post Performance</h2>
+      <div className="section-label mb-3">Post Performance</div>
       {posts.length === 0 ? (
-        <p className="text-gray-500">No published posts yet.</p>
+        <div className="card text-center py-8">
+          <p className="text-sm" style={{ color: "var(--text-tertiary)" }}>No published posts yet.</p>
+        </div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse">
             <thead>
-              <tr className="border-b text-left">
-                <th className="p-2">Campaign</th>
-                <th className="p-2">Platform</th>
-                <th className="p-2">Content</th>
-                <th className="p-2 text-right">Impressions</th>
-                <th className="p-2 text-right">Clicks</th>
-                <th className="p-2 text-right">Engagement</th>
-                <th className="p-2 text-right">CTR</th>
+              <tr>
+                <th className="px-3 py-2 text-left" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                  <span className="section-label">Campaign</span>
+                </th>
+                <th className="px-3 py-2 text-left" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                  <span className="section-label">Platform</span>
+                </th>
+                <th className="px-3 py-2 text-left" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                  <span className="section-label">Content</span>
+                </th>
+                <th className="px-3 py-2 text-right" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                  <span className="section-label">Impressions</span>
+                </th>
+                <th className="px-3 py-2 text-right" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                  <span className="section-label">Clicks</span>
+                </th>
+                <th className="px-3 py-2 text-right" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                  <span className="section-label">Engagement</span>
+                </th>
+                <th className="px-3 py-2 text-right" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                  <span className="section-label">CTR</span>
+                </th>
               </tr>
             </thead>
             <tbody>
               {posts.map((post) => {
                 const m = post.analytics[0];
                 return (
-                  <tr key={post.id} className="border-b hover:bg-gray-50">
-                    <td className="p-2">{post.campaign.name}</td>
-                    <td className="p-2">{post.platform}</td>
-                    <td className="p-2 max-w-xs truncate">{post.content}</td>
-                    <td className="p-2 text-right">{m?.impressions?.toLocaleString() ?? "—"}</td>
-                    <td className="p-2 text-right">{m?.clicks?.toLocaleString() ?? "—"}</td>
-                    <td className="p-2 text-right">
+                  <tr key={post.id} className="table-row">
+                    <td className="px-3 py-2.5" style={{ color: "var(--text-primary)" }}>{post.campaign.name}</td>
+                    <td className="px-3 py-2.5">
+                      <span className="badge badge-info">{post.platform}</span>
+                    </td>
+                    <td className="px-3 py-2.5 max-w-xs truncate" style={{ color: "var(--text-secondary)" }}>{post.content}</td>
+                    <td className="px-3 py-2.5 text-right font-medium" style={{ color: "var(--text-primary)" }}>{m?.impressions?.toLocaleString() ?? "—"}</td>
+                    <td className="px-3 py-2.5 text-right font-medium" style={{ color: "var(--text-primary)" }}>{m?.clicks?.toLocaleString() ?? "—"}</td>
+                    <td className="px-3 py-2.5 text-right font-medium" style={{ color: "var(--text-primary)" }}>
                       {m ? (m.likes + m.comments + m.shares + m.saves).toLocaleString() : "—"}
                     </td>
-                    <td className="p-2 text-right">
-                      {m?.ctr ? `${(m.ctr * 100).toFixed(2)}%` : "—"}
+                    <td className="px-3 py-2.5 text-right">
+                      {m?.ctr ? (
+                        <span className="badge badge-success">{(m.ctr * 100).toFixed(2)}%</span>
+                      ) : (
+                        <span style={{ color: "var(--text-tertiary)" }}>—</span>
+                      )}
                     </td>
                   </tr>
                 );
