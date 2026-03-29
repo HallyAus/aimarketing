@@ -58,7 +58,7 @@ export const PATCH = withErrorHandler(withRole("OWNER", async (req, context) => 
       entityType: "Organization",
       entityId: orgId,
       before: before ? { name: before.name, billingEmail: before.billingEmail } : undefined,
-      after: parsed.data,
+      after: parsed.data as Record<string, string>,
     },
   });
 

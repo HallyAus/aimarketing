@@ -93,7 +93,7 @@ export async function GET(
         platformAccountName: tokens.platformAccountName,
         scopes: tokens.scopes,
         status: "ACTIVE",
-        metadata: tokens.metadata ?? undefined,
+        metadata: (tokens.metadata as never) ?? undefined,
       },
       create: {
         orgId: oauthState.orgId,
@@ -108,7 +108,7 @@ export async function GET(
         scopes: tokens.scopes,
         status: "ACTIVE",
         connectedBy: oauthState.userId,
-        metadata: tokens.metadata ?? undefined,
+        metadata: (tokens.metadata as never) ?? undefined,
       },
     });
 
