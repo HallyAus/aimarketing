@@ -1,20 +1,6 @@
 import { signIn } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
 export default function SignInPage() {
-  async function handleSignIn(formData: FormData) {
-    "use server";
-    const email = formData.get("email") as string;
-    if (!email) return;
-
-    await signIn("credentials", {
-      email,
-      redirect: false,
-    });
-
-    redirect("/dashboard");
-  }
-
   return (
     <main className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-sm space-y-6 p-8">
@@ -25,7 +11,15 @@ export default function SignInPage() {
           </p>
         </div>
 
-        <form action={handleSignIn} className="space-y-4">
+        <form
+          action={async (formData: FormData) => {
+            "use server";
+            const email = formData.get("email") as string;
+            if (!email) return;
+            await signIn("credentials", { email, redirectTo: "/dashboard" });
+          }}
+          className="space-y-4"
+        >
           <input
             name="email"
             type="email"
