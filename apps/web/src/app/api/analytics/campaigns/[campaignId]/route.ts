@@ -5,7 +5,7 @@ import { prisma } from "@adpilot/db";
 
 // GET /api/analytics/campaigns/[campaignId] — per-campaign metrics
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
-  const { campaignId } = await context.params;
+  const campaignId = (await context.params).campaignId!;
 
   const campaign = await prisma.campaign.findFirst({
     where: { id: campaignId, orgId: req.orgId },

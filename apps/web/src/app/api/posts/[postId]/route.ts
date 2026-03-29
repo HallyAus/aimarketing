@@ -6,7 +6,7 @@ import { updatePostSchema } from "@adpilot/shared";
 
 // PATCH /api/posts/[postId] — optimistic concurrency
 export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) => {
-  const { postId } = await context.params;
+  const postId = (await context.params).postId!;
   const body = await req.json();
   const parsed = updatePostSchema.safeParse(body);
   if (!parsed.success) {
@@ -53,7 +53,7 @@ export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) =>
 
 // DELETE /api/posts/[postId]
 export const DELETE = withErrorHandler(withRole("EDITOR", async (req, context) => {
-  const { postId } = await context.params;
+  const postId = (await context.params).postId!;
 
   const post = await prisma.post.findFirst({
     where: { id: postId, orgId: req.orgId },

@@ -6,7 +6,7 @@ import { createPostSchema, checkPlanLimit } from "@adpilot/shared";
 
 // GET /api/campaigns/[campaignId]/posts
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
-  const { campaignId } = await context.params;
+  const campaignId = (await context.params).campaignId!;
 
   const posts = await prisma.post.findMany({
     where: { campaignId, orgId: req.orgId },
@@ -18,7 +18,7 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
 
 // POST /api/campaigns/[campaignId]/posts — create post
 export const POST = withErrorHandler(withRole("EDITOR", async (req, context) => {
-  const { campaignId } = await context.params;
+  const campaignId = (await context.params).campaignId!;
   const body = await req.json();
   const parsed = createPostSchema.safeParse(body);
   if (!parsed.success) {

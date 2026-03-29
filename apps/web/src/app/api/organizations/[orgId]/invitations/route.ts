@@ -7,7 +7,7 @@ import { randomBytes } from "crypto";
 
 // GET /api/organizations/[orgId]/invitations — list pending
 export const GET = withRole("ADMIN", async (req, context) => {
-  const { orgId } = await context.params;
+  const orgId = (await context.params).orgId!;
 
   const invitations = await prisma.invitation.findMany({
     where: { orgId, acceptedAt: null, expiresAt: { gt: new Date() } },
@@ -19,7 +19,7 @@ export const GET = withRole("ADMIN", async (req, context) => {
 
 // POST /api/organizations/[orgId]/invitations — invite member
 export const POST = withRole("ADMIN", async (req, context) => {
-  const { orgId } = await context.params;
+  const orgId = (await context.params).orgId!;
   const body = await req.json();
   const parsed = inviteMemberSchema.safeParse(body);
   if (!parsed.success) {

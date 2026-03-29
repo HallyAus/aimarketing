@@ -6,7 +6,7 @@ import { updateOrgSchema } from "@adpilot/shared";
 
 // GET /api/organizations/[orgId]
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
-  const { orgId } = await context.params;
+  const orgId = (await context.params).orgId!;
 
   const org = await prisma.organization.findUnique({
     where: { id: orgId, deletedAt: null },
@@ -36,7 +36,7 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
 
 // PATCH /api/organizations/[orgId]
 export const PATCH = withErrorHandler(withRole("OWNER", async (req, context) => {
-  const { orgId } = await context.params;
+  const orgId = (await context.params).orgId!;
   const body = await req.json();
   const parsed = updateOrgSchema.safeParse(body);
   if (!parsed.success) {
@@ -67,7 +67,7 @@ export const PATCH = withErrorHandler(withRole("OWNER", async (req, context) => 
 
 // DELETE /api/organizations/[orgId] — soft delete
 export const DELETE = withErrorHandler(withRole("OWNER", async (req, context) => {
-  const { orgId } = await context.params;
+  const orgId = (await context.params).orgId!;
 
   await prisma.organization.update({
     where: { id: orgId },

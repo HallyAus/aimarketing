@@ -6,7 +6,7 @@ import { isValidTransition, rejectPostSchema } from "@adpilot/shared";
 
 // POST /api/posts/[postId]/reject — ADMIN+ only
 export const POST = withErrorHandler(withRole("ADMIN", async (req, context) => {
-  const { postId } = await context.params;
+  const postId = (await context.params).postId!;
   const body = await req.json();
   const parsed = rejectPostSchema.safeParse(body);
   if (!parsed.success) {

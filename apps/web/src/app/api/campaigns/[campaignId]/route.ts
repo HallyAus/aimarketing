@@ -6,7 +6,7 @@ import { updateCampaignSchema } from "@adpilot/shared";
 
 // GET /api/campaigns/[campaignId]
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
-  const { campaignId } = await context.params;
+  const campaignId = (await context.params).campaignId!;
 
   const campaign = await prisma.campaign.findFirst({
     where: { id: campaignId, orgId: req.orgId },
@@ -37,7 +37,7 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
 
 // PATCH /api/campaigns/[campaignId] — optimistic concurrency
 export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) => {
-  const { campaignId } = await context.params;
+  const campaignId = (await context.params).campaignId!;
   const body = await req.json();
   const parsed = updateCampaignSchema.safeParse(body);
   if (!parsed.success) {
@@ -89,7 +89,7 @@ export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) =>
 
 // DELETE /api/campaigns/[campaignId]
 export const DELETE = withErrorHandler(withRole("EDITOR", async (req, context) => {
-  const { campaignId } = await context.params;
+  const campaignId = (await context.params).campaignId!;
 
   const campaign = await prisma.campaign.findFirst({
     where: { id: campaignId, orgId: req.orgId },

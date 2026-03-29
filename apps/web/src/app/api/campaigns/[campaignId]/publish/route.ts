@@ -9,7 +9,7 @@ const publishQueue = new Queue("campaign:publish", { connection: redis });
 
 // POST /api/campaigns/[campaignId]/publish — schedule or publish now
 export const POST = withErrorHandler(withRole("EDITOR", async (req, context) => {
-  const { campaignId } = await context.params;
+  const campaignId = (await context.params).campaignId!;
   const body = await req.json().catch(() => ({}));
   const publishNow = body.publishNow === true;
 

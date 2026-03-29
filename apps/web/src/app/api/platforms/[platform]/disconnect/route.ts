@@ -6,7 +6,7 @@ import { decrypt } from "@adpilot/shared";
 import { getAdapter, type Platform } from "@adpilot/platform-sdk";
 
 export const POST = withErrorHandler(withRole("ADMIN", async (req, context) => {
-  const { platform } = await context.params;
+  const platform = (await context.params).platform!;
   const platformKey = platform.toUpperCase() as Platform;
   const { connectionId } = await req.json();
 

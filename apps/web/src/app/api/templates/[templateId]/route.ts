@@ -5,7 +5,7 @@ import { prisma } from "@adpilot/db";
 import { updateTemplateSchema } from "@adpilot/shared";
 
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
-  const { templateId } = await context.params;
+  const templateId = (await context.params).templateId!;
   const template = await prisma.postTemplate.findFirst({
     where: { id: templateId, orgId: req.orgId },
   });
@@ -16,7 +16,7 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
 }));
 
 export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) => {
-  const { templateId } = await context.params;
+  const templateId = (await context.params).templateId!;
   const body = await req.json();
   const parsed = updateTemplateSchema.safeParse(body);
   if (!parsed.success) {
@@ -36,7 +36,7 @@ export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) =>
 }));
 
 export const DELETE = withErrorHandler(withRole("EDITOR", async (req, context) => {
-  const { templateId } = await context.params;
+  const templateId = (await context.params).templateId!;
   const existing = await prisma.postTemplate.findFirst({
     where: { id: templateId, orgId: req.orgId },
   });

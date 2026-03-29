@@ -6,7 +6,7 @@ import { isValidTransition } from "@adpilot/shared";
 
 // POST /api/posts/[postId]/approve — ADMIN+ only
 export const POST = withErrorHandler(withRole("ADMIN", async (req, context) => {
-  const { postId } = await context.params;
+  const postId = (await context.params).postId!;
 
   const post = await prisma.post.findFirst({
     where: { id: postId, orgId: req.orgId },

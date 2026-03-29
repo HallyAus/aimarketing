@@ -7,7 +7,7 @@ import { deleteFromR2 } from "@/lib/r2";
 
 // GET /api/creatives/[creativeId]
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
-  const { creativeId } = await context.params;
+  const creativeId = (await context.params).creativeId!;
 
   const creative = await prisma.creative.findFirst({
     where: { id: creativeId, orgId: req.orgId },
@@ -22,7 +22,7 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
 
 // PATCH /api/creatives/[creativeId] — update name/tags
 export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) => {
-  const { creativeId } = await context.params;
+  const creativeId = (await context.params).creativeId!;
   const body = await req.json();
   const parsed = updateCreativeSchema.safeParse(body);
   if (!parsed.success) {
@@ -47,7 +47,7 @@ export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) =>
 
 // DELETE /api/creatives/[creativeId]
 export const DELETE = withErrorHandler(withRole("EDITOR", async (req, context) => {
-  const { creativeId } = await context.params;
+  const creativeId = (await context.params).creativeId!;
 
   const creative = await prisma.creative.findFirst({
     where: { id: creativeId, orgId: req.orgId },
