@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { createOrgSchema, inviteMemberSchema, updateMemberRoleSchema, createCampaignSchema, createPostSchema, updateCampaignSchema, rejectPostSchema } from "../src/validators";
+import { createOrgSchema, inviteMemberSchema, updateMemberRoleSchema, createCampaignSchema, createPostSchema, updateCampaignSchema, rejectPostSchema, createCreativeSchema, updateCreativeSchema } from "../src/validators";
 import { isValidTransition } from "../src/constants";
 
 describe("createOrgSchema", () => {
@@ -164,5 +164,39 @@ describe("isValidTransition", () => {
 
   it("should allow FAILED → SCHEDULED (retry)", () => {
     expect(isValidTransition("FAILED", "SCHEDULED")).toBe(true);
+  });
+});
+
+describe("createCreativeSchema", () => {
+  it("should accept valid creative data", () => {
+    const result = createCreativeSchema.safeParse({ name: "Hero Banner", type: "IMAGE" });
+    expect(result.success).toBe(true);
+  });
+
+  it("should reject empty name", () => {
+    const result = createCreativeSchema.safeParse({ name: "", type: "IMAGE" });
+    expect(result.success).toBe(false);
+  });
+
+  it("should reject invalid type", () => {
+    const result = createCreativeSchema.safeParse({ name: "Test", type: "GIF" });
+    expect(result.success).toBe(false);
+  });
+
+  it("should accept tags array", () => {
+    const result = createCreativeSchema.safeParse({ name: "Test", type: "VIDEO", tags: ["summer", "promo"] });
+    expect(result.success).toBe(true);
+  });
+
+  it("should reject more than 20 tags", () => {
+    const result = createCreativeSchema.safeParse({ name: "Test", type: "IMAGE", tags: Array(21).fill("tag") });
+    expect(result.success).toBe(false);
+  });
+});
+
+describe("updateCreativeSchema", () => {
+  it("should accept partial update", () => {
+    const result = updateCreativeSchema.safeParse({ tags: ["new-tag"] });
+    expect(result.success).toBe(true);
   });
 });
