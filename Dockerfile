@@ -31,6 +31,9 @@ COPY --from=deps /app/packages/platform-sdk/node_modules ./packages/platform-sdk
 COPY --from=deps /app/packages/ui/node_modules ./packages/ui/node_modules
 COPY . .
 
+# Create public dir if missing (Next.js needs it)
+RUN mkdir -p apps/web/public
+
 # Generate Prisma client
 RUN cd packages/db && npx prisma generate
 
@@ -73,9 +76,27 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=builder /app/apps/worker/dist ./apps/worker/dist
-COPY --from=builder /app/packages/db/prisma ./packages/db/prisma
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+RUN corepack enable pnpm && apk add --no-cache python3 make g++
 
-CMD ["node", "apps/worker/dist/index.js"]
+# Copy entire workspace — worker uses tsx (not compiled dist)
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/worker/node_modules ./apps/worker/node_modules
+COPY --from=deps /app/packages/db/node_modules ./packages/db/node_modules
+COPY --from=deps /app/packages/shared/node_modules ./packages/shared/node_modules
+COPY --from=deps /app/packages/platform-sdk/node_modules ./packages/platform-sdk/node_modules
+COPY --from=builder /app/apps/worker/src ./apps/worker/src
+COPY --from=builder /app/apps/worker/package.json ./apps/worker/package.json
+COPY --from=builder /app/apps/worker/tsconfig.json ./apps/worker/tsconfig.json
+COPY --from=builder /app/packages/db/src ./packages/db/src
+COPY --from=builder /app/packages/db/prisma ./packages/db/prisma
+COPY --from=builder /app/packages/db/package.json ./packages/db/package.json
+COPY --from=builder /app/packages/shared/src ./packages/shared/src
+COPY --from=builder /app/packages/shared/package.json ./packages/shared/package.json
+COPY --from=builder /app/packages/platform-sdk/src ./packages/platform-sdk/src
+COPY --from=builder /app/packages/platform-sdk/package.json ./packages/platform-sdk/package.json
+COPY --from=builder /app/packages/db/node_modules/.prisma ./packages/db/node_modules/.prisma
+COPY --from=builder /app/tsconfig.base.json ./tsconfig.base.json
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
+
+CMD ["npx", "tsx", "apps/worker/src/index.ts"]
