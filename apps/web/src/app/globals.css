@@ -1,3 +1,159 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@layer base {
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #12121a;
+    --bg-tertiary: #1a1a26;
+    --bg-elevated: #222233;
+    --bg-hover: #2a2a3d;
+
+    --text-primary: #e8e8ed;
+    --text-secondary: #9898a8;
+    --text-tertiary: #6b6b7b;
+    --text-inverse: #0a0a0f;
+
+    --accent-blue: #3b82f6;
+    --accent-blue-hover: #2563eb;
+    --accent-blue-muted: rgba(59, 130, 246, 0.15);
+    --accent-emerald: #10b981;
+    --accent-emerald-muted: rgba(16, 185, 129, 0.15);
+    --accent-amber: #f59e0b;
+    --accent-amber-muted: rgba(245, 158, 11, 0.15);
+    --accent-red: #ef4444;
+    --accent-red-muted: rgba(239, 68, 68, 0.15);
+    --accent-purple: #8b5cf6;
+    --accent-purple-muted: rgba(139, 92, 246, 0.15);
+
+    --border-primary: #2a2a3d;
+    --border-secondary: #1f1f2e;
+    --border-accent: #3b82f6;
+
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * {
+    border-color: var(--border-primary);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--accent-blue);
+    color: white;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--border-primary); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
+
+  /* Form defaults */
+  input, textarea, select {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px var(--accent-blue-muted);
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: var(--text-tertiary);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 text-sm font-medium rounded-lg transition-all;
+    background: var(--accent-blue);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--accent-blue-hover); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn-secondary {
+    @apply px-4 py-2 text-sm font-medium rounded-lg transition-all;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
+  }
+  .btn-secondary:hover { background: var(--bg-hover); }
+
+  .btn-danger {
+    @apply px-4 py-2 text-sm font-medium rounded-lg transition-all;
+    background: var(--accent-red-muted);
+    color: var(--accent-red);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+  .btn-danger:hover { background: rgba(239, 68, 68, 0.25); }
+
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full;
+  }
+  .badge-success { background: var(--accent-emerald-muted); color: var(--accent-emerald); }
+  .badge-warning { background: var(--accent-amber-muted); color: var(--accent-amber); }
+  .badge-error { background: var(--accent-red-muted); color: var(--accent-red); }
+  .badge-info { background: var(--accent-blue-muted); color: var(--accent-blue); }
+  .badge-purple { background: var(--accent-purple-muted); color: var(--accent-purple); }
+  .badge-neutral { background: var(--bg-elevated); color: var(--text-secondary); }
+
+  .card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-secondary);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+  }
+
+  .card-hover {
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .card-hover:hover {
+    border-color: var(--border-primary);
+    background: var(--bg-tertiary);
+  }
+
+  .metric-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-secondary);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.25rem;
+  }
+
+  .section-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+  }
+
+  .table-row {
+    border-bottom: 1px solid var(--border-secondary);
+    transition: background 0.1s;
+  }
+  .table-row:hover { background: var(--bg-tertiary); }
+}
