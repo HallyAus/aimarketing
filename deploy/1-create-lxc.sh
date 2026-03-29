@@ -24,7 +24,7 @@ BRIDGE="${BRIDGE:-vmbr0}"
 TEMPLATE_STORAGE="${TEMPLATE_STORAGE:-local}"
 
 # Debian 12 template
-TEMPLATE="debian-12-standard_12.7-1_amd64.tar.zst"
+TEMPLATE="debian-12-standard_12.12-1_amd64.tar.zst"
 TEMPLATE_PATH="${TEMPLATE_STORAGE}:vztmpl/${TEMPLATE}"
 
 # ─── Colours ──────────────────────────────────────────────────────────────
