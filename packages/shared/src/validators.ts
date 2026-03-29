@@ -78,3 +78,18 @@ export const updateCreativeSchema = z.object({
   name: z.string().min(1).max(200).optional(),
   tags: z.array(z.string().max(50)).max(20).optional(),
 });
+
+export const createTemplateSchema = z.object({
+  name: z.string().min(1).max(200),
+  platform: z.enum(["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT"]).optional(),
+  content: z.string().min(1).max(10000),
+  mediaUrls: z.array(z.string().url()).default([]),
+  tags: z.array(z.string().max(50)).max(20).default([]),
+});
+
+export const updateTemplateSchema = z.object({
+  name: z.string().min(1).max(200).optional(),
+  content: z.string().min(1).max(10000).optional(),
+  mediaUrls: z.array(z.string().url()).optional(),
+  tags: z.array(z.string().max(50)).max(20).optional(),
+});

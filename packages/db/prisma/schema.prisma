@@ -99,6 +99,7 @@ model Organization {
   posts               Post[]
   creatives           Creative[]
   auditLogs           AuditLog[]
+  postTemplates       PostTemplate[]
 
   @@index([slug])
   @@index([deletedAt])
@@ -353,4 +354,21 @@ model WebhookEvent {
 
   @@unique([platform, platformEventId])
   @@index([platform, createdAt])
+}
+
+model PostTemplate {
+  id          String   @id @default(cuid())
+  orgId       String
+  name        String
+  platform    Platform?
+  content     String
+  mediaUrls   String[]
+  tags        String[]
+  createdBy   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
 }
