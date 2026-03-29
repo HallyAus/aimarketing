@@ -48,9 +48,10 @@ const nextAuth = NextAuth({
           where: { userId: token.userId as string },
           orderBy: { createdAt: "asc" },
         });
-        if (memberships.length === 1) {
-          token.currentOrgId = memberships[0].orgId;
-          token.currentRole = memberships[0].role;
+        const first = memberships[0];
+        if (memberships.length === 1 && first) {
+          token.currentOrgId = first.orgId;
+          token.currentRole = first.role;
         }
       }
 

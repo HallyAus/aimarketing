@@ -161,6 +161,9 @@ importers:
 
   packages/platform-sdk:
     dependencies:
+      '@adpilot/db':
+        specifier: workspace:*
+        version: link:../db
       '@adpilot/shared':
         specifier: workspace:*
         version: link:../shared

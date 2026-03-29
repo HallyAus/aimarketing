@@ -58,9 +58,10 @@ export class YoutubeAdapter implements PlatformAdapter {
           items?: Array<{ id: string; snippet?: { title?: string } }>;
         };
 
-        if (channelData.items && channelData.items.length > 0) {
-          platformUserId = channelData.items[0].id;
-          platformAccountName = channelData.items[0].snippet?.title;
+        const firstItem = channelData.items?.[0];
+        if (firstItem) {
+          platformUserId = firstItem.id;
+          platformAccountName = firstItem.snippet?.title;
         }
       }
     } catch {

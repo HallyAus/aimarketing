@@ -10,6 +10,7 @@
     "test:watch": "vitest watch"
   },
   "dependencies": {
+    "@adpilot/db": "workspace:*",
     "@adpilot/shared": "workspace:*"
   },
   "devDependencies": {
