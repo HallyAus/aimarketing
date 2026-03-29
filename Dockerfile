@@ -24,7 +24,11 @@ RUN corepack enable pnpm
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
+COPY --from=deps /app/apps/worker/node_modules ./apps/worker/node_modules
 COPY --from=deps /app/packages/db/node_modules ./packages/db/node_modules
+COPY --from=deps /app/packages/shared/node_modules ./packages/shared/node_modules
+COPY --from=deps /app/packages/platform-sdk/node_modules ./packages/platform-sdk/node_modules
+COPY --from=deps /app/packages/ui/node_modules ./packages/ui/node_modules
 COPY . .
 
 # Generate Prisma client
