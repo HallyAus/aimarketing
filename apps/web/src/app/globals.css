@@ -121,6 +121,24 @@
   .badge-purple { background: var(--accent-purple-muted); color: var(--accent-purple); }
   .badge-neutral { background: var(--bg-elevated); color: var(--text-secondary); }
 
+  .nav-link {
+    color: var(--text-secondary);
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-link:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .nav-link-sub {
+    color: var(--text-tertiary);
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-link-sub:hover {
+    background: var(--bg-hover);
+    color: var(--text-secondary);
+  }
+
   .card {
     background: var(--bg-secondary);
     border: 1px solid var(--border-secondary);

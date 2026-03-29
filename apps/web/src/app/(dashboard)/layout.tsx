@@ -60,16 +60,7 @@ export default async function DashboardLayout({
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex items-center gap-2.5 px-2.5 py-2 text-[13px] font-medium rounded-lg transition-colors"
-                style={{ color: "var(--text-secondary)" }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "var(--bg-hover)";
-                  e.currentTarget.style.color = "var(--text-primary)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "var(--text-secondary)";
-                }}
+                className="nav-link flex items-center gap-2.5 px-2.5 py-2 text-[13px] font-medium rounded-lg"
               >
                 <NavIcon type={item.icon} />
                 {item.label}
@@ -85,16 +76,7 @@ export default async function DashboardLayout({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block px-2.5 py-1.5 text-[13px] rounded-lg transition-colors"
-                  style={{ color: "var(--text-tertiary)" }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "var(--bg-hover)";
-                    e.currentTarget.style.color = "var(--text-secondary)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "transparent";
-                    e.currentTarget.style.color = "var(--text-tertiary)";
-                  }}
+                  className="nav-link-sub block px-2.5 py-1.5 text-[13px] rounded-lg"
                 >
                   {item.label}
                 </Link>
