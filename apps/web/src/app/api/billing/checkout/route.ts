@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
-import { stripe, STRIPE_PLAN_PRICES } from "@/lib/stripe";
+import { getStripe, STRIPE_PLAN_PRICES } from "@/lib/stripe";
 import { prisma } from "@adpilot/db";
 
 // POST /api/billing/checkout — create Stripe Checkout session
@@ -23,7 +23,7 @@ export const POST = withRole("OWNER", async (req) => {
   // Create or retrieve Stripe customer
   let customerId = org.stripeCustomerId;
   if (!customerId) {
-    const customer = await stripe.customers.create({
+    const customer = await getStripe().customers.create({
       email: org.billingEmail ?? undefined,
       metadata: { orgId: org.id, orgSlug: org.slug },
     });
@@ -34,7 +34,7 @@ export const POST = withRole("OWNER", async (req) => {
     });
   }
 
-  const session = await stripe.checkout.sessions.create({
+  const session = await getStripe().checkout.sessions.create({
     customer: customerId,
     mode: "subscription",
     line_items: [{ price: STRIPE_PLAN_PRICES[plan], quantity: 1 }],
