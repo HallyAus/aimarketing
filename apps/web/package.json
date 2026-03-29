@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@adpilot/db": "workspace:*",
+    "@adpilot/platform-sdk": "workspace:*",
     "@adpilot/shared": "workspace:*",
     "@adpilot/ui": "workspace:*",
     "@auth/prisma-adapter": "^2.7.0",

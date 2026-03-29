@@ -23,6 +23,9 @@ importers:
       '@adpilot/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@adpilot/platform-sdk':
+        specifier: workspace:*
+        version: link:../../packages/platform-sdk
       '@adpilot/shared':
         specifier: workspace:*
         version: link:../../packages/shared

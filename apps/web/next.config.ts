@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
-  transpilePackages: ["@adpilot/db", "@adpilot/shared", "@adpilot/ui"],
+  transpilePackages: ["@adpilot/db", "@adpilot/shared", "@adpilot/ui", "@adpilot/platform-sdk"],
   headers: async () => [
     {
       source: "/(.*)",
