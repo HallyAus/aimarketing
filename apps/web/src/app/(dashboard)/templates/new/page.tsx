@@ -1,11 +1,11 @@
-import { auth } from "@/lib/auth";
+import { getOrgId } from "@/lib/get-org";
 import { redirect } from "next/navigation";
 
 const PLATFORMS = ["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT"];
 
 export default async function NewTemplatePage() {
-  const session = await auth();
-  if (!session?.user?.currentOrgId) redirect("/org-picker");
+  
+  
 
   async function createTemplate(formData: FormData) {
     "use server";

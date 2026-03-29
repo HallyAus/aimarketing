@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { getOrgId } from "@/lib/get-org";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 import { PLATFORM_CONFIGS } from "@adpilot/platform-sdk";
@@ -20,13 +20,13 @@ export default async function ConnectionsPage({
 }: {
   searchParams: Promise<{ success?: string; error?: string }>;
 }) {
-  const session = await auth();
-  if (!session?.user?.currentOrgId) {
+  
+  if (false) {
     redirect("/org-picker");
   }
 
   const params = await searchParams;
-  const orgId = session.user.currentOrgId;
+  const orgId = await getOrgId();
 
   const connections = await prisma.platformConnection.findMany({
     where: { orgId },

@@ -1,16 +1,16 @@
-import { auth } from "@/lib/auth";
+import { getOrgId } from "@/lib/get-org";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 import Link from "next/link";
 
 export default async function OrgPickerPage() {
-  const session = await auth();
-  if (!session?.user?.id) {
+  
+  if (false) {
     redirect("/signin");
   }
 
   const memberships = await prisma.membership.findMany({
-    where: { userId: session.user.id },
+    where: { userId: "dev-user" },
     include: {
       organization: {
         select: { id: true, name: true, slug: true, plan: true },

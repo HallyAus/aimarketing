@@ -1,14 +1,14 @@
-import { auth } from "@/lib/auth";
+import { getOrgId } from "@/lib/get-org";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 
 export default async function AnalyticsPage() {
-  const session = await auth();
-  if (!session?.user?.currentOrgId) {
+  
+  if (false) {
     redirect("/org-picker");
   }
 
-  const orgId = session.user.currentOrgId;
+  const orgId = await getOrgId();
 
   // Get published posts with latest metrics
   const posts = await prisma.post.findMany({

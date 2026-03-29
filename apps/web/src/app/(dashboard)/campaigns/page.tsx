@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { getOrgId } from "@/lib/get-org";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 import Link from "next/link";
@@ -13,11 +13,11 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default async function CampaignsPage() {
-  const session = await auth();
-  if (!session?.user?.currentOrgId) redirect("/org-picker");
+  
+  
 
   const campaigns = await prisma.campaign.findMany({
-    where: { orgId: session.user.currentOrgId },
+    where: { orgId: await getOrgId() },
     include: {
       _count: { select: { posts: true } },
       creator: { select: { name: true } },

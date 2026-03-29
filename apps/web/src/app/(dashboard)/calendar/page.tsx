@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { getOrgId } from "@/lib/get-org";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 
@@ -19,8 +19,8 @@ export default async function CalendarPage({
 }: {
   searchParams: Promise<{ month?: string; year?: string }>;
 }) {
-  const session = await auth();
-  if (!session?.user?.currentOrgId) redirect("/org-picker");
+  
+  
 
   const params = await searchParams;
   const now = new Date();
@@ -35,7 +35,7 @@ export default async function CalendarPage({
   // Get posts for this month
   const posts = await prisma.post.findMany({
     where: {
-      orgId: session.user.currentOrgId,
+      orgId: await getOrgId(),
       status: { notIn: ["DELETED"] },
       OR: [
         { scheduledAt: { gte: startOfMonth, lte: endOfMonth } },

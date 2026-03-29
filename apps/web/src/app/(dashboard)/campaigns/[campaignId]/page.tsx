@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { getOrgId } from "@/lib/get-org";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 import Link from "next/link";
@@ -19,13 +19,13 @@ export default async function CampaignDetailPage({
 }: {
   params: Promise<{ campaignId: string }>;
 }) {
-  const session = await auth();
-  if (!session?.user?.currentOrgId) redirect("/org-picker");
+  
+  
 
   const { campaignId } = await params;
 
   const campaign = await prisma.campaign.findFirst({
-    where: { id: campaignId, orgId: session.user.currentOrgId },
+    where: { id: campaignId, orgId: await getOrgId() },
     include: {
       posts: {
         orderBy: { createdAt: "desc" },
@@ -37,7 +37,7 @@ export default async function CampaignDetailPage({
 
   if (!campaign) redirect("/campaigns");
 
-  const isAdminOrOwner = ["ADMIN", "OWNER"].includes(session.user.currentRole ?? "");
+  const isAdminOrOwner = ["ADMIN", "OWNER"].includes("OWNER");
 
   return (
     <div>

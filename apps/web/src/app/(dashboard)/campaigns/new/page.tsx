@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { getOrgId } from "@/lib/get-org";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 
@@ -6,20 +6,20 @@ const OBJECTIVES = ["AWARENESS", "TRAFFIC", "ENGAGEMENT", "CONVERSIONS", "LEADS"
 const PLATFORMS = ["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT"] as const;
 
 export default async function NewCampaignPage() {
-  const session = await auth();
-  if (!session?.user?.currentOrgId) redirect("/org-picker");
+  
+  
 
   // Get connected platforms
   const connections = await prisma.platformConnection.findMany({
-    where: { orgId: session.user.currentOrgId, status: "ACTIVE" },
+    where: { orgId: await getOrgId(), status: "ACTIVE" },
     select: { platform: true },
   });
   const connectedPlatforms = new Set<string>(connections.map((c) => c.platform));
 
   async function createCampaign(formData: FormData) {
     "use server";
-    const s = await auth();
-    if (!s?.user?.currentOrgId) return;
+    // auth disabled
+    // auth disabled
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/campaigns`, {
       method: "POST",

@@ -1,14 +1,14 @@
-import { auth } from "@/lib/auth";
+import { getOrgId } from "@/lib/get-org";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 import Link from "next/link";
 
 export default async function TemplatesPage() {
-  const session = await auth();
-  if (!session?.user?.currentOrgId) redirect("/org-picker");
+  
+  
 
   const templates = await prisma.postTemplate.findMany({
-    where: { orgId: session.user.currentOrgId },
+    where: { orgId: await getOrgId() },
     orderBy: { createdAt: "desc" },
   });
 

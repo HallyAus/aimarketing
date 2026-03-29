@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { getOrgId } from "@/lib/get-org";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 
@@ -7,28 +7,28 @@ export default async function NewPostPage({
 }: {
   params: Promise<{ campaignId: string }>;
 }) {
-  const session = await auth();
-  if (!session?.user?.currentOrgId) redirect("/org-picker");
+  
+  
 
   const { campaignId } = await params;
 
   const campaign = await prisma.campaign.findFirst({
-    where: { id: campaignId, orgId: session.user.currentOrgId },
+    where: { id: campaignId, orgId: await getOrgId() },
     select: { id: true, name: true, targetPlatforms: true },
   });
   if (!campaign) redirect("/campaigns");
 
   // Get templates
   const templates = await prisma.postTemplate.findMany({
-    where: { orgId: session.user.currentOrgId },
+    where: { orgId: await getOrgId() },
     orderBy: { createdAt: "desc" },
     take: 20,
   });
 
   async function createPost(formData: FormData) {
     "use server";
-    const s = await auth();
-    if (!s?.user?.currentOrgId) return;
+    // auth disabled
+    // auth disabled
 
     await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/campaigns/${campaignId}/posts`, {
       method: "POST",

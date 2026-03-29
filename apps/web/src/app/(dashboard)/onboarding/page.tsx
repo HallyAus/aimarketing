@@ -1,13 +1,13 @@
-import { auth } from "@/lib/auth";
+import { getOrgId } from "@/lib/get-org";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 import Link from "next/link";
 
 export default async function OnboardingPage() {
-  const session = await auth();
-  if (!session?.user?.currentOrgId) redirect("/org-picker");
+  
+  
 
-  const orgId = session.user.currentOrgId;
+  const orgId = await getOrgId();
 
   // Check onboarding progress
   const [org, connectionCount, campaignCount] = await Promise.all([

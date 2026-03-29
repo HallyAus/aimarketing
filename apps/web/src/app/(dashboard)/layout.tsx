@@ -41,7 +41,7 @@ export default async function DashboardLayout({
           </div>
         </nav>
         <div className="absolute bottom-4 text-xs text-gray-400">
-          {session.user.email}
+          AdPilot
         </div>
       </aside>
 
