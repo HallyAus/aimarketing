@@ -8,3 +8,4 @@ export {
   generatePkceChallenge,
 } from "./adapters/base";
 export { getWebhookVerifier, verifyMetaWebhookSignature } from "./webhook-verifiers";
+export { PlatformClient } from "./client";
