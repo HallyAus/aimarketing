@@ -107,4 +107,6 @@ COPY --from=builder /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
 # Generate Prisma client in worker context
 RUN cd packages/db && npx prisma generate
 
+RUN addgroup --system --gid 1001 worker && adduser --system --uid 1001 workeruser
+USER workeruser
 CMD ["npx", "tsx", "apps/worker/src/index.ts"]

@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { generatePostContent } from "@/lib/ai";
 
 export async function POST(req: NextRequest) {
+  const { auth } = await import("@/lib/auth");
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = await req.json();
     const { platform, topic, tone, style, includeHashtags, includeEmojis } = body;

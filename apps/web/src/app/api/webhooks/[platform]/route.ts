@@ -19,6 +19,10 @@ export async function POST(
   const verifier = getWebhookVerifier(platform);
   const verified = verifier ? verifier(body, signature) : false;
 
+  if (!verified) {
+    return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+  }
+
   // Generate deduplication ID
   let platformEventId: string;
   try {

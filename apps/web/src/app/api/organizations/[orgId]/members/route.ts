@@ -7,6 +7,9 @@ import { ZodValidationError } from "@/lib/api-handler";
 // GET /api/organizations/[orgId]/members
 export const GET = withRole("VIEWER", async (req, context) => {
   const orgId = (await context.params).orgId!;
+  if (orgId !== req.orgId) {
+    return NextResponse.json({ error: "Forbidden", code: "FORBIDDEN", statusCode: 403 }, { status: 403 });
+  }
 
   const members = await prisma.membership.findMany({
     where: { orgId },
@@ -22,6 +25,9 @@ export const GET = withRole("VIEWER", async (req, context) => {
 // PATCH /api/organizations/[orgId]/members — update member role
 export const PATCH = withRole("ADMIN", async (req, context) => {
   const orgId = (await context.params).orgId!;
+  if (orgId !== req.orgId) {
+    return NextResponse.json({ error: "Forbidden", code: "FORBIDDEN", statusCode: 403 }, { status: 403 });
+  }
   const body = await req.json();
   const { memberId, ...roleData } = body;
   const parsed = updateMemberRoleSchema.safeParse(roleData);
@@ -49,6 +55,9 @@ export const PATCH = withRole("ADMIN", async (req, context) => {
 // DELETE /api/organizations/[orgId]/members — remove member
 export const DELETE = withRole("ADMIN", async (req, context) => {
   const orgId = (await context.params).orgId!;
+  if (orgId !== req.orgId) {
+    return NextResponse.json({ error: "Forbidden", code: "FORBIDDEN", statusCode: 403 }, { status: 403 });
+  }
   const { memberId } = await req.json();
 
   const target = await prisma.membership.findUnique({ where: { id: memberId } });

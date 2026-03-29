@@ -7,7 +7,7 @@ export async function GET() {
     return NextResponse.json({ status: "ok", service: "postgresql" });
   } catch (error) {
     return NextResponse.json(
-      { status: "error", service: "postgresql", error: String(error) },
+      { status: "error", service: "postgresql" },
       { status: 503 }
     );
   }

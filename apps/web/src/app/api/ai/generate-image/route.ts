@@ -43,6 +43,12 @@ function wrapText(text: string, maxCharsPerLine: number): string[] {
 }
 
 export async function POST(req: NextRequest) {
+  const { auth } = await import("@/lib/auth");
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = await req.json();
     const {
@@ -64,6 +70,11 @@ export async function POST(req: NextRequest) {
       subtitle?: string;
       subtitleColor?: string;
     };
+
+    const hexPattern = /^#[0-9a-fA-F]{6}$/;
+    if (!hexPattern.test(bgColor) || !hexPattern.test(textColor) || (subtitleColor && !hexPattern.test(subtitleColor))) {
+      return NextResponse.json({ error: "Invalid color format. Use hex like #000000" }, { status: 400 });
+    }
 
     if (!text) {
       return NextResponse.json({ error: "text is required" }, { status: 400 });

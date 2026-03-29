@@ -8,6 +8,9 @@ import { randomBytes } from "crypto";
 // GET /api/organizations/[orgId]/invitations — list pending
 export const GET = withRole("ADMIN", async (req, context) => {
   const orgId = (await context.params).orgId!;
+  if (orgId !== req.orgId) {
+    return NextResponse.json({ error: "Forbidden", code: "FORBIDDEN", statusCode: 403 }, { status: 403 });
+  }
 
   const invitations = await prisma.invitation.findMany({
     where: { orgId, acceptedAt: null, expiresAt: { gt: new Date() } },
@@ -20,6 +23,9 @@ export const GET = withRole("ADMIN", async (req, context) => {
 // POST /api/organizations/[orgId]/invitations — invite member
 export const POST = withRole("ADMIN", async (req, context) => {
   const orgId = (await context.params).orgId!;
+  if (orgId !== req.orgId) {
+    return NextResponse.json({ error: "Forbidden", code: "FORBIDDEN", statusCode: 403 }, { status: 403 });
+  }
   const body = await req.json();
   const parsed = inviteMemberSchema.safeParse(body);
   if (!parsed.success) {

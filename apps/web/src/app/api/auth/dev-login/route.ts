@@ -5,7 +5,7 @@ import { encode } from "next-auth/jwt";
 
 // POST /api/auth/dev-login — DEV ONLY: bypass email verification
 export async function POST(req: NextRequest) {
-  if (process.env.NODE_ENV === "production" && !process.env.ALLOW_DEV_LOGIN) {
+  if (process.env.NODE_ENV !== "development") {
     return NextResponse.json({ error: "Not available" }, { status: 404 });
   }
 

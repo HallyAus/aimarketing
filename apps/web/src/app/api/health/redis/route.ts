@@ -7,7 +7,7 @@ export async function GET() {
     return NextResponse.json({ status: "ok", service: "redis", response: pong });
   } catch (error) {
     return NextResponse.json(
-      { status: "error", service: "redis", error: String(error) },
+      { status: "error", service: "redis" },
       { status: 503 }
     );
   }
