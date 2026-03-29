@@ -1,5 +1,7 @@
 import { createWorker, queues, connection } from "./queues";
 import type { Job } from "bullmq";
+import { processTokenRefresh } from "./processors/token-refresh";
+import { processTokenHealthCheck } from "./processors/token-health-check";
 
 console.log("AdPilot Worker starting...");
 
@@ -15,8 +17,8 @@ const workers = [
   createWorker("campaign:publish", placeholderProcessor, 5),
   createWorker("campaign:schedule", placeholderProcessor, 1),
   createWorker("analytics:sync", placeholderProcessor, 3),
-  createWorker("token:refresh", placeholderProcessor, 2),
-  createWorker("token:health-check", placeholderProcessor, 2),
+  createWorker("token:refresh", processTokenRefresh, 2),
+  createWorker("token:health-check", processTokenHealthCheck, 2),
   createWorker("media:process", placeholderProcessor, 2),
   createWorker("email:send", placeholderProcessor, 3),
   createWorker("webhook:process", placeholderProcessor, 3),
