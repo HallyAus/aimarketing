@@ -114,7 +114,7 @@ export async function POST(req: NextRequest) {
 
     const buffer = await sharp(Buffer.from(svg)).png().toBuffer();
 
-    return new NextResponse(buffer, {
+    return new NextResponse(new Uint8Array(buffer), {
       headers: {
         "Content-Type": "image/png",
         "Content-Disposition": `inline; filename="adpilot-image.png"`,
