@@ -2,6 +2,8 @@ import { createWorker, queues, connection } from "./queues";
 import type { Job } from "bullmq";
 import { processTokenRefresh } from "./processors/token-refresh";
 import { processTokenHealthCheck } from "./processors/token-health-check";
+import { processCampaignSchedule } from "./processors/campaign-schedule";
+import { processCampaignPublish } from "./processors/campaign-publish";
 
 console.log("AdPilot Worker starting...");
 
@@ -14,8 +16,8 @@ const placeholderProcessor = async (job: Job) => {
 // ── Start Workers ────────────────────────────────────────────────────────
 
 const workers = [
-  createWorker("campaign:publish", placeholderProcessor, 5),
-  createWorker("campaign:schedule", placeholderProcessor, 1),
+  createWorker("campaign:publish", processCampaignPublish, 5),
+  createWorker("campaign:schedule", processCampaignSchedule, 1),
   createWorker("analytics:sync", placeholderProcessor, 3),
   createWorker("token:refresh", processTokenRefresh, 2),
   createWorker("token:health-check", processTokenHealthCheck, 2),
