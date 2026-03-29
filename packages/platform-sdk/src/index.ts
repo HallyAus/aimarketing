@@ -1,2 +1,2 @@
-// Platform SDK — implemented in Phase 2
-export {};
+export * from "./types";
+export { PLATFORM_CONFIGS, getPlatformConfig } from "./config";
