@@ -6,6 +6,7 @@ import { processCampaignSchedule } from "./processors/campaign-schedule";
 import { processCampaignPublish } from "./processors/campaign-publish";
 import { processMediaProcess } from "./processors/media-process";
 import { processAnalyticsSync } from "./processors/analytics-sync";
+import { processEmailSend } from "./processors/email-send";
 
 console.log("AdPilot Worker starting...");
 
@@ -24,7 +25,7 @@ const workers = [
   createWorker("token:refresh", processTokenRefresh, 2),
   createWorker("token:health-check", processTokenHealthCheck, 2),
   createWorker("media:process", processMediaProcess, 2),
-  createWorker("email:send", placeholderProcessor, 3),
+  createWorker("email:send", processEmailSend, 3),
   createWorker("webhook:process", placeholderProcessor, 3),
 ];
 
