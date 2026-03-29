@@ -69,21 +69,22 @@ fi
 # ─── Download Template ────────────────────────────────────────────────────
 
 log "Finding latest Debian 12 template..."
-TEMPLATE=$(pveam available --section system | grep 'debian-12-standard' | tail -1 | awk '{print $2}')
+pveam update >/dev/null 2>&1 || true
+TEMPLATE=$(pveam available --section system | grep 'debian-12-standard' | tail -1 | sed 's/^[[:space:]]*system[[:space:]]*//' | tr -d '[:space:]' | head -1)
 
 if [[ -z "$TEMPLATE" ]]; then
     err "Could not find Debian 12 template. Run: pveam update"
     exit 1
 fi
 
+info "Using template: [${TEMPLATE}]"
 TEMPLATE_PATH="${TEMPLATE_STORAGE}:vztmpl/${TEMPLATE}"
-info "Using template: ${TEMPLATE}"
 
-if ! pveam list "$TEMPLATE_STORAGE" | grep -q "$TEMPLATE"; then
+if pveam list "$TEMPLATE_STORAGE" | grep -q "$TEMPLATE"; then
+    info "Template already downloaded"
+else
     log "Downloading ${TEMPLATE}..."
     pveam download "$TEMPLATE_STORAGE" "$TEMPLATE"
-else
-    info "Template already downloaded"
 fi
 
 # ─── Create LXC ───────────────────────────────────────────────────────────
