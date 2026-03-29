@@ -1,5 +1,3 @@
-import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
 import Link from "next/link";
 
 export default async function DashboardLayout({
@@ -7,10 +5,6 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  if (!session?.user) {
-    redirect("/signin");
-  }
 
   return (
     <div className="flex min-h-screen">

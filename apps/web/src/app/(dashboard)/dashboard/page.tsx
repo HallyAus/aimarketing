@@ -1,15 +1,9 @@
-import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 
 export default async function DashboardPage() {
-  const session = await auth();
-  if (!session?.user?.currentOrgId) {
-    redirect("/org-picker");
-  }
-
-  const org = await prisma.organization.findUnique({
-    where: { id: session.user.currentOrgId },
+  // Auto-find first org (auth disabled temporarily)
+  const org = await prisma.organization.findFirst({
+    where: { deletedAt: null },
     include: {
       _count: {
         select: {
@@ -22,7 +16,12 @@ export default async function DashboardPage() {
   });
 
   if (!org) {
-    redirect("/org-picker");
+    return (
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Welcome to AdPilot</h1>
+        <p className="text-gray-500">No organization found. Create one to get started.</p>
+      </div>
+    );
   }
 
   return (
