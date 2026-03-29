@@ -49,6 +49,9 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN cd apps/web && pnpm build
 
+# Copy Prisma engine to a known location for the runner stages
+RUN mkdir -p /prisma-engines && cp -r node_modules/.pnpm/@prisma+client*/node_modules/.prisma /prisma-engines/
+
 # ── Web Runner ────────────────────────────────────────────────────────
 FROM base AS web
 WORKDIR /app
@@ -63,6 +66,8 @@ COPY --from=builder /app/apps/web/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
 COPY --from=builder /app/packages/db/prisma ./packages/db/prisma
+# Prisma query engine for Alpine/musl
+COPY --from=builder /prisma-engines/.prisma ./node_modules/.prisma
 
 USER nextjs
 EXPOSE 3000
