@@ -42,7 +42,7 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
       startDate: parsed.data.startDate ? new Date(parsed.data.startDate) : undefined,
       endDate: parsed.data.endDate ? new Date(parsed.data.endDate) : undefined,
       targetPlatforms: parsed.data.targetPlatforms,
-      audienceConfig: parsed.data.audienceConfig,
+      audienceConfig: parsed.data.audienceConfig as Record<string, unknown> as never ?? undefined,
       createdBy: req.userId,
     },
   });

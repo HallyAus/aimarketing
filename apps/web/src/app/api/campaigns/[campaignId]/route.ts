@@ -62,12 +62,16 @@ export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) =>
     );
   }
 
+  const { audienceConfig, startDate, endDate, targetPlatforms, ...rest } = updateData;
+
   const campaign = await prisma.campaign.update({
     where: { id: campaignId },
     data: {
-      ...updateData,
-      startDate: updateData.startDate ? new Date(updateData.startDate) : updateData.startDate === null ? null : undefined,
-      endDate: updateData.endDate ? new Date(updateData.endDate) : updateData.endDate === null ? null : undefined,
+      ...rest,
+      ...(targetPlatforms !== undefined && { targetPlatforms }),
+      ...(audienceConfig !== undefined && { audienceConfig: audienceConfig as Record<string, unknown> as never }),
+      startDate: startDate ? new Date(startDate) : startDate === null ? null : undefined,
+      endDate: endDate ? new Date(endDate) : endDate === null ? null : undefined,
       version: { increment: 1 },
     },
   });
