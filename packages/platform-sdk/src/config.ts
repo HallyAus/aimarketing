@@ -1,10 +1,13 @@
 import type { Platform, PlatformConfig } from "./types";
 
+// env() reads at call time so vi.stubEnv works in tests
 function env(key: string): string {
   return process.env[key] ?? "";
 }
 
-export const PLATFORM_CONFIGS: Record<Platform, PlatformConfig> = {
+// Lazily-evaluated configs — each property is a getter so env vars are read at access time
+function buildConfigs(): Record<Platform, PlatformConfig> {
+  return {
   FACEBOOK: {
     platform: "FACEBOOK",
     displayName: "Facebook",
@@ -132,10 +135,16 @@ export const PLATFORM_CONFIGS: Record<Platform, PlatformConfig> = {
     tokenExpirySeconds: 1800, // 30 minutes
     usesPkce: false,
   },
-};
+  };
+}
+
+// Static snapshot for consumers that need the full map (non-test usage)
+export const PLATFORM_CONFIGS: Record<Platform, PlatformConfig> = buildConfigs();
 
 export function getPlatformConfig(platform: Platform): PlatformConfig {
-  const config = PLATFORM_CONFIGS[platform];
+  // Rebuild at call time so env stubs applied in tests are picked up
+  const configs = buildConfigs();
+  const config = configs[platform];
   if (!config) {
     throw new Error(`Unknown platform: ${platform}`);
   }
