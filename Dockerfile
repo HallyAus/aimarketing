@@ -94,9 +94,11 @@ COPY --from=builder /app/packages/shared/src ./packages/shared/src
 COPY --from=builder /app/packages/shared/package.json ./packages/shared/package.json
 COPY --from=builder /app/packages/platform-sdk/src ./packages/platform-sdk/src
 COPY --from=builder /app/packages/platform-sdk/package.json ./packages/platform-sdk/package.json
-COPY --from=builder /app/packages/db/node_modules/.prisma ./packages/db/node_modules/.prisma
 COPY --from=builder /app/tsconfig.base.json ./tsconfig.base.json
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
+
+# Generate Prisma client in worker context
+RUN cd packages/db && npx prisma generate
 
 CMD ["npx", "tsx", "apps/worker/src/index.ts"]
