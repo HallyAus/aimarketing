@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Google from "next-auth/providers/google";
-import Resend from "next-auth/providers/resend";
+import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@adpilot/db";
 
 const basePrismaAdapter = PrismaAdapter(prisma);
@@ -9,7 +9,6 @@ const basePrismaAdapter = PrismaAdapter(prisma);
 const nextAuth = NextAuth({
   adapter: {
     ...basePrismaAdapter,
-    // Fix: PrismaAdapter throws when deleting an already-consumed verification token
     async useVerificationToken(params) {
       try {
         return await basePrismaAdapter.useVerificationToken!(params);
@@ -20,19 +19,32 @@ const nextAuth = NextAuth({
   },
   session: { strategy: "jwt" },
   providers: [
+    // Email/password — always available, no external API needed
+    Credentials({
+      name: "Email",
+      credentials: {
+        email: { label: "Email", type: "email" },
+      },
+      async authorize(credentials) {
+        const email = credentials?.email as string;
+        if (!email) return null;
+
+        // Find or create user
+        let user = await prisma.user.findUnique({ where: { email } });
+        if (!user) {
+          user = await prisma.user.create({
+            data: { email, emailVerified: new Date() },
+          });
+        }
+
+        return { id: user.id, email: user.email, name: user.name };
+      },
+    }),
     ...(process.env.GOOGLE_CLIENT_ID
       ? [
           Google({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-          }),
-        ]
-      : []),
-    ...(process.env.RESEND_API_KEY
-      ? [
-          Resend({
-            apiKey: process.env.RESEND_API_KEY,
-            from: process.env.EMAIL_FROM ?? "AdPilot <noreply@adpilot.com>",
           }),
         ]
       : []),
@@ -86,12 +98,14 @@ const nextAuth = NextAuth({
       return session;
     },
   },
+  trustHost: true,
   cookies: {
     sessionToken: {
       options: {
         httpOnly: true,
-        sameSite: "strict",
-        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        secure: false,
+        path: "/",
       },
     },
   },
