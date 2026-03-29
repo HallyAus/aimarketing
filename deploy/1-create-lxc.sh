@@ -23,9 +23,9 @@ STORAGE="${STORAGE:-local-lvm}"
 BRIDGE="${BRIDGE:-vmbr0}"
 TEMPLATE_STORAGE="${TEMPLATE_STORAGE:-local}"
 
-# Debian 12 template
-TEMPLATE="debian-12-standard_12.12-1_amd64.tar.zst"
-TEMPLATE_PATH="${TEMPLATE_STORAGE}:vztmpl/${TEMPLATE}"
+# Auto-detect latest Debian 12 template
+TEMPLATE=""
+TEMPLATE_PATH=""
 
 # ─── Colours ──────────────────────────────────────────────────────────────
 
@@ -68,8 +68,19 @@ fi
 
 # ─── Download Template ────────────────────────────────────────────────────
 
+log "Finding latest Debian 12 template..."
+TEMPLATE=$(pveam available --section system | grep 'debian-12-standard' | tail -1 | awk '{print $2}')
+
+if [[ -z "$TEMPLATE" ]]; then
+    err "Could not find Debian 12 template. Run: pveam update"
+    exit 1
+fi
+
+TEMPLATE_PATH="${TEMPLATE_STORAGE}:vztmpl/${TEMPLATE}"
+info "Using template: ${TEMPLATE}"
+
 if ! pveam list "$TEMPLATE_STORAGE" | grep -q "$TEMPLATE"; then
-    log "Downloading Debian 12 template..."
+    log "Downloading ${TEMPLATE}..."
     pveam download "$TEMPLATE_STORAGE" "$TEMPLATE"
 else
     info "Template already downloaded"
