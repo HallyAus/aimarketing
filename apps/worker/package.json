@@ -10,10 +10,13 @@
   "dependencies": {
     "@adpilot/db": "workspace:*",
     "@adpilot/shared": "workspace:*",
+    "@aws-sdk/client-s3": "^3.1019.0",
     "bullmq": "^5.30.0",
-    "ioredis": "^5.4.0"
+    "ioredis": "^5.4.0",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
+    "@types/sharp": "^0.32.0",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0"
   }
