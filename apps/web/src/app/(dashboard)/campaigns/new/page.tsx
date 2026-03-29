@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 
 const OBJECTIVES = ["AWARENESS", "TRAFFIC", "ENGAGEMENT", "CONVERSIONS", "LEADS"];
-const PLATFORMS = ["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT"];
+const PLATFORMS = ["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT"] as const;
 
 export default async function NewCampaignPage() {
   const session = await auth();
@@ -14,7 +14,7 @@ export default async function NewCampaignPage() {
     where: { orgId: session.user.currentOrgId, status: "ACTIVE" },
     select: { platform: true },
   });
-  const connectedPlatforms = new Set(connections.map((c) => c.platform));
+  const connectedPlatforms = new Set<string>(connections.map((c) => c.platform));
 
   async function createCampaign(formData: FormData) {
     "use server";
