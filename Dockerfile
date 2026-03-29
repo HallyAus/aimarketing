@@ -66,8 +66,9 @@ COPY --from=builder /app/apps/web/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
 COPY --from=builder /app/packages/db/prisma ./packages/db/prisma
-# Prisma query engine for Alpine/musl
+# Prisma query engine
 COPY --from=builder /prisma-engines/.prisma ./node_modules/.prisma
+ENV PRISMA_QUERY_ENGINE_LIBRARY=/app/node_modules/.prisma/client/libquery_engine-linux-musl-openssl-3.0.x.so.node
 
 USER nextjs
 EXPOSE 3000
