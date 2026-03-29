@@ -67,3 +67,14 @@ export const updatePostSchema = z.object({
 export const rejectPostSchema = z.object({
   reason: z.string().min(1).max(1000),
 });
+
+export const createCreativeSchema = z.object({
+  name: z.string().min(1).max(200),
+  type: z.enum(["IMAGE", "VIDEO", "CAROUSEL", "STORY", "REEL"]),
+  tags: z.array(z.string().max(50)).max(20).default([]),
+});
+
+export const updateCreativeSchema = z.object({
+  name: z.string().min(1).max(200).optional(),
+  tags: z.array(z.string().max(50)).max(20).optional(),
+});
