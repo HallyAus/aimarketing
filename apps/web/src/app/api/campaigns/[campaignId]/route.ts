@@ -84,7 +84,7 @@ export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) =>
       entityType: "Campaign",
       entityId: campaignId,
       before: { name: existing.name, version: existing.version },
-      after: { ...updateData, version: campaign.version },
+      after: { name: campaign.name, objective: campaign.objective, version: campaign.version },
     },
   });
 
