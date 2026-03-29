@@ -21,11 +21,11 @@ export default async function DashboardLayout({
           <Link href="/dashboard" className="block rounded px-3 py-2 text-sm hover:bg-gray-200">
             Dashboard
           </Link>
-          <Link href="/dashboard/campaigns" className="block rounded px-3 py-2 text-sm hover:bg-gray-200 text-gray-400">
-            Campaigns (Phase 3)
+          <Link href="/dashboard/campaigns" className="block rounded px-3 py-2 text-sm hover:bg-gray-200">
+            Campaigns
           </Link>
-          <Link href="/dashboard/analytics" className="block rounded px-3 py-2 text-sm hover:bg-gray-200 text-gray-400">
-            Analytics (Phase 5)
+          <Link href="/dashboard/analytics" className="block rounded px-3 py-2 text-sm hover:bg-gray-200">
+            Analytics
           </Link>
           <div className="pt-4 mt-4 border-t">
             <div className="text-xs font-medium text-gray-400 uppercase mb-2">Settings</div>
