@@ -1,3 +1,10 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description: "Terms of service for AdPilot marketing automation platform.",
+};
+
 export default function TermsPage() {
   return (
     <main className="max-w-3xl mx-auto p-8">

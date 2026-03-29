@@ -1,3 +1,10 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description: "Learn how AdPilot collects, uses, and protects your data.",
+};
+
 export default function PrivacyPage() {
   return (
     <main className="max-w-3xl mx-auto p-8">

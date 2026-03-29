@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /org-picker
+Disallow: /onboarding
+Disallow: /settings/
+
+User-agent: GPTBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+
+Sitemap: https://adpilot.app/sitemap.xml
