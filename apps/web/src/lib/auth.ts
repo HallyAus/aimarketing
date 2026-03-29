@@ -4,7 +4,7 @@ import Google from "next-auth/providers/google";
 import Resend from "next-auth/providers/resend";
 import { prisma } from "@adpilot/db";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+const nextAuth = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   providers: [
@@ -75,3 +75,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
 });
+
+export const { handlers, auth, signIn, signOut } = nextAuth;
