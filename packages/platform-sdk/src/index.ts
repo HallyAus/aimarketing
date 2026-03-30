@@ -16,3 +16,11 @@ export {
 export { PlatformClient } from "./client";
 export { PlatformError } from "./errors";
 export { rateLimitAwareFetch } from "./rate-limiter";
+export type { PublishResult, PublishPayload } from "./publishers";
+export {
+  publishPost,
+  publishToFacebook,
+  publishToInstagram,
+  publishToTwitter,
+  publishToLinkedin,
+} from "./publishers";

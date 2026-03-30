@@ -1,7 +1,7 @@
 import type { Job } from "bullmq";
 import { prisma } from "@adpilot/db";
-import { PlatformClient } from "@adpilot/platform-sdk";
-import type { Platform } from "@adpilot/platform-sdk";
+import { PlatformClient, publishPost } from "@adpilot/platform-sdk";
+import type { Platform, PublishPayload } from "@adpilot/platform-sdk";
 
 export async function processCampaignPublish(job: Job): Promise<void> {
   const { postId, orgId, platform } = job.data as {
@@ -42,23 +42,57 @@ export async function processCampaignPublish(job: Job): Promise<void> {
     const client = new PlatformClient(masterKey);
     const accessToken = await client.getAccessToken(connection.id);
 
-    // TODO: Call platform-specific publish API
-    // This will be fully implemented when each adapter gets a publish() method.
-    // For now, log the intent and mark as published (placeholder).
     console.log(`[campaign:publish] Publishing to ${platform}:`, {
       postId,
       content: post.content.substring(0, 100),
       mediaUrls: post.mediaUrls,
-      hasToken: !!accessToken,
     });
 
-    // Mark as published
+    // Build publish payload and call the platform-specific publisher
+    const payload: PublishPayload = {
+      content: post.content,
+      mediaUrls: Array.isArray(post.mediaUrls) ? (post.mediaUrls as string[]) : undefined,
+      platform,
+      accessToken,
+      platformUserId: connection.platformUserId,
+    };
+
+    const result = await publishPost(platform, payload);
+
+    if (!result.success) {
+      // Non-retryable publish failure — mark post as FAILED
+      await prisma.post.update({
+        where: { id: postId },
+        data: {
+          status: "FAILED",
+          errorMessage: result.error ?? "Unknown publish error",
+          version: { increment: 1 },
+        },
+      });
+
+      await prisma.auditLog.create({
+        data: {
+          orgId,
+          action: "POST_PUBLISH_FAILED",
+          entityType: "Post",
+          entityId: postId,
+          after: { platform, error: result.error },
+        },
+      });
+
+      console.error(
+        `[campaign:publish] Failed to publish post ${postId} to ${platform}: ${result.error}`
+      );
+      return;
+    }
+
+    // Success — update post with platform post ID and published status
     await prisma.post.update({
       where: { id: postId },
       data: {
         status: "PUBLISHED",
         publishedAt: new Date(),
-        // platformPostId will be set when actual publish API returns an ID
+        platformPostId: result.platformPostId ?? null,
         version: { increment: 1 },
       },
     });
@@ -69,12 +103,21 @@ export async function processCampaignPublish(job: Job): Promise<void> {
         action: "POST_PUBLISHED",
         entityType: "Post",
         entityId: postId,
-        after: { platform, publishedAt: new Date().toISOString() },
+        after: {
+          platform,
+          publishedAt: new Date().toISOString(),
+          platformPostId: result.platformPostId,
+          url: result.url,
+        },
       },
     });
 
-    console.log(`[campaign:publish] Published post ${postId} to ${platform}`);
+    console.log(
+      `[campaign:publish] Published post ${postId} to ${platform}` +
+        (result.url ? ` — ${result.url}` : "")
+    );
   } catch (error) {
+    // Retryable errors (rate limits, transient failures) bubble up here
     const errorMessage = error instanceof Error ? error.message : String(error);
 
     await prisma.post.update({
@@ -95,6 +138,10 @@ export async function processCampaignPublish(job: Job): Promise<void> {
         after: { platform, error: errorMessage },
       },
     });
+
+    console.error(
+      `[campaign:publish] Error publishing post ${postId} to ${platform}: ${errorMessage}`
+    );
 
     // Re-throw for BullMQ retry logic
     throw error;
