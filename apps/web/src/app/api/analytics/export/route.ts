@@ -3,11 +3,20 @@ import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
 import { prisma } from "@adpilot/db";
 
+/** Escape a string value for safe CSV inclusion, preventing CSV injection */
+function csvSafe(value: unknown): string {
+  const str = String(value ?? "");
+  // Prefix formula-triggering characters with a tab to prevent CSV injection
+  const sanitized = /^[=+\-@]/.test(str) ? "\t" + str : str;
+  // Always wrap in quotes and escape internal quotes
+  return `"${sanitized.replace(/"/g, '""')}"`;
+}
+
 // GET /api/analytics/export — CSV export of analytics data
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   const url = new URL(req.url);
   const campaignId = url.searchParams.get("campaignId");
-  const days = parseInt(url.searchParams.get("days") ?? "30", 10);
+  const days = Math.min(Math.max(parseInt(url.searchParams.get("days") ?? "30", 10), 1), 365);
   const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
 
   // Get posts (optionally filtered by campaign)
@@ -42,10 +51,10 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   const rows = posts.map((post) => {
     const metrics = post.analytics[0];
     return [
-      post.campaign.name,
-      post.platform,
-      `"${post.content.replace(/"/g, '""').substring(0, 200)}"`,
-      post.publishedAt?.toISOString() ?? "",
+      csvSafe(post.campaign.name),
+      csvSafe(post.platform),
+      csvSafe(post.content.substring(0, 200)),
+      csvSafe(post.publishedAt?.toISOString() ?? ""),
       metrics?.impressions ?? 0,
       metrics?.reach ?? 0,
       metrics?.clicks ?? 0,

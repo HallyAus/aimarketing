@@ -1,32 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { improvePostContent } from "@/lib/ai";
+import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
+import { withRole } from "@/lib/auth-middleware";
+import { z } from "zod";
 
-export async function POST(req: NextRequest) {
-  const { auth } = await import("@/lib/auth");
-  const session = await auth();
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+const improvePostSchema = z.object({
+  content: z.string().min(1).max(5000),
+  platform: z.string().min(1).max(50),
+  instruction: z.string().max(1000).optional(),
+});
+
+export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
+  const body = await req.json();
+  const parsed = improvePostSchema.safeParse(body);
+  if (!parsed.success) {
+    throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
   }
 
-  try {
-    const body = await req.json();
-    const { content, platform, instruction } = body;
+  const improved = await improvePostContent(parsed.data);
 
-    if (!content || !platform) {
-      return NextResponse.json(
-        { error: "content and platform are required" },
-        { status: 400 }
-      );
-    }
-
-    const improved = await improvePostContent({ content, platform, instruction });
-
-    return NextResponse.json({ content: improved });
-  } catch (error) {
-    console.error("[AI] Improve post error:", error);
-    return NextResponse.json(
-      { error: "Failed to improve content" },
-      { status: 500 }
-    );
-  }
-}
+  return NextResponse.json({ content: improved });
+}));

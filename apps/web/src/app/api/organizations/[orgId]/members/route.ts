@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
+import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@adpilot/db";
 import { updateMemberRoleSchema } from "@adpilot/shared";
-import { ZodValidationError } from "@/lib/api-handler";
 
 // GET /api/organizations/[orgId]/members
-export const GET = withRole("VIEWER", async (req, context) => {
+export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
   const orgId = (await context.params).orgId!;
   if (orgId !== req.orgId) {
     return NextResponse.json({ error: "Forbidden", code: "FORBIDDEN", statusCode: 403 }, { status: 403 });
@@ -20,10 +20,10 @@ export const GET = withRole("VIEWER", async (req, context) => {
   });
 
   return NextResponse.json(members);
-});
+}));
 
 // PATCH /api/organizations/[orgId]/members — update member role
-export const PATCH = withRole("ADMIN", async (req, context) => {
+export const PATCH = withErrorHandler(withRole("ADMIN", async (req, context) => {
   const orgId = (await context.params).orgId!;
   if (orgId !== req.orgId) {
     return NextResponse.json({ error: "Forbidden", code: "FORBIDDEN", statusCode: 403 }, { status: 403 });
@@ -50,15 +50,19 @@ export const PATCH = withRole("ADMIN", async (req, context) => {
   });
 
   return NextResponse.json(updated);
-});
+}));
 
-// DELETE /api/organizations/[orgId]/members — remove member
-export const DELETE = withRole("ADMIN", async (req, context) => {
+// DELETE /api/organizations/[orgId]/members?memberId=xxx — remove member
+export const DELETE = withErrorHandler(withRole("ADMIN", async (req, context) => {
   const orgId = (await context.params).orgId!;
   if (orgId !== req.orgId) {
     return NextResponse.json({ error: "Forbidden", code: "FORBIDDEN", statusCode: 403 }, { status: 403 });
   }
-  const { memberId } = await req.json();
+  const url = new URL(req.url);
+  const memberId = url.searchParams.get("memberId");
+  if (!memberId) {
+    return NextResponse.json({ error: "memberId query parameter is required", code: "BAD_REQUEST", statusCode: 400 }, { status: 400 });
+  }
 
   const target = await prisma.membership.findUnique({ where: { id: memberId } });
   if (!target || target.orgId !== orgId) {
@@ -81,4 +85,4 @@ export const DELETE = withRole("ADMIN", async (req, context) => {
   });
 
   return NextResponse.json({ success: true });
-});
+}));

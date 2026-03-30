@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: adpilot
       POSTGRES_PASSWORD: ${DB_PASSWORD:-adpilot_dev_password}
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -25,9 +25,9 @@ services:
     image: redis:7-alpine
     container_name: adpilot-redis
     restart: unless-stopped
-    command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru
+    command: redis-server --maxmemory 128mb --maxmemory-policy noeviction
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
     volumes:
       - redis_data:/data
     healthcheck:

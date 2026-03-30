@@ -1,8 +1,14 @@
-import { getOrgId } from "@/lib/get-org";
+import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 import { PLATFORM_CONFIGS } from "@adpilot/platform-sdk";
 import type { Platform } from "@adpilot/platform-sdk";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Platform Connections",
+  robots: { index: false },
+};
 
 const PLATFORM_ORDER: Platform[] = [
   "FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X",
@@ -20,12 +26,8 @@ export default async function ConnectionsPage({
 }: {
   searchParams: Promise<{ success?: string; error?: string }>;
 }) {
-  if (false) {
-    redirect("/org-picker");
-  }
-
   const params = await searchParams;
-  const orgId = await getOrgId();
+  const orgId = await getSessionOrg();
 
   const connections = await prisma.platformConnection.findMany({
     where: { orgId },
@@ -126,7 +128,7 @@ export default async function ConnectionsPage({
                         }
                       );
                       const { redirect: redir } = await import("next/navigation");
-                      redir("/dashboard/settings/connections");
+                      redir("/settings/connections");
                     }}
                   >
                     <button

@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { STRIPE_PLAN_PRICE_IDS } from "@adpilot/shared";
 
 let _stripe: Stripe | null = null;
 
@@ -11,7 +12,5 @@ export function getStripe(): Stripe {
   return _stripe;
 }
 
-export const STRIPE_PLAN_PRICES: Record<string, string> = {
-  PRO: process.env.STRIPE_PRO_PRICE_ID ?? "",
-  AGENCY: process.env.STRIPE_AGENCY_PRICE_ID ?? "",
-};
+/** @deprecated Use STRIPE_PLAN_PRICE_IDS from @adpilot/shared directly */
+export const STRIPE_PLAN_PRICES = STRIPE_PLAN_PRICE_IDS;

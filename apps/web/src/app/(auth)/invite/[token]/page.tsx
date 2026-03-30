@@ -17,10 +17,15 @@ export default async function InvitePage({
 
   if (!invitation || invitation.acceptedAt || invitation.expiresAt < new Date()) {
     return (
-      <main className="flex min-h-screen items-center justify-center">
+      <main
+        className="flex min-h-screen items-center justify-center"
+        style={{ background: "var(--bg-primary)" }}
+      >
         <div className="text-center">
-          <h1 className="text-xl font-bold">Invalid or Expired Invitation</h1>
-          <p className="text-gray-500 mt-2">
+          <h1 className="text-xl font-bold" style={{ color: "var(--text-primary)" }}>
+            Invalid or Expired Invitation
+          </h1>
+          <p className="mt-2" style={{ color: "var(--text-secondary)" }}>
             This invitation link is no longer valid.
           </p>
         </div>

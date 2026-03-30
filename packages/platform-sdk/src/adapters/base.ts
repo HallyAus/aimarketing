@@ -1,5 +1,7 @@
 import { randomBytes, createHash } from "crypto";
 import type { PlatformConfig } from "../types";
+import { PlatformError } from "../errors";
+import { rateLimitAwareFetch } from "../rate-limiter";
 
 export function generateState(): string {
   return randomBytes(32).toString("hex");
@@ -63,15 +65,19 @@ export async function exchangeCodeForTokens(
     body.set("code_verifier", params.codeVerifier);
   }
 
-  const response = await fetch(config.tokenUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: body.toString(),
-  });
+  const response = await rateLimitAwareFetch(
+    config.tokenUrl,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
+    },
+    config.platform
+  );
 
   if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Token exchange failed (${response.status}): ${error}`);
+    const errorBody = await response.text();
+    throw PlatformError.fromResponse(config.platform, response.status, `Token exchange failed: ${errorBody}`);
   }
 
   return response.json();
@@ -88,15 +94,19 @@ export async function refreshAccessToken(
     grant_type: "refresh_token",
   });
 
-  const response = await fetch(config.tokenUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: body.toString(),
-  });
+  const response = await rateLimitAwareFetch(
+    config.tokenUrl,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
+    },
+    config.platform
+  );
 
   if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Token refresh failed (${response.status}): ${error}`);
+    const errorBody = await response.text();
+    throw PlatformError.fromResponse(config.platform, response.status, `Token refresh failed: ${errorBody}`);
   }
 
   return response.json();

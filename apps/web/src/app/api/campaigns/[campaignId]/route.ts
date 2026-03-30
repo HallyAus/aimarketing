@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@adpilot/db";
-import { updateCampaignSchema } from "@adpilot/shared";
+import { updateCampaignSchema, sanitizeHtml } from "@adpilot/shared";
 
 // GET /api/campaigns/[campaignId]
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
@@ -62,12 +62,14 @@ export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) =>
     );
   }
 
-  const { audienceConfig, startDate, endDate, targetPlatforms, ...rest } = updateData;
+  const { audienceConfig, startDate, endDate, targetPlatforms, name, ...rest } = updateData;
+  const sanitizedName = name ? sanitizeHtml(name) : undefined;
 
   const campaign = await prisma.campaign.update({
     where: { id: campaignId },
     data: {
       ...rest,
+      ...(sanitizedName !== undefined && { name: sanitizedName }),
       ...(targetPlatforms !== undefined && { targetPlatforms }),
       ...(audienceConfig !== undefined && { audienceConfig: audienceConfig as Record<string, unknown> as never }),
       startDate: startDate ? new Date(startDate) : startDate === null ? null : undefined,

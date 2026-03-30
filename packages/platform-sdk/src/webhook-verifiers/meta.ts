@@ -1,4 +1,4 @@
-import { createHmac } from "crypto";
+import { createHmac, timingSafeEqual } from "crypto";
 
 export function verifyMetaWebhookSignature(
   payload: string,
@@ -8,5 +8,9 @@ export function verifyMetaWebhookSignature(
   const expectedSig = createHmac("sha256", appSecret)
     .update(payload)
     .digest("hex");
-  return `sha256=${expectedSig}` === signature;
+
+  const expected = Buffer.from(`sha256=${expectedSig}`);
+  const actual = Buffer.from(signature);
+
+  return expected.length === actual.length && timingSafeEqual(expected, actual);
 }

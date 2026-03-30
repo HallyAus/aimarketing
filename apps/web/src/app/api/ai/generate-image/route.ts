@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
+import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
+import { withRole } from "@/lib/auth-middleware";
+import { z } from "zod";
 
 type ImagePreset = {
   width: number;
@@ -42,104 +45,81 @@ function wrapText(text: string, maxCharsPerLine: number): string[] {
   return lines;
 }
 
-export async function POST(req: NextRequest) {
-  const { auth } = await import("@/lib/auth");
-  const session = await auth();
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+const hexColor = z.string().regex(/^#[0-9a-fA-F]{6}$/, "Invalid color format. Use hex like #000000");
+
+const generateImageSchema = z.object({
+  text: z.string().min(1).max(1000),
+  preset: z.string().max(50).optional().default("instagram-square"),
+  bgColor: hexColor.optional().default("#000000"),
+  textColor: hexColor.optional().default("#ffffff"),
+  fontSize: z.enum(["small", "medium", "large", "xlarge"]).optional().default("large"),
+  align: z.enum(["left", "center", "right"]).optional().default("center"),
+  subtitle: z.string().max(500).optional(),
+  subtitleColor: hexColor.optional().default("#cccccc"),
+});
+
+export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
+  const body = await req.json();
+  const parsed = generateImageSchema.safeParse(body);
+  if (!parsed.success) {
+    throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
   }
 
-  try {
-    const body = await req.json();
-    const {
-      text,
-      preset = "instagram-square",
-      bgColor = "#000000",
-      textColor = "#ffffff",
-      fontSize = "large",
-      align = "center",
-      subtitle,
-      subtitleColor = "#cccccc",
-    } = body as {
-      text: string;
-      preset?: string;
-      bgColor?: string;
-      textColor?: string;
-      fontSize?: "small" | "medium" | "large" | "xlarge";
-      align?: "left" | "center" | "right";
-      subtitle?: string;
-      subtitleColor?: string;
-    };
+  const { text, preset, bgColor, textColor, fontSize, align, subtitle, subtitleColor } = parsed.data;
 
-    const hexPattern = /^#[0-9a-fA-F]{6}$/;
-    if (!hexPattern.test(bgColor) || !hexPattern.test(textColor) || (subtitleColor && !hexPattern.test(subtitleColor))) {
-      return NextResponse.json({ error: "Invalid color format. Use hex like #000000" }, { status: 400 });
-    }
+  const size = PRESETS[preset] ?? PRESETS["instagram-square"]!;
+  const bg = hexToRgb(bgColor);
 
-    if (!text) {
-      return NextResponse.json({ error: "text is required" }, { status: 400 });
-    }
+  const fontSizeMap = {
+    small: Math.round(size.width * 0.035),
+    medium: Math.round(size.width * 0.05),
+    large: Math.round(size.width * 0.07),
+    xlarge: Math.round(size.width * 0.1),
+  };
 
-    const size = PRESETS[preset] ?? PRESETS["instagram-square"]!;
-    const bg = hexToRgb(bgColor);
+  const mainFontSize = fontSizeMap[fontSize] ?? fontSizeMap.large;
+  const subFontSize = Math.round(mainFontSize * 0.5);
+  const lineHeight = mainFontSize * 1.4;
+  const maxChars = Math.floor(size.width / (mainFontSize * 0.5));
 
-    const fontSizeMap = {
-      small: Math.round(size.width * 0.035),
-      medium: Math.round(size.width * 0.05),
-      large: Math.round(size.width * 0.07),
-      xlarge: Math.round(size.width * 0.1),
-    };
+  const lines = wrapText(text, maxChars);
+  const subtitleLines = subtitle ? wrapText(subtitle, Math.floor(size.width / (subFontSize * 0.5))) : [];
 
-    const mainFontSize = fontSizeMap[fontSize] ?? fontSizeMap.large;
-    const subFontSize = Math.round(mainFontSize * 0.5);
-    const lineHeight = mainFontSize * 1.4;
-    const maxChars = Math.floor(size.width / (mainFontSize * 0.5));
+  const totalTextHeight = lines.length * lineHeight + (subtitleLines.length > 0 ? subtitleLines.length * (subFontSize * 1.4) + 30 : 0);
+  const startY = (size.height - totalTextHeight) / 2;
 
-    const lines = wrapText(text, maxChars);
-    const subtitleLines = subtitle ? wrapText(subtitle, Math.floor(size.width / (subFontSize * 0.5))) : [];
+  const textAnchor = align === "left" ? "start" : align === "right" ? "end" : "middle";
+  const textX = align === "left" ? size.width * 0.1 : align === "right" ? size.width * 0.9 : size.width / 2;
 
-    const totalTextHeight = lines.length * lineHeight + (subtitleLines.length > 0 ? subtitleLines.length * (subFontSize * 1.4) + 30 : 0);
-    const startY = (size.height - totalTextHeight) / 2;
+  let svgLines = "";
+  lines.forEach((line, i) => {
+    const escaped = line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    svgLines += `<text x="${textX}" y="${startY + i * lineHeight}" font-family="Arial, Helvetica, sans-serif" font-size="${mainFontSize}" font-weight="bold" fill="${textColor}" text-anchor="${textAnchor}">${escaped}</text>`;
+  });
 
-    const textAnchor = align === "left" ? "start" : align === "right" ? "end" : "middle";
-    const textX = align === "left" ? size.width * 0.1 : align === "right" ? size.width * 0.9 : size.width / 2;
-
-    let svgLines = "";
-    lines.forEach((line, i) => {
+  if (subtitleLines.length > 0) {
+    const subStartY = startY + lines.length * lineHeight + 30;
+    subtitleLines.forEach((line, i) => {
       const escaped = line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-      svgLines += `<text x="${textX}" y="${startY + i * lineHeight}" font-family="Arial, Helvetica, sans-serif" font-size="${mainFontSize}" font-weight="bold" fill="${textColor}" text-anchor="${textAnchor}">${escaped}</text>`;
+      svgLines += `<text x="${textX}" y="${subStartY + i * (subFontSize * 1.4)}" font-family="Arial, Helvetica, sans-serif" font-size="${subFontSize}" fill="${subtitleColor}" text-anchor="${textAnchor}">${escaped}</text>`;
     });
-
-    if (subtitleLines.length > 0) {
-      const subStartY = startY + lines.length * lineHeight + 30;
-      subtitleLines.forEach((line, i) => {
-        const escaped = line.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-        svgLines += `<text x="${textX}" y="${subStartY + i * (subFontSize * 1.4)}" font-family="Arial, Helvetica, sans-serif" font-size="${subFontSize}" fill="${subtitleColor}" text-anchor="${textAnchor}">${escaped}</text>`;
-      });
-    }
-
-    const svg = `<svg width="${size.width}" height="${size.height}" xmlns="http://www.w3.org/2000/svg">
-      <rect width="100%" height="100%" fill="rgb(${bg.r},${bg.g},${bg.b})"/>
-      ${svgLines}
-    </svg>`;
-
-    const buffer = await sharp(Buffer.from(svg)).png().toBuffer();
-
-    return new NextResponse(new Uint8Array(buffer), {
-      headers: {
-        "Content-Type": "image/png",
-        "Content-Disposition": `inline; filename="adpilot-image.png"`,
-        "Cache-Control": "no-store",
-      },
-    });
-  } catch (error) {
-    console.error("[AI] Generate image error:", error);
-    return NextResponse.json(
-      { error: "Failed to generate image" },
-      { status: 500 }
-    );
   }
-}
+
+  const svg = `<svg width="${size.width}" height="${size.height}" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100%" height="100%" fill="rgb(${bg.r},${bg.g},${bg.b})"/>
+    ${svgLines}
+  </svg>`;
+
+  const buffer = await sharp(Buffer.from(svg)).png().toBuffer();
+
+  return new NextResponse(new Uint8Array(buffer), {
+    headers: {
+      "Content-Type": "image/png",
+      "Content-Disposition": `inline; filename="adpilot-image.png"`,
+      "Cache-Control": "no-store",
+    },
+  });
+}));
 
 // GET endpoint to list available presets
 export async function GET() {

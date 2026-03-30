@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
+import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@adpilot/db";
 import { inviteMemberSchema, checkPlanLimit } from "@adpilot/shared";
-import { ZodValidationError } from "@/lib/api-handler";
 import { randomBytes } from "crypto";
 
 // GET /api/organizations/[orgId]/invitations — list pending
-export const GET = withRole("ADMIN", async (req, context) => {
+export const GET = withErrorHandler(withRole("ADMIN", async (req, context) => {
   const orgId = (await context.params).orgId!;
   if (orgId !== req.orgId) {
     return NextResponse.json({ error: "Forbidden", code: "FORBIDDEN", statusCode: 403 }, { status: 403 });
@@ -18,10 +18,10 @@ export const GET = withRole("ADMIN", async (req, context) => {
   });
 
   return NextResponse.json(invitations);
-});
+}));
 
 // POST /api/organizations/[orgId]/invitations — invite member
-export const POST = withRole("ADMIN", async (req, context) => {
+export const POST = withErrorHandler(withRole("ADMIN", async (req, context) => {
   const orgId = (await context.params).orgId!;
   if (orgId !== req.orgId) {
     return NextResponse.json({ error: "Forbidden", code: "FORBIDDEN", statusCode: 403 }, { status: 403 });
@@ -89,4 +89,4 @@ export const POST = withRole("ADMIN", async (req, context) => {
   });
 
   return NextResponse.json(invitation, { status: 201 });
-});
+}));

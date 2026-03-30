@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Google from "next-auth/providers/google";
-import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@adpilot/db";
+import { redirect } from "next/navigation";
 
 const basePrismaAdapter = PrismaAdapter(prisma);
 
@@ -19,27 +19,6 @@ const nextAuth = NextAuth({
   },
   session: { strategy: "jwt" },
   providers: [
-    // Email/password — always available, no external API needed
-    Credentials({
-      name: "Email",
-      credentials: {
-        email: { label: "Email", type: "email" },
-      },
-      async authorize(credentials) {
-        const email = credentials?.email as string;
-        if (!email) return null;
-
-        // Find or create user
-        let user = await prisma.user.findUnique({ where: { email } });
-        if (!user) {
-          user = await prisma.user.create({
-            data: { email, emailVerified: new Date() },
-          });
-        }
-
-        return { id: user.id, email: user.email, name: user.name };
-      },
-    }),
     ...(process.env.GOOGLE_CLIENT_ID
       ? [
           Google({
@@ -112,3 +91,33 @@ const nextAuth = NextAuth({
 });
 
 export const { handlers, auth, signIn, signOut } = nextAuth;
+
+/**
+ * Get the current user's org from their session.
+ * Use in server components instead of the removed getOrgId().
+ * Redirects to /signin if no session.
+ */
+export async function getSessionOrg(): Promise<string> {
+  const session = await auth();
+  if (!session?.user?.id) {
+    redirect("/signin");
+  }
+
+  // If org is already in the session token, use it
+  if (session.user.currentOrgId) {
+    return session.user.currentOrgId;
+  }
+
+  // Fallback: look up first active org membership
+  const membership = await prisma.membership.findFirst({
+    where: { userId: session.user.id },
+    orderBy: { createdAt: "asc" },
+    select: { orgId: true },
+  });
+
+  if (!membership) {
+    redirect("/signin");
+  }
+
+  return membership.orgId;
+}

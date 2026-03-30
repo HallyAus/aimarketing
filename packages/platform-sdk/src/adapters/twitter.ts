@@ -53,7 +53,7 @@ export class TwitterAdapter implements PlatformAdapter {
     return {
       accessToken: data.access_token as string,
       refreshToken: data.refresh_token as string,
-      expiresAt: new Date(Date.now() + (data.expires_in as number) * 1000),
+      expiresAt: new Date(Date.now() + ((data.expires_in as number) ?? 7200) * 1000),
       scopes: (data.scope as string).split(" "),
       platformUserId: me.data.id,
       platformAccountName: `@${me.data.username}`,
@@ -85,7 +85,7 @@ export class TwitterAdapter implements PlatformAdapter {
     return {
       accessToken: data.access_token as string,
       refreshToken: data.refresh_token as string,
-      expiresAt: new Date(Date.now() + (data.expires_in as number) * 1000),
+      expiresAt: new Date(Date.now() + ((data.expires_in as number) ?? 7200) * 1000),
       scopes: (data.scope as string).split(" "),
       platformUserId: "", // preserved from existing connection
       platformAccountName: "",

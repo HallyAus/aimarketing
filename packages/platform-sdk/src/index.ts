@@ -7,5 +7,12 @@ export {
   generatePkceVerifier,
   generatePkceChallenge,
 } from "./adapters/base";
-export { getWebhookVerifier, verifyMetaWebhookSignature } from "./webhook-verifiers";
+export {
+  getWebhookVerifier,
+  verifyMetaWebhookSignature,
+  verifyTikTokWebhookSignature,
+  verifySnapchatWebhookSignature,
+} from "./webhook-verifiers";
 export { PlatformClient } from "./client";
+export { PlatformError } from "./errors";
+export { rateLimitAwareFetch } from "./rate-limiter";

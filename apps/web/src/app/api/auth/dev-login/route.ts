@@ -3,13 +3,25 @@ import { prisma } from "@adpilot/db";
 import { cookies } from "next/headers";
 import { encode } from "next-auth/jwt";
 
+// WARNING: This endpoint must be DELETED before production deployment.
 // POST /api/auth/dev-login — DEV ONLY: bypass email verification
 export async function POST(req: NextRequest) {
   if (process.env.NODE_ENV !== "development") {
     return NextResponse.json({ error: "Not available" }, { status: 404 });
   }
 
-  const { email } = await req.json();
+  // Second guard: require DEV_LOGIN_SECRET to match
+  const devSecret = process.env.DEV_LOGIN_SECRET;
+  if (!devSecret) {
+    return NextResponse.json({ error: "DEV_LOGIN_SECRET not configured" }, { status: 500 });
+  }
+
+  const body = await req.json();
+  const { email, secret } = body;
+
+  if (secret !== devSecret) {
+    return NextResponse.json({ error: "Invalid dev login secret" }, { status: 403 });
+  }
   if (!email) {
     return NextResponse.json({ error: "email required" }, { status: 400 });
   }

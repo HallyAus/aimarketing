@@ -1,8 +1,15 @@
 import { prisma } from "@adpilot/db";
-import { getOrgId } from "@/lib/get-org";
+import { getSessionOrg } from "@/lib/auth";
+import type { Metadata } from "next";
+import { PageHeader } from "@/components/page-header";
+
+export const metadata: Metadata = {
+  title: "Team",
+  robots: { index: false },
+};
 
 export default async function TeamPage() {
-  const orgId = await getOrgId();
+  const orgId = await getSessionOrg();
 
   const members = await prisma.membership.findMany({
     where: { orgId },
@@ -17,12 +24,10 @@ export default async function TeamPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>Team</h1>
-          <p className="text-sm mt-1" style={{ color: "var(--text-tertiary)" }}>{members.length} member{members.length !== 1 ? "s" : ""}</p>
-        </div>
-      </div>
+      <PageHeader
+        title="Team"
+        subtitle={`${members.length} member${members.length !== 1 ? "s" : ""}`}
+      />
 
       <div className="section-label mb-3">Members</div>
       <div className="space-y-1 mb-8">

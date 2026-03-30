@@ -1,39 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generatePostContent } from "@/lib/ai";
+import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
+import { withRole } from "@/lib/auth-middleware";
+import { z } from "zod";
 
-export async function POST(req: NextRequest) {
-  const { auth } = await import("@/lib/auth");
-  const session = await auth();
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+const generatePostSchema = z.object({
+  platform: z.string().min(1).max(50),
+  topic: z.string().min(1).max(500),
+  tone: z.string().max(100).optional(),
+  style: z.string().max(100).optional(),
+  includeHashtags: z.boolean().optional(),
+  includeEmojis: z.boolean().optional(),
+});
+
+export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
+  const body = await req.json();
+  const parsed = generatePostSchema.safeParse(body);
+  if (!parsed.success) {
+    throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
   }
 
-  try {
-    const body = await req.json();
-    const { platform, topic, tone, style, includeHashtags, includeEmojis } = body;
+  const content = await generatePostContent(parsed.data);
 
-    if (!platform || !topic) {
-      return NextResponse.json(
-        { error: "platform and topic are required" },
-        { status: 400 }
-      );
-    }
-
-    const content = await generatePostContent({
-      platform,
-      topic,
-      tone,
-      style,
-      includeHashtags,
-      includeEmojis,
-    });
-
-    return NextResponse.json({ content });
-  } catch (error) {
-    console.error("[AI] Generate post error:", error);
-    return NextResponse.json(
-      { error: "Failed to generate content" },
-      { status: 500 }
-    );
-  }
-}
+  return NextResponse.json({ content });
+}));

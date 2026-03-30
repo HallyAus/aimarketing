@@ -18,7 +18,7 @@ set -euo pipefail
 REPO_URL="${REPO_URL:-https://github.com/HallyAus/aimarketing.git}"
 PROJECT_NAME="adpilot"
 INSTALL_DIR="/opt/${PROJECT_NAME}"
-BRANCH="${BRANCH:-master}"
+BRANCH="${BRANCH:-main}"
 DOMAIN="${DOMAIN:-}"
 
 # ─── Colours ──────────────────────────────────────────────────────────────
@@ -210,8 +210,7 @@ docker compose -f docker-compose.prod.yml build web worker
 # Run database migration
 log "Running database migrations..."
 docker compose -f docker-compose.prod.yml run --rm web sh -c "cd /app && npx prisma migrate deploy --schema=/app/packages/db/prisma/schema.prisma" || {
-    warn "Migration via prisma migrate deploy failed, trying db push..."
-    docker compose -f docker-compose.prod.yml run --rm web sh -c "cd /app && npx prisma db push --schema=/app/packages/db/prisma/schema.prisma --accept-data-loss"
+    echo "ERROR: migrate deploy failed. Fix migrations before deploying." && exit 1
 }
 
 # Start all services

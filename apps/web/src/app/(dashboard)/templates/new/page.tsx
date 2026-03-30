@@ -1,5 +1,6 @@
-import { getOrgId } from "@/lib/get-org";
+import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { SubmitButton } from "@/components/submit-button";
 
 const PLATFORMS = ["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT"];
 
@@ -39,7 +40,7 @@ export default async function NewTemplatePage() {
           <select name="platform" className="w-full rounded-md px-3 py-2 text-sm">
             <option value="">Any Platform</option>
             {PLATFORMS.map((p) => (
-              <option key={p} value={p}>{p.replace("_", " ")}</option>
+              <option key={p} value={p}>{p.replaceAll("_", " ")}</option>
             ))}
           </select>
         </div>
@@ -61,9 +62,9 @@ export default async function NewTemplatePage() {
             placeholder="promo, launch, product"
           />
         </div>
-        <button type="submit" className="btn-primary text-sm min-h-[44px]">
+        <SubmitButton loadingText="Creating...">
           Create Template
-        </button>
+        </SubmitButton>
       </form>
     </div>
   );

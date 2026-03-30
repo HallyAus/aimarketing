@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
+import { withErrorHandler } from "@/lib/api-handler";
 import { getStripe, STRIPE_PLAN_PRICES } from "@/lib/stripe";
 import { prisma } from "@adpilot/db";
 
 // POST /api/billing/checkout — create Stripe Checkout session
-export const POST = withRole("OWNER", async (req) => {
+export const POST = withErrorHandler(withRole("OWNER", async (req) => {
   const { plan } = await req.json();
   if (!plan || !STRIPE_PLAN_PRICES[plan]) {
     return NextResponse.json(
@@ -44,4 +45,4 @@ export const POST = withRole("OWNER", async (req) => {
   });
 
   return NextResponse.json({ url: session.url });
-});
+}));

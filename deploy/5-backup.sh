@@ -58,21 +58,28 @@ echo "[$(date)] Creating backup..."
 docker compose -f docker-compose.prod.yml exec -T db \
     pg_dump -U adpilot -d adpilot --no-owner --no-acl | gzip > "$BACKUP_PATH"
 
+# Check pg_dump exit code (via pipe) — verify backup is non-empty
+if [[ ! -s "$BACKUP_PATH" ]]; then
+    echo "[$(date)] ERROR: Backup file is empty. pg_dump likely failed."
+    rm -f "$BACKUP_PATH"
+    exit 1
+fi
+
 SIZE=$(du -h "$BACKUP_PATH" | cut -f1)
 echo "[$(date)] Backup created: ${BACKUP_FILE} (${SIZE})"
 
 # ─── Upload to R2 ─────────────────────────────────────────────────────────
 
 if [[ "$UPLOAD" == true ]]; then
-    # Source R2 credentials from .env
-    source <(grep -E '^R2_BUCKET=|^R2_ENDPOINT=|^AWS_ACCESS_KEY_ID=|^AWS_SECRET_ACCESS_KEY=' .env 2>/dev/null || true)
+    # Source R2 credentials from .env (matching .env.example variable names)
+    source <(grep -E '^R2_BUCKET_NAME=|^R2_ACCOUNT_ID=|^R2_ACCESS_KEY_ID=|^R2_SECRET_ACCESS_KEY=' .env 2>/dev/null || true)
 
-    R2_BUCKET="${R2_BUCKET:-adpilot-backups}"
-    R2_ENDPOINT="${R2_ENDPOINT:-}"
+    R2_BUCKET="${R2_BUCKET_NAME:-adpilot-backups}"
+    R2_ENDPOINT="https://${R2_ACCOUNT_ID:-}.r2.cloudflarestorage.com"
 
-    if [[ -z "$R2_ENDPOINT" ]] || [[ -z "${AWS_ACCESS_KEY_ID:-}" ]]; then
+    if [[ -z "${R2_ACCOUNT_ID:-}" ]] || [[ -z "${R2_ACCESS_KEY_ID:-}" ]]; then
         echo "[$(date)] WARNING: R2 credentials not configured. Skipping upload."
-        echo "  Set R2_BUCKET, R2_ENDPOINT, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY in .env"
+        echo "  Set R2_ACCOUNT_ID, R2_BUCKET_NAME, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY in .env"
     else
         if ! command -v aws &>/dev/null; then
             echo "[$(date)] Installing AWS CLI for R2 upload..."
@@ -81,6 +88,8 @@ if [[ "$UPLOAD" == true ]]; then
 
         if command -v aws &>/dev/null; then
             echo "[$(date)] Uploading to R2..."
+            AWS_ACCESS_KEY_ID="$R2_ACCESS_KEY_ID" \
+            AWS_SECRET_ACCESS_KEY="$R2_SECRET_ACCESS_KEY" \
             aws s3 cp "$BACKUP_PATH" "s3://${R2_BUCKET}/backups/${BACKUP_FILE}" \
                 --endpoint-url "$R2_ENDPOINT" 2>/dev/null
             echo "[$(date)] Uploaded to R2: s3://${R2_BUCKET}/backups/${BACKUP_FILE}"
@@ -95,12 +104,52 @@ fi
 if [[ "$CLEANUP" == true ]]; then
     echo "[$(date)] Enforcing local retention policy..."
 
-    # Keep the most recent KEEP_DAILY backups
-    TOTAL_KEEP=$((KEEP_DAILY + KEEP_WEEKLY + KEEP_MONTHLY))
-    ls -t "${BACKUP_DIR}"/adpilot_*.sql.gz 2>/dev/null | tail -n +$((TOTAL_KEEP + 1)) | while read -r old; do
-        echo "[$(date)] Removing old backup: $(basename "$old")"
-        rm -f "$old"
-    done
+    # Build a list of backups to keep: daily (last N days), weekly (Sundays), monthly (1st of month)
+    declare -A KEEP_FILES
+
+    # Keep last KEEP_DAILY daily backups (most recent per day)
+    declare -A SEEN_DAYS
+    while IFS= read -r f; do
+        # Extract date from filename: adpilot_YYYYMMDD_HHMMSS.sql.gz
+        DAY=$(basename "$f" | sed 's/adpilot_\([0-9]\{8\}\)_.*/\1/')
+        if [[ -z "${SEEN_DAYS[$DAY]:-}" ]] && [[ ${#SEEN_DAYS[@]} -lt $KEEP_DAILY ]]; then
+            KEEP_FILES["$f"]=1
+            SEEN_DAYS["$DAY"]=1
+        fi
+    done < <(ls -t "${BACKUP_DIR}"/adpilot_*.sql.gz 2>/dev/null)
+
+    # Keep last KEEP_WEEKLY weekly backups (most recent per ISO week)
+    declare -A SEEN_WEEKS
+    WEEK_COUNT=0
+    while IFS= read -r f; do
+        DAY=$(basename "$f" | sed 's/adpilot_\([0-9]\{8\}\)_.*/\1/')
+        WEEK=$(date -d "${DAY:0:4}-${DAY:4:2}-${DAY:6:2}" '+%G-W%V' 2>/dev/null || echo "$DAY")
+        if [[ -z "${SEEN_WEEKS[$WEEK]:-}" ]] && [[ $WEEK_COUNT -lt $KEEP_WEEKLY ]]; then
+            KEEP_FILES["$f"]=1
+            SEEN_WEEKS["$WEEK"]=1
+            WEEK_COUNT=$((WEEK_COUNT + 1))
+        fi
+    done < <(ls -t "${BACKUP_DIR}"/adpilot_*.sql.gz 2>/dev/null)
+
+    # Keep last KEEP_MONTHLY monthly backups (most recent per month)
+    declare -A SEEN_MONTHS
+    MONTH_COUNT=0
+    while IFS= read -r f; do
+        MONTH=$(basename "$f" | sed 's/adpilot_\([0-9]\{6\}\).*/\1/')
+        if [[ -z "${SEEN_MONTHS[$MONTH]:-}" ]] && [[ $MONTH_COUNT -lt $KEEP_MONTHLY ]]; then
+            KEEP_FILES["$f"]=1
+            SEEN_MONTHS["$MONTH"]=1
+            MONTH_COUNT=$((MONTH_COUNT + 1))
+        fi
+    done < <(ls -t "${BACKUP_DIR}"/adpilot_*.sql.gz 2>/dev/null)
+
+    # Remove files not in keep list
+    while IFS= read -r f; do
+        if [[ -z "${KEEP_FILES[$f]:-}" ]]; then
+            echo "[$(date)] Removing old backup: $(basename "$f")"
+            rm -f "$f"
+        fi
+    done < <(ls -t "${BACKUP_DIR}"/adpilot_*.sql.gz 2>/dev/null)
 fi
 
 echo "[$(date)] Backup complete."

@@ -1,7 +1,16 @@
-import { getOrgId } from "@/lib/get-org";
+import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 import Link from "next/link";
+import type { Metadata } from "next";
+import { PageHeader } from "@/components/page-header";
+import { StatusBadge } from "@/components/status-badge";
+import { EmptyState } from "@/components/empty-state";
+
+export const metadata: Metadata = {
+  title: "Campaigns",
+  robots: { index: false },
+};
 
 const STATUS_BADGE: Record<string, string> = {
   DRAFT: "badge-neutral",
@@ -15,7 +24,7 @@ const STATUS_BADGE: Record<string, string> = {
 
 export default async function CampaignsPage() {
   const campaigns = await prisma.campaign.findMany({
-    where: { orgId: await getOrgId() },
+    where: { orgId: await getSessionOrg() },
     include: {
       _count: { select: { posts: true } },
       creator: { select: { name: true } },
@@ -25,24 +34,29 @@ export default async function CampaignsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>Campaigns</h1>
-        <Link href="/campaigns/new" className="btn-primary text-sm">
-          New Campaign
-        </Link>
-      </div>
+      <PageHeader
+        title="Campaigns"
+        action={
+          <Link href="/campaigns/new" className="btn-primary text-sm">
+            New Campaign
+          </Link>
+        }
+      />
 
       {campaigns.length === 0 ? (
-        <div className="text-center py-12">
-          <p style={{ color: "var(--text-secondary)" }}>No campaigns yet.</p>
-          <Link
-            href="/campaigns/new"
-            className="mt-2 inline-block text-sm"
-            style={{ color: "var(--accent-blue)" }}
-          >
-            Create your first campaign
-          </Link>
-        </div>
+        <EmptyState
+          title="No campaigns yet."
+          description="Create your first campaign to start publishing content."
+          action={
+            <Link
+              href="/campaigns/new"
+              className="inline-block text-sm"
+              style={{ color: "var(--accent-blue)" }}
+            >
+              Create your first campaign
+            </Link>
+          }
+        />
       ) : (
         <div className="space-y-3">
           {campaigns.map((c) => (
@@ -59,9 +73,7 @@ export default async function CampaignsPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-3 flex-shrink-0">
-                  <span className={STATUS_BADGE[c.status] ?? "badge-neutral"}>
-                    {c.status}
-                  </span>
+                  <StatusBadge status={c.status} />
                   {c.targetPlatforms.length > 0 && (
                     <span className="text-xs hidden sm:inline" style={{ color: "var(--text-tertiary)" }}>
                       {c.targetPlatforms.join(", ")}

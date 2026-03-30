@@ -37,52 +37,56 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req, context) => 
     );
   }
 
-  const results = [];
+  const results = await prisma.$transaction(async (tx) => {
+    const txResults = [];
 
-  for (const post of campaign.posts) {
-    if (publishNow || !post.scheduledAt || post.scheduledAt <= new Date()) {
-      // Publish immediately — enqueue to worker
-      await getPublishQueue().add("publish", {
-        postId: post.id,
-        orgId: req.orgId,
-        platform: post.platform,
-      });
+    for (const post of campaign.posts) {
+      if (publishNow || !post.scheduledAt || post.scheduledAt <= new Date()) {
+        // Publish immediately — enqueue to worker
+        await getPublishQueue().add("publish", {
+          postId: post.id,
+          orgId: req.orgId,
+          platform: post.platform,
+        }, { jobId: post.id });
 
-      await prisma.post.update({
-        where: { id: post.id },
-        data: { status: "PUBLISHING", version: { increment: 1 } },
-      });
+        await tx.post.update({
+          where: { id: post.id },
+          data: { status: "PUBLISHING", version: { increment: 1 } },
+        });
 
-      results.push({ postId: post.id, action: "publishing" });
-    } else {
-      // Schedule for later
-      await prisma.post.update({
-        where: { id: post.id },
-        data: { status: "SCHEDULED", version: { increment: 1 } },
-      });
+        txResults.push({ postId: post.id, action: "publishing" });
+      } else {
+        // Schedule for later
+        await tx.post.update({
+          where: { id: post.id },
+          data: { status: "SCHEDULED", version: { increment: 1 } },
+        });
 
-      results.push({ postId: post.id, action: "scheduled", scheduledAt: post.scheduledAt });
+        txResults.push({ postId: post.id, action: "scheduled", scheduledAt: post.scheduledAt });
+      }
     }
-  }
 
-  // Update campaign status
-  await prisma.campaign.update({
-    where: { id: campaignId },
-    data: {
-      status: publishNow ? "ACTIVE" : "SCHEDULED",
-      version: { increment: 1 },
-    },
-  });
+    // Update campaign status
+    await tx.campaign.update({
+      where: { id: campaignId },
+      data: {
+        status: publishNow ? "ACTIVE" : "SCHEDULED",
+        version: { increment: 1 },
+      },
+    });
 
-  await prisma.auditLog.create({
-    data: {
-      orgId: req.orgId,
-      userId: req.userId,
-      action: publishNow ? "PUBLISH_CAMPAIGN" : "SCHEDULE_CAMPAIGN",
-      entityType: "Campaign",
-      entityId: campaignId,
-      after: { postCount: results.length },
-    },
+    await tx.auditLog.create({
+      data: {
+        orgId: req.orgId,
+        userId: req.userId,
+        action: publishNow ? "PUBLISH_CAMPAIGN" : "SCHEDULE_CAMPAIGN",
+        entityType: "Campaign",
+        entityId: campaignId,
+        after: { postCount: txResults.length },
+      },
+    });
+
+    return txResults;
   });
 
   return NextResponse.json({ results });

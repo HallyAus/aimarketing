@@ -1,4 +1,13 @@
 import { prisma } from "@adpilot/db";
+import Link from "next/link";
+import { MetricCard } from "@/components/metric-card";
+import { PageHeader } from "@/components/page-header";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  robots: { index: false },
+};
 
 export default async function DashboardPage() {
   const org = await prisma.organization.findFirst({
@@ -22,7 +31,7 @@ export default async function DashboardPage() {
         </div>
         <h1 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Welcome to AdPilot</h1>
         <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>Create your first organization to get started.</p>
-        <a href="/onboarding" className="btn-primary">Get Started</a>
+        <Link href="/onboarding" className="btn-primary">Get Started</Link>
       </div>
     );
   }
@@ -44,53 +53,43 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-1">
-          <h1 className="text-2xl font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>{org.name}</h1>
-          <span className="badge badge-info">{org.plan}</span>
-        </div>
-        <p className="text-sm" style={{ color: "var(--text-tertiary)" }}>Organization overview</p>
-      </div>
+      <PageHeader
+        title={org.name}
+        subtitle="Organization overview"
+        action={<span className="badge badge-info">{org.plan}</span>}
+      />
 
       {/* Metrics grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        {[
-          { label: "Platforms", value: org._count.platformConnections, accent: "var(--accent-blue)" },
-          { label: "Campaigns", value: org._count.campaigns, accent: "var(--accent-purple)" },
-          { label: "Scheduled", value: scheduledCount, accent: "var(--accent-amber)" },
-          { label: "Pending Review", value: pendingCount, accent: "var(--accent-red)" },
-        ].map((m) => (
-          <div key={m.label} className="metric-card">
-            <div className="section-label mb-2">{m.label}</div>
-            <div className="text-2xl font-bold tracking-tight" style={{ color: m.accent }}>{m.value}</div>
-          </div>
-        ))}
+        <MetricCard label="Platforms" value={org._count.platformConnections} accent="var(--accent-blue)" />
+        <MetricCard label="Campaigns" value={org._count.campaigns} accent="var(--accent-purple)" />
+        <MetricCard label="Scheduled" value={scheduledCount} accent="var(--accent-amber)" />
+        <MetricCard label="Pending Review" value={pendingCount} accent="var(--accent-red)" />
       </div>
 
       {/* Quick actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
-        <a href="/campaigns/new" className="card card-hover flex items-center gap-3 no-underline">
+        <Link href="/campaigns/new" className="card card-hover flex items-center gap-3 no-underline">
           <div className="w-9 h-9 rounded-lg flex items-center justify-center text-sm" style={{ background: "var(--accent-blue-muted)", color: "var(--accent-blue)" }}>+</div>
           <div>
             <div className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>New Campaign</div>
             <div className="text-xs" style={{ color: "var(--text-tertiary)" }}>Create and schedule posts</div>
           </div>
-        </a>
-        <a href="/ai" className="card card-hover flex items-center gap-3 no-underline">
+        </Link>
+        <Link href="/ai" className="card card-hover flex items-center gap-3 no-underline">
           <div className="w-9 h-9 rounded-lg flex items-center justify-center text-sm" style={{ background: "var(--accent-purple-muted)", color: "var(--accent-purple)" }}>AI</div>
           <div>
             <div className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>AI Studio</div>
             <div className="text-xs" style={{ color: "var(--text-tertiary)" }}>Generate content with AI</div>
           </div>
-        </a>
-        <a href="/settings/connections" className="card card-hover flex items-center gap-3 no-underline">
+        </Link>
+        <Link href="/settings/connections" className="card card-hover flex items-center gap-3 no-underline">
           <div className="w-9 h-9 rounded-lg flex items-center justify-center text-sm" style={{ background: "var(--accent-emerald-muted)", color: "var(--accent-emerald)" }}>9</div>
           <div>
             <div className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>Connect Platforms</div>
             <div className="text-xs" style={{ color: "var(--text-tertiary)" }}>Link social accounts</div>
           </div>
-        </a>
+        </Link>
       </div>
 
       {/* Recent activity */}

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@adpilot/db";
-import { updateTemplateSchema } from "@adpilot/shared";
+import { updateTemplateSchema, sanitizeHtml } from "@adpilot/shared";
 
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
   const templateId = (await context.params).templateId!;
@@ -28,9 +28,14 @@ export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) =>
   if (!existing) {
     return NextResponse.json({ error: "Not found", code: "NOT_FOUND", statusCode: 404 }, { status: 404 });
   }
+  const sanitizedData = {
+    ...parsed.data,
+    ...(parsed.data.name && { name: sanitizeHtml(parsed.data.name) }),
+    ...(parsed.data.content && { content: sanitizeHtml(parsed.data.content) }),
+  };
   const template = await prisma.postTemplate.update({
     where: { id: templateId },
-    data: parsed.data,
+    data: sanitizedData,
   });
   return NextResponse.json(template);
 }));

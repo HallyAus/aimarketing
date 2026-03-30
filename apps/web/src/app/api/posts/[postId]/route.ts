@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@adpilot/db";
-import { updatePostSchema } from "@adpilot/shared";
+import { updatePostSchema, sanitizeHtml } from "@adpilot/shared";
 
 // PATCH /api/posts/[postId] — optimistic concurrency
 export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) => {
@@ -42,6 +42,7 @@ export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) =>
     where: { id: postId },
     data: {
       ...updateData,
+      ...(updateData.content && { content: sanitizeHtml(updateData.content) }),
       scheduledAt: updateData.scheduledAt ? new Date(updateData.scheduledAt) : updateData.scheduledAt === null ? null : undefined,
       status: "DRAFT", // Reset to DRAFT on edit
       version: { increment: 1 },
@@ -60,7 +61,7 @@ export const DELETE = withErrorHandler(withRole("EDITOR", async (req, context) =
   });
 
   if (!post) {
-    return NextResponse.json({ error: "Not found", code: "Not found", statusCode: 404 }, { status: 404 });
+    return NextResponse.json({ error: "Not found", code: "NOT_FOUND", statusCode: 404 }, { status: 404 });
   }
 
   // Can't delete published posts — soft-delete via status

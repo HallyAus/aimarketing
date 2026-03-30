@@ -1,10 +1,16 @@
-import { getOrgId } from "@/lib/get-org";
+import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Get Started",
+  robots: { index: false },
+};
 
 export default async function OnboardingPage() {
-  const orgId = await getOrgId();
+  const orgId = await getSessionOrg();
 
   // Check onboarding progress
   const [org, connectionCount, campaignCount] = await Promise.all([
@@ -17,9 +23,9 @@ export default async function OnboardingPage() {
 
   const steps = [
     { label: "Create organization", done: true, href: "/dashboard" },
-    { label: "Connect a platform", done: connectionCount > 0, href: "/dashboard/settings/connections" },
+    { label: "Connect a platform", done: connectionCount > 0, href: "/settings/connections" },
     { label: "Create your first campaign", done: campaignCount > 0, href: "/campaigns/new" },
-    { label: "Upgrade your plan", done: org.plan !== "FREE", href: "/dashboard/settings/billing" },
+    { label: "Upgrade your plan", done: org.plan !== "FREE", href: "/settings/billing" },
   ];
 
   const completedCount = steps.filter((s) => s.done).length;

@@ -2,18 +2,32 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@adpilot/db";
-import { createPostSchema, checkPlanLimit } from "@adpilot/shared";
+import { createPostSchema, checkPlanLimit, sanitizeHtml } from "@adpilot/shared";
 
 // GET /api/campaigns/[campaignId]/posts
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
   const campaignId = (await context.params).campaignId!;
+  const url = new URL(req.url);
+  const page = Math.max(1, parseInt(url.searchParams.get("page") ?? "1", 10));
+  const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get("limit") ?? "20", 10)));
+  const skip = (page - 1) * limit;
 
-  const posts = await prisma.post.findMany({
-    where: { campaignId, orgId: req.orgId },
-    orderBy: { createdAt: "desc" },
+  const where = { campaignId, orgId: req.orgId };
+
+  const [posts, total] = await Promise.all([
+    prisma.post.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: limit,
+    }),
+    prisma.post.count({ where }),
+  ]);
+
+  return NextResponse.json({
+    data: posts,
+    pagination: { page, limit, total, hasMore: skip + posts.length < total },
   });
-
-  return NextResponse.json(posts);
 }));
 
 // POST /api/campaigns/[campaignId]/posts — create post
@@ -78,7 +92,7 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req, context) => 
       campaignId,
       orgId: req.orgId,
       platform: parsed.data.platform,
-      content: parsed.data.content,
+      content: sanitizeHtml(parsed.data.content),
       mediaUrls: parsed.data.mediaUrls,
       scheduledAt: parsed.data.scheduledAt ? new Date(parsed.data.scheduledAt) : undefined,
     },

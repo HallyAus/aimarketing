@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
+    "typecheck": "tsc --noEmit",
     "start": "tsx src/index.ts"
   },
   "dependencies": {
     "@adpilot/db": "workspace:*",
+    "@adpilot/platform-sdk": "workspace:*",
     "@adpilot/shared": "workspace:*",
     "@aws-sdk/client-s3": "^3.1019.0",
     "bullmq": "^5.30.0",

@@ -12,7 +12,7 @@
 set -euo pipefail
 
 APP_DIR="/opt/adpilot"
-BRANCH="${BRANCH:-master}"
+BRANCH="${BRANCH:-main}"
 LOCK_FILE="/tmp/adpilot-deploy.lock"
 LOG_PREFIX="[$(date '+%Y-%m-%d %H:%M:%S')]"
 
@@ -61,13 +61,22 @@ fi
 
 echo "${LOG_PREFIX} Changes detected: ${LOCAL:0:8} -> ${REMOTE:0:8}"
 
+# ─── Tag current images for rollback ─────────────────────────────────────
+
+echo "${LOG_PREFIX} Tagging current images as 'previous' for rollback..."
+docker tag "$(docker compose -f docker-compose.prod.yml images web -q 2>/dev/null)" adpilot-web:previous 2>/dev/null || true
+docker tag "$(docker compose -f docker-compose.prod.yml images worker -q 2>/dev/null)" adpilot-worker:previous 2>/dev/null || true
+
 # ─── Deploy ───────────────────────────────────────────────────────────────
 
 echo "${LOG_PREFIX} Pulling latest..."
 git pull origin "$BRANCH"
 
 echo "${LOG_PREFIX} Running migrations..."
-docker compose -f docker-compose.prod.yml run --rm web sh -c "npx prisma migrate deploy --schema=/app/packages/db/prisma/schema.prisma" 2>/dev/null || true
+if ! docker compose -f docker-compose.prod.yml run --rm web sh -c "npx prisma migrate deploy --schema=/app/packages/db/prisma/schema.prisma" 2>&1; then
+    echo "${LOG_PREFIX} ERROR: Migration failed. Halting deploy."
+    exit 1
+fi
 
 echo "${LOG_PREFIX} Rebuilding and restarting..."
 docker compose -f docker-compose.prod.yml up -d --build web worker
@@ -75,11 +84,22 @@ docker compose -f docker-compose.prod.yml up -d --build web worker
 echo "${LOG_PREFIX} Cleaning up old images..."
 docker image prune -f --filter "until=72h" 2>/dev/null || true
 
-# Health check
+# ─── Health check with rollback ──────────────────────────────────────────
+
 sleep 15
-STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/api/health 2>/dev/null || echo "000")
+STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/api/health/db 2>/dev/null || echo "000")
 if [[ "$STATUS" == "200" ]]; then
     echo "${LOG_PREFIX} Deploy complete. App healthy."
 else
-    echo "${LOG_PREFIX} WARNING: App returned ${STATUS} after deploy. Check logs!"
+    echo "${LOG_PREFIX} WARNING: App returned ${STATUS} after deploy. Rolling back..."
+    if docker image inspect adpilot-web:previous &>/dev/null; then
+        docker compose -f docker-compose.prod.yml stop web worker
+        docker tag adpilot-web:previous "$(docker compose -f docker-compose.prod.yml images web --format '{{.Repository}}:{{.Tag}}' 2>/dev/null | head -1)" 2>/dev/null || true
+        docker tag adpilot-worker:previous "$(docker compose -f docker-compose.prod.yml images worker --format '{{.Repository}}:{{.Tag}}' 2>/dev/null | head -1)" 2>/dev/null || true
+        docker compose -f docker-compose.prod.yml up -d web worker
+        echo "${LOG_PREFIX} Rolled back to previous images. Check logs!"
+    else
+        echo "${LOG_PREFIX} No previous images available for rollback. Check logs!"
+    fi
+    exit 1
 fi

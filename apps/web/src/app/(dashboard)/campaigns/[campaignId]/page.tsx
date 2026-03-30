@@ -1,4 +1,4 @@
-import { getOrgId } from "@/lib/get-org";
+import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 import Link from "next/link";
@@ -23,7 +23,7 @@ export default async function CampaignDetailPage({
   const { campaignId } = await params;
 
   const campaign = await prisma.campaign.findFirst({
-    where: { id: campaignId, orgId: await getOrgId() },
+    where: { id: campaignId, orgId: await getSessionOrg() },
     include: {
       posts: {
         orderBy: { createdAt: "desc" },

@@ -1,6 +1,14 @@
-import { getOrgId } from "@/lib/get-org";
+import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
+import type { Metadata } from "next";
+import { PageHeader } from "@/components/page-header";
+import { MetricCard } from "@/components/metric-card";
+
+export const metadata: Metadata = {
+  title: "Analytics",
+  robots: { index: false },
+};
 
 export default async function AnalyticsPage() {
 
@@ -8,7 +16,7 @@ export default async function AnalyticsPage() {
     redirect("/org-picker");
   }
 
-  const orgId = await getOrgId();
+  const orgId = await getSessionOrg();
 
   // Get published posts with latest metrics
   const posts = await prisma.post.findMany({
@@ -43,35 +51,24 @@ export default async function AnalyticsPage() {
 
   return (
     <div>
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>Analytics</h1>
-          <p className="text-sm mt-1" style={{ color: "var(--text-tertiary)" }}>Post performance overview</p>
-        </div>
-        <a
-          href="/api/analytics/export?days=30"
-          className="btn-secondary"
-        >
-          Export CSV
-        </a>
-      </div>
+      <PageHeader
+        title="Analytics"
+        subtitle="Post performance overview"
+        action={
+          <a href="/api/analytics/export?days=30" className="btn-secondary">
+            Export CSV
+          </a>
+        }
+      />
 
       {/* Overview metric cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
-        {[
-          { label: "Impressions", value: totals.impressions.toLocaleString(), accent: "var(--accent-blue)" },
-          { label: "Reach", value: totals.reach.toLocaleString(), accent: "var(--accent-purple)" },
-          { label: "Clicks", value: totals.clicks.toLocaleString(), accent: "var(--accent-emerald)" },
-          { label: "Engagement", value: totals.engagement.toLocaleString(), accent: "var(--accent-amber)" },
-          { label: "Spend", value: `$${totals.spend.toFixed(2)}`, accent: "var(--accent-red)" },
-          { label: "Conversions", value: totals.conversions.toLocaleString(), accent: "var(--accent-blue)" },
-        ].map((m) => (
-          <div key={m.label} className="metric-card">
-            <div className="section-label mb-2">{m.label}</div>
-            <div className="text-2xl font-bold tracking-tight" style={{ color: m.accent }}>{m.value}</div>
-          </div>
-        ))}
+        <MetricCard label="Impressions" value={totals.impressions.toLocaleString()} accent="var(--accent-blue)" />
+        <MetricCard label="Reach" value={totals.reach.toLocaleString()} accent="var(--accent-purple)" />
+        <MetricCard label="Clicks" value={totals.clicks.toLocaleString()} accent="var(--accent-emerald)" />
+        <MetricCard label="Engagement" value={totals.engagement.toLocaleString()} accent="var(--accent-amber)" />
+        <MetricCard label="Spend" value={`$${totals.spend.toFixed(2)}`} accent="var(--accent-red)" />
+        <MetricCard label="Conversions" value={totals.conversions.toLocaleString()} accent="var(--accent-blue)" />
       </div>
 
       {/* Post Performance Table */}
@@ -85,25 +82,25 @@ export default async function AnalyticsPage() {
           <table className="w-full text-sm border-collapse">
             <thead>
               <tr>
-                <th className="px-3 py-2 text-left" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                <th className="px-3 py-2 text-left" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-secondary)" }}>
                   <span className="section-label">Campaign</span>
                 </th>
-                <th className="px-3 py-2 text-left" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                <th className="px-3 py-2 text-left" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-secondary)" }}>
                   <span className="section-label">Platform</span>
                 </th>
-                <th className="px-3 py-2 text-left" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                <th className="px-3 py-2 text-left" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-secondary)" }}>
                   <span className="section-label">Content</span>
                 </th>
-                <th className="px-3 py-2 text-right" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                <th className="px-3 py-2 text-right" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-secondary)" }}>
                   <span className="section-label">Impressions</span>
                 </th>
-                <th className="px-3 py-2 text-right" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                <th className="px-3 py-2 text-right" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-secondary)" }}>
                   <span className="section-label">Clicks</span>
                 </th>
-                <th className="px-3 py-2 text-right" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                <th className="px-3 py-2 text-right" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-secondary)" }}>
                   <span className="section-label">Engagement</span>
                 </th>
-                <th className="px-3 py-2 text-right" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-subtle)" }}>
+                <th className="px-3 py-2 text-right" style={{ color: "var(--text-secondary)", borderBottom: "1px solid var(--border-secondary)" }}>
                   <span className="section-label">CTR</span>
                 </th>
               </tr>

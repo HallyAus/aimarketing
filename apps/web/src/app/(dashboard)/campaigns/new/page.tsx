@@ -1,6 +1,7 @@
-import { getOrgId } from "@/lib/get-org";
+import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
+import { SubmitButton } from "@/components/submit-button";
 
 const OBJECTIVES = ["AWARENESS", "TRAFFIC", "ENGAGEMENT", "CONVERSIONS", "LEADS"];
 const PLATFORMS = ["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT"] as const;
@@ -8,7 +9,7 @@ const PLATFORMS = ["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "
 export default async function NewCampaignPage() {
   // Get connected platforms
   const connections = await prisma.platformConnection.findMany({
-    where: { orgId: await getOrgId(), status: "ACTIVE" },
+    where: { orgId: await getSessionOrg(), status: "ACTIVE" },
     select: { platform: true },
   });
   const connectedPlatforms = new Set<string>(connections.map((c) => c.platform));
@@ -42,8 +43,9 @@ export default async function NewCampaignPage() {
       <h1 className="text-2xl font-bold mb-6" style={{ color: "var(--text-primary)" }}>Create Campaign</h1>
       <form action={createCampaign} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Campaign Name</label>
+          <label htmlFor="campaign-name" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Campaign Name</label>
           <input
+            id="campaign-name"
             name="name"
             required
             className="w-full rounded-md px-3 py-2 text-sm"
@@ -52,8 +54,8 @@ export default async function NewCampaignPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Objective</label>
-          <select name="objective" required className="w-full rounded-md px-3 py-2 text-sm">
+          <label htmlFor="campaign-objective" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Objective</label>
+          <select id="campaign-objective" name="objective" required className="w-full rounded-md px-3 py-2 text-sm">
             {OBJECTIVES.map((o) => (
               <option key={o} value={o}>{o}</option>
             ))}
@@ -75,7 +77,7 @@ export default async function NewCampaignPage() {
                 }}
               >
                 <input type="checkbox" name="platforms" value={p} disabled={!connectedPlatforms.has(p)} />
-                {p.replace("_", " ")}
+                {p.replaceAll("_", " ")}
               </label>
             ))}
           </div>
@@ -86,29 +88,29 @@ export default async function NewCampaignPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Budget (optional)</label>
-            <input name="budget" type="number" step="0.01" className="w-full rounded-md px-3 py-2 text-sm" />
+            <label htmlFor="campaign-budget" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Budget (optional)</label>
+            <input id="campaign-budget" name="budget" type="number" step="0.01" className="w-full rounded-md px-3 py-2 text-sm" />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Currency</label>
-            <input name="currency" defaultValue="USD" className="w-full rounded-md px-3 py-2 text-sm" />
+            <label htmlFor="campaign-currency" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Currency</label>
+            <input id="campaign-currency" name="currency" defaultValue="USD" className="w-full rounded-md px-3 py-2 text-sm" />
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Start Date</label>
-            <input name="startDate" type="datetime-local" className="w-full rounded-md px-3 py-2 text-sm" />
+            <label htmlFor="campaign-start-date" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Start Date</label>
+            <input id="campaign-start-date" name="startDate" type="datetime-local" className="w-full rounded-md px-3 py-2 text-sm" />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>End Date</label>
-            <input name="endDate" type="datetime-local" className="w-full rounded-md px-3 py-2 text-sm" />
+            <label htmlFor="campaign-end-date" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>End Date</label>
+            <input id="campaign-end-date" name="endDate" type="datetime-local" className="w-full rounded-md px-3 py-2 text-sm" />
           </div>
         </div>
 
-        <button type="submit" className="btn-primary text-sm min-h-[44px]">
+        <SubmitButton loadingText="Creating...">
           Create Campaign
-        </button>
+        </SubmitButton>
       </form>
     </div>
   );

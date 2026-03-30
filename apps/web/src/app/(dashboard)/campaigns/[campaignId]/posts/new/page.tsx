@@ -1,6 +1,7 @@
-import { getOrgId } from "@/lib/get-org";
+import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
+import { SubmitButton } from "@/components/submit-button";
 
 export default async function NewPostPage({
   params,
@@ -10,14 +11,14 @@ export default async function NewPostPage({
   const { campaignId } = await params;
 
   const campaign = await prisma.campaign.findFirst({
-    where: { id: campaignId, orgId: await getOrgId() },
+    where: { id: campaignId, orgId: await getSessionOrg() },
     select: { id: true, name: true, targetPlatforms: true },
   });
   if (!campaign) redirect("/campaigns");
 
   // Get templates
   const templates = await prisma.postTemplate.findMany({
-    where: { orgId: await getOrgId() },
+    where: { orgId: await getSessionOrg() },
     orderBy: { createdAt: "desc" },
     take: 20,
   });
@@ -74,7 +75,7 @@ export default async function NewPostPage({
           <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Platform</label>
           <select name="platform" required className="w-full rounded-md px-3 py-2 text-sm">
             {campaign.targetPlatforms.map((p) => (
-              <option key={p} value={p}>{p.replace("_", " ")}</option>
+              <option key={p} value={p}>{p.replaceAll("_", " ")}</option>
             ))}
           </select>
         </div>
@@ -96,9 +97,9 @@ export default async function NewPostPage({
         </div>
 
         <div className="flex gap-3">
-          <button type="submit" className="btn-primary text-sm min-h-[44px]">
+          <SubmitButton loadingText="Creating...">
             Create Post
-          </button>
+          </SubmitButton>
         </div>
       </form>
     </div>

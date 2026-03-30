@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@adpilot/db";
+import type { Platform } from "@adpilot/db";
 import { getWebhookVerifier } from "@adpilot/platform-sdk";
 import { createHash } from "crypto";
 
@@ -44,13 +45,13 @@ export async function POST(
     await prisma.webhookEvent.upsert({
       where: {
         platform_platformEventId: {
-          platform: platform.toUpperCase(),
+          platform: platform.toUpperCase() as Platform,
           platformEventId,
         },
       },
       update: {},
       create: {
-        platform: platform.toUpperCase(),
+        platform: platform.toUpperCase() as Platform,
         eventType: "inbound",
         platformEventId,
         payload: JSON.parse(body),
@@ -65,7 +66,7 @@ export async function POST(
   // Enqueue for async processing
   // Note: Import Queue from bullmq and create a queue instance at module level
   // const webhookQueue = new Queue("webhook:process", { connection: redis });
-  // await webhookQueue.add("process", { platform: platform.toUpperCase(), platformEventId });
+  // await webhookQueue.add("process", { platform: platform.toUpperCase() as Platform, platformEventId });
 
   return NextResponse.json({ received: true });
 }

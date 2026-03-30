@@ -3,7 +3,7 @@ Allow: /
 Disallow: /dashboard/
 Disallow: /api/
 Disallow: /org-picker
-Disallow: /onboarding
+Disallow: /onboarding/
 Disallow: /settings/
 
 User-agent: GPTBot
@@ -15,5 +15,14 @@ User-agent: ClaudeBot
 Allow: /
 Disallow: /dashboard/
 Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: CCBot
+Allow: /
 
 Sitemap: https://adpilot.app/sitemap.xml

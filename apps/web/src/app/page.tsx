@@ -1,11 +1,34 @@
 import Link from "next/link";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "AdPilot",
+  "description": "AI-powered marketing automation platform",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "USD",
+    "lowPrice": "0",
+    "highPrice": "299"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "AdPilot"
+  }
+};
+
 export default function Home() {
   return (
     <main
       className="flex min-h-screen flex-col items-center justify-center p-6 md:p-12 lg:p-24"
       style={{ background: "var(--bg-primary)" }}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="text-center max-w-xl">
         <div className="section-label mb-4">Marketing Intelligence Platform</div>
         <h1

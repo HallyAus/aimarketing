@@ -138,8 +138,29 @@ function buildConfigs(): Record<Platform, PlatformConfig> {
   };
 }
 
-// Static snapshot for consumers that need the full map (non-test usage)
-export const PLATFORM_CONFIGS: Record<Platform, PlatformConfig> = buildConfigs();
+// Lazy proxy — reads env vars at access time rather than at import time
+export const PLATFORM_CONFIGS: Record<Platform, PlatformConfig> = new Proxy(
+  {} as Record<Platform, PlatformConfig>,
+  {
+    get(_target, prop: string) {
+      const configs = buildConfigs();
+      return configs[prop as Platform];
+    },
+    ownKeys() {
+      return Object.keys(buildConfigs());
+    },
+    getOwnPropertyDescriptor(_target, prop: string) {
+      const configs = buildConfigs();
+      if (prop in configs) {
+        return { configurable: true, enumerable: true, value: configs[prop as Platform] };
+      }
+      return undefined;
+    },
+    has(_target, prop: string) {
+      return prop in buildConfigs();
+    },
+  }
+);
 
 export function getPlatformConfig(platform: Platform): PlatformConfig {
   // Rebuild at call time so env stubs applied in tests are picked up

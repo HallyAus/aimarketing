@@ -101,7 +101,6 @@ model Organization {
   auditLogs           AuditLog[]
   postTemplates       PostTemplate[]
 
-  @@index([slug])
   @@index([deletedAt])
 }
 
@@ -112,6 +111,7 @@ model User {
   avatar        String?
   emailVerified DateTime?
   createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   memberships       Membership[]
   invitationsSent   Invitation[]   @relation("InvitedBy")
@@ -119,6 +119,7 @@ model User {
   campaignsCreated  Campaign[]     @relation("CreatedBy")
   postsApproved     Post[]         @relation("ApprovedBy")
   auditLogs         AuditLog[]
+  templatesCreated  PostTemplate[] @relation("TemplateCreatedBy")
 
   // NextAuth fields
   accounts Account[]
@@ -142,6 +143,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -151,6 +153,8 @@ model Session {
   expires      DateTime
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model VerificationToken {
@@ -169,6 +173,7 @@ model Membership {
   invitedBy  String?
   acceptedAt DateTime?
   createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
   user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
@@ -187,12 +192,14 @@ model Invitation {
   invitedBy  String
   acceptedAt DateTime?
   createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 
   organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
   inviter      User         @relation("InvitedBy", fields: [invitedBy], references: [id])
 
   @@index([orgId])
   @@index([email])
+  @@index([invitedBy])
 }
 
 model PlatformConnection {
@@ -217,6 +224,7 @@ model PlatformConnection {
   @@unique([orgId, platform, platformUserId])
   @@index([orgId])
   @@index([platform, status])
+  @@index([connectedBy])
 }
 
 model Campaign {
@@ -242,6 +250,7 @@ model Campaign {
 
   @@index([orgId])
   @@index([status])
+  @@index([createdBy])
 }
 
 model Post {
@@ -269,8 +278,9 @@ model Post {
   analytics    AnalyticsSnapshot[]
 
   @@index([orgId])
-  @@index([scheduledAt, status])
+  @@index([status, scheduledAt])
   @@index([campaignId])
+  @@index([approvedBy])
 }
 
 model Creative {
@@ -282,7 +292,7 @@ model Creative {
   r2Url         String
   thumbnailUrl  String?
   dimensions    String?
-  fileSizeBytes Int
+  fileSizeBytes BigInt
   mimeType      String
   tags          String[]
   createdAt     DateTime     @default(now())
@@ -318,6 +328,8 @@ model AnalyticsSnapshot {
 
   @@index([postId])
   @@index([snapshotAt])
+  @@index([platform])
+  @@index([postId, snapshotAt])
 }
 
 model AuditLog {
@@ -333,16 +345,17 @@ model AuditLog {
   userAgent  String?
   createdAt  DateTime @default(now())
 
-  organization Organization? @relation(fields: [orgId], references: [id])
+  organization Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
   user         User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@index([orgId, createdAt])
   @@index([entityType, entityId])
+  @@index([userId])
 }
 
 model WebhookEvent {
   id              String   @id @default(cuid())
-  platform        String
+  platform        Platform
   eventType       String
   platformEventId String?
   payload         Json
@@ -354,6 +367,7 @@ model WebhookEvent {
 
   @@unique([platform, platformEventId])
   @@index([platform, createdAt])
+  @@index([processedAt])
 }
 
 model PostTemplate {
@@ -369,6 +383,8 @@ model PostTemplate {
   updatedAt   DateTime @updatedAt
 
   organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  creator      User         @relation("TemplateCreatedBy", fields: [createdBy], references: [id])
 
   @@index([orgId])
+  @@index([createdBy])
 }

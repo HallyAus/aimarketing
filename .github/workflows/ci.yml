@@ -5,6 +5,7 @@ on:
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
+  workflow_call:
 
 jobs:
   ci:
@@ -29,6 +30,12 @@ jobs:
 
       - name: Run tests
         run: pnpm test
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
 
       - name: Build
         run: pnpm build

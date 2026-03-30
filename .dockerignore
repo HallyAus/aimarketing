@@ -1,0 +1,13 @@
+.git
+.env
+.env.*
+node_modules
+backups
+.turbo
+*.md
+deploy
+.github
+docs
+SESSION_REPORT.md
+AdPilot-Claude-Code-Prompt.md
+.impeccable.md

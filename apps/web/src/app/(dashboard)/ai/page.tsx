@@ -89,7 +89,7 @@ function GeneratePostTab() {
         <div>
           <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Platform</label>
           <select value={platform} onChange={(e) => setPlatform(e.target.value)} className="w-full rounded-md px-3 py-2 text-sm">
-            {PLATFORMS.map((p) => <option key={p} value={p}>{p.replace("_", " ")}</option>)}
+            {PLATFORMS.map((p) => <option key={p} value={p}>{p.replaceAll("_", " ")}</option>)}
           </select>
         </div>
         <div>
@@ -130,6 +130,8 @@ function GeneratePostTab() {
         <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Generated Content</label>
         <div
           className="rounded-lg p-4 min-h-[200px] whitespace-pre-wrap text-sm"
+          aria-live="polite"
+          aria-busy={loading}
           style={{
             border: "1px solid var(--border-primary)",
             background: "var(--bg-secondary)",
@@ -182,7 +184,7 @@ function ImprovePostTab() {
         <div>
           <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Platform</label>
           <select value={platform} onChange={(e) => setPlatform(e.target.value)} className="w-full rounded-md px-3 py-2 text-sm">
-            {PLATFORMS.map((p) => <option key={p} value={p}>{p.replace("_", " ")}</option>)}
+            {PLATFORMS.map((p) => <option key={p} value={p}>{p.replaceAll("_", " ")}</option>)}
           </select>
         </div>
         <div>
@@ -215,6 +217,8 @@ function ImprovePostTab() {
         <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Improved Content</label>
         <div
           className="rounded-lg p-4 min-h-[200px] whitespace-pre-wrap text-sm"
+          aria-live="polite"
+          aria-busy={loading}
           style={{
             border: "1px solid var(--border-primary)",
             background: "var(--bg-secondary)",
@@ -291,6 +295,7 @@ function CampaignIdeasTab() {
       {result && (
         <div
           className="rounded-lg p-4 whitespace-pre-wrap text-sm mt-4"
+          aria-live="polite"
           style={{
             border: "1px solid var(--border-primary)",
             background: "var(--bg-secondary)",
@@ -431,7 +436,7 @@ function CreateImageTab() {
           style={{ border: "1px solid var(--border-primary)", background: "var(--bg-secondary)" }}
         >
           {imageUrl ? (
-            <img src={imageUrl} alt="Generated" className="max-w-full max-h-[500px] object-contain" />
+            <img src={imageUrl} alt="Generated" width={1024} height={1024} className="max-w-full max-h-[500px] object-contain" />
           ) : (
             <span className="text-sm" style={{ color: "var(--text-tertiary)" }}>
               Image preview will appear here

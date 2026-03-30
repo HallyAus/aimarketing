@@ -4,3 +4,4 @@ export * from "./validators";
 export { encrypt, decrypt } from "./encryption";
 export { checkPlanLimit, checkFeatureAccess } from "./plan-limits";
 export { sanitizeHtml, sanitizeObject } from "./sanitize";
+export { validateEnv } from "./env";

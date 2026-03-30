@@ -1,27 +1,38 @@
-import { getOrgId } from "@/lib/get-org";
+import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
 import Link from "next/link";
+import type { Metadata } from "next";
+import { PageHeader } from "@/components/page-header";
+import { EmptyState } from "@/components/empty-state";
+
+export const metadata: Metadata = {
+  title: "Post Templates",
+  robots: { index: false },
+};
 
 export default async function TemplatesPage() {
   const templates = await prisma.postTemplate.findMany({
-    where: { orgId: await getOrgId() },
+    where: { orgId: await getSessionOrg() },
     orderBy: { createdAt: "desc" },
   });
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>Post Templates</h1>
-        <Link href="/templates/new" className="btn-primary text-sm">
-          New Template
-        </Link>
-      </div>
+      <PageHeader
+        title="Post Templates"
+        action={
+          <Link href="/templates/new" className="btn-primary text-sm">
+            New Template
+          </Link>
+        }
+      />
 
       {templates.length === 0 ? (
-        <p style={{ color: "var(--text-secondary)" }}>
-          No templates yet. Create reusable post templates to speed up content creation.
-        </p>
+        <EmptyState
+          title="No templates yet."
+          description="Create reusable post templates to speed up content creation."
+        />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {templates.map((t) => (

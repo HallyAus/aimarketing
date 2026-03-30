@@ -1,6 +1,12 @@
-import { getOrgId } from "@/lib/get-org";
+import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@adpilot/db";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Content Calendar",
+  robots: { index: false },
+};
 
 const PLATFORM_ACCENT: Record<string, string> = {
   FACEBOOK: "var(--accent-blue)",
@@ -32,7 +38,7 @@ export default async function CalendarPage({
   // Get posts for this month
   const posts = await prisma.post.findMany({
     where: {
-      orgId: await getOrgId(),
+      orgId: await getSessionOrg(),
       status: { notIn: ["DELETED"] },
       OR: [
         { scheduledAt: { gte: startOfMonth, lte: endOfMonth } },
@@ -119,7 +125,7 @@ export default async function CalendarPage({
                     }}
                   >
                     <span className="text-xs font-medium flex-shrink-0" style={{ color: PLATFORM_ACCENT[post.platform] ?? "var(--text-secondary)" }}>
-                      {post.platform.replace("_", " ")}
+                      {post.platform.replaceAll("_", " ")}
                     </span>
                     <span className="truncate" style={{ color: "var(--text-secondary)" }}>
                       {post.campaign.name}

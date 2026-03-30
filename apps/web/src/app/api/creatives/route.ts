@@ -3,6 +3,7 @@ import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
 import { prisma } from "@adpilot/db";
 import { PLAN_LIMITS, ALLOWED_MIME_TYPES } from "@adpilot/shared";
+import { z } from "zod";
 import { uploadToR2 } from "@/lib/r2";
 import { Queue } from "bullmq";
 import { redis } from "@/lib/redis";
@@ -66,8 +67,28 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
   const r2Key = `${req.orgId}/creatives/${crypto.randomUUID()}/original.${ext}`;
   const r2Url = await uploadToR2(r2Key, buffer, file.type);
 
-  // Parse tags
-  const tags = tagsRaw ? JSON.parse(tagsRaw) : [];
+  // Parse and validate tags
+  const tagsSchema = z.array(z.string().max(50)).max(20);
+  let tags: string[] = [];
+  if (tagsRaw) {
+    try {
+      const parsed = JSON.parse(tagsRaw);
+      const validated = tagsSchema.safeParse(parsed);
+      if (validated.success) {
+        tags = validated.data;
+      } else {
+        return NextResponse.json(
+          { error: "Invalid tags format. Expected array of up to 20 strings (max 50 chars each).", code: "VALIDATION_ERROR", statusCode: 400 },
+          { status: 400 }
+        );
+      }
+    } catch {
+      return NextResponse.json(
+        { error: "Invalid tags JSON", code: "VALIDATION_ERROR", statusCode: 400 },
+        { status: 400 }
+      );
+    }
+  }
 
   // Create creative record
   const creative = await prisma.creative.create({

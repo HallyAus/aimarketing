@@ -82,7 +82,7 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-RUN corepack enable pnpm && apk add --no-cache python3 make g++
+RUN corepack enable pnpm && apk add --no-cache --virtual .build-deps python3 make g++
 
 # Copy entire workspace — worker uses tsx (not compiled dist)
 COPY --from=deps /app/node_modules ./node_modules
@@ -105,7 +105,7 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
 
 # Generate Prisma client in worker context
-RUN cd packages/db && npx prisma generate
+RUN cd packages/db && npx prisma generate && apk del .build-deps
 
 RUN addgroup --system --gid 1001 worker && adduser --system --uid 1001 workeruser
 USER workeruser

@@ -6,21 +6,15 @@ import { prisma } from "@adpilot/db";
 // GET /api/analytics/overview — org-wide aggregated metrics
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   const url = new URL(req.url);
-  const days = parseInt(url.searchParams.get("days") ?? "30", 10);
+  const days = Math.min(Math.max(parseInt(url.searchParams.get("days") ?? "30", 10), 1), 365);
   const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
 
-  // Get all posts for this org
-  const posts = await prisma.post.findMany({
-    where: {
-      orgId: req.orgId,
-      status: "PUBLISHED",
-    },
-    select: { id: true },
+  // Get post count for this org
+  const postCount = await prisma.post.count({
+    where: { orgId: req.orgId, status: "PUBLISHED" },
   });
 
-  const postIds = posts.map((p) => p.id);
-
-  if (postIds.length === 0) {
+  if (postCount === 0) {
     return NextResponse.json({
       totalImpressions: 0,
       totalReach: 0,
@@ -33,10 +27,10 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
     });
   }
 
-  // Aggregate latest snapshot per post
+  // Aggregate latest snapshot per post using a join instead of loading all IDs
   const snapshots = await prisma.analyticsSnapshot.findMany({
     where: {
-      postId: { in: postIds },
+      post: { orgId: req.orgId, status: "PUBLISHED" },
       snapshotAt: { gte: since },
     },
     orderBy: { snapshotAt: "desc" },
@@ -79,7 +73,7 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
 
   return NextResponse.json({
     ...totals,
-    postCount: postIds.length,
+    postCount,
     platformBreakdown,
     period: { days, since: since.toISOString() },
   });

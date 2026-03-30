@@ -1,5 +1,11 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sign In",
+  description: "Sign in to AdPilot to manage your marketing campaigns, scheduling, and analytics.",
+};
 
 export const dynamic = "force-dynamic";
 
@@ -39,11 +45,14 @@ export default async function SignInPage() {
           className="space-y-4"
         >
           <CsrfToken />
+          <label htmlFor="signin-email" className="sr-only">Email address</label>
           <input
+            id="signin-email"
             name="email"
             type="email"
             placeholder="you@example.com"
             required
+            autoComplete="email"
             className="w-full rounded-md px-4 py-3 md:py-2 text-sm"
           />
           <button

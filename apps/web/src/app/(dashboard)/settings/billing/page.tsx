@@ -1,9 +1,16 @@
 import { prisma } from "@adpilot/db";
-import { getOrgId } from "@/lib/get-org";
+import { getSessionOrg } from "@/lib/auth";
 import { PLAN_LIMITS } from "@adpilot/shared";
+import type { Metadata } from "next";
+import { PageHeader } from "@/components/page-header";
+
+export const metadata: Metadata = {
+  title: "Billing",
+  robots: { index: false },
+};
 
 export default async function BillingPage() {
-  const orgId = await getOrgId();
+  const orgId = await getSessionOrg();
   const org = await prisma.organization.findFirst({ where: { id: orgId } });
   const plan = org?.plan ?? "FREE";
   const limits = PLAN_LIMITS[plan as keyof typeof PLAN_LIMITS];
@@ -13,8 +20,7 @@ export default async function BillingPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold tracking-tight mb-1" style={{ color: "var(--text-primary)" }}>Billing</h1>
-      <p className="text-sm mb-8" style={{ color: "var(--text-tertiary)" }}>Manage your subscription and usage</p>
+      <PageHeader title="Billing" subtitle="Manage your subscription and usage" />
 
       {/* Current plan */}
       <div className="card mb-8">
