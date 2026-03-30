@@ -1,52 +1,68 @@
-import Link from "next/link";
+import { Navbar } from "@/components/marketing/navbar";
+import { HeroSection } from "@/components/marketing/hero-section";
+import { StatsBar } from "@/components/marketing/stats-bar";
+import { FeaturesGrid } from "@/components/marketing/features-grid";
+import { PlatformShowcase } from "@/components/marketing/platform-showcase";
+import { HowItWorks } from "@/components/marketing/how-it-works";
+import { PricingSection } from "@/components/marketing/pricing-section";
+import { TestimonialsSection } from "@/components/marketing/testimonials-section";
+import { FaqSection } from "@/components/marketing/faq-section";
+import { CtaSection } from "@/components/marketing/cta-section";
+import { Footer } from "@/components/marketing/footer";
+import "@/styles/marketing.css";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "AdPilot",
-  "description": "AI-powered marketing automation platform",
-  "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web",
-  "offers": {
+  name: "AdPilot",
+  description:
+    "AI-powered marketing automation platform — manage campaigns across 9 social platforms from one dashboard",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  url: "https://adpilot.au",
+  offers: {
     "@type": "AggregateOffer",
-    "priceCurrency": "USD",
-    "lowPrice": "0",
-    "highPrice": "299"
+    priceCurrency: "AUD",
+    lowPrice: "0",
+    highPrice: "299",
+    offerCount: "3",
   },
-  "creator": {
+  creator: {
     "@type": "Organization",
-    "name": "AdPilot"
-  }
+    name: "AdPilot",
+    url: "https://adpilot.au",
+  },
+  featureList: [
+    "AI Content Generation",
+    "9-Platform Publishing",
+    "Smart Scheduling",
+    "Campaign Analytics",
+    "Team Collaboration",
+    "Webhook Automation",
+  ],
 };
 
 export default function Home() {
   return (
-    <main
-      className="flex min-h-screen flex-col items-center justify-center p-6 md:p-12 lg:p-24"
-      style={{ background: "var(--bg-primary)" }}
-    >
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="text-center max-w-xl">
-        <div className="section-label mb-4">Marketing Intelligence Platform</div>
-        <h1
-          className="text-3xl md:text-5xl font-bold mb-4 tracking-tight"
-          style={{ color: "var(--text-primary)" }}
-        >
-          AdPilot
-        </h1>
-        <p
-          className="text-lg mb-10"
-          style={{ color: "var(--text-secondary)" }}
-        >
-          Automated marketing agency platform — AI-powered campaigns, scheduling, and analytics across every channel.
-        </p>
-        <Link href="/dashboard" className="btn-primary text-base px-8 py-3">
-          Get Started
-        </Link>
-      </div>
-    </main>
+      <Navbar />
+      <main>
+        <HeroSection />
+        <StatsBar />
+        <div className="section-divider mx-auto max-w-5xl" />
+        <FeaturesGrid />
+        <PlatformShowcase />
+        <HowItWorks />
+        <PricingSection />
+        <TestimonialsSection />
+        <FaqSection />
+        <CtaSection />
+      </main>
+      <Footer />
+    </>
   );
 }
