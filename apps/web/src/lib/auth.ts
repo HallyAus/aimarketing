@@ -1,29 +1,12 @@
 import NextAuth from "next-auth";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import Resend from "next-auth/providers/resend";
-import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id";
 import bcrypt from "bcryptjs";
 import { prisma } from "@adpilot/db";
 import { redirect } from "next/navigation";
 
-const basePrismaAdapter = PrismaAdapter(prisma);
-
 const nextAuth = NextAuth({
-  adapter: {
-    ...basePrismaAdapter,
-    async useVerificationToken(params) {
-      try {
-        return await basePrismaAdapter.useVerificationToken!(params);
-      } catch {
-        return null;
-      }
-    },
-  },
   session: { strategy: "jwt" },
   providers: [
-    // Email + Password
     Credentials({
       name: "credentials",
       credentials: {
@@ -45,39 +28,9 @@ const nextAuth = NextAuth({
       },
     }),
 
-    // Magic Link via Resend
-    ...(process.env.RESEND_API_KEY
-      ? [
-          Resend({
-            from: process.env.EMAIL_FROM || "AdPilot <noreply@adpilot.ai>",
-            apiKey: process.env.RESEND_API_KEY,
-          }),
-        ]
-      : []),
-
-    // Google OAuth
-    ...(process.env.GOOGLE_CLIENT_ID
-      ? [
-          Google({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-          }),
-        ]
-      : []),
-
-    // Microsoft / Azure AD (personal + work accounts)
-    ...(process.env.MICROSOFT_CLIENT_ID
-      ? [
-          MicrosoftEntraID({
-            clientId: process.env.MICROSOFT_CLIENT_ID,
-            clientSecret: process.env.MICROSOFT_CLIENT_SECRET!,
-            // "common" allows personal + work accounts
-            issuer: "https://login.microsoftonline.com/common/v2.0/",
-          }),
-        ]
-      : []),
-
-    // TODO: Add Passkeys/WebAuthn when @auth/prisma-adapter supports it
+    // Google OAuth — add GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET to enable
+    // Microsoft — add MICROSOFT_CLIENT_ID + MICROSOFT_CLIENT_SECRET to enable
+    // Magic Link — add RESEND_API_KEY to enable
   ],
   pages: {
     signIn: "/signin",
