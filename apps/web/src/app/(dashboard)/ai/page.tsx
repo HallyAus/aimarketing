@@ -49,6 +49,36 @@ export default function AIStudioPage() {
           </button>
         ))}
         <button
+          onClick={() => router.push("/ai/brand-voice")}
+          className="tab-item"
+        >
+          Brand Voice
+        </button>
+        <button
+          onClick={() => router.push("/ai/competitor-spy")}
+          className="tab-item"
+        >
+          Competitor Spy
+        </button>
+        <button
+          onClick={() => router.push("/ai/hashtags")}
+          className="tab-item"
+        >
+          Hashtags
+        </button>
+        <button
+          onClick={() => router.push("/ai/image-gen")}
+          className="tab-item"
+        >
+          Image Gen
+        </button>
+        <button
+          onClick={() => router.push("/ai/video-scripts")}
+          className="tab-item"
+        >
+          Video Scripts
+        </button>
+        <button
           onClick={() => router.push("/ai/url-to-posts")}
           className="tab-item"
         >
@@ -59,6 +89,30 @@ export default function AIStudioPage() {
           className="tab-item"
         >
           Bulk Generate
+        </button>
+        <button
+          onClick={() => router.push("/ai/repurpose")}
+          className="tab-item"
+        >
+          Repurpose
+        </button>
+        <button
+          onClick={() => router.push("/ai/ab-test")}
+          className="tab-item"
+        >
+          A/B Variants
+        </button>
+        <button
+          onClick={() => router.push("/ai/carousel")}
+          className="tab-item"
+        >
+          Carousel
+        </button>
+        <button
+          onClick={() => router.push("/ai/templates-ai")}
+          className="tab-item"
+        >
+          Story Templates
         </button>
       </div>
 

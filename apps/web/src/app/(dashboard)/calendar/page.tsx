@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/page-header";
 import { ActiveAccountBanner } from "@/components/active-account-banner";
 import { getActiveAccount, getPageFilter } from "@/lib/active-account";
 import { getPlatformAccent, getPlatformLabel } from "@/lib/platform-colors";
+import { CalendarHeatmapToggle } from "./calendar-heatmap";
 
 /** Palette of 10 distinct colors for page/account differentiation */
 const PAGE_COLORS = [
@@ -137,155 +138,166 @@ export default async function CalendarPage({
         </div>
       </div>
 
-      {/* Page/account legend */}
-      {uniquePages.size > 0 && (
-        <div className="flex flex-wrap items-center gap-3 mb-4">
-          {Array.from(uniquePages.entries()).map(([id, { color, label }]) => (
-            <div key={id} className="flex items-center gap-1.5 text-xs" style={{ color: "var(--text-secondary)" }}>
-              <span
-                className="inline-block w-2.5 h-2.5 rounded-full flex-shrink-0"
-                style={{ background: color }}
-              />
-              {label}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Mobile list view */}
-      <div className="md:hidden space-y-2">
-        {Array.from({ length: daysInMonth }).map((_, i) => {
-          const day = i + 1;
-          const dayPosts = postsByDay.get(day) ?? [];
-          if (dayPosts.length === 0) return null;
-          const isToday = day === now.getDate() && month === now.getMonth() + 1 && year === now.getFullYear();
-          const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-          const dayOfWeek = new Date(year, month - 1, day).getDay();
-
-          return (
-            <div
-              key={day}
-              className="rounded-lg p-3"
-              style={{
-                background: "var(--bg-secondary)",
-                border: isToday ? "1px solid var(--accent-blue)" : "1px solid var(--border-primary)",
-              }}
-            >
-              <div
-                className="text-sm font-medium mb-2"
-                style={{ color: isToday ? "var(--accent-blue)" : "var(--text-primary)" }}
-              >
-                {dayNames[dayOfWeek]}, {monthName} {day}
+      <CalendarHeatmapToggle
+        year={year}
+        month={month}
+        daysInMonth={daysInMonth}
+        startDay={startDay}
+        postCountByDay={Object.fromEntries(
+          Array.from({ length: daysInMonth }, (_, i) => [i + 1, postsByDay.get(i + 1)?.length ?? 0])
+        )}
+        monthName={monthName}
+      >
+        {/* Page/account legend */}
+        {uniquePages.size > 0 && (
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            {Array.from(uniquePages.entries()).map(([id, { color, label }]) => (
+              <div key={id} className="flex items-center gap-1.5 text-xs" style={{ color: "var(--text-secondary)" }}>
+                <span
+                  className="inline-block w-2.5 h-2.5 rounded-full flex-shrink-0"
+                  style={{ background: color }}
+                />
+                {label}
               </div>
-              <div className="space-y-2">
-                {dayPosts.map((post) => (
-                  <div
-                    key={post.id}
-                    className="text-sm p-2 rounded flex items-center gap-2"
-                    style={{
-                      borderLeft: `3px solid ${getPostAccent(post)}`,
-                      background: "var(--bg-tertiary)",
-                    }}
-                  >
-                    <span className="text-xs font-medium flex-shrink-0" style={{ color: getPostAccent(post) }}>
-                      {getPlatformLabel(post.platform)}
-                    </span>
-                    <span className="truncate" style={{ color: "var(--text-secondary)" }}>
-                      {getPostLabel(post)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          );
-        })}
-        {posts.length === 0 && (
-          <div className="text-center py-8">
-            <p className="text-sm" style={{ color: "var(--text-tertiary)" }}>No posts scheduled this month.</p>
+            ))}
           </div>
         )}
-      </div>
 
-      {/* Desktop calendar grid */}
-      <div className="hidden md:block">
-        {/* Day headers */}
-        <div
-          className="grid grid-cols-7 rounded-t-lg overflow-hidden"
-          style={{ gap: "1px", background: "var(--border-primary)" }}
-        >
-          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
-            <div
-              key={d}
-              className="p-2 text-center text-xs font-medium"
-              style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)" }}
-            >
-              {d}
-            </div>
-          ))}
-        </div>
-
-        {/* Calendar grid */}
-        <div
-          className="grid grid-cols-7 rounded-b-lg overflow-hidden"
-          style={{ gap: "1px", background: "var(--border-primary)" }}
-        >
-          {/* Empty cells before first day */}
-          {Array.from({ length: startDay }).map((_, i) => (
-            <div
-              key={`empty-${i}`}
-              className="p-2 min-h-[100px]"
-              style={{ background: "var(--bg-primary)" }}
-            />
-          ))}
-
-          {/* Day cells */}
+        {/* Mobile list view */}
+        <div className="md:hidden space-y-2">
           {Array.from({ length: daysInMonth }).map((_, i) => {
             const day = i + 1;
             const dayPosts = postsByDay.get(day) ?? [];
+            if (dayPosts.length === 0) return null;
             const isToday = day === now.getDate() && month === now.getMonth() + 1 && year === now.getFullYear();
+            const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            const dayOfWeek = new Date(year, month - 1, day).getDay();
 
             return (
               <div
                 key={day}
-                className="p-2 min-h-[100px]"
+                className="rounded-lg p-3"
                 style={{
                   background: "var(--bg-secondary)",
-                  outline: isToday ? `2px solid var(--accent-blue)` : "none",
-                  outlineOffset: "-2px",
+                  border: isToday ? "1px solid var(--accent-blue)" : "1px solid var(--border-primary)",
                 }}
               >
                 <div
-                  className="text-xs mb-1 font-medium"
-                  style={{ color: isToday ? "var(--accent-blue)" : "var(--text-tertiary)" }}
+                  className="text-sm font-medium mb-2"
+                  style={{ color: isToday ? "var(--accent-blue)" : "var(--text-primary)" }}
                 >
-                  {day}
+                  {dayNames[dayOfWeek]}, {monthName} {day}
                 </div>
-                <div className="space-y-1">
-                  {dayPosts.slice(0, 3).map((post) => (
+                <div className="space-y-2">
+                  {dayPosts.map((post) => (
                     <div
                       key={post.id}
-                      className="text-xs p-1 rounded truncate"
+                      className="text-sm p-2 rounded flex items-center gap-2"
                       style={{
-                        borderLeft: `2px solid ${getPostAccent(post)}`,
+                        borderLeft: `3px solid ${getPostAccent(post)}`,
                         background: "var(--bg-tertiary)",
-                        color: "var(--text-secondary)",
                       }}
-                      title={`${post.platform}${post.pageName ? ` (${post.pageName})` : ""}: ${post.content.substring(0, 100)}`}
                     >
-                      {getPostLabel(post)}
+                      <span className="text-xs font-medium flex-shrink-0" style={{ color: getPostAccent(post) }}>
+                        {getPlatformLabel(post.platform)}
+                      </span>
+                      <span className="truncate" style={{ color: "var(--text-secondary)" }}>
+                        {getPostLabel(post)}
+                      </span>
                     </div>
                   ))}
-                  {dayPosts.length > 3 && (
-                    <div className="text-xs" style={{ color: "var(--text-tertiary)" }}>
-                      +{dayPosts.length - 3} more
-                    </div>
-                  )}
                 </div>
               </div>
             );
           })}
+          {posts.length === 0 && (
+            <div className="text-center py-8">
+              <p className="text-sm" style={{ color: "var(--text-tertiary)" }}>No posts scheduled this month.</p>
+            </div>
+          )}
         </div>
-      </div>
+
+        {/* Desktop calendar grid */}
+        <div className="hidden md:block">
+          {/* Day headers */}
+          <div
+            className="grid grid-cols-7 rounded-t-lg overflow-hidden"
+            style={{ gap: "1px", background: "var(--border-primary)" }}
+          >
+            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
+              <div
+                key={d}
+                className="p-2 text-center text-xs font-medium"
+                style={{ background: "var(--bg-tertiary)", color: "var(--text-secondary)" }}
+              >
+                {d}
+              </div>
+            ))}
+          </div>
+
+          {/* Calendar grid */}
+          <div
+            className="grid grid-cols-7 rounded-b-lg overflow-hidden"
+            style={{ gap: "1px", background: "var(--border-primary)" }}
+          >
+            {/* Empty cells before first day */}
+            {Array.from({ length: startDay }).map((_, i) => (
+              <div
+                key={`empty-${i}`}
+                className="p-2 min-h-[100px]"
+                style={{ background: "var(--bg-primary)" }}
+              />
+            ))}
+
+            {/* Day cells */}
+            {Array.from({ length: daysInMonth }).map((_, i) => {
+              const day = i + 1;
+              const dayPosts = postsByDay.get(day) ?? [];
+              const isToday = day === now.getDate() && month === now.getMonth() + 1 && year === now.getFullYear();
+
+              return (
+                <div
+                  key={day}
+                  className="p-2 min-h-[100px]"
+                  style={{
+                    background: "var(--bg-secondary)",
+                    outline: isToday ? `2px solid var(--accent-blue)` : "none",
+                    outlineOffset: "-2px",
+                  }}
+                >
+                  <div
+                    className="text-xs mb-1 font-medium"
+                    style={{ color: isToday ? "var(--accent-blue)" : "var(--text-tertiary)" }}
+                  >
+                    {day}
+                  </div>
+                  <div className="space-y-1">
+                    {dayPosts.slice(0, 3).map((post) => (
+                      <div
+                        key={post.id}
+                        className="text-xs p-1 rounded truncate"
+                        style={{
+                          borderLeft: `2px solid ${getPostAccent(post)}`,
+                          background: "var(--bg-tertiary)",
+                          color: "var(--text-secondary)",
+                        }}
+                        title={`${post.platform}${post.pageName ? ` (${post.pageName})` : ""}: ${post.content.substring(0, 100)}`}
+                      >
+                        {getPostLabel(post)}
+                      </div>
+                    ))}
+                    {dayPosts.length > 3 && (
+                      <div className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+                        +{dayPosts.length - 3} more
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </CalendarHeatmapToggle>
     </div>
   );
 }

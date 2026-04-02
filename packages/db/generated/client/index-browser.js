@@ -221,6 +221,7 @@ exports.Prisma.PlatformConnectionScalarFieldEnum = {
 exports.Prisma.CampaignScalarFieldEnum = {
   id: 'id',
   orgId: 'orgId',
+  pageId: 'pageId',
   name: 'name',
   objective: 'objective',
   status: 'status',
@@ -240,6 +241,7 @@ exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   campaignId: 'campaignId',
   orgId: 'orgId',
+  pageId: 'pageId',
   platform: 'platform',
   content: 'content',
   mediaUrls: 'mediaUrls',
@@ -251,7 +253,6 @@ exports.Prisma.PostScalarFieldEnum = {
   rejectionReason: 'rejectionReason',
   engagementSnapshot: 'engagementSnapshot',
   errorMessage: 'errorMessage',
-  pageId: 'pageId',
   pageName: 'pageName',
   sourceUrl: 'sourceUrl',
   tone: 'tone',
@@ -347,6 +348,134 @@ exports.Prisma.AuthenticatorScalarFieldEnum = {
   credentialDeviceType: 'credentialDeviceType',
   credentialBackedUp: 'credentialBackedUp',
   transports: 'transports'
+};
+
+exports.Prisma.PageScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  connectionId: 'connectionId',
+  platform: 'platform',
+  platformPageId: 'platformPageId',
+  name: 'name',
+  pictureUrl: 'pictureUrl',
+  accessToken: 'accessToken',
+  isActive: 'isActive',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BrandVoiceScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  name: 'name',
+  description: 'description',
+  sampleTexts: 'sampleTexts',
+  aiPrompt: 'aiPrompt',
+  isDefault: 'isDefault',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.HashtagSetScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  name: 'name',
+  hashtags: 'hashtags',
+  category: 'category',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ContentTemplateScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  orgId: 'orgId',
+  name: 'name',
+  platform: 'platform',
+  contentBody: 'contentBody',
+  mediaUrls: 'mediaUrls',
+  category: 'category',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ApprovalRequestScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  requestedBy: 'requestedBy',
+  reviewedBy: 'reviewedBy',
+  status: 'status',
+  comment: 'comment',
+  createdAt: 'createdAt',
+  reviewedAt: 'reviewedAt'
+};
+
+exports.Prisma.RssFeedScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  url: 'url',
+  name: 'name',
+  isActive: 'isActive',
+  checkInterval: 'checkInterval',
+  lastCheckedAt: 'lastCheckedAt',
+  lastItemGuid: 'lastItemGuid',
+  autoPost: 'autoPost',
+  tone: 'tone',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WebhookRuleScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  pageId: 'pageId',
+  name: 'name',
+  trigger: 'trigger',
+  action: 'action',
+  config: 'config',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LeadCaptureScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  pageId: 'pageId',
+  name: 'name',
+  email: 'email',
+  company: 'company',
+  source: 'source',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UtmLinkScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  postId: 'postId',
+  url: 'url',
+  source: 'source',
+  medium: 'medium',
+  campaign: 'campaign',
+  term: 'term',
+  content: 'content',
+  shortUrl: 'shortUrl',
+  clicks: 'clicks',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PerformanceReportScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  pageId: 'pageId',
+  reportType: 'reportType',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  data: 'data',
+  pdfUrl: 'pdfUrl',
+  sentTo: 'sentTo',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -462,7 +591,17 @@ exports.Prisma.ModelName = {
   AuditLog: 'AuditLog',
   WebhookEvent: 'WebhookEvent',
   PostTemplate: 'PostTemplate',
-  Authenticator: 'Authenticator'
+  Authenticator: 'Authenticator',
+  Page: 'Page',
+  BrandVoice: 'BrandVoice',
+  HashtagSet: 'HashtagSet',
+  ContentTemplate: 'ContentTemplate',
+  ApprovalRequest: 'ApprovalRequest',
+  RssFeed: 'RssFeed',
+  WebhookRule: 'WebhookRule',
+  LeadCapture: 'LeadCapture',
+  UtmLink: 'UtmLink',
+  PerformanceReport: 'PerformanceReport'
 };
 
 /**

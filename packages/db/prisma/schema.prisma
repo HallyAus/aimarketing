@@ -97,35 +97,43 @@ model Organization {
   memberships         Membership[]
   invitations         Invitation[]
   platformConnections PlatformConnection[]
+  pages               Page[]
   campaigns           Campaign[]
   posts               Post[]
   creatives           Creative[]
   auditLogs           AuditLog[]
   postTemplates       PostTemplate[]
+  contentTemplates    ContentTemplate[]
+  webhookRules        WebhookRule[]
+  leadCaptures        LeadCapture[]
+  utmLinks            UtmLink[]
+  performanceReports  PerformanceReport[]
 
   @@index([deletedAt])
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  name          String?
-  avatar        String?
-  emailVerified DateTime?
-  password      String?   // bcrypt hashed, null for OAuth/magic-link users
+  id                   String    @id @default(cuid())
+  email                String    @unique
+  name                 String?
+  avatar               String?
+  emailVerified        DateTime?
+  password             String? // bcrypt hashed, null for OAuth/magic-link users
   passwordResetToken   String?   @unique
   passwordResetExpires DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 
-  memberships       Membership[]
-  invitationsSent   Invitation[]   @relation("InvitedBy")
-  connectionsAdded  PlatformConnection[] @relation("ConnectedBy")
-  campaignsCreated  Campaign[]     @relation("CreatedBy")
-  postsApproved     Post[]         @relation("ApprovedBy")
-  auditLogs         AuditLog[]
-  templatesCreated  PostTemplate[] @relation("TemplateCreatedBy")
-  authenticators    Authenticator[]
+  memberships      Membership[]
+  invitationsSent  Invitation[]         @relation("InvitedBy")
+  connectionsAdded PlatformConnection[] @relation("ConnectedBy")
+  campaignsCreated Campaign[]           @relation("CreatedBy")
+  postsApproved    Post[]               @relation("ApprovedBy")
+  auditLogs        AuditLog[]
+  templatesCreated PostTemplate[]       @relation("TemplateCreatedBy")
+  authenticators   Authenticator[]
+  approvalRequests ApprovalRequest[]    @relation("ApprovalRequester")
+  approvalReviews  ApprovalRequest[]    @relation("ApprovalReviewer")
 
   // NextAuth fields
   accounts Account[]
@@ -212,8 +220,8 @@ model PlatformConnection {
   id                  String           @id @default(cuid())
   orgId               String
   platform            Platform
-  accessToken         String           // Encrypted at application level
-  refreshToken        String?          // Encrypted at application level
+  accessToken         String // Encrypted at application level
+  refreshToken        String? // Encrypted at application level
   tokenExpiresAt      DateTime?
   platformUserId      String
   platformAccountName String?
@@ -226,6 +234,7 @@ model PlatformConnection {
 
   organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
   connector    User         @relation("ConnectedBy", fields: [connectedBy], references: [id])
+  pages        Page[]
 
   @@unique([orgId, platform, platformUserId])
   @@index([orgId])
@@ -236,6 +245,7 @@ model PlatformConnection {
 model Campaign {
   id              String            @id @default(cuid())
   orgId           String
+  pageId          String?
   name            String
   objective       CampaignObjective
   status          CampaignStatus    @default(DRAFT)
@@ -251,10 +261,12 @@ model Campaign {
   updatedAt       DateTime          @updatedAt
 
   organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  page         Page?        @relation(fields: [pageId], references: [id])
   creator      User         @relation("CreatedBy", fields: [createdBy], references: [id])
   posts        Post[]
 
   @@index([orgId])
+  @@index([pageId])
   @@index([status])
   @@index([createdBy])
 }
@@ -263,6 +275,7 @@ model Post {
   id                 String     @id @default(cuid())
   campaignId         String?
   orgId              String
+  pageId             String
   platform           Platform
   content            String
   mediaUrls          String[]
@@ -274,7 +287,6 @@ model Post {
   rejectionReason    String?
   engagementSnapshot Json?
   errorMessage       String?
-  pageId             String?
   pageName           String?
   sourceUrl          String?
   tone               String?
@@ -282,12 +294,16 @@ model Post {
   createdAt          DateTime   @default(now())
   updatedAt          DateTime   @updatedAt
 
-  campaign     Campaign?         @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  organization Organization      @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  approver     User?             @relation("ApprovedBy", fields: [approvedBy], references: [id])
-  analytics    AnalyticsSnapshot[]
+  campaign        Campaign?           @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  organization    Organization        @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  page            Page                @relation(fields: [pageId], references: [id])
+  approver        User?               @relation("ApprovedBy", fields: [approvedBy], references: [id])
+  analytics       AnalyticsSnapshot[]
+  approvalRequest ApprovalRequest?
+  utmLinks        UtmLink[]
 
   @@index([orgId])
+  @@index([pageId])
   @@index([status, scheduledAt])
   @@index([campaignId])
   @@index([approvedBy])
@@ -314,25 +330,25 @@ model Creative {
 }
 
 model AnalyticsSnapshot {
-  id           String   @id @default(cuid())
-  postId       String
-  platform     Platform
-  snapshotAt   DateTime
-  impressions  Int      @default(0)
-  reach        Int      @default(0)
-  clicks       Int      @default(0)
-  likes        Int      @default(0)
-  comments     Int      @default(0)
-  shares       Int      @default(0)
-  saves        Int      @default(0)
-  videoViews   Int      @default(0)
-  spend        Decimal  @default(0) @db.Decimal(12, 2)
-  conversions  Int      @default(0)
-  ctr          Float    @default(0)
-  cpc          Decimal  @default(0) @db.Decimal(12, 4)
-  cpm          Decimal  @default(0) @db.Decimal(12, 4)
-  rawPayload   Json?
-  createdAt    DateTime @default(now())
+  id          String   @id @default(cuid())
+  postId      String
+  platform    Platform
+  snapshotAt  DateTime
+  impressions Int      @default(0)
+  reach       Int      @default(0)
+  clicks      Int      @default(0)
+  likes       Int      @default(0)
+  comments    Int      @default(0)
+  shares      Int      @default(0)
+  saves       Int      @default(0)
+  videoViews  Int      @default(0)
+  spend       Decimal  @default(0) @db.Decimal(12, 2)
+  conversions Int      @default(0)
+  ctr         Float    @default(0)
+  cpc         Decimal  @default(0) @db.Decimal(12, 4)
+  cpm         Decimal  @default(0) @db.Decimal(12, 4)
+  rawPayload  Json?
+  createdAt   DateTime @default(now())
 
   post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 
@@ -364,16 +380,16 @@ model AuditLog {
 }
 
 model WebhookEvent {
-  id              String   @id @default(cuid())
+  id              String    @id @default(cuid())
   platform        Platform
   eventType       String
   platformEventId String?
   payload         Json
   signature       String?
-  verified        Boolean  @default(false)
+  verified        Boolean   @default(false)
   processedAt     DateTime?
   processingError String?
-  createdAt       DateTime @default(now())
+  createdAt       DateTime  @default(now())
 
   @@unique([platform, platformEventId])
   @@index([platform, createdAt])
@@ -381,16 +397,16 @@ model WebhookEvent {
 }
 
 model PostTemplate {
-  id          String   @id @default(cuid())
-  orgId       String
-  name        String
-  platform    Platform?
-  content     String
-  mediaUrls   String[]
-  tags        String[]
-  createdBy   String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String    @id @default(cuid())
+  orgId     String
+  name      String
+  platform  Platform?
+  content   String
+  mediaUrls String[]
+  tags      String[]
+  createdBy String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
   creator      User         @relation("TemplateCreatedBy", fields: [createdBy], references: [id])
@@ -412,4 +428,196 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+// ── Page / Account Segregation ──────────────────────────────────────────
+
+model Page {
+  id             String   @id @default(cuid())
+  orgId          String
+  connectionId   String
+  platform       Platform
+  platformPageId String // e.g., Facebook page ID
+  name           String // e.g., "Printforge"
+  pictureUrl     String?
+  accessToken    String // encrypted page-specific access token
+  isActive       Boolean  @default(true)
+  metadata       Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization       Organization        @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  connection         PlatformConnection  @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+  posts              Post[]
+  campaigns          Campaign[]
+  brandVoices        BrandVoice[]
+  hashtagSets        HashtagSet[]
+  contentTemplates   ContentTemplate[]
+  rssFeeds           RssFeed[]
+  webhookRules       WebhookRule[]
+  leadCaptures       LeadCapture[]
+  performanceReports PerformanceReport[]
+
+  @@unique([orgId, platform, platformPageId])
+  @@index([orgId])
+  @@index([connectionId])
+}
+
+// ── Future-proof Models ─────────────────────────────────────────────────
+
+model BrandVoice {
+  id          String   @id @default(cuid())
+  pageId      String
+  name        String // e.g., "Professional", "Casual"
+  description String?
+  sampleTexts String[] // array of sample content
+  aiPrompt    String? // generated system prompt for this voice
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageId])
+}
+
+model HashtagSet {
+  id        String   @id @default(cuid())
+  pageId    String
+  name      String
+  hashtags  String[]
+  category  String?
+  createdAt DateTime @default(now())
+
+  page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageId])
+}
+
+model ContentTemplate {
+  id          String    @id @default(cuid())
+  pageId      String? // null = org-wide
+  orgId       String
+  name        String
+  platform    Platform?
+  contentBody String
+  mediaUrls   String[]
+  category    String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  page         Page?        @relation(fields: [pageId], references: [id])
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([pageId])
+}
+
+model ApprovalRequest {
+  id          String    @id @default(cuid())
+  postId      String    @unique
+  requestedBy String
+  reviewedBy  String?
+  status      String    @default("PENDING") // PENDING, APPROVED, REJECTED
+  comment     String?
+  createdAt   DateTime  @default(now())
+  reviewedAt  DateTime?
+
+  post      Post  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  requester User  @relation("ApprovalRequester", fields: [requestedBy], references: [id])
+  reviewer  User? @relation("ApprovalReviewer", fields: [reviewedBy], references: [id])
+}
+
+model RssFeed {
+  id            String    @id @default(cuid())
+  pageId        String
+  url           String
+  name          String?
+  isActive      Boolean   @default(true)
+  checkInterval Int       @default(3600) // seconds
+  lastCheckedAt DateTime?
+  lastItemGuid  String?
+  autoPost      Boolean   @default(false)
+  tone          String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageId])
+}
+
+model WebhookRule {
+  id        String   @id @default(cuid())
+  orgId     String
+  pageId    String?
+  name      String
+  trigger   String // e.g., "POST_LIKES_100", "POST_PUBLISHED", "CONNECTION_EXPIRED"
+  action    String // e.g., "CREATE_POST", "SEND_EMAIL", "WEBHOOK_URL"
+  config    Json // action-specific configuration
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  page         Page?        @relation(fields: [pageId], references: [id])
+
+  @@index([orgId])
+}
+
+model LeadCapture {
+  id        String   @id @default(cuid())
+  orgId     String
+  pageId    String?
+  name      String
+  email     String
+  company   String?
+  source    String? // which form/page captured this
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  page         Page?        @relation(fields: [pageId], references: [id])
+
+  @@index([orgId])
+  @@index([pageId])
+}
+
+model UtmLink {
+  id        String   @id @default(cuid())
+  orgId     String
+  postId    String?
+  url       String
+  source    String
+  medium    String
+  campaign  String
+  term      String?
+  content   String?
+  shortUrl  String?  @unique
+  clicks    Int      @default(0)
+  createdAt DateTime @default(now())
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  post         Post?        @relation(fields: [postId], references: [id])
+
+  @@index([orgId])
+  @@index([postId])
+}
+
+model PerformanceReport {
+  id         String   @id @default(cuid())
+  orgId      String
+  pageId     String?
+  reportType String // WEEKLY, MONTHLY, CUSTOM
+  startDate  DateTime
+  endDate    DateTime
+  data       Json // aggregated metrics
+  pdfUrl     String? // stored PDF
+  sentTo     String[] // email addresses
+  createdAt  DateTime @default(now())
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  page         Page?        @relation(fields: [pageId], references: [id])
+
+  @@index([orgId])
 }
