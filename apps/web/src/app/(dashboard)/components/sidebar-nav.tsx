@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
+import { AccountSelector } from "./account-selector";
 
 /* ------------------------------------------------------------------ */
 /*  Icon paths (20x20 viewBox, stroke-based)                           */
@@ -262,7 +263,9 @@ export function SidebarNav() {
             AdPilot
           </span>
         </div>
-        <button
+        <div className="flex items-center gap-2">
+          <AccountSelector />
+          <button
           type="button"
           onClick={() => setMobileOpen(!mobileOpen)}
           className="p-2 rounded-lg text-[var(--text-secondary)]"
@@ -277,6 +280,7 @@ export function SidebarNav() {
             )}
           </svg>
         </button>
+        </div>
       </header>
 
       {/* Mobile overlay */}
