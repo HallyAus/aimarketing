@@ -104,7 +104,7 @@ export default function CarouselBuilderPage() {
         });
         if (res.ok) {
           const blob = await res.blob();
-          (slide as Record<string, unknown>).imageUrl = URL.createObjectURL(blob);
+          (slide as unknown as Record<string, unknown>).imageUrl = URL.createObjectURL(blob);
         }
       }
       setSlides(updatedSlides);
