@@ -23,7 +23,7 @@ export async function GET(
     where: { id: session.user.currentOrgId },
   });
   if (!org) {
-    return NextResponse.redirect(new URL("/dashboard/settings/connections?error=org_not_found", req.url));
+    return NextResponse.redirect(new URL("/settings/connections?error=org_not_found", req.url));
   }
 
   const connectionCount = await prisma.platformConnection.count({
@@ -36,7 +36,7 @@ export async function GET(
   });
   if (!limitCheck.allowed) {
     return NextResponse.redirect(
-      new URL(`/dashboard/settings/connections?error=plan_limit&upgrade=${limitCheck.upgradeRequired}`, req.url)
+      new URL(`/settings/connections?error=plan_limit&upgrade=${limitCheck.upgradeRequired}`, req.url)
     );
   }
 
@@ -73,7 +73,7 @@ export async function GET(
   } catch (error) {
     console.error(`OAuth authorize error for ${platform}:`, error);
     return NextResponse.redirect(
-      new URL(`/dashboard/settings/connections?error=oauth_failed`, req.url)
+      new URL(`/settings/connections?error=oauth_failed`, req.url)
     );
   }
 }

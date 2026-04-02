@@ -16,13 +16,13 @@ export async function GET(
 
   if (error) {
     return NextResponse.redirect(
-      new URL(`/dashboard/settings/connections?error=${error}`, req.url)
+      new URL(`/settings/connections?error=${error}`, req.url)
     );
   }
 
   if (!code || !state) {
     return NextResponse.redirect(
-      new URL("/dashboard/settings/connections?error=missing_params", req.url)
+      new URL("/settings/connections?error=missing_params", req.url)
     );
   }
 
@@ -31,7 +31,7 @@ export async function GET(
   const stateCookie = cookieStore.get("adpilot-oauth-state");
   if (!stateCookie?.value) {
     return NextResponse.redirect(
-      new URL("/dashboard/settings/connections?error=invalid_state", req.url)
+      new URL("/settings/connections?error=invalid_state", req.url)
     );
   }
 
@@ -48,14 +48,14 @@ export async function GET(
     oauthState = JSON.parse(decryptedJson);
   } catch {
     return NextResponse.redirect(
-      new URL("/dashboard/settings/connections?error=invalid_state", req.url)
+      new URL("/settings/connections?error=invalid_state", req.url)
     );
   }
 
   // Validate CSRF state
   if (oauthState.state !== state || oauthState.platform !== platformKey) {
     return NextResponse.redirect(
-      new URL("/dashboard/settings/connections?error=state_mismatch", req.url)
+      new URL("/settings/connections?error=state_mismatch", req.url)
     );
   }
 
@@ -128,12 +128,12 @@ export async function GET(
     });
 
     return NextResponse.redirect(
-      new URL("/dashboard/settings/connections?success=connected", req.url)
+      new URL("/settings/connections?success=connected", req.url)
     );
   } catch (error) {
     console.error(`OAuth callback error for ${platform}:`, error);
     return NextResponse.redirect(
-      new URL(`/dashboard/settings/connections?error=exchange_failed`, req.url)
+      new URL(`/settings/connections?error=exchange_failed`, req.url)
     );
   }
 }
