@@ -56,10 +56,26 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
       : 0;
   }
 
+  // Side-effect: check for due scheduled posts and trigger publishing
+  // This runs every 30s via dashboard polling — acts as a lightweight scheduler
+  const dueCount = await prisma.post.count({
+    where: { status: "SCHEDULED", scheduledAt: { lte: new Date() }, orgId: req.orgId },
+  });
+  if (dueCount > 0) {
+    // Fire-and-forget: call the cron endpoint internally
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL || "";
+    if (baseUrl && process.env.CRON_SECRET) {
+      fetch(`${baseUrl}/api/cron/publish-scheduled`, {
+        headers: { authorization: `Bearer ${process.env.CRON_SECRET}` },
+      }).catch(() => {}); // fire and forget
+    }
+  }
+
   return NextResponse.json({
     totalPosts,
     scheduledCount,
     publishedToday,
     engagementRate: Math.round(engagementRate * 10) / 10,
+    dueForPublishing: dueCount,
   });
 }));

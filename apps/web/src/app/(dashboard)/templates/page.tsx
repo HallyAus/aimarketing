@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/page-header";
 import { EmptyState } from "@/components/empty-state";
 import { ActiveAccountBanner } from "@/components/active-account-banner";
 import { getActiveAccount } from "@/lib/active-account";
+import type { Platform } from "@adpilot/db";
 
 export const metadata: Metadata = {
   title: "Post Templates",
@@ -17,7 +18,7 @@ export default async function TemplatesPage() {
   const activeAccount = await getActiveAccount();
 
   // Filter templates by platform when a specific account is selected
-  const platformFilter = activeAccount ? { platform: activeAccount.platform } : {};
+  const platformFilter = activeAccount ? { platform: activeAccount.platform as Platform } : {};
 
   const templates = await prisma.postTemplate.findMany({
     where: { orgId: await getSessionOrg(), ...platformFilter },
