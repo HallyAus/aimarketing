@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const PLATFORMS = ["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT"];
 const TONES = ["professional", "casual", "humorous", "urgent", "inspirational", "educational"];
@@ -16,6 +17,7 @@ const IMAGE_PRESETS = [
 ];
 
 export default function AIStudioPage() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"post" | "improve" | "ideas" | "image">("post");
 
   return (
@@ -47,6 +49,18 @@ export default function AIStudioPage() {
             {tab.label}
           </button>
         ))}
+        <button
+          onClick={() => router.push("/ai/url-to-posts")}
+          className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium whitespace-nowrap min-h-[44px]"
+          style={{
+            borderBottom: "2px solid transparent",
+            marginBottom: "-1px",
+            color: "var(--text-secondary)",
+            background: "transparent",
+          }}
+        >
+          URL to Posts
+        </button>
       </div>
 
       {activeTab === "post" && <GeneratePostTab />}

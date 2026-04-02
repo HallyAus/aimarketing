@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import { PLATFORM_CONFIGS } from "@adpilot/platform-sdk";
 import type { Platform } from "@adpilot/platform-sdk";
 import type { Metadata } from "next";
+import { FacebookPages } from "./facebook-pages";
 
 export const metadata: Metadata = {
   title: "Platform Connections",
@@ -75,6 +76,12 @@ export default async function ConnectionsPage({
           const config = PLATFORM_CONFIGS[platform];
           const connection = connectionMap.get(platform);
 
+          // Extract saved Facebook page IDs from connection metadata
+          const fbSavedPageIds: string[] =
+            platform === "FACEBOOK" && connection?.status === "ACTIVE" && connection.metadata
+              ? ((connection.metadata as Record<string, unknown>)?.selectedPages as Array<{ id: string }> ?? []).map((p) => p.id)
+              : [];
+
           return (
             <div
               key={platform}
@@ -140,6 +147,11 @@ export default async function ConnectionsPage({
                   </form>
                 )}
               </div>
+
+              {/* Facebook Page Picker — shown when Facebook is actively connected */}
+              {platform === "FACEBOOK" && connection?.status === "ACTIVE" && (
+                <FacebookPages savedPageIds={fbSavedPageIds} />
+              )}
             </div>
           );
         })}

@@ -36,11 +36,11 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.19.3
+ * Prisma Client JS version: 6.19.2
  * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
  */
 Prisma.prismaVersion = {
-  client: "6.19.3",
+  client: "6.19.2",
   engine: "c2990dca591cba766e3b7ef5d9e8a84796e47ab7"
 }
 
@@ -464,7 +464,7 @@ const config = {
     "rootEnvPath": null
   },
   "relativePath": "../../prisma",
-  "clientVersion": "6.19.3",
+  "clientVersion": "6.19.2",
   "engineVersion": "c2990dca591cba766e3b7ef5d9e8a84796e47ab7",
   "datasourceNames": [
     "db"
@@ -489,8 +489,8 @@ const fs = require('fs')
 config.dirname = __dirname
 if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
   const alternativePaths = [
-    "packages/db/generated/client",
-    "db/generated/client",
+    "../../packages/db/generated/client",
+    "../packages/db/generated/client",
   ]
   
   const alternativePath = alternativePaths.find((altPath) => {
@@ -520,7 +520,7 @@ Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "packages/db/generated/client/query_engine-windows.dll.node")
+path.join(process.cwd(), "../../packages/db/generated/client/query_engine-windows.dll.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "packages/db/generated/client/schema.prisma")
+path.join(process.cwd(), "../../packages/db/generated/client/schema.prisma")
