@@ -12,6 +12,16 @@ interface BrandVoiceProfile {
   systemPrompt: string;
 }
 
+interface SavedVoice {
+  id: string;
+  name: string;
+  description?: string;
+  aiPrompt?: string;
+  isDefault: boolean;
+  sampleTexts: string[];
+  page?: { id: string; name: string; platform: string };
+}
+
 const STORAGE_KEY = "adpilot-brand-voice";
 
 export default function BrandVoicePage() {
@@ -21,15 +31,41 @@ export default function BrandVoicePage() {
   const [saved, setSaved] = useState(false);
   const [savedProfile, setSavedProfile] = useState<BrandVoiceProfile | null>(null);
   const [error, setError] = useState("");
+  const [dbVoices, setDbVoices] = useState<SavedVoice[]>([]);
+  const [saveName, setSaveName] = useState("");
+  const [savingToDb, setSavingToDb] = useState(false);
 
+  // Load from DB
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        setSavedProfile(JSON.parse(stored));
-      }
-    } catch {}
+    fetch("/api/ai/brand-voice/save")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.voices?.length > 0) {
+          setDbVoices(data.voices);
+          // Find the default voice and set it as savedProfile
+          const defaultVoice = data.voices.find((v: SavedVoice) => v.isDefault);
+          if (defaultVoice?.aiPrompt) {
+            try {
+              const profile = JSON.parse(defaultVoice.aiPrompt);
+              setSavedProfile(profile);
+            } catch {}
+          }
+        }
+      })
+      .catch(() => {});
   }, []);
+
+  // Fallback to localStorage
+  useEffect(() => {
+    if (dbVoices.length === 0) {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          setSavedProfile(JSON.parse(stored));
+        }
+      } catch {}
+    }
+  }, [dbVoices]);
 
   function addSample() {
     setSamples((prev) => [...prev, ""]);
@@ -73,8 +109,9 @@ export default function BrandVoicePage() {
     setLoading(false);
   }
 
-  function saveAsDefault() {
+  async function saveAsDefault() {
     if (!profile) return;
+    // Always save to localStorage as fallback
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
       setSavedProfile(profile);
@@ -82,6 +119,52 @@ export default function BrandVoicePage() {
     } catch {
       setError("Failed to save profile");
     }
+  }
+
+  async function saveToDb() {
+    if (!profile || !saveName.trim()) return;
+    setSavingToDb(true);
+    setError("");
+    try {
+      // Get the first available page for this org
+      const pagesRes = await fetch("/api/pages");
+      const pagesData = await pagesRes.json();
+      const pageId = pagesData.data?.[0]?.id;
+      if (!pageId) {
+        setError("No connected pages found. Connect a page first.");
+        setSavingToDb(false);
+        return;
+      }
+
+      const res = await fetch("/api/ai/brand-voice/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          pageId,
+          name: saveName.trim(),
+          description: profile.tone,
+          sampleTexts: samples.filter((s) => s.trim()),
+          aiPrompt: JSON.stringify(profile),
+          isDefault: true,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Failed to save");
+      setDbVoices((prev) => [data, ...prev]);
+      setSavedProfile(profile);
+      setSaved(true);
+      setSaveName("");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save to database");
+    }
+    setSavingToDb(false);
+  }
+
+  async function deleteVoice(id: string) {
+    try {
+      await fetch(`/api/ai/brand-voice/save?id=${id}`, { method: "DELETE" });
+      setDbVoices((prev) => prev.filter((v) => v.id !== id));
+    } catch {}
   }
 
   function clearSaved() {
@@ -205,6 +288,52 @@ export default function BrandVoicePage() {
                 }}
               >
                 System prompt: {savedProfile.systemPrompt}
+              </div>
+            </div>
+          )}
+
+          {/* DB-saved voices */}
+          {dbVoices.length > 0 && (
+            <div className="card">
+              <h3
+                className="text-sm font-semibold mb-3"
+                style={{ color: "var(--text-primary)" }}
+              >
+                Saved Voices ({dbVoices.length})
+              </h3>
+              <div className="space-y-2">
+                {dbVoices.map((voice) => (
+                  <div
+                    key={voice.id}
+                    className="flex items-center justify-between rounded-md px-3 py-2"
+                    style={{
+                      background: "var(--bg-tertiary)",
+                      border: voice.isDefault ? "1px solid var(--accent-blue)" : "1px solid var(--border-primary)",
+                    }}
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium truncate" style={{ color: "var(--text-primary)" }}>
+                          {voice.name}
+                        </span>
+                        {voice.isDefault && <span className="badge badge-info">Default</span>}
+                        {voice.page && <span className="badge badge-neutral">{voice.page.name}</span>}
+                      </div>
+                      {voice.description && (
+                        <p className="text-xs mt-0.5 truncate" style={{ color: "var(--text-tertiary)" }}>
+                          {voice.description}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => deleteVoice(voice.id)}
+                      className="text-xs ml-2 flex-shrink-0"
+                      style={{ color: "var(--accent-red)" }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -349,23 +478,45 @@ export default function BrandVoicePage() {
                   </div>
                 </div>
 
-                <div className="flex gap-2">
-                  <button
-                    onClick={saveAsDefault}
-                    className="btn-primary text-xs"
-                  >
-                    {saved ? "Saved!" : "Save as Default"}
-                  </button>
-                  <button
-                    onClick={() =>
-                      navigator.clipboard.writeText(
-                        JSON.stringify(profile, null, 2)
-                      )
-                    }
-                    className="btn-secondary text-xs"
-                  >
-                    Copy Profile JSON
-                  </button>
+                <div className="space-y-3">
+                  <div className="flex gap-2 items-end">
+                    <div className="flex-1">
+                      <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-tertiary)" }}>
+                        Voice Name
+                      </label>
+                      <input
+                        value={saveName}
+                        onChange={(e) => setSaveName(e.target.value)}
+                        placeholder="e.g. Professional, Casual..."
+                        className="w-full rounded-md px-3 py-1.5 text-xs"
+                      />
+                    </div>
+                    <button
+                      onClick={saveToDb}
+                      disabled={savingToDb || !saveName.trim()}
+                      className="btn-primary text-xs disabled:opacity-50"
+                    >
+                      {savingToDb ? "Saving..." : "Save to Database"}
+                    </button>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={saveAsDefault}
+                      className="btn-secondary text-xs"
+                    >
+                      {saved ? "Saved!" : "Save Locally"}
+                    </button>
+                    <button
+                      onClick={() =>
+                        navigator.clipboard.writeText(
+                          JSON.stringify(profile, null, 2)
+                        )
+                      }
+                      className="btn-secondary text-xs"
+                    >
+                      Copy Profile JSON
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

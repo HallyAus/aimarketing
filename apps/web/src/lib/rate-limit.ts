@@ -20,6 +20,7 @@ class EdgeRateLimiter {
   }
 
   async consume(key: string): Promise<void> {
+    maybeCleanup(this);
     const now = Date.now();
     const entry = this.store.get(key);
 

@@ -37,6 +37,8 @@ export default function StoryTemplatesPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [savingDraft, setSavingDraft] = useState(false);
+  const [success, setSuccess] = useState("");
 
   async function handleGenerate() {
     if (!selectedCategory || !topic.trim()) return;
@@ -70,9 +72,36 @@ export default function StoryTemplatesPage() {
     setTimeout(() => setCopiedField(null), 2000);
   }
 
-  function useTemplate() {
+  async function useTemplate() {
     if (!result) return;
-    alert("Use Template: Creating a draft post with this content. (Coming soon with drafts integration)");
+    setSavingDraft(true);
+    setError("");
+    try {
+      const fullContent = `${result.textOverlay}\n\n${result.caption}\n\n${result.hashtags.map((h) => `#${h}`).join(" ")}`;
+      const platformMap: Record<string, string> = {
+        "instagram-stories": "INSTAGRAM",
+        "facebook-stories": "FACEBOOK",
+        tiktok: "TIKTOK",
+        reels: "INSTAGRAM",
+      };
+      const res = await fetch("/api/ai/drafts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          posts: [{
+            content: fullContent,
+            platform: platformMap[platform] ?? "INSTAGRAM",
+          }],
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Failed to save draft");
+      setSuccess("Draft post created successfully");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save draft");
+    }
+    setSavingDraft(false);
   }
 
   const categoryInfo = TEMPLATE_CATEGORIES.find((c) => c.id === selectedCategory);
@@ -209,6 +238,7 @@ export default function StoryTemplatesPage() {
               </button>
 
               {error && <div className="alert alert-error">{error}</div>}
+              {success && <div className="alert alert-success">{success}</div>}
             </div>
 
             {/* Right: Result */}
@@ -386,9 +416,10 @@ export default function StoryTemplatesPage() {
                   {/* Use Template button */}
                   <button
                     onClick={useTemplate}
-                    className="btn-primary text-sm w-full min-h-[44px]"
+                    disabled={savingDraft}
+                    className="btn-primary text-sm w-full min-h-[44px] disabled:opacity-50"
                   >
-                    Use Template - Create Draft Post
+                    {savingDraft ? "Creating Draft..." : "Use Template - Create Draft Post"}
                   </button>
                 </div>
               )}

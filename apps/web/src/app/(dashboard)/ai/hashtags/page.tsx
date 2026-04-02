@@ -43,31 +43,86 @@ export default function HashtagsPage() {
   const [result, setResult] = useState<HashtagResult | null>(null);
   const [error, setError] = useState("");
   const [savedSets, setSavedSets] = useState<
-    Array<{ name: string; hashtags: string[]; platform: string }>
+    Array<{ id?: string; name: string; hashtags: string[]; platform: string }>
   >([]);
   const [copied, setCopied] = useState<string | null>(null);
 
+  // Load from DB first, then fallback to localStorage
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(SAVED_KEY);
-      if (stored) setSavedSets(JSON.parse(stored));
-    } catch {}
+    fetch("/api/ai/hashtags/save")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.sets?.length > 0) {
+          setSavedSets(
+            data.sets.map((s: { id: string; name: string; hashtags: string[]; category?: string }) => ({
+              id: s.id,
+              name: s.name,
+              hashtags: s.hashtags,
+              platform: s.category ?? "instagram",
+            }))
+          );
+        } else {
+          // Fallback to localStorage
+          try {
+            const stored = localStorage.getItem(SAVED_KEY);
+            if (stored) setSavedSets(JSON.parse(stored));
+          } catch {}
+        }
+      })
+      .catch(() => {
+        try {
+          const stored = localStorage.getItem(SAVED_KEY);
+          if (stored) setSavedSets(JSON.parse(stored));
+        } catch {}
+      });
   }, []);
 
-  function saveSet(name: string, hashtags: string[]) {
+  async function saveSet(name: string, hashtags: string[]) {
+    // Save to localStorage as fallback
     const newSets = [...savedSets, { name, hashtags, platform }];
     setSavedSets(newSets);
     try {
       localStorage.setItem(SAVED_KEY, JSON.stringify(newSets));
     } catch {}
+
+    // Also save to DB
+    try {
+      const pagesRes = await fetch("/api/pages");
+      const pagesData = await pagesRes.json();
+      const pageId = pagesData.data?.[0]?.id;
+      if (pageId) {
+        const res = await fetch("/api/ai/hashtags/save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pageId, name, hashtags, category: platform }),
+        });
+        const data = await res.json();
+        if (res.ok && data.id) {
+          // Update the last entry with the DB id
+          setSavedSets((prev) => {
+            const updated = [...prev];
+            updated[updated.length - 1] = { ...updated[updated.length - 1]!, id: data.id };
+            return updated;
+          });
+        }
+      }
+    } catch {}
   }
 
-  function removeSet(index: number) {
+  async function removeSet(index: number) {
+    const set = savedSets[index];
     const newSets = savedSets.filter((_, i) => i !== index);
     setSavedSets(newSets);
     try {
       localStorage.setItem(SAVED_KEY, JSON.stringify(newSets));
     } catch {}
+
+    // Also delete from DB
+    if (set?.id) {
+      try {
+        await fetch(`/api/ai/hashtags/save?id=${set.id}`, { method: "DELETE" });
+      } catch {}
+    }
   }
 
   function copyToClipboard(text: string, id: string) {

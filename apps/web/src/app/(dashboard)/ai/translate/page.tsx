@@ -53,9 +53,42 @@ export default function TranslatePage() {
     setTimeout(() => setSuccess(""), 2000);
   };
 
-  const scheduleAll = () => {
-    setSuccess("All translations queued for scheduling (placeholder). Navigate to Calendar to finalize times.");
-    setTimeout(() => setSuccess(""), 4000);
+  const [scheduling, setScheduling] = useState(false);
+
+  const scheduleAll = async () => {
+    if (Object.keys(translations).length === 0) return;
+    setScheduling(true);
+    setError("");
+    try {
+      // Save all translations as drafts first
+      const posts = Object.entries(translations).map(([lang, text]) => ({
+        content: `[${lang}] ${text}`,
+        platform: "FACEBOOK" as const,
+      }));
+      const draftRes = await fetch("/api/ai/drafts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ posts }),
+      });
+      const draftData = await draftRes.json();
+      if (!draftRes.ok) throw new Error(draftData.error ?? "Failed to create drafts");
+
+      // Auto-schedule them
+      const postIds = draftData.drafts.map((d: { id: string }) => d.id);
+      const schedRes = await fetch("/api/posts/auto-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postIds }),
+      });
+      const schedData = await schedRes.json();
+      if (!schedRes.ok) throw new Error(schedData.error ?? "Scheduling failed");
+
+      setSuccess(`${schedData.scheduled.length} translations scheduled successfully`);
+      setTimeout(() => setSuccess(""), 4000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Scheduling failed");
+    }
+    setScheduling(false);
   };
 
   return (
@@ -128,8 +161,8 @@ export default function TranslatePage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-[var(--text-primary)]">Translations</h3>
-                <button onClick={scheduleAll} className="btn-primary text-xs">
-                  Schedule All Translations
+                <button onClick={scheduleAll} disabled={scheduling} className="btn-primary text-xs disabled:opacity-50">
+                  {scheduling ? "Scheduling..." : "Schedule All Translations"}
                 </button>
               </div>
               {Object.entries(translations).map(([lang, text]) => (

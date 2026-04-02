@@ -26,20 +26,6 @@ export default function LandingPageBuilderPage() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/ai/generate-post", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          platform: "LANDING_PAGE",
-          topic: brief,
-          tone: "professional",
-          style: "conversion-focused",
-          maxLength: 10000,
-          // We'll use a custom prompt via the content
-        }),
-      });
-
-      // Actually, let's call a more appropriate endpoint. We'll build HTML ourselves via AI.
       const aiRes = await fetch("/api/email/campaign", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

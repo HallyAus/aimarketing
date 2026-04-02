@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface HeatmapProps {
   year: number;
@@ -33,6 +34,7 @@ export function CalendarHeatmapToggle({
   children,
 }: HeatmapProps & { children: React.ReactNode }) {
   const [view, setView] = useState<"calendar" | "heatmap">("calendar");
+  const router = useRouter();
 
   // Compute stats
   const totalPosts = Object.values(postCountByDay).reduce((a, b) => a + b, 0);
@@ -261,7 +263,7 @@ export function CalendarHeatmapToggle({
                 </p>
               </div>
               <button
-                onClick={() => alert(`AI Fill Gaps: Will suggest ${gapDays.length} posts to fill empty days in ${monthName}. (Coming soon with AI auto-scheduling integration)`)}
+                onClick={() => router.push("/ai/bulk-generate")}
                 className="btn-primary text-sm flex-shrink-0"
               >
                 AI Fill Gaps

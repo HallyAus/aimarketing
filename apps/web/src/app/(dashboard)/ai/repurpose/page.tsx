@@ -34,6 +34,9 @@ export default function ContentRepurposePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [copiedIdx, setCopiedIdx] = useState<string | null>(null);
+  const [scheduling, setScheduling] = useState(false);
+  const [schedulingItem, setSchedulingItem] = useState<string | null>(null);
+  const [success, setSuccess] = useState("");
 
   function toggleFormat(id: string) {
     setSelectedFormats((prev) =>
@@ -75,8 +78,60 @@ export default function ContentRepurposePage() {
     setTimeout(() => setCopiedIdx(null), 2000);
   }
 
-  function scheduleAll() {
-    alert("Schedule All: This will create draft posts for all generated content. (Coming soon with full scheduling integration)");
+  async function scheduleAll() {
+    setScheduling(true);
+    setError("");
+    try {
+      const platformMap: Record<string, string> = {
+        facebook: "FACEBOOK", instagram: "INSTAGRAM", linkedin: "LINKEDIN",
+        twitter: "TWITTER_X", thread: "TWITTER_X", "linkedin-article": "LINKEDIN",
+        carousel: "INSTAGRAM", email: "FACEBOOK",
+      };
+      const drafts = results.flatMap((result) =>
+        result.items.map((item) => ({
+          content: item.content,
+          platform: platformMap[result.format] ?? "FACEBOOK",
+        }))
+      );
+      const res = await fetch("/api/posts/auto-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ drafts }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Scheduling failed");
+      setSuccess(`${data.scheduled.length} posts scheduled successfully`);
+      setTimeout(() => setSuccess(""), 4000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Scheduling failed");
+    }
+    setScheduling(false);
+  }
+
+  async function scheduleItem(item: RepurposeItem, format: string) {
+    const key = `${format}-${item.content.slice(0, 20)}`;
+    setSchedulingItem(key);
+    try {
+      const platformMap: Record<string, string> = {
+        facebook: "FACEBOOK", instagram: "INSTAGRAM", linkedin: "LINKEDIN",
+        twitter: "TWITTER_X", thread: "TWITTER_X", "linkedin-article": "LINKEDIN",
+        carousel: "INSTAGRAM", email: "FACEBOOK",
+      };
+      const res = await fetch("/api/posts/auto-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          drafts: [{ content: item.content, platform: platformMap[format] ?? "FACEBOOK" }],
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Scheduling failed");
+      setSuccess("Post scheduled successfully");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Scheduling failed");
+    }
+    setSchedulingItem(null);
   }
 
   const formatLabel = (id: string) => OUTPUT_FORMATS.find((f) => f.id === id)?.label ?? id;
@@ -184,6 +239,9 @@ export default function ContentRepurposePage() {
           {error && (
             <div className="alert alert-error">{error}</div>
           )}
+          {success && (
+            <div className="alert alert-success">{success}</div>
+          )}
         </div>
 
         {/* Right: Results */}
@@ -224,8 +282,8 @@ export default function ContentRepurposePage() {
             <div className="space-y-4">
               {/* Schedule All button */}
               <div className="flex justify-end">
-                <button onClick={scheduleAll} className="btn-primary text-sm">
-                  Schedule All
+                <button onClick={scheduleAll} disabled={scheduling} className="btn-primary text-sm disabled:opacity-50">
+                  {scheduling ? "Scheduling..." : "Schedule All"}
                 </button>
               </div>
 
@@ -281,10 +339,11 @@ export default function ContentRepurposePage() {
                               {copiedIdx === key ? "Copied!" : "Copy"}
                             </button>
                             <button
-                              onClick={() => alert("Schedule post: Coming soon with full scheduling integration")}
-                              className="btn-ghost text-xs"
+                              onClick={() => scheduleItem(item, result.format)}
+                              disabled={schedulingItem !== null}
+                              className="btn-ghost text-xs disabled:opacity-50"
                             >
-                              Schedule
+                              {schedulingItem === `${result.format}-${item.content.slice(0, 20)}` ? "Scheduling..." : "Schedule"}
                             </button>
                           </div>
                         </div>

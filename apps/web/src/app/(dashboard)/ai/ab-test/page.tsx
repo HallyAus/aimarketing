@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
 
 const PLATFORMS = [
@@ -26,6 +27,9 @@ export default function ABTestPage() {
   const [error, setError] = useState("");
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
   const [selectedVariants, setSelectedVariants] = useState<Set<number>>(new Set());
+  const [launching, setLaunching] = useState(false);
+  const [success, setSuccess] = useState("");
+  const router = useRouter();
 
   async function handleGenerate() {
     if (!content.trim()) return;
@@ -67,11 +71,41 @@ export default function ABTestPage() {
     setTimeout(() => setCopiedIdx(null), 2000);
   }
 
-  function launchABTest() {
+  async function launchABTest() {
     const selected = variants.filter((_, i) => selectedVariants.has(i));
-    alert(
-      `Launching A/B Test with ${selected.length} variants.\n\nVariants will be scheduled at different times to measure performance.\n\n(Full analytics tracking coming soon)`
-    );
+    if (selected.length < 2) return;
+    setLaunching(true);
+    setError("");
+    try {
+      // Save each variant as a draft
+      const posts = selected.map((variant) => ({
+        content: variant.content,
+        platform: platform,
+      }));
+      const draftRes = await fetch("/api/ai/drafts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ posts }),
+      });
+      const draftData = await draftRes.json();
+      if (!draftRes.ok) throw new Error(draftData.error ?? "Failed to create drafts");
+
+      // Auto-schedule with staggered times (2 hour intervals for A/B comparison)
+      const postIds = draftData.drafts.map((d: { id: string }) => d.id);
+      const schedRes = await fetch("/api/posts/auto-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postIds, intervalHours: 2 }),
+      });
+      const schedData = await schedRes.json();
+      if (!schedRes.ok) throw new Error(schedData.error ?? "Scheduling failed");
+
+      setSuccess(`A/B test launched: ${schedData.scheduled.length} variants scheduled at staggered times`);
+      setTimeout(() => setSuccess(""), 5000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to launch A/B test");
+    }
+    setLaunching(false);
   }
 
   const platformLabel = PLATFORMS.find((p) => p.id === platform)?.label ?? platform;
@@ -150,6 +184,7 @@ export default function ABTestPage() {
           </button>
 
           {error && <div className="alert alert-error">{error}</div>}
+          {success && <div className="alert alert-success">{success}</div>}
         </div>
 
         {/* Right: Variants comparison */}
@@ -195,10 +230,10 @@ export default function ABTestPage() {
                 </p>
                 <button
                   onClick={launchABTest}
-                  disabled={selectedVariants.size < 2}
+                  disabled={selectedVariants.size < 2 || launching}
                   className="btn-primary text-sm disabled:opacity-50"
                 >
-                  Launch A/B Test
+                  {launching ? "Launching..." : "Launch A/B Test"}
                 </button>
               </div>
 

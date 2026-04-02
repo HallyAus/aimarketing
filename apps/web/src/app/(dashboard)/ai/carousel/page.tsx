@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
 
 interface Slide {
@@ -25,6 +26,7 @@ const SLIDE_COLORS = [
 ];
 
 export default function CarouselBuilderPage() {
+  const router = useRouter();
   const [topic, setTopic] = useState("");
   const [content, setContent] = useState("");
   const [platform, setPlatform] = useState<"instagram" | "linkedin">("instagram");
@@ -33,6 +35,10 @@ export default function CarouselBuilderPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [editingSlide, setEditingSlide] = useState<number | null>(null);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [savingDraft, setSavingDraft] = useState(false);
+  const [scheduling, setScheduling] = useState(false);
+  const [success, setSuccess] = useState("");
 
   async function handleGenerate() {
     if (!topic.trim()) return;
@@ -83,16 +89,79 @@ export default function CarouselBuilderPage() {
     setSlides(newSlides);
   }
 
-  function generateImages() {
-    alert("Generate Images: This will use AI image generation for each slide background. (Uses the Create Image feature)");
+  async function generateImages() {
+    setImageLoading(true);
+    setError("");
+    try {
+      const updatedSlides = [...slides];
+      for (let i = 0; i < updatedSlides.length; i++) {
+        const slide = updatedSlides[i]!;
+        if (!slide.imagePrompt) continue;
+        const res = await fetch("/api/ai/image-gen", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: slide.imagePrompt, style: "flat-design", size: "instagram-square" }),
+        });
+        if (res.ok) {
+          const blob = await res.blob();
+          (slide as Record<string, unknown>).imageUrl = URL.createObjectURL(blob);
+        }
+      }
+      setSlides(updatedSlides);
+      setSuccess("Images generated for all slides");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Image generation failed");
+    }
+    setImageLoading(false);
   }
 
-  function saveDraft() {
-    alert("Save as Draft: Carousel saved. (Coming soon with post drafts integration)");
+  async function saveDraft() {
+    setSavingDraft(true);
+    setError("");
+    try {
+      const platformMap: Record<string, string> = { instagram: "INSTAGRAM", linkedin: "LINKEDIN" };
+      const posts = slides.map((slide) => ({
+        content: `[Slide ${slide.slideNumber}] ${slide.title}\n\n${slide.body}${slide.cta ? `\n\nCTA: ${slide.cta}` : ""}`,
+        platform: platformMap[platform] ?? "INSTAGRAM",
+      }));
+      const res = await fetch("/api/ai/drafts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ posts }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Failed to save drafts");
+      setSuccess(`${data.count} slides saved as drafts`);
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save drafts");
+    }
+    setSavingDraft(false);
   }
 
-  function scheduleCarousel() {
-    alert("Schedule: Carousel will be scheduled for publishing. (Coming soon with full scheduling integration)");
+  async function scheduleCarousel() {
+    setScheduling(true);
+    setError("");
+    try {
+      const platformMap: Record<string, string> = { instagram: "INSTAGRAM", linkedin: "LINKEDIN" };
+      const drafts = slides.map((slide) => ({
+        content: `[Slide ${slide.slideNumber}] ${slide.title}\n\n${slide.body}${slide.cta ? `\n\nCTA: ${slide.cta}` : ""}`,
+        platform: platformMap[platform] ?? "INSTAGRAM",
+      }));
+      const res = await fetch("/api/posts/auto-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ drafts }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Scheduling failed");
+      setSuccess(`${data.scheduled.length} slides scheduled`);
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Scheduling failed");
+    }
+    setScheduling(false);
   }
 
   return (
@@ -185,19 +254,20 @@ export default function CarouselBuilderPage() {
           </button>
 
           {error && <div className="alert alert-error">{error}</div>}
+          {success && <div className="alert alert-success">{success}</div>}
 
           {/* Action buttons */}
           {slides.length > 0 && (
             <div className="space-y-2">
-              <button onClick={generateImages} className="btn-secondary text-sm w-full">
-                Generate Images
+              <button onClick={generateImages} disabled={imageLoading} className="btn-secondary text-sm w-full disabled:opacity-50">
+                {imageLoading ? "Generating Images..." : "Generate Images"}
               </button>
               <div className="flex gap-2">
-                <button onClick={saveDraft} className="btn-secondary text-sm flex-1">
-                  Save as Draft
+                <button onClick={saveDraft} disabled={savingDraft} className="btn-secondary text-sm flex-1 disabled:opacity-50">
+                  {savingDraft ? "Saving..." : "Save as Draft"}
                 </button>
-                <button onClick={scheduleCarousel} className="btn-primary text-sm flex-1">
-                  Schedule
+                <button onClick={scheduleCarousel} disabled={scheduling} className="btn-primary text-sm flex-1 disabled:opacity-50">
+                  {scheduling ? "Scheduling..." : "Schedule"}
                 </button>
               </div>
             </div>

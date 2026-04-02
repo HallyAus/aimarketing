@@ -219,8 +219,13 @@ export default function EmailMarketingPage() {
               </div>
             )}
             {htmlContent ? (
-              <div className="rounded-lg border border-[var(--border-primary)] bg-white p-4 overflow-auto max-h-[500px]">
-                <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+              <div className="rounded-lg border border-[var(--border-primary)] bg-white overflow-auto" style={{ height: "500px" }}>
+                <iframe
+                  srcDoc={htmlContent}
+                  className="w-full h-full border-0"
+                  title="Email Preview"
+                  sandbox=""
+                />
               </div>
             ) : (
               <p className="text-sm text-[var(--text-tertiary)] text-center py-12">

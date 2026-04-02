@@ -4,9 +4,16 @@ import { withErrorHandler } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
 
 // GET /api/webhooks/rules — list webhook rules for current org
+// Optional: ?trigger=AUTO_REPLY to filter by trigger type
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
+  const trigger = req.nextUrl.searchParams.get("trigger");
+  const where: Record<string, unknown> = { orgId: req.orgId };
+  if (trigger) {
+    where.trigger = trigger;
+  }
+
   const rules = await prisma.webhookRule.findMany({
-    where: { orgId: req.orgId },
+    where,
     include: { page: { select: { id: true, name: true, platform: true } } },
     orderBy: { createdAt: "desc" },
   });

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
 
 const STYLE_PRESETS = [
@@ -28,6 +29,7 @@ export default function ImageGenPage() {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter();
 
   async function generateImage() {
     if (!prompt.trim()) {
@@ -241,10 +243,11 @@ export default function ImageGenPage() {
                   </a>
                   <button
                     onClick={() => {
-                      // In future: open in post composer
-                      navigator.clipboard.writeText(
-                        "Image ready - use in post composer (coming soon)"
-                      );
+                      // Store the image URL in sessionStorage for the post composer to pick up
+                      try {
+                        sessionStorage.setItem("adpilot-pending-image", imageUrl);
+                      } catch {}
+                      router.push("/ai/url-to-posts");
                     }}
                     className="btn-secondary text-xs"
                   >

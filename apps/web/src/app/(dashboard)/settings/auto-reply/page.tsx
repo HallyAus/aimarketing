@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PageHeader } from "@/components/page-header";
 
 interface ReplyRule {
@@ -43,26 +43,6 @@ const TEMPLATES: { name: string; keywords: string; response: string }[] = [
   },
 ];
 
-// Placeholder log data
-const SAMPLE_LOGS: ReplyLog[] = [
-  {
-    id: "1",
-    keyword: "pricing",
-    originalMessage: "How much does this cost?",
-    reply: "Thanks for your interest! Check our pricing at...",
-    platform: "Instagram",
-    timestamp: new Date(Date.now() - 3600000).toISOString(),
-  },
-  {
-    id: "2",
-    keyword: "hours",
-    originalMessage: "When are you guys open?",
-    reply: "We're available Monday-Friday, 9 AM to 6 PM EST.",
-    platform: "Facebook",
-    timestamp: new Date(Date.now() - 7200000).toISOString(),
-  },
-];
-
 export default function AutoReplyPage() {
   const [enabled, setEnabled] = useState(false);
   const [rules, setRules] = useState<ReplyRule[]>([]);
@@ -70,44 +50,142 @@ export default function AutoReplyPage() {
   const [newKeywords, setNewKeywords] = useState("");
   const [newResponse, setNewResponse] = useState("");
   const [useAI, setUseAI] = useState(false);
-  const [logs] = useState<ReplyLog[]>(SAMPLE_LOGS);
+  const [logs] = useState<ReplyLog[]>([]);
   const [activeTab, setActiveTab] = useState<"rules" | "logs">("rules");
+  const [loadingRules, setLoadingRules] = useState(true);
 
-  function addRule() {
+  // Load saved rules from DB on mount
+  useEffect(() => {
+    fetch("/api/webhooks/rules?trigger=AUTO_REPLY")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data?.length > 0) {
+          const loaded = data.data.map((r: { id: string; config: { keyword?: string; response?: string; useAi?: boolean }; isActive: boolean }) => ({
+            id: r.id,
+            keywords: r.config?.keyword ?? "",
+            response: r.config?.response ?? "[AI-generated response]",
+            isAI: r.config?.useAi ?? false,
+            enabled: r.isActive,
+          }));
+          setRules(loaded);
+          setEnabled(loaded.some((r: ReplyRule) => r.enabled));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoadingRules(false));
+  }, []);
+
+  async function addRule() {
     if (!newKeywords.trim()) return;
-    const rule: ReplyRule = {
-      id: crypto.randomUUID(),
-      keywords: newKeywords.trim(),
-      response: useAI ? "[AI-generated response]" : newResponse.trim(),
-      isAI: useAI,
-      enabled: true,
-    };
-    setRules((prev) => [...prev, rule]);
+    try {
+      const res = await fetch("/api/webhooks/rules", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: `Auto-Reply: ${newKeywords.trim().split(",")[0]}`,
+          trigger: "AUTO_REPLY",
+          action: "AI_RESPOND",
+          config: {
+            keyword: newKeywords.trim(),
+            response: useAI ? "[AI-generated response]" : newResponse.trim(),
+            useAi: useAI,
+          },
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Failed to create rule");
+
+      const rule: ReplyRule = {
+        id: data.id,
+        keywords: newKeywords.trim(),
+        response: useAI ? "[AI-generated response]" : newResponse.trim(),
+        isAI: useAI,
+        enabled: true,
+      };
+      setRules((prev) => [...prev, rule]);
+      setNewKeywords("");
+      setNewResponse("");
+      setUseAI(false);
+    } catch {
+      // Fallback to local-only
+      const rule: ReplyRule = {
+        id: crypto.randomUUID(),
+        keywords: newKeywords.trim(),
+        response: useAI ? "[AI-generated response]" : newResponse.trim(),
+        isAI: useAI,
+        enabled: true,
+      };
+      setRules((prev) => [...prev, rule]);
+      setNewKeywords("");
+      setNewResponse("");
+      setUseAI(false);
+    }
+  }
+
+  async function removeRule(id: string) {
+    setRules((prev) => prev.filter((r) => r.id !== id));
+    try {
+      await fetch(`/api/webhooks/rules?ruleId=${id}`, { method: "DELETE" });
+    } catch {}
+  }
+
+  async function toggleRule(id: string) {
+    const rule = rules.find((r) => r.id === id);
+    if (!rule) return;
+    const newEnabled = !rule.enabled;
+    setRules((prev) =>
+      prev.map((r) => (r.id === id ? { ...r, enabled: newEnabled } : r))
+    );
+    try {
+      await fetch("/api/webhooks/rules", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ruleId: id, isActive: newEnabled }),
+      });
+    } catch {}
+  }
+
+  async function addFromTemplate(template: (typeof TEMPLATES)[0]) {
+    setNewKeywords(template.keywords);
+    setNewResponse(template.response);
+    setUseAI(false);
+    try {
+      const res = await fetch("/api/webhooks/rules", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: `Auto-Reply: ${template.name}`,
+          trigger: "AUTO_REPLY",
+          action: "AI_RESPOND",
+          config: {
+            keyword: template.keywords,
+            response: template.response,
+            useAi: false,
+          },
+        }),
+      });
+      const data = await res.json();
+      const rule: ReplyRule = {
+        id: data.id ?? crypto.randomUUID(),
+        keywords: template.keywords,
+        response: template.response,
+        isAI: false,
+        enabled: true,
+      };
+      setRules((prev) => [...prev, rule]);
+    } catch {
+      const rule: ReplyRule = {
+        id: crypto.randomUUID(),
+        keywords: template.keywords,
+        response: template.response,
+        isAI: false,
+        enabled: true,
+      };
+      setRules((prev) => [...prev, rule]);
+    }
+    setShowTemplates(false);
     setNewKeywords("");
     setNewResponse("");
-    setUseAI(false);
-  }
-
-  function removeRule(id: string) {
-    setRules((prev) => prev.filter((r) => r.id !== id));
-  }
-
-  function toggleRule(id: string) {
-    setRules((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, enabled: !r.enabled } : r))
-    );
-  }
-
-  function addFromTemplate(template: (typeof TEMPLATES)[0]) {
-    const rule: ReplyRule = {
-      id: crypto.randomUUID(),
-      keywords: template.keywords,
-      response: template.response,
-      isAI: false,
-      enabled: true,
-    };
-    setRules((prev) => [...prev, rule]);
-    setShowTemplates(false);
   }
 
   return (
