@@ -66,7 +66,7 @@ export default async function OnboardingPage() {
               className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0"
               style={{
                 background: step.done ? "var(--accent-emerald)" : "var(--bg-elevated)",
-                color: step.done ? "#fff" : "var(--text-secondary)",
+                color: step.done ? "white" : "var(--text-secondary)",
               }}
             >
               {step.done ? "\u2713" : i + 1}

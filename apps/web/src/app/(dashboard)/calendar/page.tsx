@@ -3,22 +3,11 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
+import { getPlatformAccent, getPlatformLabel } from "@/lib/platform-colors";
 
 export const metadata: Metadata = {
   title: "Content Calendar",
   robots: { index: false },
-};
-
-const PLATFORM_ACCENT: Record<string, string> = {
-  FACEBOOK: "var(--accent-blue)",
-  INSTAGRAM: "#e1306c",
-  TIKTOK: "var(--text-primary)",
-  LINKEDIN: "#0077b5",
-  TWITTER_X: "var(--text-secondary)",
-  YOUTUBE: "var(--accent-red)",
-  GOOGLE_ADS: "var(--accent-emerald)",
-  PINTEREST: "#e60023",
-  SNAPCHAT: "var(--accent-amber)",
 };
 
 export default async function CalendarPage({
@@ -127,12 +116,12 @@ export default async function CalendarPage({
                     key={post.id}
                     className="text-sm p-2 rounded flex items-center gap-2"
                     style={{
-                      borderLeft: `3px solid ${PLATFORM_ACCENT[post.platform] ?? "var(--border-primary)"}`,
+                      borderLeft: `3px solid ${getPlatformAccent(post.platform)}`,
                       background: "var(--bg-tertiary)",
                     }}
                   >
-                    <span className="text-xs font-medium flex-shrink-0" style={{ color: PLATFORM_ACCENT[post.platform] ?? "var(--text-secondary)" }}>
-                      {post.platform.replaceAll("_", " ")}
+                    <span className="text-xs font-medium flex-shrink-0" style={{ color: getPlatformAccent(post.platform) }}>
+                      {getPlatformLabel(post.platform)}
                     </span>
                     <span className="truncate" style={{ color: "var(--text-secondary)" }}>
                       {post.campaign?.name ?? "Draft"}
@@ -210,7 +199,7 @@ export default async function CalendarPage({
                       key={post.id}
                       className="text-xs p-1 rounded truncate"
                       style={{
-                        borderLeft: `2px solid ${PLATFORM_ACCENT[post.platform] ?? "var(--border-primary)"}`,
+                        borderLeft: `2px solid ${getPlatformAccent(post.platform)}`,
                         background: "var(--bg-tertiary)",
                         color: "var(--text-secondary)",
                       }}

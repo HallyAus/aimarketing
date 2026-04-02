@@ -59,6 +59,16 @@
   ::-webkit-scrollbar-thumb { background: var(--border-primary); border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
 
+  /* Global focus-visible ring for all interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  select:focus-visible,
+  [role="button"]:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+  }
+
   /* Form defaults */
   input, textarea, select {
     background: var(--bg-tertiary);
@@ -82,36 +92,47 @@
 }
 
 @layer components {
+  /* ---- Buttons ---- */
+
   .btn-primary {
-    @apply px-4 py-2 text-sm font-medium rounded-lg transition-all;
+    @apply px-4 py-2 text-sm font-medium rounded-lg transition-all duration-150 inline-flex items-center justify-center;
     background: var(--accent-blue);
     color: white;
+    min-height: 36px;
   }
   .btn-primary:hover { background: var(--accent-blue-hover); }
   .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
   .btn-secondary {
-    @apply px-4 py-2 text-sm font-medium rounded-lg transition-all;
+    @apply px-4 py-2 text-sm font-medium rounded-lg transition-all duration-150 inline-flex items-center justify-center;
     background: var(--bg-tertiary);
     color: var(--text-primary);
     border: 1px solid var(--border-primary);
+    min-height: 36px;
   }
   .btn-secondary:hover { background: var(--bg-hover); }
 
   .btn-danger {
-    @apply px-4 py-2 text-sm font-medium rounded-lg transition-all;
+    @apply px-4 py-2 text-sm font-medium rounded-lg transition-all duration-150 inline-flex items-center justify-center;
     background: var(--accent-red-muted);
     color: var(--accent-red);
     border: 1px solid rgba(239, 68, 68, 0.3);
+    min-height: 36px;
   }
   .btn-danger:hover { background: rgba(239, 68, 68, 0.25); }
 
-  .btn-primary:focus-visible,
-  .btn-secondary:focus-visible,
-  .btn-danger:focus-visible {
-    outline: 2px solid var(--accent-blue);
-    outline-offset: 2px;
+  .btn-ghost {
+    @apply px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-150 inline-flex items-center justify-center;
+    background: transparent;
+    color: var(--text-secondary);
+    min-height: 36px;
   }
+  .btn-ghost:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  /* ---- Badges ---- */
 
   .badge {
     @apply inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full;
@@ -122,6 +143,8 @@
   .badge-info { background: var(--accent-blue-muted); color: var(--accent-blue); }
   .badge-purple { background: var(--accent-purple-muted); color: var(--accent-purple); }
   .badge-neutral { background: var(--bg-elevated); color: var(--text-secondary); }
+
+  /* ---- Navigation ---- */
 
   .nav-link {
     color: var(--text-secondary);
@@ -140,6 +163,8 @@
     background: var(--bg-hover);
     color: var(--text-secondary);
   }
+
+  /* ---- Cards ---- */
 
   .card {
     background: var(--bg-secondary);
@@ -163,6 +188,8 @@
     padding: 1rem 1.25rem;
   }
 
+  /* ---- Section label ---- */
+
   .section-label {
     font-size: 0.6875rem;
     font-weight: 600;
@@ -171,9 +198,121 @@
     color: var(--text-tertiary);
   }
 
+  /* ---- Table ---- */
+
   .table-row {
     border-bottom: 1px solid var(--border-secondary);
     transition: background 0.1s;
   }
   .table-row:hover { background: var(--bg-tertiary); }
+
+  /* ---- Alerts / Banners ---- */
+
+  .alert {
+    @apply rounded-lg px-4 py-3 text-sm flex items-center justify-between;
+  }
+  .alert-success {
+    background: var(--accent-emerald-muted);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: var(--accent-emerald);
+  }
+  .alert-error {
+    background: var(--accent-red-muted);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: var(--accent-red);
+  }
+  .alert-warning {
+    background: var(--accent-amber-muted);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: var(--accent-amber);
+  }
+
+  /* ---- Modal overlay ---- */
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .modal-panel {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 28rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  /* ---- Tabs (filter / navigation) ---- */
+
+  .tab-bar {
+    display: flex;
+    gap: 0.25rem;
+    border-bottom: 1px solid var(--border-secondary);
+  }
+
+  .tab-item {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+    min-height: 44px;
+  }
+  .tab-item:hover {
+    color: var(--text-primary);
+  }
+  .tab-item-active {
+    border-bottom-color: var(--accent-blue);
+    color: var(--accent-blue);
+    font-weight: 600;
+  }
+
+  /* ---- Inline form (schedule/publish panels) ---- */
+
+  .inline-form {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-md);
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  /* Consistent transitions */
+  .transition-colors {
+    transition: color 150ms, background-color 150ms, border-color 150ms;
+  }
+
+  /* Focus ring for all interactive elements */
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--accent-blue);
+    outline-offset: 2px;
+  }
+
+  /* Skeleton loading animation */
+  .skeleton {
+    background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-elevated) 50%, var(--bg-tertiary) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }

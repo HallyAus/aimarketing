@@ -5,6 +5,7 @@ import { PLATFORM_CONFIGS } from "@adpilot/platform-sdk";
 import type { Platform } from "@adpilot/platform-sdk";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
+import { StatusBadge } from "@/components/status-badge";
 import { FacebookPages } from "./facebook-pages";
 
 export const metadata: Metadata = {
@@ -16,12 +17,6 @@ const PLATFORM_ORDER: Platform[] = [
   "FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X",
   "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT",
 ];
-
-const STATUS_BADGE: Record<string, string> = {
-  ACTIVE: "badge-success",
-  EXPIRED: "badge-warning",
-  REVOKED: "badge-error",
-};
 
 export default async function ConnectionsPage({
   searchParams,
@@ -52,27 +47,13 @@ export default async function ConnectionsPage({
       />
 
       {params.success === "connected" && (
-        <div
-          className="mb-4 rounded-md p-3 text-sm"
-          style={{
-            background: "rgba(16,185,129,0.1)",
-            border: "1px solid rgba(16,185,129,0.3)",
-            color: "var(--accent-emerald)",
-          }}
-        >
+        <div className="alert alert-success mb-4">
           Platform connected successfully!
         </div>
       )}
 
       {params.error && (
-        <div
-          className="mb-4 rounded-md p-3 text-sm"
-          style={{
-            background: "rgba(239,68,68,0.1)",
-            border: "1px solid rgba(239,68,68,0.3)",
-            color: "var(--accent-red)",
-          }}
-        >
+        <div className="alert alert-error mb-4">
           Connection failed: {params.error.replace(/_/g, " ")}
         </div>
       )}
@@ -97,9 +78,7 @@ export default async function ConnectionsPage({
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-medium" style={{ color: "var(--text-primary)" }}>{config.displayName}</h3>
                   {connection && (
-                    <span className={STATUS_BADGE[connection.status] ?? "badge-neutral"}>
-                      {connection.status}
-                    </span>
+                    <StatusBadge status={connection.status} />
                   )}
                 </div>
                 {connection && (
@@ -120,11 +99,8 @@ export default async function ConnectionsPage({
                 ) : connection.status === "EXPIRED" ? (
                   <a
                     href={`/api/platforms/${platform}/authorize`}
-                    className="inline-flex items-center rounded px-3 py-1.5 text-sm font-medium"
-                    style={{
-                      background: "var(--accent-amber)",
-                      color: "#000",
-                    }}
+                    className="btn-primary text-sm"
+                    style={{ background: "var(--accent-amber)", color: "var(--text-inverse)" }}
                   >
                     Reconnect
                   </a>

@@ -4,6 +4,8 @@ import { prisma } from "@/lib/db";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
 import { MetricCard } from "@/components/metric-card";
+import { EmptyState } from "@/components/empty-state";
+import { PlatformBadge } from "@/components/platform-badge";
 
 export const metadata: Metadata = {
   title: "Analytics",
@@ -67,7 +69,7 @@ export default async function AnalyticsPage() {
       />
 
       {/* Overview metric cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
         <MetricCard label="Impressions" value={totals.impressions.toLocaleString()} accent="var(--accent-blue)" />
         <MetricCard label="Reach" value={totals.reach.toLocaleString()} accent="var(--accent-purple)" />
         <MetricCard label="Clicks" value={totals.clicks.toLocaleString()} accent="var(--accent-emerald)" />
@@ -79,9 +81,10 @@ export default async function AnalyticsPage() {
       {/* Post Performance Table */}
       <div className="section-label mb-3">Post Performance</div>
       {posts.length === 0 ? (
-        <div className="card text-center py-8">
-          <p className="text-sm" style={{ color: "var(--text-tertiary)" }}>No published posts yet.</p>
-        </div>
+        <EmptyState
+          title="No published posts yet"
+          description="Publish posts to see performance data here."
+        />
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse">
@@ -117,7 +120,7 @@ export default async function AnalyticsPage() {
                   <tr key={post.id} className="table-row">
                     <td className="px-3 py-2.5" style={{ color: "var(--text-primary)" }}>{post.campaign?.name ?? "No campaign"}</td>
                     <td className="px-3 py-2.5">
-                      <span className="badge badge-info">{post.platform}</span>
+                      <PlatformBadge platform={post.platform} />
                     </td>
                     <td className="px-3 py-2.5 max-w-xs truncate" style={{ color: "var(--text-secondary)" }}>{post.content}</td>
                     <td className="px-3 py-2.5 text-right font-medium" style={{ color: "var(--text-primary)" }}>{m?.impressions?.toLocaleString() ?? "—"}</td>

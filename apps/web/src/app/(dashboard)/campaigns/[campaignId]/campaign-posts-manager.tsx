@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { PageHeader } from "@/components/page-header";
+import { PlatformBadge } from "@/components/platform-badge";
+import { StatusBadge } from "@/components/status-badge";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -44,39 +46,6 @@ type FilterTab = "ALL" | "DRAFT" | "SCHEDULED" | "PUBLISHED" | "FAILED";
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
 /* ------------------------------------------------------------------ */
-
-const STATUS_BADGE: Record<string, string> = {
-  DRAFT: "badge badge-neutral",
-  PENDING_APPROVAL: "badge badge-warning",
-  APPROVED: "badge badge-info",
-  REJECTED: "badge badge-error",
-  SCHEDULED: "badge badge-info",
-  PUBLISHING: "badge badge-warning",
-  PUBLISHED: "badge badge-success",
-  FAILED: "badge badge-error",
-  DELETED: "badge badge-neutral",
-};
-
-const CAMPAIGN_STATUS_BADGE: Record<string, string> = {
-  DRAFT: "badge badge-neutral",
-  SCHEDULED: "badge badge-info",
-  ACTIVE: "badge badge-success",
-  PAUSED: "badge badge-warning",
-  COMPLETED: "badge badge-purple",
-  FAILED: "badge badge-error",
-};
-
-const PLATFORM_STYLE: Record<string, { bg: string; color: string }> = {
-  FACEBOOK: { bg: "rgba(59, 130, 246, 0.15)", color: "var(--accent-blue)" },
-  INSTAGRAM: { bg: "rgba(139, 92, 246, 0.15)", color: "var(--accent-purple)" },
-  TIKTOK: { bg: "rgba(16, 185, 129, 0.15)", color: "var(--accent-emerald)" },
-  LINKEDIN: { bg: "rgba(59, 130, 246, 0.15)", color: "var(--accent-blue)" },
-  TWITTER_X: { bg: "rgba(139, 92, 246, 0.15)", color: "var(--accent-purple)" },
-  GOOGLE_ADS: { bg: "rgba(245, 158, 11, 0.15)", color: "var(--accent-amber)" },
-  YOUTUBE: { bg: "rgba(239, 68, 68, 0.15)", color: "var(--accent-red)" },
-  PINTEREST: { bg: "rgba(239, 68, 68, 0.15)", color: "var(--accent-red)" },
-  SNAPCHAT: { bg: "rgba(245, 158, 11, 0.15)", color: "var(--accent-amber)" },
-};
 
 const FILTER_TABS: FilterTab[] = ["ALL", "DRAFT", "SCHEDULED", "PUBLISHED", "FAILED"];
 
@@ -368,18 +337,6 @@ export default function CampaignPostsManager({
     return new Date(d).toLocaleString();
   };
 
-  const platformBadge = (platform: string) => {
-    const style = PLATFORM_STYLE[platform] ?? { bg: "var(--bg-elevated)", color: "var(--text-secondary)" };
-    return (
-      <span
-        className="badge"
-        style={{ background: style.bg, color: style.color }}
-      >
-        {platform.replace("_", " ")}
-      </span>
-    );
-  };
-
   const isLoading = (action: string) => loadingAction === action;
 
   const canEdit = (status: string) => ["DRAFT", "REJECTED"].includes(status);
@@ -395,34 +352,16 @@ export default function CampaignPostsManager({
     <div>
       {/* ---- Error banner ---- */}
       {error && (
-        <div
-          style={{
-            background: "var(--accent-red-muted)",
-            color: "var(--accent-red)",
-            border: "1px solid rgba(239, 68, 68, 0.3)",
-            borderRadius: "var(--radius-md)",
-            padding: "0.75rem 1rem",
-            marginBottom: "1rem",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            fontSize: "0.875rem",
-          }}
-        >
+        <div className="alert alert-error mb-4">
           <span>{error}</span>
           <button
             onClick={clearError}
-            style={{
-              background: "none",
-              border: "none",
-              color: "var(--accent-red)",
-              cursor: "pointer",
-              fontSize: "1.125rem",
-              lineHeight: 1,
-              padding: "0 0.25rem",
-            }}
+            className="btn-ghost p-1 text-[var(--accent-red)]"
+            aria-label="Dismiss error"
           >
-            x
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
           </button>
         </div>
       )}
@@ -438,9 +377,7 @@ export default function CampaignPostsManager({
         ]}
         action={
           <div className="flex items-center gap-2">
-            <span className={CAMPAIGN_STATUS_BADGE[campaign.status] ?? "badge badge-neutral"}>
-              {campaign.status}
-            </span>
+            <StatusBadge status={campaign.status} />
           </div>
         }
       />
@@ -472,15 +409,7 @@ export default function CampaignPostsManager({
       </div>
 
       {/* ---- Filter tabs ---- */}
-      <div
-        style={{
-          display: "flex",
-          gap: "0.25rem",
-          marginBottom: "1.25rem",
-          borderBottom: "1px solid var(--border-secondary)",
-          paddingBottom: "0",
-        }}
-      >
+      <div className="tab-bar mb-5 overflow-x-auto">
         {FILTER_TABS.map((tab) => {
           const count =
             tab === "ALL"
@@ -491,17 +420,7 @@ export default function CampaignPostsManager({
             <button
               key={tab}
               onClick={() => setFilter(tab)}
-              style={{
-                background: "none",
-                border: "none",
-                borderBottom: active ? "2px solid var(--accent-blue)" : "2px solid transparent",
-                color: active ? "var(--accent-blue)" : "var(--text-secondary)",
-                padding: "0.5rem 1rem",
-                fontSize: "0.8125rem",
-                fontWeight: active ? 600 : 400,
-                cursor: "pointer",
-                transition: "color 0.15s, border-color 0.15s",
-              }}
+              className={`tab-item ${active ? "tab-item-active" : ""}`}
             >
               {tab} ({count})
             </button>
@@ -511,13 +430,13 @@ export default function CampaignPostsManager({
 
       {/* ---- Posts list ---- */}
       {filteredPosts.length === 0 ? (
-        <p style={{ color: "var(--text-secondary)" }}>
+        <div className="text-center py-8 text-sm" style={{ color: "var(--text-tertiary)" }}>
           {filter === "ALL"
             ? "No posts yet. Add your first post to this campaign."
             : `No ${filter.toLowerCase()} posts.`}
-        </p>
+        </div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+        <div className="space-y-3">
           {filteredPosts.map((post) => {
             const isExpanded = expandedPosts.has(post.id);
             const isLong = post.content.length > 200;
@@ -528,30 +447,18 @@ export default function CampaignPostsManager({
             const connectionsForPlatform = connections.filter((c) => c.platform === post.platform);
 
             return (
-              <div key={post.id} className="card" style={{ position: "relative" }}>
+              <div key={post.id} className="card relative">
                 {/* ---- Top row: platform + status ---- */}
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginBottom: "0.75rem",
-                    flexWrap: "wrap",
-                    gap: "0.5rem",
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    {platformBadge(post.platform)}
-                    <span className={STATUS_BADGE[post.status] ?? "badge badge-neutral"}>
-                      {post.status.replace("_", " ")}
-                    </span>
+                <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <PlatformBadge platform={post.platform} />
+                    <StatusBadge status={post.status} />
                   </div>
-                  <div style={{ display: "flex", gap: "0.375rem", flexWrap: "wrap" }}>
+                  <div className="flex gap-1.5 flex-wrap">
                     {/* Edit */}
                     {canEdit(post.status) && !isEditing && (
                       <button
                         className="btn-secondary"
-                        style={{ fontSize: "0.75rem", padding: "0.375rem 0.75rem", minHeight: 36 }}
                         onClick={() => startEditing(post)}
                       >
                         Edit
@@ -561,7 +468,6 @@ export default function CampaignPostsManager({
                     {canSchedule(post.status) && !isScheduling && (
                       <button
                         className="btn-secondary"
-                        style={{ fontSize: "0.75rem", padding: "0.375rem 0.75rem", minHeight: 36 }}
                         onClick={() => startScheduling(post.id)}
                       >
                         Schedule
@@ -571,7 +477,6 @@ export default function CampaignPostsManager({
                     {canPublish(post.status) && !isPublishingThis && (
                       <button
                         className="btn-primary"
-                        style={{ fontSize: "0.75rem", padding: "0.375rem 0.75rem", minHeight: 36 }}
                         onClick={() => startPublishing(post)}
                       >
                         Publish Now
@@ -581,7 +486,6 @@ export default function CampaignPostsManager({
                     {canDelete(post.status) && (
                       <button
                         className="btn-danger"
-                        style={{ fontSize: "0.75rem", padding: "0.375rem 0.75rem", minHeight: 36 }}
                         disabled={isLoading(`delete-${post.id}`)}
                         onClick={() => deletePost(post)}
                       >
@@ -593,7 +497,7 @@ export default function CampaignPostsManager({
 
                 {/* ---- Content ---- */}
                 {isEditing ? (
-                  <div style={{ marginBottom: "0.75rem" }}>
+                  <div className="mb-3">
                     <textarea
                       value={editContent}
                       onChange={(e) => setEditContent(e.target.value)}
@@ -605,10 +509,9 @@ export default function CampaignPostsManager({
                         fontFamily: "inherit",
                       }}
                     />
-                    <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+                    <div className="flex gap-2 mt-2">
                       <button
                         className="btn-primary"
-                        style={{ fontSize: "0.75rem", padding: "0.375rem 0.75rem", minHeight: 36 }}
                         disabled={isLoading(`edit-${post.id}`) || editContent.trim() === ""}
                         onClick={() => saveEdit(post)}
                       >
@@ -616,7 +519,6 @@ export default function CampaignPostsManager({
                       </button>
                       <button
                         className="btn-secondary"
-                        style={{ fontSize: "0.75rem", padding: "0.375rem 0.75rem", minHeight: 36 }}
                         onClick={cancelEditing}
                       >
                         Cancel
@@ -624,30 +526,15 @@ export default function CampaignPostsManager({
                     </div>
                   </div>
                 ) : (
-                  <div style={{ marginBottom: "0.75rem" }}>
-                    <p
-                      style={{
-                        color: "var(--text-primary)",
-                        fontSize: "0.875rem",
-                        lineHeight: 1.6,
-                        whiteSpace: "pre-wrap",
-                        margin: 0,
-                      }}
-                    >
+                  <div className="mb-3">
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap m-0" style={{ color: "var(--text-primary)" }}>
                       {displayContent}
                     </p>
                     {isLong && (
                       <button
                         onClick={() => toggleExpand(post.id)}
-                        style={{
-                          background: "none",
-                          border: "none",
-                          color: "var(--accent-blue)",
-                          fontSize: "0.75rem",
-                          cursor: "pointer",
-                          padding: "0.25rem 0",
-                          marginTop: "0.25rem",
-                        }}
+                        className="btn-ghost text-xs mt-1 px-0 py-1"
+                        style={{ color: "var(--accent-blue)" }}
                       >
                         {isExpanded ? "Show less" : "Show more"}
                       </button>
@@ -657,18 +544,7 @@ export default function CampaignPostsManager({
 
                 {/* ---- Schedule inline form ---- */}
                 {isScheduling && (
-                  <div
-                    style={{
-                      background: "var(--bg-tertiary)",
-                      borderRadius: "var(--radius-md)",
-                      padding: "0.75rem",
-                      marginBottom: "0.75rem",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      flexWrap: "wrap",
-                    }}
-                  >
+                  <div className="inline-form">
                     <label style={{ color: "var(--text-secondary)", fontSize: "0.8125rem" }}>
                       Schedule for:
                     </label>
@@ -698,18 +574,7 @@ export default function CampaignPostsManager({
 
                 {/* ---- Publish inline form ---- */}
                 {isPublishingThis && (
-                  <div
-                    style={{
-                      background: "var(--bg-tertiary)",
-                      borderRadius: "var(--radius-md)",
-                      padding: "0.75rem",
-                      marginBottom: "0.75rem",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      flexWrap: "wrap",
-                    }}
-                  >
+                  <div className="inline-form">
                     <label style={{ color: "var(--text-secondary)", fontSize: "0.8125rem" }}>
                       Connection:
                     </label>
@@ -753,34 +618,32 @@ export default function CampaignPostsManager({
                 )}
 
                 {/* ---- Meta: rejection reason, error, schedule time, published link ---- */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <div className="flex flex-col gap-1 text-xs">
                   {post.rejectionReason && (
-                    <p style={{ color: "var(--accent-red)", fontSize: "0.75rem", margin: 0 }}>
+                    <p className="m-0" style={{ color: "var(--accent-red)" }}>
                       Rejected: {post.rejectionReason}
                     </p>
                   )}
                   {post.errorMessage && (
-                    <p style={{ color: "var(--accent-red)", fontSize: "0.75rem", margin: 0 }}>
+                    <p className="m-0" style={{ color: "var(--accent-red)" }}>
                       Error: {post.errorMessage}
                     </p>
                   )}
                   {post.scheduledAt && (
-                    <p style={{ color: "var(--text-tertiary)", fontSize: "0.75rem", margin: 0 }}>
+                    <p className="m-0" style={{ color: "var(--text-tertiary)" }}>
                       Scheduled: {formatDate(post.scheduledAt)}
                     </p>
                   )}
                   {post.publishedAt && (
-                    <p style={{ color: "var(--accent-emerald)", fontSize: "0.75rem", margin: 0 }}>
+                    <p className="m-0" style={{ color: "var(--accent-emerald)" }}>
                       Published: {formatDate(post.publishedAt)}
                       {post.platformPostId && (
-                        <span style={{ marginLeft: "0.5rem" }}>
-                          (ID: {post.platformPostId})
-                        </span>
+                        <span className="ml-2">(ID: {post.platformPostId})</span>
                       )}
                     </p>
                   )}
                   {post.approver?.name && (
-                    <p style={{ color: "var(--text-tertiary)", fontSize: "0.75rem", margin: 0 }}>
+                    <p className="m-0" style={{ color: "var(--text-tertiary)" }}>
                       Approved by: {post.approver.name}
                     </p>
                   )}

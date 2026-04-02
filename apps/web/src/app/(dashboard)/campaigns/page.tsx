@@ -12,16 +12,6 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-const STATUS_BADGE: Record<string, string> = {
-  DRAFT: "badge-neutral",
-  SCHEDULED: "badge-info",
-  ACTIVE: "badge-success",
-  PAUSED: "badge-warning",
-  COMPLETED: "badge-purple",
-  FAILED: "badge-error",
-  DELETED: "badge-neutral",
-};
-
 export default async function CampaignsPage() {
   const campaigns = await prisma.campaign.findMany({
     where: { orgId: await getSessionOrg() },
@@ -49,14 +39,10 @@ export default async function CampaignsPage() {
 
       {campaigns.length === 0 ? (
         <EmptyState
-          title="No campaigns yet."
+          title="No campaigns yet"
           description="Create your first campaign to start publishing content."
           action={
-            <Link
-              href="/campaigns/new"
-              className="inline-block text-sm"
-              style={{ color: "var(--accent-blue)" }}
-            >
+            <Link href="/campaigns/new" className="btn-primary text-sm">
               Create your first campaign
             </Link>
           }

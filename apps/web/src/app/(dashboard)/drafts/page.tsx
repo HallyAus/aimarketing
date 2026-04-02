@@ -3,6 +3,9 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { PageHeader } from "@/components/page-header";
+import { EmptyState } from "@/components/empty-state";
+import { PlatformBadge } from "@/components/platform-badge";
+import { getPlatformLabel } from "@/lib/platform-colors";
 
 interface Draft {
   id: string;
@@ -25,18 +28,6 @@ interface Connection {
 }
 
 type ModalType = "schedule" | "postNow" | "scheduleAll" | null;
-
-const PLATFORM_COLORS: Record<string, string> = {
-  FACEBOOK: "#1877f2",
-  INSTAGRAM: "#e4405f",
-  LINKEDIN: "#0a66c2",
-  TWITTER_X: "#1da1f2",
-  TIKTOK: "#000000",
-  YOUTUBE: "#ff0000",
-  PINTEREST: "#e60023",
-  GOOGLE_ADS: "#4285f4",
-  SNAPCHAT: "#fffc00",
-};
 
 export default function DraftsPage() {
   const [drafts, setDrafts] = useState<Draft[]>([]);
@@ -245,15 +236,17 @@ export default function DraftsPage() {
             { label: "Drafts" },
           ]}
         />
-        <div
-          className="rounded-lg p-8 flex items-center justify-center"
-          style={{
-            border: "1px solid var(--border-primary)",
-            background: "var(--bg-secondary)",
-            color: "var(--text-secondary)",
-          }}
-        >
-          Loading drafts...
+        <div className="space-y-3">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="card space-y-3">
+              <div className="flex gap-2">
+                <div className="skeleton h-5 w-20 rounded-full" />
+                <div className="skeleton h-5 w-32 rounded" />
+              </div>
+              <div className="skeleton h-4 w-full rounded" />
+              <div className="skeleton h-4 w-3/4 rounded" />
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -294,53 +287,27 @@ export default function DraftsPage() {
       )}
 
       {successMessage && (
-        <div
-          className="rounded-md px-4 py-3 text-sm mb-4"
-          style={{
-            background: "rgba(16,185,129,0.1)",
-            border: "1px solid rgba(16,185,129,0.3)",
-            color: "var(--accent-emerald, #10b981)",
-          }}
-        >
+        <div className="alert alert-success mb-4">
           {successMessage}
         </div>
       )}
 
       {error && (
-        <div
-          className="rounded-md px-4 py-3 text-sm mb-4"
-          style={{
-            background: "rgba(239,68,68,0.1)",
-            border: "1px solid rgba(239,68,68,0.3)",
-            color: "#ef4444",
-          }}
-        >
+        <div className="alert alert-error mb-4">
           {error}
         </div>
       )}
 
       {drafts.length === 0 && !error && (
-        <div
-          className="rounded-lg p-8 flex flex-col items-center justify-center min-h-[300px] gap-3"
-          style={{
-            border: "1px solid var(--border-primary)",
-            background: "var(--bg-secondary)",
-          }}
-        >
-          <p className="text-sm" style={{ color: "var(--text-tertiary)" }}>
-            No drafts yet. Generate posts to save them as drafts automatically.
-          </p>
-          <Link
-            href="/ai/url-to-posts"
-            className="px-4 py-2 rounded text-sm font-medium"
-            style={{
-              background: "var(--accent-blue)",
-              color: "#fff",
-            }}
-          >
-            Generate Posts from URL
-          </Link>
-        </div>
+        <EmptyState
+          title="No drafts yet"
+          description="Generate posts to save them as drafts automatically."
+          action={
+            <Link href="/ai/url-to-posts" className="btn-primary text-sm">
+              Generate Posts from URL
+            </Link>
+          }
+        />
       )}
 
       {drafts.length > 0 && (
@@ -348,24 +315,12 @@ export default function DraftsPage() {
           {drafts.map((draft) => (
             <div
               key={draft.id}
-              className="rounded-lg p-4"
-              style={{
-                border: "1px solid var(--border-primary)",
-                background: "var(--bg-secondary)",
-                opacity: deletingIds.has(draft.id) ? 0.5 : 1,
-              }}
+              className="card"
+              style={{ opacity: deletingIds.has(draft.id) ? 0.5 : 1 }}
             >
               {/* Header: platform badge + date + source */}
               <div className="flex items-center gap-2 mb-3 flex-wrap">
-                <span
-                  className="inline-block text-xs font-semibold px-2 py-0.5 rounded"
-                  style={{
-                    background: PLATFORM_COLORS[draft.platform] ?? "var(--accent-blue)",
-                    color: draft.platform === "SNAPCHAT" ? "#000" : "#fff",
-                  }}
-                >
-                  {draft.platform.replace("_", " ")}
-                </span>
+                <PlatformBadge platform={draft.platform} />
                 {draft.tone && (
                   <span
                     className="text-xs px-2 py-0.5 rounded"
@@ -410,28 +365,8 @@ export default function DraftsPage() {
                     }}
                   />
                   <div className="flex gap-2">
-                    <button
-                      onClick={() => saveEdit(draft.id)}
-                      className="px-3 py-1 rounded text-xs font-medium"
-                      style={{
-                        background: "var(--accent-blue)",
-                        color: "#fff",
-                        border: "1px solid var(--accent-blue)",
-                      }}
-                    >
-                      Save
-                    </button>
-                    <button
-                      onClick={cancelEdit}
-                      className="px-3 py-1 rounded text-xs font-medium"
-                      style={{
-                        border: "1px solid var(--border-primary)",
-                        background: "var(--bg-primary)",
-                        color: "var(--text-secondary)",
-                      }}
-                    >
-                      Cancel
-                    </button>
+                    <button onClick={() => saveEdit(draft.id)} className="btn-primary text-xs">Save</button>
+                    <button onClick={cancelEdit} className="btn-secondary text-xs">Cancel</button>
                   </div>
                 </div>
               ) : (
@@ -445,49 +380,27 @@ export default function DraftsPage() {
 
               {/* Actions */}
               {editingId !== draft.id && (
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => startEdit(draft)}
-                    className="px-3 py-1 rounded text-xs font-medium"
-                    style={{
-                      border: "1px solid var(--border-primary)",
-                      background: "var(--bg-primary)",
-                      color: "var(--text-secondary)",
-                    }}
-                  >
+                <div className="flex gap-2 flex-wrap">
+                  <button onClick={() => startEdit(draft)} className="btn-secondary text-xs">
                     Edit
                   </button>
                   <button
                     onClick={() => { setActiveDraft(draft); setModalType("schedule"); setScheduleDate(""); setSelectedCampaign(""); }}
-                    className="px-3 py-1 rounded text-xs font-medium"
-                    style={{
-                      border: "1px solid var(--accent-blue)",
-                      background: "transparent",
-                      color: "var(--accent-blue)",
-                    }}
+                    className="btn-secondary text-xs"
+                    style={{ borderColor: "var(--accent-blue)", color: "var(--accent-blue)" }}
                   >
                     Schedule
                   </button>
                   <button
                     onClick={() => { setActiveDraft(draft); setModalType("postNow"); }}
-                    className="px-3 py-1 rounded text-xs font-medium"
-                    style={{
-                      background: "var(--accent-blue)",
-                      color: "#fff",
-                      border: "1px solid var(--accent-blue)",
-                    }}
+                    className="btn-primary text-xs"
                   >
                     Post Now
                   </button>
                   <button
                     onClick={() => deleteDraft(draft.id)}
                     disabled={deletingIds.has(draft.id)}
-                    className="px-3 py-1 rounded text-xs font-medium ml-auto"
-                    style={{
-                      border: "1px solid rgba(239,68,68,0.5)",
-                      color: "#ef4444",
-                      background: "transparent",
-                    }}
+                    className="btn-danger text-xs ml-auto"
                   >
                     {deletingIds.has(draft.id) ? "Deleting..." : "Delete"}
                   </button>
@@ -499,20 +412,20 @@ export default function DraftsPage() {
       )}
       {/* Schedule Modal */}
       {modalType === "schedule" && activeDraft && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => setModalType(null)}>
-          <div onClick={e => e.stopPropagation()} className="rounded-lg p-6 w-full max-w-md" style={{ background: "var(--bg-secondary)", border: "1px solid var(--border-primary)" }}>
-            <h3 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Schedule Post</h3>
+        <div className="modal-overlay" onClick={() => setModalType(null)}>
+          <div onClick={e => e.stopPropagation()} className="modal-panel">
+            <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Schedule Post</h2>
             <p className="text-xs mb-3 truncate" style={{ color: "var(--text-tertiary)" }}>{activeDraft.content.substring(0, 80)}...</p>
-            <label className="block text-sm mb-1" style={{ color: "var(--text-secondary)" }}>Campaign</label>
-            <select value={selectedCampaign} onChange={e => setSelectedCampaign(e.target.value)} className="w-full rounded px-3 py-2 text-sm mb-3" style={{ background: "var(--bg-primary)", border: "1px solid var(--border-primary)", color: "var(--text-primary)" }}>
+            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Campaign</label>
+            <select value={selectedCampaign} onChange={e => setSelectedCampaign(e.target.value)} className="w-full mb-3">
               <option value="">Select campaign</option>
               {campaigns.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
-            <label className="block text-sm mb-1" style={{ color: "var(--text-secondary)" }}>Schedule Date & Time</label>
-            <input type="datetime-local" value={scheduleDate} onChange={e => setScheduleDate(e.target.value)} className="w-full rounded px-3 py-2 text-sm mb-4" style={{ background: "var(--bg-primary)", border: "1px solid var(--border-primary)", color: "var(--text-primary)" }} />
+            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Schedule Date & Time</label>
+            <input type="datetime-local" value={scheduleDate} onChange={e => setScheduleDate(e.target.value)} className="w-full mb-4" />
             <div className="flex gap-2 justify-end">
-              <button onClick={() => setModalType(null)} className="px-4 py-2 rounded text-sm" style={{ border: "1px solid var(--border-primary)", color: "var(--text-secondary)" }}>Cancel</button>
-              <button onClick={handleSchedule} disabled={actionLoading || !selectedCampaign || !scheduleDate} className="px-4 py-2 rounded text-sm font-medium" style={{ background: "var(--accent-blue)", color: "#fff", opacity: actionLoading || !selectedCampaign || !scheduleDate ? 0.5 : 1 }}>{actionLoading ? "Scheduling..." : "Schedule"}</button>
+              <button onClick={() => setModalType(null)} className="btn-secondary">Cancel</button>
+              <button onClick={handleSchedule} disabled={actionLoading || !selectedCampaign || !scheduleDate} className="btn-primary">{actionLoading ? "Scheduling..." : "Schedule"}</button>
             </div>
           </div>
         </div>
@@ -520,18 +433,18 @@ export default function DraftsPage() {
 
       {/* Post Now Modal */}
       {modalType === "postNow" && activeDraft && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => setModalType(null)}>
-          <div onClick={e => e.stopPropagation()} className="rounded-lg p-6 w-full max-w-md" style={{ background: "var(--bg-secondary)", border: "1px solid var(--border-primary)" }}>
-            <h3 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Post Now</h3>
+        <div className="modal-overlay" onClick={() => setModalType(null)}>
+          <div onClick={e => e.stopPropagation()} className="modal-panel">
+            <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Post Now</h2>
             <p className="text-xs mb-3 truncate" style={{ color: "var(--text-tertiary)" }}>{activeDraft.content.substring(0, 80)}...</p>
             {connections.filter(c => c.platform === activeDraft.platform).length === 0 ? (
-              <p className="text-sm mb-4" style={{ color: "#ef4444" }}>No connected {activeDraft.platform.replace("_", " ")} account. Connect one in Settings first.</p>
+              <p className="text-sm mb-4" style={{ color: "var(--accent-red)" }}>No connected {getPlatformLabel(activeDraft.platform)} account. Connect one in Settings first.</p>
             ) : (
-              <p className="text-sm mb-4" style={{ color: "var(--text-secondary)" }}>This will post immediately to your {activeDraft.platform.replace("_", " ")} account.</p>
+              <p className="text-sm mb-4" style={{ color: "var(--text-secondary)" }}>This will post immediately to your {getPlatformLabel(activeDraft.platform)} account.</p>
             )}
             <div className="flex gap-2 justify-end">
-              <button onClick={() => setModalType(null)} className="px-4 py-2 rounded text-sm" style={{ border: "1px solid var(--border-primary)", color: "var(--text-secondary)" }}>Cancel</button>
-              <button onClick={handlePostNow} disabled={actionLoading || connections.filter(c => c.platform === activeDraft.platform).length === 0} className="px-4 py-2 rounded text-sm font-medium" style={{ background: "var(--accent-blue)", color: "#fff", opacity: actionLoading || connections.filter(c => c.platform === activeDraft.platform).length === 0 ? 0.5 : 1 }}>{actionLoading ? "Posting..." : "Post Now"}</button>
+              <button onClick={() => setModalType(null)} className="btn-secondary">Cancel</button>
+              <button onClick={handlePostNow} disabled={actionLoading || connections.filter(c => c.platform === activeDraft.platform).length === 0} className="btn-primary">{actionLoading ? "Posting..." : "Post Now"}</button>
             </div>
           </div>
         </div>
@@ -539,18 +452,18 @@ export default function DraftsPage() {
 
       {/* Schedule All Modal */}
       {modalType === "scheduleAll" && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => setModalType(null)}>
-          <div onClick={e => e.stopPropagation()} className="rounded-lg p-6 w-full max-w-md" style={{ background: "var(--bg-secondary)", border: "1px solid var(--border-primary)" }}>
-            <h3 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Schedule All {drafts.length} Drafts</h3>
-            <label className="block text-sm mb-1" style={{ color: "var(--text-secondary)" }}>Campaign</label>
-            <select value={selectedCampaign} onChange={e => setSelectedCampaign(e.target.value)} className="w-full rounded px-3 py-2 text-sm mb-3" style={{ background: "var(--bg-primary)", border: "1px solid var(--border-primary)", color: "var(--text-primary)" }}>
+        <div className="modal-overlay" onClick={() => setModalType(null)}>
+          <div onClick={e => e.stopPropagation()} className="modal-panel">
+            <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Schedule All {drafts.length} Drafts</h2>
+            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Campaign</label>
+            <select value={selectedCampaign} onChange={e => setSelectedCampaign(e.target.value)} className="w-full mb-3">
               <option value="">Select campaign</option>
               {campaigns.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
-            <label className="block text-sm mb-1" style={{ color: "var(--text-secondary)" }}>Start Date & Time</label>
-            <input type="datetime-local" value={scheduleDate} onChange={e => setScheduleDate(e.target.value)} className="w-full rounded px-3 py-2 text-sm mb-3" style={{ background: "var(--bg-primary)", border: "1px solid var(--border-primary)", color: "var(--text-primary)" }} />
-            <label className="block text-sm mb-1" style={{ color: "var(--text-secondary)" }}>Post every</label>
-            <select value={scheduleInterval} onChange={e => setScheduleInterval(e.target.value)} className="w-full rounded px-3 py-2 text-sm mb-4" style={{ background: "var(--bg-primary)", border: "1px solid var(--border-primary)", color: "var(--text-primary)" }}>
+            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Start Date & Time</label>
+            <input type="datetime-local" value={scheduleDate} onChange={e => setScheduleDate(e.target.value)} className="w-full mb-3" />
+            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Post every</label>
+            <select value={scheduleInterval} onChange={e => setScheduleInterval(e.target.value)} className="w-full mb-4">
               <option value="120">2 hours</option>
               <option value="240">4 hours</option>
               <option value="360">6 hours</option>
@@ -559,8 +472,8 @@ export default function DraftsPage() {
               <option value="1440">24 hours</option>
             </select>
             <div className="flex gap-2 justify-end">
-              <button onClick={() => setModalType(null)} className="px-4 py-2 rounded text-sm" style={{ border: "1px solid var(--border-primary)", color: "var(--text-secondary)" }}>Cancel</button>
-              <button onClick={handleScheduleAll} disabled={actionLoading || !selectedCampaign || !scheduleDate} className="px-4 py-2 rounded text-sm font-medium" style={{ background: "var(--accent-blue)", color: "#fff", opacity: actionLoading || !selectedCampaign || !scheduleDate ? 0.5 : 1 }}>{actionLoading ? "Scheduling..." : `Schedule All ${drafts.length}`}</button>
+              <button onClick={() => setModalType(null)} className="btn-secondary">Cancel</button>
+              <button onClick={handleScheduleAll} disabled={actionLoading || !selectedCampaign || !scheduleDate} className="btn-primary">{actionLoading ? "Scheduling..." : `Schedule All ${drafts.length}`}</button>
             </div>
           </div>
         </div>

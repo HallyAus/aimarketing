@@ -208,7 +208,7 @@ export function FacebookPages({
         className="mt-3 rounded px-3 py-1.5 text-xs font-medium transition-opacity"
         style={{
           background: "var(--accent-blue)",
-          color: "#fff",
+          color: "white",
           opacity: saving ? 0.6 : 1,
         }}
       >

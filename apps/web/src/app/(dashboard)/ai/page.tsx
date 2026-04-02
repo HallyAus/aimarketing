@@ -33,7 +33,7 @@ export default function AIStudioPage() {
       />
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-6 overflow-x-auto" style={{ borderBottom: "1px solid var(--border-primary)" }}>
+      <div className="tab-bar mb-6 overflow-x-auto">
         {[
           { id: "post" as const, label: "Generate Post" },
           { id: "improve" as const, label: "Improve Post" },
@@ -43,26 +43,14 @@ export default function AIStudioPage() {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium whitespace-nowrap min-h-[44px]"
-            style={{
-              borderBottom: activeTab === tab.id ? "2px solid var(--accent-blue)" : "2px solid transparent",
-              marginBottom: "-1px",
-              color: activeTab === tab.id ? "var(--accent-blue)" : "var(--text-secondary)",
-              background: "transparent",
-            }}
+            className={`tab-item ${activeTab === tab.id ? "tab-item-active" : ""}`}
           >
             {tab.label}
           </button>
         ))}
         <button
           onClick={() => router.push("/ai/url-to-posts")}
-          className="px-3 md:px-4 py-2 text-xs md:text-sm font-medium whitespace-nowrap min-h-[44px]"
-          style={{
-            borderBottom: "2px solid transparent",
-            marginBottom: "-1px",
-            color: "var(--text-secondary)",
-            background: "transparent",
-          }}
+          className="tab-item"
         >
           URL to Posts
         </button>
@@ -307,7 +295,7 @@ function CampaignIdeasTab() {
       <button
         onClick={generate}
         disabled={loading || !industry}
-        className="btn-primary text-sm disabled:opacity-50"
+        className="btn-primary text-sm disabled:opacity-50 min-h-[44px]"
       >
         {loading ? "Generating Ideas..." : "Generate Campaign Ideas"}
       </button>
@@ -430,20 +418,24 @@ function CreateImageTab() {
             <option value="xlarge">Extra Large</option>
           </select>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           {["#1a1a2e", "#000000", "#16213e", "#0f3460", "#533483", "#e94560", "#1b4332", "#2d3436"].map((c) => (
             <button
               key={c}
               onClick={() => setBgColor(c)}
-              className="w-8 h-8 rounded-full"
-              style={{ backgroundColor: c, border: "2px solid var(--border-primary)" }}
+              className="w-8 h-8 rounded-full transition-transform hover:scale-110"
+              style={{
+                backgroundColor: c,
+                border: bgColor === c ? "2px solid var(--accent-blue)" : "2px solid var(--border-primary)",
+              }}
+              aria-label={`Set background color to ${c}`}
             />
           ))}
         </div>
         <button
           onClick={generateImage}
           disabled={loading || !text}
-          className="btn-primary text-sm disabled:opacity-50"
+          className="btn-primary text-sm disabled:opacity-50 min-h-[44px]"
         >
           {loading ? "Creating..." : "Create Image"}
         </button>

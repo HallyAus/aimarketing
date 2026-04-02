@@ -11,6 +11,7 @@ interface PublishNowBody {
   connectionId: string;
   campaignId?: string;
   mediaUrls?: string[];
+  pageId?: string; // Facebook/Instagram page ID to post to
 }
 
 const VALID_PLATFORMS = [
@@ -109,13 +110,15 @@ export const POST = withErrorHandler(
     let accessToken: string;
     let pageUserId = connection.platformUserId;
 
-    // For Facebook/Instagram, use page access token if available
+    // For Facebook/Instagram, use page access token
     if ((body.platform === "FACEBOOK" || body.platform === "INSTAGRAM") && connection.metadata) {
       const meta = connection.metadata as Record<string, unknown>;
-      const selectedPages = meta.selectedPages as Array<{ id: string; accessToken: string }> | undefined;
+      const selectedPages = meta.selectedPages as Array<{ id: string; accessToken: string; name?: string }> | undefined;
       if (selectedPages && selectedPages.length > 0) {
-        // Use first selected page's token (already encrypted)
-        const page = selectedPages[0]!;
+        // If pageId specified, find that page; otherwise use first
+        const page = body.pageId
+          ? selectedPages.find(p => p.id === body.pageId) ?? selectedPages[0]!
+          : selectedPages[0]!;
         accessToken = decrypt(page.accessToken, masterKey);
         pageUserId = page.id;
       } else {

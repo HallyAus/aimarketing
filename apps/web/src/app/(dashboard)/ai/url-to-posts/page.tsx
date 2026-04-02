@@ -348,14 +348,7 @@ export default function UrlToPostsPage() {
       />
 
       {successMessage && (
-        <div
-          className="rounded-md px-4 py-3 text-sm mb-6"
-          style={{
-            background: "rgba(34,197,94,0.1)",
-            border: "1px solid rgba(34,197,94,0.3)",
-            color: "#22c55e",
-          }}
-        >
+        <div className="alert alert-success mb-6">
           {successMessage}
         </div>
       )}
@@ -497,7 +490,7 @@ export default function UrlToPostsPage() {
               style={{
                 background: "rgba(239,68,68,0.1)",
                 border: "1px solid rgba(239,68,68,0.3)",
-                color: "#ef4444",
+                color: "var(--accent-red)",
               }}
             >
               {error}
@@ -581,7 +574,7 @@ export default function UrlToPostsPage() {
                       className="inline-block text-xs font-semibold px-2 py-1 rounded"
                       style={{
                         background: "var(--accent-blue)",
-                        color: "#fff",
+                        color: "white",
                       }}
                     >
                       {platform}
@@ -657,7 +650,7 @@ export default function UrlToPostsPage() {
                                   className="px-3 py-1 rounded text-xs font-medium"
                                   style={{
                                     background: "var(--accent-blue)",
-                                    color: "#fff",
+                                    color: "white",
                                     border: "1px solid var(--accent-blue)",
                                   }}
                                   onClick={() =>
@@ -796,7 +789,7 @@ export default function UrlToPostsPage() {
                     className="rounded-md px-3 py-2 text-sm mt-4"
                     style={{
                       background: "rgba(239,68,68,0.1)",
-                      color: "#ef4444",
+                      color: "var(--accent-red)",
                     }}
                   >
                     {modalError}
@@ -823,7 +816,7 @@ export default function UrlToPostsPage() {
                     className="flex-1 px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50"
                     style={{
                       background: "var(--accent-blue)",
-                      color: "#fff",
+                      color: "white",
                       border: "1px solid var(--accent-blue)",
                     }}
                   >
@@ -945,7 +938,7 @@ export default function UrlToPostsPage() {
                     className="rounded-md px-3 py-2 text-sm mt-4"
                     style={{
                       background: "rgba(239,68,68,0.1)",
-                      color: "#ef4444",
+                      color: "var(--accent-red)",
                     }}
                   >
                     {modalError}
@@ -972,7 +965,7 @@ export default function UrlToPostsPage() {
                     className="flex-1 px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50"
                     style={{
                       background: "var(--accent-blue)",
-                      color: "#fff",
+                      color: "white",
                       border: "1px solid var(--accent-blue)",
                     }}
                   >
@@ -1084,7 +1077,7 @@ export default function UrlToPostsPage() {
                     className="rounded-md px-3 py-2 text-sm mt-4"
                     style={{
                       background: "rgba(239,68,68,0.1)",
-                      color: "#ef4444",
+                      color: "var(--accent-red)",
                     }}
                   >
                     {modalError}
@@ -1109,7 +1102,7 @@ export default function UrlToPostsPage() {
                     className="flex-1 px-4 py-2 rounded-md text-sm font-medium disabled:opacity-50"
                     style={{
                       background: "var(--accent-blue)",
-                      color: "#fff",
+                      color: "white",
                       border: "1px solid var(--accent-blue)",
                     }}
                   >

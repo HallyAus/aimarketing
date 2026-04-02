@@ -12,17 +12,17 @@ export function PageHeader({
   breadcrumbs?: BreadcrumbItem[];
 }) {
   return (
-    <div className="flex flex-col mb-8">
+    <div className="mb-6">
       {breadcrumbs && breadcrumbs.length > 0 && (
         <Breadcrumbs items={breadcrumbs} />
       )}
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-[var(--text-primary)]">
+          <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
             {title}
           </h1>
           {subtitle && (
-            <p className="mt-1 text-sm text-[var(--text-secondary)]">
+            <p className="mt-1 text-sm" style={{ color: "var(--text-tertiary)" }}>
               {subtitle}
             </p>
           )}
