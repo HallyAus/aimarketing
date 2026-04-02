@@ -2,25 +2,20 @@ import { PrismaClient } from "@prisma/client";
 import { Pool, neonConfig } from "@neondatabase/serverless";
 import { PrismaNeon } from "@prisma/adapter-neon";
 
-const dbUrl = process.env.DATABASE_URL ?? "";
-const useNeonAdapter = dbUrl.includes("neon.tech");
+neonConfig.fetchConnectionCache = true;
 
 function createPrismaClient(): PrismaClient {
-  if (useNeonAdapter) {
-    neonConfig.fetchConnectionCache = true;
-    const pool = new Pool({ connectionString: dbUrl });
-    const adapter = new PrismaNeon(pool as any);
-    // Neon adapter = no binary engine needed
-    return new PrismaClient({ adapter } as any);
+  const url = process.env.DATABASE_URL;
+  if (!url) {
+    // No DB URL — return a client that will fail on first query with a clear error
+    return new PrismaClient();
   }
 
-  return new PrismaClient({
-    datasourceUrl: dbUrl || undefined,
-    log:
-      process.env.NODE_ENV === "development"
-        ? ["query", "error", "warn"]
-        : ["error"],
-  });
+  // Always use Neon serverless adapter — works everywhere,
+  // no binary engine needed
+  const pool = new Pool({ connectionString: url });
+  const adapter = new PrismaNeon(pool as any);
+  return new PrismaClient({ adapter } as any);
 }
 
 const globalForPrisma = globalThis as unknown as {
