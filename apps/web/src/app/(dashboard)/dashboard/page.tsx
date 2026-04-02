@@ -435,7 +435,7 @@ export default async function DashboardPage() {
                     href={post.campaign ? `/campaigns/${post.campaign.id}` : "/campaigns"}
                     className="flex items-start gap-3 px-4 py-2.5 no-underline hover:bg-[var(--bg-secondary)] transition-colors"
                   >
-                    <div className="flex-shrink-0 w-[7rem] text-right">
+                    <div className="flex-shrink-0 w-[5.5rem] sm:w-[7rem] text-right">
                       <div className="text-xs font-medium" style={{ color: "var(--text-primary)" }}>
                         {post.scheduledAt ? formatScheduleLabel(post.scheduledAt) : "--"}
                       </div>
