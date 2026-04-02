@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { sanitizeHtml } from "@adpilot/shared";
+import { sanitizeHtml, decrypt } from "@adpilot/shared";
 import { publishPost } from "@adpilot/platform-sdk";
 
 interface PublishNowBody {
@@ -104,13 +104,34 @@ export const POST = withErrorHandler(
       },
     });
 
+    // Decrypt the access token
+    const masterKey = process.env.MASTER_ENCRYPTION_KEY ?? "";
+    let accessToken: string;
+    let pageUserId = connection.platformUserId;
+
+    // For Facebook/Instagram, use page access token if available
+    if ((body.platform === "FACEBOOK" || body.platform === "INSTAGRAM") && connection.metadata) {
+      const meta = connection.metadata as Record<string, unknown>;
+      const selectedPages = meta.selectedPages as Array<{ id: string; accessToken: string }> | undefined;
+      if (selectedPages && selectedPages.length > 0) {
+        // Use first selected page's token (already encrypted)
+        const page = selectedPages[0]!;
+        accessToken = decrypt(page.accessToken, masterKey);
+        pageUserId = page.id;
+      } else {
+        accessToken = decrypt(connection.accessToken, masterKey);
+      }
+    } else {
+      accessToken = decrypt(connection.accessToken, masterKey);
+    }
+
     // Call the publisher
     const result = await publishPost(body.platform, {
       content: body.content,
       mediaUrls: body.mediaUrls,
       platform: body.platform,
-      accessToken: connection.accessToken,
-      platformUserId: connection.platformUserId,
+      accessToken,
+      platformUserId: pageUserId,
     });
 
     if (result.success) {
