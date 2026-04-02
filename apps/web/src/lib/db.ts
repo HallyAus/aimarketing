@@ -1,2 +1,2 @@
-// Re-export prisma from @adpilot/db with DATABASE_URL initialization
 export { prisma } from "@adpilot/db";
+export type { Platform, Role, Plan, CampaignStatus, PostStatus, ConnectionStatus, CampaignObjective, CreativeType } from "@adpilot/db";
