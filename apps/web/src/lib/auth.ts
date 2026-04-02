@@ -14,17 +14,22 @@ const nextAuth = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
-        const user = await prisma.user.findUnique({
-          where: { email: (credentials.email as string).toLowerCase() },
-        });
-        if (!user?.password) return null;
-        const valid = await bcrypt.compare(
-          credentials.password as string,
-          user.password,
-        );
-        if (!valid) return null;
-        return { id: user.id, email: user.email, name: user.name };
+        try {
+          if (!credentials?.email || !credentials?.password) return null;
+          const user = await prisma.user.findUnique({
+            where: { email: (credentials.email as string).toLowerCase() },
+          });
+          if (!user?.password) return null;
+          const valid = await bcrypt.compare(
+            credentials.password as string,
+            user.password,
+          );
+          if (!valid) return null;
+          return { id: user.id, email: user.email, name: user.name };
+        } catch (e) {
+          console.error("[auth] authorize error:", e);
+          return null;
+        }
       },
     }),
 
@@ -36,12 +41,17 @@ const nextAuth = NextAuth({
     signIn: "/signin",
   },
   callbacks: {
-    async jwt({ token, user, trigger }) {
+    async jwt({ token, user }) {
       if (user) {
         token.userId = user.id;
       }
 
-      // Auto-select org on sign-in or when not set
+      // Auto-select org on sign-in or when not yet set.
+      // IMPORTANT: This DB call runs on every JWT refresh (every request that
+      // checks auth). Any uncaught exception here propagates as a
+      // CallbackRouteError which next-auth surfaces to the client as
+      // "Configuration". Wrap defensively so a transient DB hiccup never
+      // blocks sign-in.
       if (token.userId && !token.currentOrgId) {
         try {
           const memberships = await prisma.membership.findMany({
@@ -54,7 +64,8 @@ const nextAuth = NextAuth({
             token.currentRole = first.role;
           }
         } catch {
-          // DB may not be available during build
+          // Silently ignore — token is still valid without the org fields.
+          // They will be populated on the next request once the DB recovers.
         }
       }
 
@@ -69,17 +80,14 @@ const nextAuth = NextAuth({
       return session;
     },
   },
+  // trustHost is required when NEXTAUTH_URL / AUTH_URL are set but the
+  // incoming Host header differs (common on Vercel preview deployments).
   trustHost: true,
-  cookies: {
-    sessionToken: {
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        path: "/",
-      },
-    },
-  },
+  // Do NOT override the cookies block. The partial override in v5 beta
+  // replaces options instead of merging them, which strips the cookie
+  // "name" field. Without a name the SessionStore cannot match the
+  // incoming session cookie and authorize() returns null, which the
+  // library surfaces as a "Configuration" error.
 });
 
 export const { handlers, auth, signIn, signOut } = nextAuth;
