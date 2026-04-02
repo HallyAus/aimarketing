@@ -33,8 +33,9 @@ export default async function AnalyticsPage() {
   });
 
   // Aggregate totals
+  type Totals = { impressions: number; reach: number; clicks: number; engagement: number; spend: number; conversions: number };
   const totals = posts.reduce(
-    (acc: { impressions: number; reach: number; clicks: number; engagement: number; spend: number; conversions: number }, post) => {
+    (acc: Totals, post: (typeof posts)[number]) => {
       const m = post.analytics[0];
       if (!m) return acc;
       return {
