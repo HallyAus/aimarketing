@@ -6,8 +6,9 @@ export async function GET() {
     await prisma.$queryRaw`SELECT 1`;
     return NextResponse.json({ status: "ok", service: "postgresql" });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { status: "error", service: "postgresql" },
+      { status: "error", service: "postgresql", error: msg, hasDbUrl: !!process.env.DATABASE_URL },
       { status: 503 }
     );
   }
