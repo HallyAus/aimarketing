@@ -73,7 +73,7 @@ export default function DraftsPage() {
   useEffect(() => {
     fetchDrafts();
     fetch("/api/campaigns").then(r => r.json()).then(d => setCampaigns(d.data ?? d ?? [])).catch(() => {});
-    fetch("/api/connections").then(r => r.json()).then(d => setConnections(d.connections ?? [])).catch(() => {});
+    fetch("/api/connections").then(r => r.json()).then(d => setConnections(d.data ?? d.connections ?? [])).catch(() => {});
   }, [fetchDrafts]);
 
   async function handleSchedule() {
