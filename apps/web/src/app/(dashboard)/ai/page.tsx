@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { PageHeader } from "@/components/page-header";
 
 const PLATFORMS = ["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT"];
 const TONES = ["professional", "casual", "humorous", "urgent", "inspirational", "educational"];
@@ -22,10 +23,14 @@ export default function AIStudioPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>AI Studio</h1>
-      <p className="mb-6" style={{ color: "var(--text-secondary)" }}>
-        Generate content, images, and campaign ideas with AI.
-      </p>
+      <PageHeader
+        title="AI Studio"
+        subtitle="Generate content, images, and campaign ideas with AI."
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "AI Studio" },
+        ]}
+      />
 
       {/* Tabs */}
       <div className="flex gap-1 mb-6 overflow-x-auto" style={{ borderBottom: "1px solid var(--border-primary)" }}>

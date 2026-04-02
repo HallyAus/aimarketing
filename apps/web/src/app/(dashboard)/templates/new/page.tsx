@@ -1,5 +1,6 @@
 import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { PageHeader } from "@/components/page-header";
 import { SubmitButton } from "@/components/submit-button";
 
 const PLATFORMS = ["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT"];
@@ -22,7 +23,14 @@ export default async function NewTemplatePage() {
 
   return (
     <div className="max-w-2xl w-full">
-      <h1 className="text-2xl font-bold mb-6" style={{ color: "var(--text-primary)" }}>Create Template</h1>
+      <PageHeader
+        title="Create Template"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Templates", href: "/templates" },
+          { label: "New Template" },
+        ]}
+      />
       <form action={createTemplate} className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Template Name</label>

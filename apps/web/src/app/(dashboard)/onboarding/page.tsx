@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { PageHeader } from "@/components/page-header";
 
 export const metadata: Metadata = {
   title: "Get Started",
@@ -33,14 +34,18 @@ export default async function OnboardingPage() {
 
   return (
     <div className="max-w-lg mx-auto mt-8">
-      <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
-        Welcome to AdPilot!
-      </h1>
-      <p className="mb-8" style={{ color: "var(--text-secondary)" }}>
-        {allDone
-          ? "You're all set! Start managing your campaigns."
-          : `Complete these steps to get started (${completedCount}/${steps.length})`}
-      </p>
+      <PageHeader
+        title="Welcome to AdPilot!"
+        subtitle={
+          allDone
+            ? "You're all set! Start managing your campaigns."
+            : `Complete these steps to get started (${completedCount}/${steps.length})`
+        }
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Get Started" },
+        ]}
+      />
 
       <div className="space-y-3">
         {steps.map((step, i) => (

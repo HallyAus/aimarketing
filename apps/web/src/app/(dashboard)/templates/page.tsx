@@ -21,6 +21,10 @@ export default async function TemplatesPage() {
     <div>
       <PageHeader
         title="Post Templates"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Templates" },
+        ]}
         action={
           <Link href="/templates/new" className="btn-primary text-sm">
             New Template

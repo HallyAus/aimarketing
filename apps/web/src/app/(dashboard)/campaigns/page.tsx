@@ -36,6 +36,10 @@ export default async function CampaignsPage() {
     <div>
       <PageHeader
         title="Campaigns"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Campaigns" },
+        ]}
         action={
           <Link href="/campaigns/new" className="btn-primary text-sm">
             New Campaign

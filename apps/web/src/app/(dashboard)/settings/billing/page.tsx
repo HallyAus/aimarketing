@@ -20,7 +20,15 @@ export default async function BillingPage() {
 
   return (
     <div>
-      <PageHeader title="Billing" subtitle="Manage your subscription and usage" />
+      <PageHeader
+        title="Billing"
+        subtitle="Manage your subscription and usage"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Settings", href: "/settings/connections" },
+          { label: "Billing" },
+        ]}
+      />
 
       {/* Current plan */}
       <div className="card mb-8">

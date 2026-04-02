@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { PageHeader } from "@/components/page-header";
 
 const PLATFORMS = [
   { id: "FACEBOOK", label: "Facebook" },
@@ -331,29 +332,20 @@ export default function UrlToPostsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-2">
-        <h1
-          className="text-2xl font-bold"
-          style={{ color: "var(--text-primary)" }}
-        >
-          Generate Posts from URL
-        </h1>
-        <Link
-          href="/drafts"
-          className="px-3 py-1.5 rounded text-sm font-medium"
-          style={{
-            border: "1px solid var(--border-primary)",
-            color: "var(--text-secondary)",
-            background: "var(--bg-secondary)",
-          }}
-        >
-          View Drafts
-        </Link>
-      </div>
-      <p className="mb-6" style={{ color: "var(--text-secondary)" }}>
-        Provide a URL and the AI will read its content to generate social media
-        posts for your selected platforms.
-      </p>
+      <PageHeader
+        title="Generate Posts from URL"
+        subtitle="Provide a URL and the AI will read its content to generate social media posts for your selected platforms."
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "AI Studio", href: "/ai" },
+          { label: "URL to Posts" },
+        ]}
+        action={
+          <Link href="/drafts" className="btn-secondary text-sm">
+            View Drafts
+          </Link>
+        }
+      />
 
       {successMessage && (
         <div

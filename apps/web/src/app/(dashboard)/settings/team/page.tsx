@@ -27,6 +27,11 @@ export default async function TeamPage() {
       <PageHeader
         title="Team"
         subtitle={`${members.length} member${members.length !== 1 ? "s" : ""}`}
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Settings", href: "/settings/connections" },
+          { label: "Team" },
+        ]}
       />
 
       <div className="section-label mb-3">Members</div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { PageHeader } from "@/components/page-header";
 
 interface Draft {
   id: string;
@@ -237,9 +238,13 @@ export default function DraftsPage() {
   if (loading) {
     return (
       <div>
-        <h1 className="text-2xl font-bold mb-6" style={{ color: "var(--text-primary)" }}>
-          Drafts
-        </h1>
+        <PageHeader
+          title="Drafts"
+          breadcrumbs={[
+            { label: "Home", href: "/dashboard" },
+            { label: "Drafts" },
+          ]}
+        />
         <div
           className="rounded-lg p-8 flex items-center justify-center"
           style={{
@@ -256,55 +261,37 @@ export default function DraftsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
-            Drafts
-          </h1>
-          <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>
-            {drafts.length} draft{drafts.length !== 1 ? "s" : ""} saved
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Link
-            href="/ai/url-to-posts"
-            className="px-3 py-1.5 rounded text-sm font-medium"
-            style={{
-              border: "1px solid var(--border-primary)",
-              color: "var(--text-secondary)",
-              background: "var(--bg-secondary)",
-            }}
+      <PageHeader
+        title="Drafts"
+        subtitle={`${drafts.length} draft${drafts.length !== 1 ? "s" : ""} saved`}
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Drafts" },
+        ]}
+        action={
+          <div className="flex gap-2">
+            <Link href="/ai/url-to-posts" className="btn-secondary text-sm">
+              Generate More
+            </Link>
+          </div>
+        }
+      />
+      {drafts.length > 0 && (
+        <div className="flex items-center justify-end gap-2 mb-6">
+          <button
+            onClick={() => { setModalType("scheduleAll"); setScheduleDate(""); setSelectedCampaign(""); }}
+            className="btn-primary text-sm"
           >
-            Generate More
-          </Link>
-          {drafts.length > 0 && (
-            <>
-              <button
-                onClick={() => { setModalType("scheduleAll"); setScheduleDate(""); setSelectedCampaign(""); }}
-                className="px-3 py-1.5 rounded text-sm font-medium"
-                style={{
-                  background: "var(--accent-blue)",
-                  color: "#fff",
-                  border: "1px solid var(--accent-blue)",
-                }}
-              >
-                Schedule All
-              </button>
-              <button
-                onClick={deleteAll}
-                className="px-3 py-1.5 rounded text-sm font-medium"
-                style={{
-                  border: "1px solid rgba(239,68,68,0.5)",
-                  color: "#ef4444",
-                  background: "rgba(239,68,68,0.05)",
-                }}
-              >
-                Delete All
-              </button>
-            </>
-          )}
+            Schedule All
+          </button>
+          <button
+            onClick={deleteAll}
+            className="btn-danger text-sm"
+          >
+            Delete All
+          </button>
         </div>
-      </div>
+      )}
 
       {successMessage && (
         <div

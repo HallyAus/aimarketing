@@ -2,6 +2,7 @@ import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import type { Metadata } from "next";
+import { PageHeader } from "@/components/page-header";
 
 export const metadata: Metadata = {
   title: "Content Calendar",
@@ -68,8 +69,14 @@ export default async function CalendarPage({
 
   return (
     <div>
+      <PageHeader
+        title="Content Calendar"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Calendar" },
+        ]}
+      />
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-        <h1 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>Content Calendar</h1>
         <div className="flex items-center gap-4">
           <a
             href={`/calendar?month=${prevMonth}&year=${prevYear}`}

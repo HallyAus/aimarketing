@@ -1,6 +1,7 @@
 import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
+import { PageHeader } from "@/components/page-header";
 import { PostForm } from "@/components/post-form";
 
 export default async function NewPostPage({
@@ -26,8 +27,15 @@ export default async function NewPostPage({
 
   return (
     <div className="max-w-2xl w-full">
-      <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Add Post</h1>
-      <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>Campaign: {campaign.name}</p>
+      <PageHeader
+        title="Add Post"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Campaigns", href: "/campaigns" },
+          { label: campaign.name, href: `/campaigns/${campaign.id}` },
+          { label: "New Post" },
+        ]}
+      />
 
       <PostForm
         campaignId={campaign.id}

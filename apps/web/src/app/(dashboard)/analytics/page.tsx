@@ -55,6 +55,10 @@ export default async function AnalyticsPage() {
       <PageHeader
         title="Analytics"
         subtitle="Post performance overview"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Analytics" },
+        ]}
         action={
           <a href="/api/analytics/export?days=30" className="btn-secondary">
             Export CSV

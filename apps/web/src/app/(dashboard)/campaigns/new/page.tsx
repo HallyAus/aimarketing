@@ -1,5 +1,6 @@
 import { getSessionOrg } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { PageHeader } from "@/components/page-header";
 import { CampaignForm } from "./campaign-form";
 
 export default async function NewCampaignPage() {
@@ -13,12 +14,14 @@ export default async function NewCampaignPage() {
 
   return (
     <div className="max-w-2xl w-full">
-      <h1
-        className="text-2xl font-bold mb-6"
-        style={{ color: "var(--text-primary)" }}
-      >
-        Create Campaign
-      </h1>
+      <PageHeader
+        title="Create Campaign"
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Campaigns", href: "/campaigns" },
+          { label: "New Campaign" },
+        ]}
+      />
       <CampaignForm connectedPlatforms={connectedPlatforms} />
     </div>
   );

@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import { PLATFORM_CONFIGS } from "@adpilot/platform-sdk";
 import type { Platform } from "@adpilot/platform-sdk";
 import type { Metadata } from "next";
+import { PageHeader } from "@/components/page-header";
 import { FacebookPages } from "./facebook-pages";
 
 export const metadata: Metadata = {
@@ -40,10 +41,15 @@ export default async function ConnectionsPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Platform Connections</h1>
-      <p className="mb-6" style={{ color: "var(--text-secondary)" }}>
-        Connect your social media accounts to manage campaigns.
-      </p>
+      <PageHeader
+        title="Platform Connections"
+        subtitle="Connect your social media accounts to manage campaigns."
+        breadcrumbs={[
+          { label: "Home", href: "/dashboard" },
+          { label: "Settings", href: "/settings/connections" },
+          { label: "Connections" },
+        ]}
+      />
 
       {params.success === "connected" && (
         <div

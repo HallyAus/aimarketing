@@ -57,6 +57,7 @@ export default async function DashboardPage() {
         title={org.name}
         subtitle="Organization overview"
         action={<span className="badge badge-info">{org.plan}</span>}
+        breadcrumbs={[{ label: "Home", href: "/dashboard" }]}
       />
 
       {/* Metrics grid */}
