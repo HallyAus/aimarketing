@@ -31,7 +31,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   // Protected API and dashboard routes — verify JWT
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET });
   if (!token) {
     if (pathname.startsWith("/api/")) {
       return NextResponse.json(
