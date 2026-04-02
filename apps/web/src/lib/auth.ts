@@ -36,42 +36,25 @@ const nextAuth = NextAuth({
     signIn: "/signin",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       if (user) {
         token.userId = user.id;
       }
 
-      // Check for org switch cookie
-      const { cookies: getCookies } = await import("next/headers");
-      const cookieStore = await getCookies();
-      const orgCookie = cookieStore.get("adpilot-org-id");
-
-      if (orgCookie?.value && token.userId) {
-        const membership = await prisma.membership.findUnique({
-          where: {
-            userId_orgId: {
-              userId: token.userId as string,
-              orgId: orgCookie.value,
-            },
-          },
-        });
-        if (membership) {
-          token.currentOrgId = membership.orgId;
-          token.currentRole = membership.role;
-          return token;
-        }
-      }
-
-      // Fallback: auto-select if single org
+      // Auto-select org on sign-in or when not set
       if (token.userId && !token.currentOrgId) {
-        const memberships = await prisma.membership.findMany({
-          where: { userId: token.userId as string },
-          orderBy: { createdAt: "asc" },
-        });
-        const first = memberships[0];
-        if (memberships.length === 1 && first) {
-          token.currentOrgId = first.orgId;
-          token.currentRole = first.role;
+        try {
+          const memberships = await prisma.membership.findMany({
+            where: { userId: token.userId as string },
+            orderBy: { createdAt: "asc" },
+          });
+          const first = memberships[0];
+          if (first) {
+            token.currentOrgId = first.orgId;
+            token.currentRole = first.role;
+          }
+        } catch {
+          // DB may not be available during build
         }
       }
 
