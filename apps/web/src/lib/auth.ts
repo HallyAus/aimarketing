@@ -4,7 +4,6 @@ import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import Resend from "next-auth/providers/resend";
 import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id";
-import WebAuthn from "next-auth/providers/webauthn";
 import bcrypt from "bcryptjs";
 import { prisma } from "@adpilot/db";
 import { redirect } from "next/navigation";
@@ -23,7 +22,6 @@ const nextAuth = NextAuth({
     },
   },
   session: { strategy: "jwt" },
-  experimental: { enableWebAuthn: true },
   providers: [
     // Email + Password
     Credentials({
@@ -79,8 +77,7 @@ const nextAuth = NextAuth({
         ]
       : []),
 
-    // Passkeys / WebAuthn
-    WebAuthn,
+    // TODO: Add Passkeys/WebAuthn when @auth/prisma-adapter supports it
   ],
   pages: {
     signIn: "/signin",
