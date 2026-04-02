@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { AccountSelector } from "./account-selector";
+import { TimezoneSelector } from "./timezone-selector";
 
 export function TopBar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -157,6 +158,10 @@ export function TopBar() {
                 <div className="text-sm font-medium text-[var(--text-primary)]">User</div>
                 <div className="text-xs text-[var(--text-tertiary)] mt-0.5">user@example.com</div>
                 <div className="text-[10px] text-[var(--text-tertiary)] mt-1 uppercase tracking-wider font-medium">Organization</div>
+              </div>
+              {/* Timezone selector */}
+              <div className="border-b border-[var(--border-secondary)]">
+                <TimezoneSelector />
               </div>
               <a
                 href="/api/auth/signout"

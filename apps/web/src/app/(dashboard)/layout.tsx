@@ -31,14 +31,14 @@ export default async function DashboardLayout({
 
         {/* Main content */}
         <main id="main-content" className="flex-1">
-          <div className="pt-16 md:pt-4 px-4 md:px-8 py-4 md:py-8 max-w-6xl">
+          <div className="pt-16 md:pt-4 px-4 md:px-8 py-3 md:py-5 max-w-full xl:max-w-7xl">
             {children}
           </div>
         </main>
 
         {/* Footer */}
         <footer className="px-4 md:px-8 py-4 text-[11px] text-[var(--text-tertiary)] border-t border-[var(--border-secondary)]">
-          <div className="max-w-6xl flex flex-wrap items-center gap-x-3 gap-y-1">
+          <div className="max-w-full xl:max-w-7xl flex flex-wrap items-center gap-x-3 gap-y-1">
             <span>AdPilot &copy; 2026</span>
             <span className="text-[var(--border-primary)]">&middot;</span>
             <a href="#" className="hover:text-[var(--text-secondary)] transition-colors">Help</a>
