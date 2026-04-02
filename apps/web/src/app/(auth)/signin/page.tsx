@@ -56,18 +56,13 @@ function SignInContent() {
     setLoading("credentials");
     try {
       const res = await signIn("credentials", {
-        email,
+        email: email.toLowerCase(),
         password,
-        callbackUrl,
-        redirect: false,
+        redirect: true,
+        redirectTo: callbackUrl,
       });
-      if (res?.error) {
-        setError("Invalid email or password.");
-      } else if (res?.url) {
-        window.location.href = res.url;
-      }
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      setError("Invalid email or password.");
     } finally {
       setLoading(null);
     }
@@ -101,15 +96,12 @@ function SignInContent() {
       }
 
       // Auto sign in after signup
-      const signInRes = await signIn("credentials", {
-        email,
+      await signIn("credentials", {
+        email: email.toLowerCase(),
         password,
-        callbackUrl,
-        redirect: false,
+        redirect: true,
+        redirectTo: callbackUrl,
       });
-      if (signInRes?.url) {
-        window.location.href = signInRes.url;
-      }
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
