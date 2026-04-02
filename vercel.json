@@ -1,6 +1,0 @@
-{
-  "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "pnpm --filter @adpilot/db run build && pnpm --filter @adpilot/shared run build && pnpm --filter @adpilot/web run build",
-  "outputDirectory": "apps/web/.next",
-  "framework": "nextjs"
-}
