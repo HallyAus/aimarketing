@@ -275,7 +275,7 @@ model Post {
   id                 String     @id @default(cuid())
   campaignId         String?
   orgId              String
-  pageId             String
+  pageId             String?
   platform           Platform
   content            String
   mediaUrls          String[]
@@ -296,7 +296,7 @@ model Post {
 
   campaign        Campaign?           @relation(fields: [campaignId], references: [id], onDelete: Cascade)
   organization    Organization        @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  page            Page                @relation(fields: [pageId], references: [id])
+  page            Page?               @relation(fields: [pageId], references: [id])
   approver        User?               @relation("ApprovedBy", fields: [approvedBy], references: [id])
   analytics       AnalyticsSnapshot[]
   approvalRequest ApprovalRequest?

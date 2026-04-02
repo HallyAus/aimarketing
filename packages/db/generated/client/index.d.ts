@@ -708,7 +708,7 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.19.2
+   * Prisma Client JS version: 6.19.3
    * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
    */
   export type PrismaVersion = {
@@ -14906,7 +14906,7 @@ export namespace Prisma {
     id: string
     campaignId: string | null
     orgId: string
-    pageId: string
+    pageId: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls: string[]
@@ -14969,7 +14969,7 @@ export namespace Prisma {
     updatedAt?: boolean
     campaign?: boolean | Post$campaignArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    page?: boolean | PageDefaultArgs<ExtArgs>
+    page?: boolean | Post$pageArgs<ExtArgs>
     approver?: boolean | Post$approverArgs<ExtArgs>
     analytics?: boolean | Post$analyticsArgs<ExtArgs>
     approvalRequest?: boolean | Post$approvalRequestArgs<ExtArgs>
@@ -15001,7 +15001,7 @@ export namespace Prisma {
     updatedAt?: boolean
     campaign?: boolean | Post$campaignArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    page?: boolean | PageDefaultArgs<ExtArgs>
+    page?: boolean | Post$pageArgs<ExtArgs>
     approver?: boolean | Post$approverArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
 
@@ -15029,7 +15029,7 @@ export namespace Prisma {
     updatedAt?: boolean
     campaign?: boolean | Post$campaignArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    page?: boolean | PageDefaultArgs<ExtArgs>
+    page?: boolean | Post$pageArgs<ExtArgs>
     approver?: boolean | Post$approverArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
 
@@ -15061,7 +15061,7 @@ export namespace Prisma {
   export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     campaign?: boolean | Post$campaignArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    page?: boolean | PageDefaultArgs<ExtArgs>
+    page?: boolean | Post$pageArgs<ExtArgs>
     approver?: boolean | Post$approverArgs<ExtArgs>
     analytics?: boolean | Post$analyticsArgs<ExtArgs>
     approvalRequest?: boolean | Post$approvalRequestArgs<ExtArgs>
@@ -15071,13 +15071,13 @@ export namespace Prisma {
   export type PostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     campaign?: boolean | Post$campaignArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    page?: boolean | PageDefaultArgs<ExtArgs>
+    page?: boolean | Post$pageArgs<ExtArgs>
     approver?: boolean | Post$approverArgs<ExtArgs>
   }
   export type PostIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     campaign?: boolean | Post$campaignArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    page?: boolean | PageDefaultArgs<ExtArgs>
+    page?: boolean | Post$pageArgs<ExtArgs>
     approver?: boolean | Post$approverArgs<ExtArgs>
   }
 
@@ -15086,7 +15086,7 @@ export namespace Prisma {
     objects: {
       campaign: Prisma.$CampaignPayload<ExtArgs> | null
       organization: Prisma.$OrganizationPayload<ExtArgs>
-      page: Prisma.$PagePayload<ExtArgs>
+      page: Prisma.$PagePayload<ExtArgs> | null
       approver: Prisma.$UserPayload<ExtArgs> | null
       analytics: Prisma.$AnalyticsSnapshotPayload<ExtArgs>[]
       approvalRequest: Prisma.$ApprovalRequestPayload<ExtArgs> | null
@@ -15096,7 +15096,7 @@ export namespace Prisma {
       id: string
       campaignId: string | null
       orgId: string
-      pageId: string
+      pageId: string | null
       platform: $Enums.Platform
       content: string
       mediaUrls: string[]
@@ -15510,7 +15510,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     campaign<T extends Post$campaignArgs<ExtArgs> = {}>(args?: Subset<T, Post$campaignArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    page<T extends PageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PageDefaultArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    page<T extends Post$pageArgs<ExtArgs> = {}>(args?: Subset<T, Post$pageArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     approver<T extends Post$approverArgs<ExtArgs> = {}>(args?: Subset<T, Post$approverArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     analytics<T extends Post$analyticsArgs<ExtArgs> = {}>(args?: Subset<T, Post$analyticsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     approvalRequest<T extends Post$approvalRequestArgs<ExtArgs> = {}>(args?: Subset<T, Post$approvalRequestArgs<ExtArgs>>): Prisma__ApprovalRequestClient<$Result.GetResult<Prisma.$ApprovalRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -15977,6 +15977,25 @@ export namespace Prisma {
      */
     include?: CampaignInclude<ExtArgs> | null
     where?: CampaignWhereInput
+  }
+
+  /**
+   * Post.page
+   */
+  export type Post$pageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Page
+     */
+    select?: PageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Page
+     */
+    omit?: PageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PageInclude<ExtArgs> | null
+    where?: PageWhereInput
   }
 
   /**
@@ -36292,7 +36311,7 @@ export namespace Prisma {
     id?: StringFilter<"Post"> | string
     campaignId?: StringNullableFilter<"Post"> | string | null
     orgId?: StringFilter<"Post"> | string
-    pageId?: StringFilter<"Post"> | string
+    pageId?: StringNullableFilter<"Post"> | string | null
     platform?: EnumPlatformFilter<"Post"> | $Enums.Platform
     content?: StringFilter<"Post"> | string
     mediaUrls?: StringNullableListFilter<"Post">
@@ -36312,7 +36331,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Post"> | Date | string
     campaign?: XOR<CampaignNullableScalarRelationFilter, CampaignWhereInput> | null
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
-    page?: XOR<PageScalarRelationFilter, PageWhereInput>
+    page?: XOR<PageNullableScalarRelationFilter, PageWhereInput> | null
     approver?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     analytics?: AnalyticsSnapshotListRelationFilter
     approvalRequest?: XOR<ApprovalRequestNullableScalarRelationFilter, ApprovalRequestWhereInput> | null
@@ -36323,7 +36342,7 @@ export namespace Prisma {
     id?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     orgId?: SortOrder
-    pageId?: SortOrder
+    pageId?: SortOrderInput | SortOrder
     platform?: SortOrder
     content?: SortOrder
     mediaUrls?: SortOrder
@@ -36357,7 +36376,7 @@ export namespace Prisma {
     NOT?: PostWhereInput | PostWhereInput[]
     campaignId?: StringNullableFilter<"Post"> | string | null
     orgId?: StringFilter<"Post"> | string
-    pageId?: StringFilter<"Post"> | string
+    pageId?: StringNullableFilter<"Post"> | string | null
     platform?: EnumPlatformFilter<"Post"> | $Enums.Platform
     content?: StringFilter<"Post"> | string
     mediaUrls?: StringNullableListFilter<"Post">
@@ -36377,7 +36396,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Post"> | Date | string
     campaign?: XOR<CampaignNullableScalarRelationFilter, CampaignWhereInput> | null
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
-    page?: XOR<PageScalarRelationFilter, PageWhereInput>
+    page?: XOR<PageNullableScalarRelationFilter, PageWhereInput> | null
     approver?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     analytics?: AnalyticsSnapshotListRelationFilter
     approvalRequest?: XOR<ApprovalRequestNullableScalarRelationFilter, ApprovalRequestWhereInput> | null
@@ -36388,7 +36407,7 @@ export namespace Prisma {
     id?: SortOrder
     campaignId?: SortOrderInput | SortOrder
     orgId?: SortOrder
-    pageId?: SortOrder
+    pageId?: SortOrderInput | SortOrder
     platform?: SortOrder
     content?: SortOrder
     mediaUrls?: SortOrder
@@ -36420,7 +36439,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Post"> | string
     campaignId?: StringNullableWithAggregatesFilter<"Post"> | string | null
     orgId?: StringWithAggregatesFilter<"Post"> | string
-    pageId?: StringWithAggregatesFilter<"Post"> | string
+    pageId?: StringNullableWithAggregatesFilter<"Post"> | string | null
     platform?: EnumPlatformWithAggregatesFilter<"Post"> | $Enums.Platform
     content?: StringWithAggregatesFilter<"Post"> | string
     mediaUrls?: StringNullableListFilter<"Post">
@@ -38765,7 +38784,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     campaign?: CampaignCreateNestedOneWithoutPostsInput
     organization: OrganizationCreateNestedOneWithoutPostsInput
-    page: PageCreateNestedOneWithoutPostsInput
+    page?: PageCreateNestedOneWithoutPostsInput
     approver?: UserCreateNestedOneWithoutPostsApprovedInput
     analytics?: AnalyticsSnapshotCreateNestedManyWithoutPostInput
     approvalRequest?: ApprovalRequestCreateNestedOneWithoutPostInput
@@ -38776,7 +38795,7 @@ export namespace Prisma {
     id?: string
     campaignId?: string | null
     orgId: string
-    pageId: string
+    pageId?: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls?: PostCreatemediaUrlsInput | string[]
@@ -38819,7 +38838,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneWithoutPostsNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutPostsNestedInput
-    page?: PageUpdateOneRequiredWithoutPostsNestedInput
+    page?: PageUpdateOneWithoutPostsNestedInput
     approver?: UserUpdateOneWithoutPostsApprovedNestedInput
     analytics?: AnalyticsSnapshotUpdateManyWithoutPostNestedInput
     approvalRequest?: ApprovalRequestUpdateOneWithoutPostNestedInput
@@ -38830,7 +38849,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     orgId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
     mediaUrls?: PostUpdatemediaUrlsInput | string[]
@@ -38857,7 +38876,7 @@ export namespace Prisma {
     id?: string
     campaignId?: string | null
     orgId: string
-    pageId: string
+    pageId?: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls?: PostCreatemediaUrlsInput | string[]
@@ -38901,7 +38920,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     orgId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
     mediaUrls?: PostUpdatemediaUrlsInput | string[]
@@ -41419,11 +41438,6 @@ export namespace Prisma {
     isNot?: CampaignWhereInput | null
   }
 
-  export type PageScalarRelationFilter = {
-    is?: PageWhereInput
-    isNot?: PageWhereInput
-  }
-
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
@@ -42097,6 +42111,11 @@ export namespace Prisma {
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type PageScalarRelationFilter = {
+    is?: PageWhereInput
+    isNot?: PageWhereInput
   }
 
   export type BrandVoiceCountOrderByAggregateInput = {
@@ -43958,10 +43977,12 @@ export namespace Prisma {
     update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutPostsInput, OrganizationUpdateWithoutPostsInput>, OrganizationUncheckedUpdateWithoutPostsInput>
   }
 
-  export type PageUpdateOneRequiredWithoutPostsNestedInput = {
+  export type PageUpdateOneWithoutPostsNestedInput = {
     create?: XOR<PageCreateWithoutPostsInput, PageUncheckedCreateWithoutPostsInput>
     connectOrCreate?: PageCreateOrConnectWithoutPostsInput
     upsert?: PageUpsertWithoutPostsInput
+    disconnect?: PageWhereInput | boolean
+    delete?: PageWhereInput | boolean
     connect?: PageWhereUniqueInput
     update?: XOR<XOR<PageUpdateToOneWithWhereWithoutPostsInput, PageUpdateWithoutPostsInput>, PageUncheckedUpdateWithoutPostsInput>
   }
@@ -45619,7 +45640,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     campaign?: CampaignCreateNestedOneWithoutPostsInput
-    page: PageCreateNestedOneWithoutPostsInput
+    page?: PageCreateNestedOneWithoutPostsInput
     approver?: UserCreateNestedOneWithoutPostsApprovedInput
     analytics?: AnalyticsSnapshotCreateNestedManyWithoutPostInput
     approvalRequest?: ApprovalRequestCreateNestedOneWithoutPostInput
@@ -45629,7 +45650,7 @@ export namespace Prisma {
   export type PostUncheckedCreateWithoutOrganizationInput = {
     id?: string
     campaignId?: string | null
-    pageId: string
+    pageId?: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls?: PostCreatemediaUrlsInput | string[]
@@ -46137,7 +46158,7 @@ export namespace Prisma {
     id?: StringFilter<"Post"> | string
     campaignId?: StringNullableFilter<"Post"> | string | null
     orgId?: StringFilter<"Post"> | string
-    pageId?: StringFilter<"Post"> | string
+    pageId?: StringNullableFilter<"Post"> | string | null
     platform?: EnumPlatformFilter<"Post"> | $Enums.Platform
     content?: StringFilter<"Post"> | string
     mediaUrls?: StringNullableListFilter<"Post">
@@ -46594,7 +46615,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     campaign?: CampaignCreateNestedOneWithoutPostsInput
     organization: OrganizationCreateNestedOneWithoutPostsInput
-    page: PageCreateNestedOneWithoutPostsInput
+    page?: PageCreateNestedOneWithoutPostsInput
     analytics?: AnalyticsSnapshotCreateNestedManyWithoutPostInput
     approvalRequest?: ApprovalRequestCreateNestedOneWithoutPostInput
     utmLinks?: UtmLinkCreateNestedManyWithoutPostInput
@@ -46604,7 +46625,7 @@ export namespace Prisma {
     id?: string
     campaignId?: string | null
     orgId: string
-    pageId: string
+    pageId?: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls?: PostCreatemediaUrlsInput | string[]
@@ -48304,7 +48325,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     organization: OrganizationCreateNestedOneWithoutPostsInput
-    page: PageCreateNestedOneWithoutPostsInput
+    page?: PageCreateNestedOneWithoutPostsInput
     approver?: UserCreateNestedOneWithoutPostsApprovedInput
     analytics?: AnalyticsSnapshotCreateNestedManyWithoutPostInput
     approvalRequest?: ApprovalRequestCreateNestedOneWithoutPostInput
@@ -48314,7 +48335,7 @@ export namespace Prisma {
   export type PostUncheckedCreateWithoutCampaignInput = {
     id?: string
     orgId: string
-    pageId: string
+    pageId?: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls?: PostCreatemediaUrlsInput | string[]
@@ -49337,7 +49358,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     campaign?: CampaignCreateNestedOneWithoutPostsInput
     organization: OrganizationCreateNestedOneWithoutPostsInput
-    page: PageCreateNestedOneWithoutPostsInput
+    page?: PageCreateNestedOneWithoutPostsInput
     approver?: UserCreateNestedOneWithoutPostsApprovedInput
     approvalRequest?: ApprovalRequestCreateNestedOneWithoutPostInput
     utmLinks?: UtmLinkCreateNestedManyWithoutPostInput
@@ -49347,7 +49368,7 @@ export namespace Prisma {
     id?: string
     campaignId?: string | null
     orgId: string
-    pageId: string
+    pageId?: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls?: PostCreatemediaUrlsInput | string[]
@@ -49405,7 +49426,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneWithoutPostsNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutPostsNestedInput
-    page?: PageUpdateOneRequiredWithoutPostsNestedInput
+    page?: PageUpdateOneWithoutPostsNestedInput
     approver?: UserUpdateOneWithoutPostsApprovedNestedInput
     approvalRequest?: ApprovalRequestUpdateOneWithoutPostNestedInput
     utmLinks?: UtmLinkUpdateManyWithoutPostNestedInput
@@ -49415,7 +49436,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     orgId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
     mediaUrls?: PostUpdatemediaUrlsInput | string[]
@@ -51242,7 +51263,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     campaign?: CampaignCreateNestedOneWithoutPostsInput
     organization: OrganizationCreateNestedOneWithoutPostsInput
-    page: PageCreateNestedOneWithoutPostsInput
+    page?: PageCreateNestedOneWithoutPostsInput
     approver?: UserCreateNestedOneWithoutPostsApprovedInput
     analytics?: AnalyticsSnapshotCreateNestedManyWithoutPostInput
     utmLinks?: UtmLinkCreateNestedManyWithoutPostInput
@@ -51252,7 +51273,7 @@ export namespace Prisma {
     id?: string
     campaignId?: string | null
     orgId: string
-    pageId: string
+    pageId?: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls?: PostCreatemediaUrlsInput | string[]
@@ -51416,7 +51437,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneWithoutPostsNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutPostsNestedInput
-    page?: PageUpdateOneRequiredWithoutPostsNestedInput
+    page?: PageUpdateOneWithoutPostsNestedInput
     approver?: UserUpdateOneWithoutPostsApprovedNestedInput
     analytics?: AnalyticsSnapshotUpdateManyWithoutPostNestedInput
     utmLinks?: UtmLinkUpdateManyWithoutPostNestedInput
@@ -51426,7 +51447,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     orgId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
     mediaUrls?: PostUpdatemediaUrlsInput | string[]
@@ -52227,7 +52248,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     campaign?: CampaignCreateNestedOneWithoutPostsInput
     organization: OrganizationCreateNestedOneWithoutPostsInput
-    page: PageCreateNestedOneWithoutPostsInput
+    page?: PageCreateNestedOneWithoutPostsInput
     approver?: UserCreateNestedOneWithoutPostsApprovedInput
     analytics?: AnalyticsSnapshotCreateNestedManyWithoutPostInput
     approvalRequest?: ApprovalRequestCreateNestedOneWithoutPostInput
@@ -52237,7 +52258,7 @@ export namespace Prisma {
     id?: string
     campaignId?: string | null
     orgId: string
-    pageId: string
+    pageId?: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls?: PostCreatemediaUrlsInput | string[]
@@ -52362,7 +52383,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneWithoutPostsNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutPostsNestedInput
-    page?: PageUpdateOneRequiredWithoutPostsNestedInput
+    page?: PageUpdateOneWithoutPostsNestedInput
     approver?: UserUpdateOneWithoutPostsApprovedNestedInput
     analytics?: AnalyticsSnapshotUpdateManyWithoutPostNestedInput
     approvalRequest?: ApprovalRequestUpdateOneWithoutPostNestedInput
@@ -52372,7 +52393,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     orgId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
     mediaUrls?: PostUpdatemediaUrlsInput | string[]
@@ -52703,7 +52724,7 @@ export namespace Prisma {
   export type PostCreateManyOrganizationInput = {
     id?: string
     campaignId?: string | null
-    pageId: string
+    pageId?: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls?: PostCreatemediaUrlsInput | string[]
@@ -53075,7 +53096,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneWithoutPostsNestedInput
-    page?: PageUpdateOneRequiredWithoutPostsNestedInput
+    page?: PageUpdateOneWithoutPostsNestedInput
     approver?: UserUpdateOneWithoutPostsApprovedNestedInput
     analytics?: AnalyticsSnapshotUpdateManyWithoutPostNestedInput
     approvalRequest?: ApprovalRequestUpdateOneWithoutPostNestedInput
@@ -53085,7 +53106,7 @@ export namespace Prisma {
   export type PostUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
-    pageId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
     mediaUrls?: PostUpdatemediaUrlsInput | string[]
@@ -53111,7 +53132,7 @@ export namespace Prisma {
   export type PostUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
-    pageId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
     mediaUrls?: PostUpdatemediaUrlsInput | string[]
@@ -53494,7 +53515,7 @@ export namespace Prisma {
     id?: string
     campaignId?: string | null
     orgId: string
-    pageId: string
+    pageId?: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls?: PostCreatemediaUrlsInput | string[]
@@ -53780,7 +53801,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     campaign?: CampaignUpdateOneWithoutPostsNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutPostsNestedInput
-    page?: PageUpdateOneRequiredWithoutPostsNestedInput
+    page?: PageUpdateOneWithoutPostsNestedInput
     analytics?: AnalyticsSnapshotUpdateManyWithoutPostNestedInput
     approvalRequest?: ApprovalRequestUpdateOneWithoutPostNestedInput
     utmLinks?: UtmLinkUpdateManyWithoutPostNestedInput
@@ -53790,7 +53811,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     orgId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
     mediaUrls?: PostUpdatemediaUrlsInput | string[]
@@ -53816,7 +53837,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     orgId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
     mediaUrls?: PostUpdatemediaUrlsInput | string[]
@@ -54137,7 +54158,7 @@ export namespace Prisma {
   export type PostCreateManyCampaignInput = {
     id?: string
     orgId: string
-    pageId: string
+    pageId?: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls?: PostCreatemediaUrlsInput | string[]
@@ -54176,7 +54197,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutPostsNestedInput
-    page?: PageUpdateOneRequiredWithoutPostsNestedInput
+    page?: PageUpdateOneWithoutPostsNestedInput
     approver?: UserUpdateOneWithoutPostsApprovedNestedInput
     analytics?: AnalyticsSnapshotUpdateManyWithoutPostNestedInput
     approvalRequest?: ApprovalRequestUpdateOneWithoutPostNestedInput
@@ -54186,7 +54207,7 @@ export namespace Prisma {
   export type PostUncheckedUpdateWithoutCampaignInput = {
     id?: StringFieldUpdateOperationsInput | string
     orgId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
     mediaUrls?: PostUpdatemediaUrlsInput | string[]
@@ -54212,7 +54233,7 @@ export namespace Prisma {
   export type PostUncheckedUpdateManyWithoutCampaignInput = {
     id?: StringFieldUpdateOperationsInput | string
     orgId?: StringFieldUpdateOperationsInput | string
-    pageId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
     mediaUrls?: PostUpdatemediaUrlsInput | string[]
