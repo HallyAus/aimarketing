@@ -111,7 +111,7 @@ export default async function AnalyticsPage() {
                 const m = post.analytics[0];
                 return (
                   <tr key={post.id} className="table-row">
-                    <td className="px-3 py-2.5" style={{ color: "var(--text-primary)" }}>{post.campaign.name}</td>
+                    <td className="px-3 py-2.5" style={{ color: "var(--text-primary)" }}>{post.campaign?.name ?? "No campaign"}</td>
                     <td className="px-3 py-2.5">
                       <span className="badge badge-info">{post.platform}</span>
                     </td>

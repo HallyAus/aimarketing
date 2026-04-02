@@ -51,7 +51,7 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   const rows = posts.map((post) => {
     const metrics = post.analytics[0];
     return [
-      csvSafe(post.campaign.name),
+      csvSafe(post.campaign?.name ?? "No campaign"),
       csvSafe(post.platform),
       csvSafe(post.content.substring(0, 200)),
       csvSafe(post.publishedAt?.toISOString() ?? ""),

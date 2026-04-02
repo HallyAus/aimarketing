@@ -250,6 +250,8 @@ exports.Prisma.PostScalarFieldEnum = {
   rejectionReason: 'rejectionReason',
   engagementSnapshot: 'engagementSnapshot',
   errorMessage: 'errorMessage',
+  sourceUrl: 'sourceUrl',
+  tone: 'tone',
   version: 'version',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

@@ -128,7 +128,7 @@ export default async function CalendarPage({
                       {post.platform.replaceAll("_", " ")}
                     </span>
                     <span className="truncate" style={{ color: "var(--text-secondary)" }}>
-                      {post.campaign.name}
+                      {post.campaign?.name ?? "Draft"}
                     </span>
                   </div>
                 ))}
@@ -209,7 +209,7 @@ export default async function CalendarPage({
                       }}
                       title={`${post.platform}: ${post.content.substring(0, 100)}`}
                     >
-                      {post.campaign.name}
+                      {post.campaign?.name ?? "Draft"}
                     </div>
                   ))}
                   {dayPosts.length > 3 && (

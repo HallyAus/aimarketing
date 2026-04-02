@@ -108,7 +108,7 @@ export default async function DashboardPage() {
                   <span className="text-sm truncate" style={{ color: "var(--text-primary)" }}>{post.content.substring(0, 80)}</span>
                 </div>
                 <div className="text-xs whitespace-nowrap ml-3" style={{ color: "var(--text-tertiary)" }}>
-                  {post.campaign.name}
+                  {post.campaign?.name ?? "Draft"}
                 </div>
               </div>
             ))}

@@ -13250,6 +13250,8 @@ export namespace Prisma {
     approvedBy: string | null
     rejectionReason: string | null
     errorMessage: string | null
+    sourceUrl: string | null
+    tone: string | null
     version: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -13268,6 +13270,8 @@ export namespace Prisma {
     approvedBy: string | null
     rejectionReason: string | null
     errorMessage: string | null
+    sourceUrl: string | null
+    tone: string | null
     version: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -13288,6 +13292,8 @@ export namespace Prisma {
     rejectionReason: number
     engagementSnapshot: number
     errorMessage: number
+    sourceUrl: number
+    tone: number
     version: number
     createdAt: number
     updatedAt: number
@@ -13316,6 +13322,8 @@ export namespace Prisma {
     approvedBy?: true
     rejectionReason?: true
     errorMessage?: true
+    sourceUrl?: true
+    tone?: true
     version?: true
     createdAt?: true
     updatedAt?: true
@@ -13334,6 +13342,8 @@ export namespace Prisma {
     approvedBy?: true
     rejectionReason?: true
     errorMessage?: true
+    sourceUrl?: true
+    tone?: true
     version?: true
     createdAt?: true
     updatedAt?: true
@@ -13354,6 +13364,8 @@ export namespace Prisma {
     rejectionReason?: true
     engagementSnapshot?: true
     errorMessage?: true
+    sourceUrl?: true
+    tone?: true
     version?: true
     createdAt?: true
     updatedAt?: true
@@ -13448,7 +13460,7 @@ export namespace Prisma {
 
   export type PostGroupByOutputType = {
     id: string
-    campaignId: string
+    campaignId: string | null
     orgId: string
     platform: $Enums.Platform
     content: string
@@ -13461,6 +13473,8 @@ export namespace Prisma {
     rejectionReason: string | null
     engagementSnapshot: JsonValue | null
     errorMessage: string | null
+    sourceUrl: string | null
+    tone: string | null
     version: number
     createdAt: Date
     updatedAt: Date
@@ -13500,10 +13514,12 @@ export namespace Prisma {
     rejectionReason?: boolean
     engagementSnapshot?: boolean
     errorMessage?: boolean
+    sourceUrl?: boolean
+    tone?: boolean
     version?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
+    campaign?: boolean | Post$campaignArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     approver?: boolean | Post$approverArgs<ExtArgs>
     analytics?: boolean | Post$analyticsArgs<ExtArgs>
@@ -13525,10 +13541,12 @@ export namespace Prisma {
     rejectionReason?: boolean
     engagementSnapshot?: boolean
     errorMessage?: boolean
+    sourceUrl?: boolean
+    tone?: boolean
     version?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
+    campaign?: boolean | Post$campaignArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     approver?: boolean | Post$approverArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
@@ -13548,10 +13566,12 @@ export namespace Prisma {
     rejectionReason?: boolean
     engagementSnapshot?: boolean
     errorMessage?: boolean
+    sourceUrl?: boolean
+    tone?: boolean
     version?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
+    campaign?: boolean | Post$campaignArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     approver?: boolean | Post$approverArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
@@ -13571,26 +13591,28 @@ export namespace Prisma {
     rejectionReason?: boolean
     engagementSnapshot?: boolean
     errorMessage?: boolean
+    sourceUrl?: boolean
+    tone?: boolean
     version?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "campaignId" | "orgId" | "platform" | "content" | "mediaUrls" | "scheduledAt" | "publishedAt" | "platformPostId" | "status" | "approvedBy" | "rejectionReason" | "engagementSnapshot" | "errorMessage" | "version" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "campaignId" | "orgId" | "platform" | "content" | "mediaUrls" | "scheduledAt" | "publishedAt" | "platformPostId" | "status" | "approvedBy" | "rejectionReason" | "engagementSnapshot" | "errorMessage" | "sourceUrl" | "tone" | "version" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
   export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
+    campaign?: boolean | Post$campaignArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     approver?: boolean | Post$approverArgs<ExtArgs>
     analytics?: boolean | Post$analyticsArgs<ExtArgs>
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
+    campaign?: boolean | Post$campaignArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     approver?: boolean | Post$approverArgs<ExtArgs>
   }
   export type PostIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    campaign?: boolean | CampaignDefaultArgs<ExtArgs>
+    campaign?: boolean | Post$campaignArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     approver?: boolean | Post$approverArgs<ExtArgs>
   }
@@ -13598,14 +13620,14 @@ export namespace Prisma {
   export type $PostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Post"
     objects: {
-      campaign: Prisma.$CampaignPayload<ExtArgs>
+      campaign: Prisma.$CampaignPayload<ExtArgs> | null
       organization: Prisma.$OrganizationPayload<ExtArgs>
       approver: Prisma.$UserPayload<ExtArgs> | null
       analytics: Prisma.$AnalyticsSnapshotPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      campaignId: string
+      campaignId: string | null
       orgId: string
       platform: $Enums.Platform
       content: string
@@ -13618,6 +13640,8 @@ export namespace Prisma {
       rejectionReason: string | null
       engagementSnapshot: Prisma.JsonValue | null
       errorMessage: string | null
+      sourceUrl: string | null
+      tone: string | null
       version: number
       createdAt: Date
       updatedAt: Date
@@ -14015,7 +14039,7 @@ export namespace Prisma {
    */
   export interface Prisma__PostClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    campaign<T extends CampaignDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CampaignDefaultArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    campaign<T extends Post$campaignArgs<ExtArgs> = {}>(args?: Subset<T, Post$campaignArgs<ExtArgs>>): Prisma__CampaignClient<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     approver<T extends Post$approverArgs<ExtArgs> = {}>(args?: Subset<T, Post$approverArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     analytics<T extends Post$analyticsArgs<ExtArgs> = {}>(args?: Subset<T, Post$analyticsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnalyticsSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -14062,6 +14086,8 @@ export namespace Prisma {
     readonly rejectionReason: FieldRef<"Post", 'String'>
     readonly engagementSnapshot: FieldRef<"Post", 'Json'>
     readonly errorMessage: FieldRef<"Post", 'String'>
+    readonly sourceUrl: FieldRef<"Post", 'String'>
+    readonly tone: FieldRef<"Post", 'String'>
     readonly version: FieldRef<"Post", 'Int'>
     readonly createdAt: FieldRef<"Post", 'DateTime'>
     readonly updatedAt: FieldRef<"Post", 'DateTime'>
@@ -14458,6 +14484,25 @@ export namespace Prisma {
      * Limit how many Posts to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Post.campaign
+   */
+  export type Post$campaignArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Campaign
+     */
+    select?: CampaignSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Campaign
+     */
+    omit?: CampaignOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CampaignInclude<ExtArgs> | null
+    where?: CampaignWhereInput
   }
 
   /**
@@ -21686,6 +21731,8 @@ export namespace Prisma {
     rejectionReason: 'rejectionReason',
     engagementSnapshot: 'engagementSnapshot',
     errorMessage: 'errorMessage',
+    sourceUrl: 'sourceUrl',
+    tone: 'tone',
     version: 'version',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -22852,7 +22899,7 @@ export namespace Prisma {
     OR?: PostWhereInput[]
     NOT?: PostWhereInput | PostWhereInput[]
     id?: StringFilter<"Post"> | string
-    campaignId?: StringFilter<"Post"> | string
+    campaignId?: StringNullableFilter<"Post"> | string | null
     orgId?: StringFilter<"Post"> | string
     platform?: EnumPlatformFilter<"Post"> | $Enums.Platform
     content?: StringFilter<"Post"> | string
@@ -22865,10 +22912,12 @@ export namespace Prisma {
     rejectionReason?: StringNullableFilter<"Post"> | string | null
     engagementSnapshot?: JsonNullableFilter<"Post">
     errorMessage?: StringNullableFilter<"Post"> | string | null
+    sourceUrl?: StringNullableFilter<"Post"> | string | null
+    tone?: StringNullableFilter<"Post"> | string | null
     version?: IntFilter<"Post"> | number
     createdAt?: DateTimeFilter<"Post"> | Date | string
     updatedAt?: DateTimeFilter<"Post"> | Date | string
-    campaign?: XOR<CampaignScalarRelationFilter, CampaignWhereInput>
+    campaign?: XOR<CampaignNullableScalarRelationFilter, CampaignWhereInput> | null
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     approver?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     analytics?: AnalyticsSnapshotListRelationFilter
@@ -22876,7 +22925,7 @@ export namespace Prisma {
 
   export type PostOrderByWithRelationInput = {
     id?: SortOrder
-    campaignId?: SortOrder
+    campaignId?: SortOrderInput | SortOrder
     orgId?: SortOrder
     platform?: SortOrder
     content?: SortOrder
@@ -22889,6 +22938,8 @@ export namespace Prisma {
     rejectionReason?: SortOrderInput | SortOrder
     engagementSnapshot?: SortOrderInput | SortOrder
     errorMessage?: SortOrderInput | SortOrder
+    sourceUrl?: SortOrderInput | SortOrder
+    tone?: SortOrderInput | SortOrder
     version?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -22903,7 +22954,7 @@ export namespace Prisma {
     AND?: PostWhereInput | PostWhereInput[]
     OR?: PostWhereInput[]
     NOT?: PostWhereInput | PostWhereInput[]
-    campaignId?: StringFilter<"Post"> | string
+    campaignId?: StringNullableFilter<"Post"> | string | null
     orgId?: StringFilter<"Post"> | string
     platform?: EnumPlatformFilter<"Post"> | $Enums.Platform
     content?: StringFilter<"Post"> | string
@@ -22916,10 +22967,12 @@ export namespace Prisma {
     rejectionReason?: StringNullableFilter<"Post"> | string | null
     engagementSnapshot?: JsonNullableFilter<"Post">
     errorMessage?: StringNullableFilter<"Post"> | string | null
+    sourceUrl?: StringNullableFilter<"Post"> | string | null
+    tone?: StringNullableFilter<"Post"> | string | null
     version?: IntFilter<"Post"> | number
     createdAt?: DateTimeFilter<"Post"> | Date | string
     updatedAt?: DateTimeFilter<"Post"> | Date | string
-    campaign?: XOR<CampaignScalarRelationFilter, CampaignWhereInput>
+    campaign?: XOR<CampaignNullableScalarRelationFilter, CampaignWhereInput> | null
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     approver?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     analytics?: AnalyticsSnapshotListRelationFilter
@@ -22927,7 +22980,7 @@ export namespace Prisma {
 
   export type PostOrderByWithAggregationInput = {
     id?: SortOrder
-    campaignId?: SortOrder
+    campaignId?: SortOrderInput | SortOrder
     orgId?: SortOrder
     platform?: SortOrder
     content?: SortOrder
@@ -22940,6 +22993,8 @@ export namespace Prisma {
     rejectionReason?: SortOrderInput | SortOrder
     engagementSnapshot?: SortOrderInput | SortOrder
     errorMessage?: SortOrderInput | SortOrder
+    sourceUrl?: SortOrderInput | SortOrder
+    tone?: SortOrderInput | SortOrder
     version?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -22955,7 +23010,7 @@ export namespace Prisma {
     OR?: PostScalarWhereWithAggregatesInput[]
     NOT?: PostScalarWhereWithAggregatesInput | PostScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Post"> | string
-    campaignId?: StringWithAggregatesFilter<"Post"> | string
+    campaignId?: StringNullableWithAggregatesFilter<"Post"> | string | null
     orgId?: StringWithAggregatesFilter<"Post"> | string
     platform?: EnumPlatformWithAggregatesFilter<"Post"> | $Enums.Platform
     content?: StringWithAggregatesFilter<"Post"> | string
@@ -22968,6 +23023,8 @@ export namespace Prisma {
     rejectionReason?: StringNullableWithAggregatesFilter<"Post"> | string | null
     engagementSnapshot?: JsonNullableWithAggregatesFilter<"Post">
     errorMessage?: StringNullableWithAggregatesFilter<"Post"> | string | null
+    sourceUrl?: StringNullableWithAggregatesFilter<"Post"> | string | null
+    tone?: StringNullableWithAggregatesFilter<"Post"> | string | null
     version?: IntWithAggregatesFilter<"Post"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
@@ -24395,10 +24452,12 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    campaign: CampaignCreateNestedOneWithoutPostsInput
+    campaign?: CampaignCreateNestedOneWithoutPostsInput
     organization: OrganizationCreateNestedOneWithoutPostsInput
     approver?: UserCreateNestedOneWithoutPostsApprovedInput
     analytics?: AnalyticsSnapshotCreateNestedManyWithoutPostInput
@@ -24406,7 +24465,7 @@ export namespace Prisma {
 
   export type PostUncheckedCreateInput = {
     id?: string
-    campaignId: string
+    campaignId?: string | null
     orgId: string
     platform: $Enums.Platform
     content: string
@@ -24419,6 +24478,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24437,10 +24498,12 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    campaign?: CampaignUpdateOneRequiredWithoutPostsNestedInput
+    campaign?: CampaignUpdateOneWithoutPostsNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutPostsNestedInput
     approver?: UserUpdateOneWithoutPostsApprovedNestedInput
     analytics?: AnalyticsSnapshotUpdateManyWithoutPostNestedInput
@@ -24448,7 +24511,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    campaignId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     orgId?: StringFieldUpdateOperationsInput | string
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
@@ -24461,6 +24524,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24469,7 +24534,7 @@ export namespace Prisma {
 
   export type PostCreateManyInput = {
     id?: string
-    campaignId: string
+    campaignId?: string | null
     orgId: string
     platform: $Enums.Platform
     content: string
@@ -24482,6 +24547,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24499,6 +24566,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24506,7 +24575,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    campaignId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     orgId?: StringFieldUpdateOperationsInput | string
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
@@ -24519,6 +24588,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26009,9 +26080,9 @@ export namespace Prisma {
     not?: NestedEnumPostStatusFilter<$PrismaModel> | $Enums.PostStatus
   }
 
-  export type CampaignScalarRelationFilter = {
-    is?: CampaignWhereInput
-    isNot?: CampaignWhereInput
+  export type CampaignNullableScalarRelationFilter = {
+    is?: CampaignWhereInput | null
+    isNot?: CampaignWhereInput | null
   }
 
   export type UserNullableScalarRelationFilter = {
@@ -26044,6 +26115,8 @@ export namespace Prisma {
     rejectionReason?: SortOrder
     engagementSnapshot?: SortOrder
     errorMessage?: SortOrder
+    sourceUrl?: SortOrder
+    tone?: SortOrder
     version?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -26066,6 +26139,8 @@ export namespace Prisma {
     approvedBy?: SortOrder
     rejectionReason?: SortOrder
     errorMessage?: SortOrder
+    sourceUrl?: SortOrder
+    tone?: SortOrder
     version?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -26084,6 +26159,8 @@ export namespace Prisma {
     approvedBy?: SortOrder
     rejectionReason?: SortOrder
     errorMessage?: SortOrder
+    sourceUrl?: SortOrder
+    tone?: SortOrder
     version?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27666,10 +27743,12 @@ export namespace Prisma {
     set?: $Enums.PostStatus
   }
 
-  export type CampaignUpdateOneRequiredWithoutPostsNestedInput = {
+  export type CampaignUpdateOneWithoutPostsNestedInput = {
     create?: XOR<CampaignCreateWithoutPostsInput, CampaignUncheckedCreateWithoutPostsInput>
     connectOrCreate?: CampaignCreateOrConnectWithoutPostsInput
     upsert?: CampaignUpsertWithoutPostsInput
+    disconnect?: CampaignWhereInput | boolean
+    delete?: CampaignWhereInput | boolean
     connect?: CampaignWhereUniqueInput
     update?: XOR<XOR<CampaignUpdateToOneWithWhereWithoutPostsInput, CampaignUpdateWithoutPostsInput>, CampaignUncheckedUpdateWithoutPostsInput>
   }
@@ -28546,17 +28625,19 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    campaign: CampaignCreateNestedOneWithoutPostsInput
+    campaign?: CampaignCreateNestedOneWithoutPostsInput
     approver?: UserCreateNestedOneWithoutPostsApprovedInput
     analytics?: AnalyticsSnapshotCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutOrganizationInput = {
     id?: string
-    campaignId: string
+    campaignId?: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls?: PostCreatemediaUrlsInput | string[]
@@ -28568,6 +28649,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -28850,7 +28933,7 @@ export namespace Prisma {
     OR?: PostScalarWhereInput[]
     NOT?: PostScalarWhereInput | PostScalarWhereInput[]
     id?: StringFilter<"Post"> | string
-    campaignId?: StringFilter<"Post"> | string
+    campaignId?: StringNullableFilter<"Post"> | string | null
     orgId?: StringFilter<"Post"> | string
     platform?: EnumPlatformFilter<"Post"> | $Enums.Platform
     content?: StringFilter<"Post"> | string
@@ -28863,6 +28946,8 @@ export namespace Prisma {
     rejectionReason?: StringNullableFilter<"Post"> | string | null
     engagementSnapshot?: JsonNullableFilter<"Post">
     errorMessage?: StringNullableFilter<"Post"> | string | null
+    sourceUrl?: StringNullableFilter<"Post"> | string | null
+    tone?: StringNullableFilter<"Post"> | string | null
     version?: IntFilter<"Post"> | number
     createdAt?: DateTimeFilter<"Post"> | Date | string
     updatedAt?: DateTimeFilter<"Post"> | Date | string
@@ -29132,17 +29217,19 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    campaign: CampaignCreateNestedOneWithoutPostsInput
+    campaign?: CampaignCreateNestedOneWithoutPostsInput
     organization: OrganizationCreateNestedOneWithoutPostsInput
     analytics?: AnalyticsSnapshotCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutApproverInput = {
     id?: string
-    campaignId: string
+    campaignId?: string | null
     orgId: string
     platform: $Enums.Platform
     content: string
@@ -29154,6 +29241,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30460,6 +30549,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30482,6 +30573,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31119,17 +31212,19 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    campaign: CampaignCreateNestedOneWithoutPostsInput
+    campaign?: CampaignCreateNestedOneWithoutPostsInput
     organization: OrganizationCreateNestedOneWithoutPostsInput
     approver?: UserCreateNestedOneWithoutPostsApprovedInput
   }
 
   export type PostUncheckedCreateWithoutAnalyticsInput = {
     id?: string
-    campaignId: string
+    campaignId?: string | null
     orgId: string
     platform: $Enums.Platform
     content: string
@@ -31142,6 +31237,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31175,17 +31272,19 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    campaign?: CampaignUpdateOneRequiredWithoutPostsNestedInput
+    campaign?: CampaignUpdateOneWithoutPostsNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutPostsNestedInput
     approver?: UserUpdateOneWithoutPostsApprovedNestedInput
   }
 
   export type PostUncheckedUpdateWithoutAnalyticsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    campaignId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     orgId?: StringFieldUpdateOperationsInput | string
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
@@ -31198,6 +31297,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31772,7 +31873,7 @@ export namespace Prisma {
 
   export type PostCreateManyOrganizationInput = {
     id?: string
-    campaignId: string
+    campaignId?: string | null
     platform: $Enums.Platform
     content: string
     mediaUrls?: PostCreatemediaUrlsInput | string[]
@@ -31784,6 +31885,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32008,17 +32111,19 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    campaign?: CampaignUpdateOneRequiredWithoutPostsNestedInput
+    campaign?: CampaignUpdateOneWithoutPostsNestedInput
     approver?: UserUpdateOneWithoutPostsApprovedNestedInput
     analytics?: AnalyticsSnapshotUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    campaignId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
     mediaUrls?: PostUpdatemediaUrlsInput | string[]
@@ -32030,6 +32135,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32038,7 +32145,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    campaignId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
     mediaUrls?: PostUpdatemediaUrlsInput | string[]
@@ -32050,6 +32157,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32232,7 +32341,7 @@ export namespace Prisma {
 
   export type PostCreateManyApproverInput = {
     id?: string
-    campaignId: string
+    campaignId?: string | null
     orgId: string
     platform: $Enums.Platform
     content: string
@@ -32244,6 +32353,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32483,17 +32594,19 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    campaign?: CampaignUpdateOneRequiredWithoutPostsNestedInput
+    campaign?: CampaignUpdateOneWithoutPostsNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutPostsNestedInput
     analytics?: AnalyticsSnapshotUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutApproverInput = {
     id?: StringFieldUpdateOperationsInput | string
-    campaignId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     orgId?: StringFieldUpdateOperationsInput | string
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
@@ -32505,6 +32618,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32513,7 +32628,7 @@ export namespace Prisma {
 
   export type PostUncheckedUpdateManyWithoutApproverInput = {
     id?: StringFieldUpdateOperationsInput | string
-    campaignId?: StringFieldUpdateOperationsInput | string
+    campaignId?: NullableStringFieldUpdateOperationsInput | string | null
     orgId?: StringFieldUpdateOperationsInput | string
     platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
     content?: StringFieldUpdateOperationsInput | string
@@ -32525,6 +32640,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32709,6 +32826,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    sourceUrl?: string | null
+    tone?: string | null
     version?: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32726,6 +32845,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32748,6 +32869,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32768,6 +32891,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
