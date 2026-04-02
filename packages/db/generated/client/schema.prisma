@@ -1,0 +1,410 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Enums ────────────────────────────────────────────────────────────────
+
+enum Plan {
+  FREE
+  PRO
+  AGENCY
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+enum Platform {
+  FACEBOOK
+  INSTAGRAM
+  TIKTOK
+  LINKEDIN
+  TWITTER_X
+  GOOGLE_ADS
+  YOUTUBE
+  PINTEREST
+  SNAPCHAT
+}
+
+enum ConnectionStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+enum CampaignObjective {
+  AWARENESS
+  TRAFFIC
+  ENGAGEMENT
+  CONVERSIONS
+  LEADS
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  ACTIVE
+  PAUSED
+  COMPLETED
+  FAILED
+}
+
+enum PostStatus {
+  DRAFT
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+  SCHEDULED
+  PUBLISHING
+  PUBLISHED
+  FAILED
+  DELETED
+}
+
+enum CreativeType {
+  IMAGE
+  VIDEO
+  CAROUSEL
+  STORY
+  REEL
+}
+
+// ── Models ───────────────────────────────────────────────────────────────
+
+model Organization {
+  id                   String    @id @default(cuid())
+  name                 String
+  slug                 String    @unique
+  plan                 Plan      @default(FREE)
+  stripeCustomerId     String?   @unique
+  stripeSubscriptionId String?
+  billingEmail         String?
+  billingCycleAnchor   DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  deletedAt            DateTime?
+
+  memberships         Membership[]
+  invitations         Invitation[]
+  platformConnections PlatformConnection[]
+  campaigns           Campaign[]
+  posts               Post[]
+  creatives           Creative[]
+  auditLogs           AuditLog[]
+  postTemplates       PostTemplate[]
+
+  @@index([deletedAt])
+}
+
+model User {
+  id                   String    @id @default(cuid())
+  email                String    @unique
+  name                 String?
+  avatar               String?
+  emailVerified        DateTime?
+  password             String? // bcrypt hashed, null for OAuth/magic-link users
+  passwordResetToken   String?   @unique
+  passwordResetExpires DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  memberships      Membership[]
+  invitationsSent  Invitation[]         @relation("InvitedBy")
+  connectionsAdded PlatformConnection[] @relation("ConnectedBy")
+  campaignsCreated Campaign[]           @relation("CreatedBy")
+  postsApproved    Post[]               @relation("ApprovedBy")
+  auditLogs        AuditLog[]
+  templatesCreated PostTemplate[]       @relation("TemplateCreatedBy")
+  authenticators   Authenticator[]
+
+  // NextAuth fields
+  accounts Account[]
+  sessions Session[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Membership {
+  id         String    @id @default(cuid())
+  userId     String
+  orgId      String
+  role       Role
+  invitedBy  String?
+  acceptedAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, orgId])
+  @@index([orgId])
+}
+
+model Invitation {
+  id         String    @id @default(cuid())
+  orgId      String
+  email      String
+  role       Role
+  token      String    @unique
+  expiresAt  DateTime
+  invitedBy  String
+  acceptedAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  inviter      User         @relation("InvitedBy", fields: [invitedBy], references: [id])
+
+  @@index([orgId])
+  @@index([email])
+  @@index([invitedBy])
+}
+
+model PlatformConnection {
+  id                  String           @id @default(cuid())
+  orgId               String
+  platform            Platform
+  accessToken         String // Encrypted at application level
+  refreshToken        String? // Encrypted at application level
+  tokenExpiresAt      DateTime?
+  platformUserId      String
+  platformAccountName String?
+  scopes              String[]
+  status              ConnectionStatus @default(ACTIVE)
+  connectedBy         String
+  metadata            Json?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  connector    User         @relation("ConnectedBy", fields: [connectedBy], references: [id])
+
+  @@unique([orgId, platform, platformUserId])
+  @@index([orgId])
+  @@index([platform, status])
+  @@index([connectedBy])
+}
+
+model Campaign {
+  id              String            @id @default(cuid())
+  orgId           String
+  name            String
+  objective       CampaignObjective
+  status          CampaignStatus    @default(DRAFT)
+  budget          Decimal?          @db.Decimal(12, 2)
+  currency        String            @default("USD")
+  startDate       DateTime?
+  endDate         DateTime?
+  targetPlatforms Platform[]
+  audienceConfig  Json?
+  createdBy       String
+  version         Int               @default(1)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  creator      User         @relation("CreatedBy", fields: [createdBy], references: [id])
+  posts        Post[]
+
+  @@index([orgId])
+  @@index([status])
+  @@index([createdBy])
+}
+
+model Post {
+  id                 String     @id @default(cuid())
+  campaignId         String
+  orgId              String
+  platform           Platform
+  content            String
+  mediaUrls          String[]
+  scheduledAt        DateTime?
+  publishedAt        DateTime?
+  platformPostId     String?
+  status             PostStatus @default(DRAFT)
+  approvedBy         String?
+  rejectionReason    String?
+  engagementSnapshot Json?
+  errorMessage       String?
+  version            Int        @default(1)
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  campaign     Campaign            @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  organization Organization        @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  approver     User?               @relation("ApprovedBy", fields: [approvedBy], references: [id])
+  analytics    AnalyticsSnapshot[]
+
+  @@index([orgId])
+  @@index([status, scheduledAt])
+  @@index([campaignId])
+  @@index([approvedBy])
+}
+
+model Creative {
+  id            String       @id @default(cuid())
+  orgId         String
+  name          String
+  type          CreativeType
+  r2Key         String
+  r2Url         String
+  thumbnailUrl  String?
+  dimensions    String?
+  fileSizeBytes BigInt
+  mimeType      String
+  tags          String[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+}
+
+model AnalyticsSnapshot {
+  id          String   @id @default(cuid())
+  postId      String
+  platform    Platform
+  snapshotAt  DateTime
+  impressions Int      @default(0)
+  reach       Int      @default(0)
+  clicks      Int      @default(0)
+  likes       Int      @default(0)
+  comments    Int      @default(0)
+  shares      Int      @default(0)
+  saves       Int      @default(0)
+  videoViews  Int      @default(0)
+  spend       Decimal  @default(0) @db.Decimal(12, 2)
+  conversions Int      @default(0)
+  ctr         Float    @default(0)
+  cpc         Decimal  @default(0) @db.Decimal(12, 4)
+  cpm         Decimal  @default(0) @db.Decimal(12, 4)
+  rawPayload  Json?
+  createdAt   DateTime @default(now())
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@index([snapshotAt])
+  @@index([platform])
+  @@index([postId, snapshotAt])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  orgId      String?
+  userId     String?
+  action     String
+  entityType String
+  entityId   String
+  before     Json?
+  after      Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  organization Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
+  user         User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([orgId, createdAt])
+  @@index([entityType, entityId])
+  @@index([userId])
+}
+
+model WebhookEvent {
+  id              String    @id @default(cuid())
+  platform        Platform
+  eventType       String
+  platformEventId String?
+  payload         Json
+  signature       String?
+  verified        Boolean   @default(false)
+  processedAt     DateTime?
+  processingError String?
+  createdAt       DateTime  @default(now())
+
+  @@unique([platform, platformEventId])
+  @@index([platform, createdAt])
+  @@index([processedAt])
+}
+
+model PostTemplate {
+  id        String    @id @default(cuid())
+  orgId     String
+  name      String
+  platform  Platform?
+  content   String
+  mediaUrls String[]
+  tags      String[]
+  createdBy String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  creator      User         @relation("TemplateCreatedBy", fields: [createdBy], references: [id])
+
+  @@index([orgId])
+  @@index([createdBy])
+}
+
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
+}

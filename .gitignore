@@ -10,3 +10,4 @@ dist/
 backups/
 
 .vercel
+!packages/db/generated/

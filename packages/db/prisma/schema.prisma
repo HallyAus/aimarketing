@@ -1,6 +1,6 @@
 generator client {
-  provider        = "prisma-client-js"
-  // driverAdapters is GA in Prisma 6.7+ — no preview flag needed
+  provider = "prisma-client-js"
+  output   = "../generated/client"
 }
 
 datasource db {
