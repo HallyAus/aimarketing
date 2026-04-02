@@ -15,7 +15,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-[var(--bg-primary)]">
+    <div className="flex min-h-screen bg-[var(--bg-primary)] overflow-x-hidden">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-4 focus:left-4 focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-medium bg-[var(--accent-blue)] text-white"
@@ -31,7 +31,7 @@ export default async function DashboardLayout({
 
         {/* Main content */}
         <main id="main-content" className="flex-1">
-          <div className="pt-16 md:pt-4 px-4 md:px-8 py-3 md:py-5 max-w-full xl:max-w-7xl">
+          <div className="pt-16 md:pt-4 px-4 md:px-6 py-3 md:py-5 max-w-full xl:max-w-7xl overflow-x-hidden">
             {children}
           </div>
         </main>

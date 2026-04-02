@@ -34,7 +34,7 @@ export function LayoutShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className={`flex-1 flex flex-col min-h-screen transition-[padding] duration-200 ease-in-out ${
+      className={`flex-1 flex flex-col min-h-screen min-w-0 overflow-x-hidden transition-[padding] duration-200 ease-in-out ${
         mounted
           ? collapsed
             ? "md:pl-16"
