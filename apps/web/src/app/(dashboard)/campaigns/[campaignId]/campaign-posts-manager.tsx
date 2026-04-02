@@ -5,6 +5,7 @@ import Link from "next/link";
 import { PageHeader } from "@/components/page-header";
 import { PlatformBadge } from "@/components/platform-badge";
 import { StatusBadge } from "@/components/status-badge";
+import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -60,6 +61,7 @@ export default function CampaignPostsManager({
 }: {
   campaign: CampaignData;
 }) {
+  const activeAccount = useActiveAccount();
   const campaign = initialCampaign;
   const [posts, setPosts] = useState<PostData[]>(initialCampaign.posts);
   const [filter, setFilter] = useState<FilterTab>("ALL");
@@ -479,6 +481,7 @@ export default function CampaignPostsManager({
           </div>
         }
       />
+      <ClientAccountBanner account={activeAccount} />
       <div className="flex flex-wrap gap-2 mb-6">
         <Link
           href={`/campaigns/${campaign.id}/posts/new`}
@@ -493,7 +496,7 @@ export default function CampaignPostsManager({
               disabled={isLoading("batch-auto-schedule")}
               onClick={autoScheduleAllDrafts}
             >
-              {isLoading("batch-auto-schedule") ? "Scheduling..." : `Schedule All Drafts (${draftPosts.length})`}
+              {isLoading("batch-auto-schedule") ? "Scheduling..." : `Schedule All Drafts (${draftPosts.length})${activeAccount ? ` \u2192 ${activeAccount.name}` : ""}`}
             </button>
             <button
               className="text-sm"
@@ -508,7 +511,7 @@ export default function CampaignPostsManager({
               disabled={isLoading("batch-publish")}
               onClick={publishAllDrafts}
             >
-              {isLoading("batch-publish") ? "Publishing..." : `Publish All Drafts (${draftPosts.length})`}
+              {isLoading("batch-publish") ? "Publishing..." : `Publish All Drafts (${draftPosts.length})${activeAccount ? ` \u2192 ${activeAccount.name}` : ""}`}
             </button>
           </>
         )}
@@ -584,7 +587,7 @@ export default function CampaignPostsManager({
                           disabled={isLoading(`auto-schedule-${post.id}`)}
                           onClick={() => autoScheduleSingle(post)}
                         >
-                          {isLoading(`auto-schedule-${post.id}`) ? "Scheduling..." : "Schedule"}
+                          {isLoading(`auto-schedule-${post.id}`) ? "Scheduling..." : `Schedule${activeAccount ? ` \u2192 ${activeAccount.name}` : ""}`}
                         </button>
                         <button
                           className="btn-ghost"
@@ -601,7 +604,7 @@ export default function CampaignPostsManager({
                         className="btn-primary"
                         onClick={() => startPublishing(post)}
                       >
-                        Publish Now
+                        Publish Now{activeAccount ? ` \u2192 ${activeAccount.name}` : ""}
                       </button>
                     )}
                     {/* Delete */}

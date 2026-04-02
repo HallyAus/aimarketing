@@ -6,6 +6,8 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
 import { StatusBadge } from "@/components/status-badge";
 import { EmptyState } from "@/components/empty-state";
+import { ActiveAccountBanner } from "@/components/active-account-banner";
+import { getActiveAccount, getPageFilter } from "@/lib/active-account";
 
 export const metadata: Metadata = {
   title: "Campaigns",
@@ -13,19 +15,37 @@ export const metadata: Metadata = {
 };
 
 export default async function CampaignsPage() {
-  const campaigns = await prisma.campaign.findMany({
-    where: { orgId: await getSessionOrg() },
-    include: {
-      _count: { select: { posts: true } },
-      creator: { select: { name: true } },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  const activeAccount = await getActiveAccount();
+  const pageFilter = getPageFilter(activeAccount);
+  const orgId = await getSessionOrg();
+
+  // When a specific account is selected, only show campaigns that have posts for that page
+  const campaigns = activeAccount
+    ? await prisma.campaign.findMany({
+        where: {
+          orgId,
+          posts: { some: pageFilter },
+        },
+        include: {
+          _count: { select: { posts: { where: pageFilter } } },
+          creator: { select: { name: true } },
+        },
+        orderBy: { createdAt: "desc" },
+      })
+    : await prisma.campaign.findMany({
+        where: { orgId },
+        include: {
+          _count: { select: { posts: true } },
+          creator: { select: { name: true } },
+        },
+        orderBy: { createdAt: "desc" },
+      });
 
   return (
     <div>
       <PageHeader
         title="Campaigns"
+        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "Showing: All Accounts"}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Campaigns" },
@@ -36,6 +56,7 @@ export default async function CampaignsPage() {
           </Link>
         }
       />
+      <ActiveAccountBanner account={activeAccount} />
 
       {campaigns.length === 0 ? (
         <EmptyState

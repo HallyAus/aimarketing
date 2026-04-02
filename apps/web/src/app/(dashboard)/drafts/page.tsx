@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/page-header";
 import { EmptyState } from "@/components/empty-state";
 import { PlatformBadge } from "@/components/platform-badge";
 import { getPlatformLabel } from "@/lib/platform-colors";
+import { ClientAccountBanner, useActiveAccount, type ClientActiveAccount } from "@/components/client-account-banner";
 
 interface Draft {
   id: string;
@@ -32,6 +33,7 @@ interface Connection {
 type ModalType = "schedule" | "postNow" | "scheduleAll" | "scheduleAt" | null;
 
 export default function DraftsPage() {
+  const activeAccount = useActiveAccount();
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [connections, setConnections] = useState<Connection[]>([]);
@@ -51,7 +53,9 @@ export default function DraftsPage() {
 
   const fetchDrafts = useCallback(async () => {
     try {
-      const res = await fetch("/api/ai/drafts");
+      const pageId = activeAccount?.id;
+      const qs = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+      const res = await fetch(`/api/ai/drafts${qs}`);
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error ?? "Failed to load drafts");
@@ -63,13 +67,16 @@ export default function DraftsPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [activeAccount?.id]);
 
   useEffect(() => {
     fetchDrafts();
     fetch("/api/campaigns").then(r => r.json()).then(d => setCampaigns(d.data ?? d ?? [])).catch(() => {});
     fetch("/api/connections").then(r => r.json()).then(d => setConnections(d.data ?? d.connections ?? [])).catch(() => {});
   }, [fetchDrafts]);
+
+  // Note: account changes are handled via useActiveAccount hook, which updates
+  // activeAccount?.id, causing fetchDrafts to be recreated and the useEffect above to re-run.
 
   async function handleSchedule() {
     if (!activeDraft || !selectedCampaign || !scheduleDate) return;
@@ -333,7 +340,7 @@ export default function DraftsPage() {
     <div>
       <PageHeader
         title="Drafts"
-        subtitle={`${drafts.length} draft${drafts.length !== 1 ? "s" : ""} saved`}
+        subtitle={activeAccount ? `Showing: ${activeAccount.name} -- ${drafts.length} draft${drafts.length !== 1 ? "s" : ""}` : `Showing: All Accounts -- ${drafts.length} draft${drafts.length !== 1 ? "s" : ""}`}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Drafts" },
@@ -346,6 +353,7 @@ export default function DraftsPage() {
           </div>
         }
       />
+      <ClientAccountBanner account={activeAccount} onClear={() => { setLoading(true); fetchDrafts(); }} />
       {drafts.length > 0 && (
         <div className="flex items-center justify-end gap-2 mb-6">
           <button
@@ -480,7 +488,7 @@ export default function DraftsPage() {
                     className="btn-primary text-xs"
                     style={{ background: "var(--accent-blue)", borderColor: "var(--accent-blue)" }}
                   >
-                    {autoScheduleLoading === draft.id ? "Scheduling..." : "Schedule"}
+                    {autoScheduleLoading === draft.id ? "Scheduling..." : `Schedule${activeAccount ? ` \u2192 ${activeAccount.name}` : ""}`}
                   </button>
                   <button
                     onClick={() => { setActiveDraft(draft); setModalType("schedule"); setScheduleDate(""); setSelectedCampaign(""); }}
@@ -493,7 +501,7 @@ export default function DraftsPage() {
                     onClick={() => { setActiveDraft(draft); setModalType("postNow"); }}
                     className="btn-secondary text-xs"
                   >
-                    Post Now
+                    Post Now{activeAccount ? ` \u2192 ${activeAccount.name}` : ""}
                   </button>
                   <button
                     onClick={() => deleteDraft(draft.id)}

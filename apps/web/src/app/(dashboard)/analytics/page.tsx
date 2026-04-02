@@ -6,6 +6,8 @@ import { PageHeader } from "@/components/page-header";
 import { MetricCard } from "@/components/metric-card";
 import { EmptyState } from "@/components/empty-state";
 import { PlatformBadge } from "@/components/platform-badge";
+import { ActiveAccountBanner } from "@/components/active-account-banner";
+import { getActiveAccount, getPageFilter } from "@/lib/active-account";
 
 export const metadata: Metadata = {
   title: "Analytics",
@@ -19,10 +21,12 @@ export default async function AnalyticsPage() {
   }
 
   const orgId = await getSessionOrg();
+  const activeAccount = await getActiveAccount();
+  const pageFilter = getPageFilter(activeAccount);
 
   // Get published posts with latest metrics
   const posts = await prisma.post.findMany({
-    where: { orgId, status: "PUBLISHED" },
+    where: { orgId, status: "PUBLISHED", ...pageFilter },
     include: {
       campaign: { select: { name: true } },
       analytics: {
@@ -56,7 +60,7 @@ export default async function AnalyticsPage() {
     <div>
       <PageHeader
         title="Analytics"
-        subtitle="Post performance overview"
+        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "Showing: All Accounts"}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Analytics" },
@@ -67,6 +71,7 @@ export default async function AnalyticsPage() {
           </a>
         }
       />
+      <ActiveAccountBanner account={activeAccount} />
 
       {/* Overview metric cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">

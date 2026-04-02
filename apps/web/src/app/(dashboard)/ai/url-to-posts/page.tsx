@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { PageHeader } from "@/components/page-header";
+import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 const PLATFORMS = [
   { id: "FACEBOOK", label: "Facebook" },
@@ -44,6 +45,7 @@ interface Connection {
 type ModalMode = "schedule" | "schedule-all" | "publish-now" | null;
 
 export default function UrlToPostsPage() {
+  const activeAccount = useActiveAccount();
   const [url, setUrl] = useState("");
   const [postsPerPlatform, setPostsPerPlatform] = useState(3);
   const [tone, setTone] = useState("Professional");
@@ -51,6 +53,7 @@ export default function UrlToPostsPage() {
     "FACEBOOK",
     "INSTAGRAM",
   ]);
+  const [platformInitialized, setPlatformInitialized] = useState(false);
   const [posts, setPosts] = useState<GeneratedPost[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -99,6 +102,14 @@ export default function UrlToPostsPage() {
     fetchCampaignsAndConnections();
   }, [fetchCampaignsAndConnections]);
 
+  // Auto-select the active account's platform when an account is selected
+  useEffect(() => {
+    if (activeAccount && !platformInitialized) {
+      setSelectedPlatforms([activeAccount.platform]);
+      setPlatformInitialized(true);
+    }
+  }, [activeAccount, platformInitialized]);
+
   function togglePlatform(id: string) {
     setSelectedPlatforms((prev) =>
       prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id],
@@ -107,6 +118,14 @@ export default function UrlToPostsPage() {
 
   async function saveDrafts(generatedPosts: GeneratedPost[]) {
     setSavingDrafts(true);
+    // Read the active account at save time for pageId/pageName
+    let currentAccount: { id: string; name: string } | null = null;
+    try {
+      const stored = localStorage.getItem("adpilot-active-account");
+      if (stored && stored !== "all") {
+        currentAccount = JSON.parse(stored);
+      }
+    } catch { /* ignore */ }
     try {
       const res = await fetch("/api/ai/drafts", {
         method: "POST",
@@ -117,6 +136,8 @@ export default function UrlToPostsPage() {
             platform: p.platform,
             sourceUrl: url,
             tone: tone.toLowerCase(),
+            pageId: currentAccount?.id ?? undefined,
+            pageName: currentAccount?.name ?? undefined,
           })),
         }),
       });
@@ -401,7 +422,7 @@ export default function UrlToPostsPage() {
     <div>
       <PageHeader
         title="Generate Posts from URL"
-        subtitle="Provide a URL and the AI will read its content to generate social media posts for your selected platforms."
+        subtitle={activeAccount ? `Generating for: ${activeAccount.name}` : "Provide a URL and the AI will read its content to generate social media posts for your selected platforms."}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "AI Studio", href: "/ai" },
@@ -413,6 +434,7 @@ export default function UrlToPostsPage() {
           </Link>
         }
       />
+      <ClientAccountBanner account={activeAccount} />
 
       {successMessage && (
         <div className="alert alert-success mb-6">
@@ -711,7 +733,7 @@ export default function UrlToPostsPage() {
                                 disabled={submitting}
                                 onClick={() => handleAutoScheduleSingle(globalIdx)}
                               >
-                                Schedule
+                                Schedule{activeAccount ? ` \u2192 ${activeAccount.name}` : ""}
                               </button>
                               <button
                                 className="text-xs"
@@ -739,7 +761,7 @@ export default function UrlToPostsPage() {
                                     openPublishNowModal(globalIdx)
                                   }
                                 >
-                                  Post Now
+                                  Post Now{activeAccount ? ` \u2192 ${activeAccount.name}` : ""}
                                 </button>
                               )}
                             </div>
@@ -758,7 +780,7 @@ export default function UrlToPostsPage() {
                   disabled={submitting}
                   onClick={handleAutoScheduleAll}
                 >
-                  {submitting ? "Scheduling..." : "Schedule All Posts"}
+                  {submitting ? "Scheduling..." : `Schedule All Posts${activeAccount ? ` \u2192 ${activeAccount.name}` : ""}`}
                 </button>
                 <button
                   className="text-sm"

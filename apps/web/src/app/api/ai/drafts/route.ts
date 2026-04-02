@@ -8,17 +8,26 @@ interface DraftPostInput {
   platform: string;
   sourceUrl?: string;
   tone?: string;
+  pageId?: string;
+  pageName?: string;
 }
 
 // GET /api/ai/drafts — list all draft posts for the current org (no campaign, not scheduled)
+// Optional: ?pageId=xxx to filter by page
 export const GET = withErrorHandler(
   withAuth(async (req) => {
+    const pageId = req.nextUrl.searchParams.get("pageId");
+    const where: Record<string, unknown> = {
+      orgId: req.orgId,
+      status: "DRAFT",
+      campaignId: null,
+    };
+    if (pageId) {
+      where.pageId = pageId;
+    }
+
     const drafts = await prisma.post.findMany({
-      where: {
-        orgId: req.orgId,
-        status: "DRAFT",
-        campaignId: null,
-      },
+      where,
       orderBy: { createdAt: "desc" },
       select: {
         id: true,
@@ -27,6 +36,8 @@ export const GET = withErrorHandler(
         sourceUrl: true,
         tone: true,
         status: true,
+        pageId: true,
+        pageName: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -77,6 +88,8 @@ export const POST = withErrorHandler(
             status: "DRAFT",
             sourceUrl: post.sourceUrl ?? null,
             tone: post.tone ?? null,
+            pageId: post.pageId ?? null,
+            pageName: post.pageName ?? null,
           },
           select: {
             id: true,

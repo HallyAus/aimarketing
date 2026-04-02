@@ -89,13 +89,38 @@ export function AccountSelector() {
 
         // Restore selection from localStorage
         const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored && list.some((a) => a.id === stored)) {
-          setSelectedId(stored);
-        } else if (list.length > 0) {
-          // Auto-select first
-          setSelectedId(list[0]!.id);
-          localStorage.setItem(STORAGE_KEY, list[0]!.id);
-          setCookie(COOKIE_KEY, list[0]!.id);
+        if (stored === "all") {
+          setSelectedId("all");
+        } else if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            const id = typeof parsed === "object" ? parsed.id : parsed;
+            if (list.some((a) => a.id === id)) {
+              setSelectedId(id);
+            } else {
+              setSelectedId("all");
+              localStorage.setItem(STORAGE_KEY, "all");
+              setCookie(COOKIE_KEY, "all");
+            }
+          } catch {
+            // Legacy: stored value might be a plain id string
+            if (list.some((a) => a.id === stored)) {
+              setSelectedId(stored);
+              // Migrate to JSON format
+              const acc = list.find((a) => a.id === stored)!;
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(acc));
+              setCookie(COOKIE_KEY, JSON.stringify(acc));
+            } else {
+              setSelectedId("all");
+              localStorage.setItem(STORAGE_KEY, "all");
+              setCookie(COOKIE_KEY, "all");
+            }
+          }
+        } else {
+          // Default to "all"
+          setSelectedId("all");
+          localStorage.setItem(STORAGE_KEY, "all");
+          setCookie(COOKIE_KEY, "all");
         }
       } catch {
         // silently fail
@@ -105,14 +130,23 @@ export function AccountSelector() {
     load();
   }, []);
 
+  const selectAll = useCallback(() => {
+    setSelectedId("all");
+    localStorage.setItem(STORAGE_KEY, "all");
+    setCookie(COOKIE_KEY, "all");
+    setOpen(false);
+    window.dispatchEvent(new CustomEvent("account-changed", { detail: null }));
+  }, []);
+
   const select = useCallback(
-    (id: string) => {
-      setSelectedId(id);
-      localStorage.setItem(STORAGE_KEY, id);
-      setCookie(COOKIE_KEY, id);
+    (acc: ActiveAccount) => {
+      setSelectedId(acc.id);
+      const json = JSON.stringify(acc);
+      localStorage.setItem(STORAGE_KEY, json);
+      setCookie(COOKIE_KEY, json);
       setOpen(false);
       // Dispatch event so other components can react
-      window.dispatchEvent(new CustomEvent("account-changed", { detail: { id } }));
+      window.dispatchEvent(new CustomEvent("account-changed", { detail: acc }));
     },
     [],
   );
@@ -169,8 +203,11 @@ export function AccountSelector() {
             style={{ backgroundColor: platformColor(selected.platform) }}
           />
         )}
+        {!selected && selectedId === "all" && (
+          <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: "var(--text-tertiary)" }} />
+        )}
         <span className="truncate text-[var(--text-primary)]">
-          {selected?.name ?? "Select account"}
+          {selectedId === "all" ? "All Accounts" : selected?.name ?? "Select account"}
         </span>
         <svg
           className={`w-3 h-3 text-[var(--text-tertiary)] flex-shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
@@ -190,6 +227,24 @@ export function AccountSelector() {
           role="listbox"
           aria-label="Select account"
         >
+          {/* All accounts option */}
+          <button
+            type="button"
+            role="option"
+            aria-selected={selectedId === "all"}
+            onClick={selectAll}
+            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)] transition-colors"
+          >
+            <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "var(--text-tertiary)" }} />
+            <span className="truncate flex-1 text-left">All Accounts</span>
+            {selectedId === "all" && (
+              <svg className="w-4 h-4 text-[var(--accent-blue)] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            )}
+          </button>
+          <div className="border-t border-[var(--border-secondary)] my-1" />
+
           {Object.entries(grouped).map(([platform, accs]) => (
             <div key={platform}>
               {/* Section header */}
@@ -207,7 +262,7 @@ export function AccountSelector() {
                   type="button"
                   role="option"
                   aria-selected={acc.id === selectedId}
-                  onClick={() => select(acc.id)}
+                  onClick={() => select(acc)}
                   className="w-full flex items-center gap-2 px-3 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)] transition-colors"
                 >
                   <span

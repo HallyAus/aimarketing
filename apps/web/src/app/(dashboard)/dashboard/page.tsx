@@ -3,6 +3,8 @@ import Link from "next/link";
 import { MetricCard } from "@/components/metric-card";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState } from "@/components/empty-state";
+import { ActiveAccountBanner } from "@/components/active-account-banner";
+import { getActiveAccount, getPageFilter } from "@/lib/active-account";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -41,6 +43,9 @@ function RocketIcon() {
 }
 
 export default async function DashboardPage() {
+  const activeAccount = await getActiveAccount();
+  const pageFilter = getPageFilter(activeAccount);
+
   const org = await prisma.organization.findFirst({
     where: { deletedAt: null },
     include: {
@@ -68,28 +73,29 @@ export default async function DashboardPage() {
   }
 
   const recentPosts = await prisma.post.findMany({
-    where: { orgId: org.id, status: "PUBLISHED" },
+    where: { orgId: org.id, status: "PUBLISHED", ...pageFilter },
     include: { campaign: { select: { name: true } } },
     orderBy: { publishedAt: "desc" },
     take: 5,
   });
 
   const scheduledCount = await prisma.post.count({
-    where: { orgId: org.id, status: "SCHEDULED" },
+    where: { orgId: org.id, status: "SCHEDULED", ...pageFilter },
   });
 
   const pendingCount = await prisma.post.count({
-    where: { orgId: org.id, status: "PENDING_APPROVAL" },
+    where: { orgId: org.id, status: "PENDING_APPROVAL", ...pageFilter },
   });
 
   return (
     <div>
       <PageHeader
         title={org.name}
-        subtitle="Organization overview"
+        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "Showing: All Accounts"}
         action={<span className="badge badge-info">{org.plan}</span>}
         breadcrumbs={[{ label: "Home", href: "/dashboard" }]}
       />
+      <ActiveAccountBanner account={activeAccount} />
 
       {/* Metrics grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">

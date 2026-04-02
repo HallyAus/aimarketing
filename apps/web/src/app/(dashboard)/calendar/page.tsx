@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
+import { ActiveAccountBanner } from "@/components/active-account-banner";
+import { getActiveAccount, getPageFilter } from "@/lib/active-account";
 import { getPlatformAccent, getPlatformLabel } from "@/lib/platform-colors";
 
 /** Palette of 10 distinct colors for page/account differentiation */
@@ -53,6 +55,9 @@ export default async function CalendarPage({
   const year = parseInt(params.year ?? String(now.getFullYear()), 10);
   const month = parseInt(params.month ?? String(now.getMonth() + 1), 10);
 
+  const activeAccount = await getActiveAccount();
+  const pageFilter = getPageFilter(activeAccount);
+
   const startOfMonth = new Date(year, month - 1, 1);
   const endOfMonth = new Date(year, month, 0, 23, 59, 59);
   const startDay = startOfMonth.getDay(); // 0=Sunday
@@ -63,6 +68,7 @@ export default async function CalendarPage({
     where: {
       orgId: await getSessionOrg(),
       status: { notIn: ["DELETED"] },
+      ...pageFilter,
       OR: [
         { scheduledAt: { gte: startOfMonth, lte: endOfMonth } },
         { publishedAt: { gte: startOfMonth, lte: endOfMonth } },
@@ -104,11 +110,13 @@ export default async function CalendarPage({
     <div>
       <PageHeader
         title="Content Calendar"
+        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "Showing: All Accounts"}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Calendar" },
         ]}
       />
+      <ActiveAccountBanner account={activeAccount} />
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div className="flex items-center gap-4">
           <a
