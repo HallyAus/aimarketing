@@ -1,4 +1,4 @@
 {
   "installCommand": "cd ../.. && pnpm install --frozen-lockfile",
-  "buildCommand": "cd ../.. && pnpm exec prisma generate --schema=packages/db/prisma/schema.prisma && pnpm turbo build --filter=@adpilot/web"
+  "buildCommand": "cd ../.. && cd packages/db && pnpm exec prisma generate && cd ../.. && pnpm turbo build --filter=@adpilot/web"
 }
