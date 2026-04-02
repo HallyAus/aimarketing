@@ -14,16 +14,21 @@ interface Page {
   name: string;
 }
 
+const QUICK_PLATFORMS = ["FACEBOOK", "INSTAGRAM", "LINKEDIN", "TWITTER_X"] as const;
+
 export function QuickPost() {
   const activeAccount = useActiveAccount();
   const [open, setOpen] = useState(false);
   const [topic, setTopic] = useState("");
+  const [platform, setPlatform] = useState<string>(activeAccount?.platform || "FACEBOOK");
   const [connections, setConnections] = useState<Connection[]>([]);
   const [pages, setPages] = useState<Page[]>([]);
   const [selectedPageId, setSelectedPageId] = useState("");
   const [loading, setLoading] = useState(false);
   const [generatedContent, setGeneratedContent] = useState("");
   const [publishing, setPublishing] = useState(false);
+  const [savingDraft, setSavingDraft] = useState(false);
+  const [scheduling, setScheduling] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
@@ -40,6 +45,54 @@ export function QuickPost() {
     }).catch(() => {});
   }, [activeAccount]);
 
+  async function saveAsDraft() {
+    const content = generatedContent || topic;
+    if (!content.trim()) return;
+    setSavingDraft(true);
+    setError("");
+    try {
+      const res = await fetch("/api/ai/drafts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content, platform }),
+      });
+      if (!res.ok) throw new Error("Failed to save draft");
+      setSuccess("Saved as draft!");
+      setGeneratedContent("");
+      setTopic("");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to save draft");
+    } finally {
+      setSavingDraft(false);
+    }
+  }
+
+  async function schedulePost() {
+    const content = generatedContent || topic;
+    if (!content.trim()) return;
+    setScheduling(true);
+    setError("");
+    try {
+      const res = await fetch("/api/posts/auto-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          drafts: [{ content, platform, pageId: selectedPageId || undefined }],
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to schedule");
+      const data = await res.json();
+      const time = data.scheduled?.[0]?.scheduledAt;
+      setSuccess(time ? `Scheduled for ${new Date(time).toLocaleString()}` : "Scheduled!");
+      setGeneratedContent("");
+      setTopic("");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to schedule");
+    } finally {
+      setScheduling(false);
+    }
+  }
+
   async function generateAndPost() {
     if (!topic.trim()) return;
     setLoading(true);
@@ -49,7 +102,6 @@ export function QuickPost() {
 
     try {
       // Step 1: Generate content
-      const platform = activeAccount?.platform || "FACEBOOK";
       const genRes = await fetch("/api/ai/generate-post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -97,7 +149,6 @@ export function QuickPost() {
     setError("");
     setGeneratedContent("");
     try {
-      const platform = activeAccount?.platform || "FACEBOOK";
       const res = await fetch("/api/ai/generate-post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -118,7 +169,6 @@ export function QuickPost() {
     setPublishing(true);
     setError("");
     try {
-      const platform = activeAccount?.platform || "FACEBOOK";
       const conn = connections.find(c => c.platform === platform);
       if (!conn) throw new Error(`No connected ${platform} account`);
 
@@ -178,16 +228,27 @@ export function QuickPost() {
         <button onClick={() => { setOpen(false); setGeneratedContent(""); setSuccess(""); setError(""); }} className="text-xs" style={{ color: "var(--text-tertiary)" }}>Close</button>
       </div>
 
-      {pages.length > 1 && (
+      <div className="flex gap-2 mb-2">
         <select
-          value={selectedPageId}
-          onChange={e => setSelectedPageId(e.target.value)}
-          className="w-full rounded px-3 py-2 text-xs mb-2"
+          value={platform}
+          onChange={e => setPlatform(e.target.value)}
+          className="rounded px-3 py-2 text-xs"
           style={{ background: "var(--bg-primary)", border: "1px solid var(--border-primary)", color: "var(--text-primary)" }}
+          aria-label="Platform"
         >
-          {pages.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+          {QUICK_PLATFORMS.map(p => <option key={p} value={p}>{p.replace("_", " ")}</option>)}
         </select>
-      )}
+        {pages.length > 1 && (
+          <select
+            value={selectedPageId}
+            onChange={e => setSelectedPageId(e.target.value)}
+            className="flex-1 rounded px-3 py-2 text-xs"
+            style={{ background: "var(--bg-primary)", border: "1px solid var(--border-primary)", color: "var(--text-primary)" }}
+          >
+            {pages.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+          </select>
+        )}
+      </div>
 
       <input
         type="text"
@@ -217,7 +278,7 @@ export function QuickPost() {
         </div>
       )}
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap">
         {!generatedContent ? (
           <>
             <button
@@ -252,6 +313,22 @@ export function QuickPost() {
               style={{ minHeight: 36 }}
             >
               Copy
+            </button>
+            <button
+              onClick={saveAsDraft}
+              disabled={savingDraft}
+              className="btn-secondary text-xs"
+              style={{ minHeight: 36 }}
+            >
+              {savingDraft ? "Saving..." : "Save as Draft"}
+            </button>
+            <button
+              onClick={schedulePost}
+              disabled={scheduling}
+              className="btn-secondary text-xs"
+              style={{ minHeight: 36 }}
+            >
+              {scheduling ? "Scheduling..." : "Schedule"}
             </button>
             <button
               onClick={publishGenerated}

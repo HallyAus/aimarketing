@@ -95,12 +95,12 @@ function SignInContent() {
         return;
       }
 
-      // Auto sign in after signup
+      // Auto sign in after signup — redirect to onboarding for new users
       await signIn("credentials", {
         email: email.toLowerCase(),
         password,
         redirect: true,
-        redirectTo: callbackUrl,
+        redirectTo: "/onboarding",
       });
     } catch {
       setError("Something went wrong. Please try again.");

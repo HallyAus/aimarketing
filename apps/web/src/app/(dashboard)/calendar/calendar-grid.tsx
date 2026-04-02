@@ -304,13 +304,27 @@ export function CalendarGrid({
             return (
               <div
                 key={day}
-                className="p-2 min-h-[110px]"
+                className="p-2 min-h-[110px] cursor-pointer transition-all hover:ring-1"
                 style={{
                   background: "var(--bg-secondary)",
                   outline: isToday
                     ? "2px solid var(--accent-blue)"
                     : "none",
                   outlineOffset: "-2px",
+                }}
+                onClick={() => {
+                  const dateStr = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}T09:00`;
+                  router.push(`/ai?prefillDate=${encodeURIComponent(dateStr)}`);
+                }}
+                title={`Create a new post for ${monthName} ${day}`}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    const dateStr = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}T09:00`;
+                    router.push(`/ai?prefillDate=${encodeURIComponent(dateStr)}`);
+                  }
                 }}
               >
                 <div
@@ -322,6 +336,9 @@ export function CalendarGrid({
                   }}
                 >
                   {day}
+                  {dayPosts.length === 0 && (
+                    <span className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: "var(--accent-blue)", fontSize: "9px" }}>+ New</span>
+                  )}
                 </div>
                 <div className="space-y-1">
                   {dayPosts.slice(0, 3).map((post) => (

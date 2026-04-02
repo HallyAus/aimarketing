@@ -41,13 +41,13 @@ export default async function DashboardLayout({
           <div className="max-w-full xl:max-w-7xl flex flex-wrap items-center gap-x-3 gap-y-1">
             <span>AdPilot &copy; 2026</span>
             <span className="text-[var(--border-primary)]">&middot;</span>
-            <a href="#" className="hover:text-[var(--text-secondary)] transition-colors">Help</a>
+            <a href="/onboarding" className="hover:text-[var(--text-secondary)] transition-colors">Help</a>
             <span className="text-[var(--border-primary)]">&middot;</span>
-            <a href="#" className="hover:text-[var(--text-secondary)] transition-colors">Docs</a>
+            <a href="/docs" className="hover:text-[var(--text-secondary)] transition-colors">Docs</a>
             <span className="text-[var(--border-primary)]">&middot;</span>
-            <a href="#" className="hover:text-[var(--text-secondary)] transition-colors">Privacy</a>
+            <a href="/privacy" className="hover:text-[var(--text-secondary)] transition-colors">Privacy</a>
             <span className="text-[var(--border-primary)]">&middot;</span>
-            <a href="#" className="hover:text-[var(--text-secondary)] transition-colors">Terms</a>
+            <a href="/terms" className="hover:text-[var(--text-secondary)] transition-colors">Terms</a>
           </div>
         </footer>
       </LayoutShell>

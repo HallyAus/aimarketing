@@ -46,6 +46,10 @@ interface Connection {
 
 type FilterTab = "ALL" | "DRAFT" | "SCHEDULED" | "PUBLISHED" | "FAILED";
 
+const OBJECTIVES = ["AWARENESS", "TRAFFIC", "ENGAGEMENT", "CONVERSIONS", "LEADS"];
+const ALL_PLATFORMS = ["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT"];
+const CAMPAIGN_STATUSES = ["DRAFT", "ACTIVE", "PAUSED", "COMPLETED"];
+
 /* ------------------------------------------------------------------ */
 /*  Constants                                                          */
 /* ------------------------------------------------------------------ */
@@ -76,6 +80,18 @@ export default function CampaignPostsManager({
   const [loadingAction, setLoadingAction] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  // FIX 11: Edit Campaign state
+  const [showEditCampaign, setShowEditCampaign] = useState(false);
+  const [editCampaignName, setEditCampaignName] = useState(campaign.name);
+  const [editCampaignObjective, setEditCampaignObjective] = useState(campaign.objective);
+  const [editCampaignPlatforms, setEditCampaignPlatforms] = useState<string[]>(campaign.targetPlatforms);
+  const [editCampaignStatus, setEditCampaignStatus] = useState(campaign.status);
+  const [campaignData, setCampaignData] = useState(initialCampaign);
+
+  // FIX 12: Batch schedule modal state
+  const [showBatchScheduleModal, setShowBatchScheduleModal] = useState(false);
+  const [batchScheduleDate, setBatchScheduleDate] = useState("");
 
   // Fetch connections on mount
   useEffect(() => {
@@ -252,6 +268,34 @@ export default function CampaignPostsManager({
     }
   };
 
+  /* ---- Submit for approval ---- */
+
+  const submitForApproval = async (post: PostData) => {
+    setLoadingAction(`approval-${post.id}`);
+    clearError();
+    try {
+      const res = await fetch("/api/approvals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postId: post.id, requestedBy: campaign.creator?.name ?? "Unknown" }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Failed to submit for approval");
+        return;
+      }
+      setPosts((prev) => prev.map((p) =>
+        p.id === post.id ? { ...p, status: "PENDING_APPROVAL", version: p.version + 1 } : p
+      ));
+      setSuccessMessage("Submitted for approval");
+      setTimeout(() => setSuccessMessage(null), 4000);
+    } catch {
+      setError("Network error while submitting for approval");
+    } finally {
+      setLoadingAction(null);
+    }
+  };
+
   /* ---- Auto-schedule a single draft (one click) ---- */
 
   const autoScheduleSingle = async (post: PostData) => {
@@ -330,20 +374,59 @@ export default function CampaignPostsManager({
     }
   };
 
-  /* ---- Batch schedule all drafts (manual — Schedule at...) ---- */
+  /* ---- FIX 11: Save campaign edits ---- */
 
-  const scheduleAllDrafts = async () => {
-    const dateStr = prompt("Schedule all drafts starting at (YYYY-MM-DDTHH:mm):");
-    if (!dateStr) return;
-    const startAt = new Date(dateStr);
+  const saveEditCampaign = async () => {
+    setLoadingAction("edit-campaign");
+    clearError();
+    try {
+      const res = await fetch(`/api/campaigns/${campaign.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: editCampaignName,
+          objective: editCampaignObjective,
+          targetPlatforms: editCampaignPlatforms,
+          status: editCampaignStatus,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Failed to update campaign");
+        return;
+      }
+      const updated = await res.json();
+      setCampaignData((prev) => ({ ...prev, ...updated, posts: prev.posts, creator: prev.creator }));
+      setShowEditCampaign(false);
+      setSuccessMessage("Campaign updated");
+      setTimeout(() => setSuccessMessage(null), 3000);
+    } catch {
+      setError("Network error while updating campaign");
+    } finally {
+      setLoadingAction(null);
+    }
+  };
+
+  /* ---- FIX 12: Batch schedule all drafts (modal — Schedule at...) ---- */
+
+  const openBatchScheduleModal = () => {
+    const d = new Date(Date.now() + 3600000);
+    setBatchScheduleDate(d.toISOString().slice(0, 16));
+    setShowBatchScheduleModal(true);
+    clearError();
+  };
+
+  const confirmBatchSchedule = async () => {
+    if (!batchScheduleDate) return;
+    const startAt = new Date(batchScheduleDate);
     if (isNaN(startAt.getTime()) || startAt <= new Date()) {
       setError("Must be a valid future date");
       return;
     }
+    setShowBatchScheduleModal(false);
     setLoadingAction("batch-schedule");
     clearError();
     try {
-      // Schedule each draft sequentially, 60 min apart
       let offset = 0;
       for (const post of draftPosts) {
         const scheduledAt = new Date(startAt.getTime() + offset * 60 * 60 * 1000);
@@ -360,6 +443,39 @@ export default function CampaignPostsManager({
       }
     } catch {
       setError("Error during batch scheduling");
+    } finally {
+      setLoadingAction(null);
+    }
+  };
+
+  /* ---- FIX 15: Retry failed post ---- */
+
+  const retryPublish = async (post: PostData) => {
+    const conn = connections.find((c) => c.platform === post.platform);
+    if (!conn) {
+      setError(`No active ${post.platform} connection. Connect one in Settings.`);
+      return;
+    }
+    setLoadingAction(`retry-${post.id}`);
+    clearError();
+    try {
+      const res = await fetch(`/api/posts/${post.id}/publish`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ connectionId: conn.id }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Retry failed");
+        return;
+      }
+      if (data.post) {
+        setPosts((prev) => prev.map((p) => (p.id === post.id ? { ...p, ...data.post, approver: p.approver } : p)));
+        setSuccessMessage("Post re-published successfully");
+        setTimeout(() => setSuccessMessage(null), 4000);
+      }
+    } catch {
+      setError("Network error while retrying");
     } finally {
       setLoadingAction(null);
     }
@@ -466,25 +582,123 @@ export default function CampaignPostsManager({
         </div>
       )}
 
+      {/* ---- FIX 12: Batch Schedule Modal ---- */}
+      {showBatchScheduleModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: "rgba(0,0,0,0.5)" }}>
+          <div className="card w-full max-w-md mx-4" style={{ background: "var(--bg-secondary)" }}>
+            <h3 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Schedule All Drafts</h3>
+            <p className="text-sm mb-3" style={{ color: "var(--text-secondary)" }}>
+              {draftPosts.length} draft post(s) will be scheduled 1 hour apart starting from:
+            </p>
+            <label htmlFor="batch-sched-date" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Start Date &amp; Time</label>
+            <input
+              id="batch-sched-date"
+              type="datetime-local"
+              value={batchScheduleDate}
+              onChange={(e) => setBatchScheduleDate(e.target.value)}
+              className="w-full rounded-md px-3 py-2 text-sm mb-4"
+            />
+            <div className="flex gap-2 justify-end">
+              <button className="btn-secondary text-sm" onClick={() => setShowBatchScheduleModal(false)}>Cancel</button>
+              <button
+                className="btn-primary text-sm"
+                disabled={!batchScheduleDate}
+                onClick={confirmBatchSchedule}
+              >
+                Schedule
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ---- FIX 11: Edit Campaign Modal ---- */}
+      {showEditCampaign && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: "rgba(0,0,0,0.5)" }}>
+          <div className="card w-full max-w-lg mx-4" style={{ background: "var(--bg-secondary)" }}>
+            <h3 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Edit Campaign</h3>
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="edit-camp-name" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Name</label>
+                <input id="edit-camp-name" value={editCampaignName} onChange={(e) => setEditCampaignName(e.target.value)} className="w-full rounded-md px-3 py-2 text-sm" />
+              </div>
+              <div>
+                <label htmlFor="edit-camp-objective" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Objective</label>
+                <select id="edit-camp-objective" value={editCampaignObjective} onChange={(e) => setEditCampaignObjective(e.target.value)} className="w-full rounded-md px-3 py-2 text-sm">
+                  {OBJECTIVES.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Target Platforms</label>
+                <div className="flex flex-wrap gap-2">
+                  {ALL_PLATFORMS.map((p) => (
+                    <label key={p} className="flex items-center gap-1.5 text-xs min-h-[36px]" style={{ color: "var(--text-secondary)" }}>
+                      <input
+                        type="checkbox"
+                        checked={editCampaignPlatforms.includes(p)}
+                        onChange={(e) => {
+                          if (e.target.checked) setEditCampaignPlatforms((prev) => [...prev, p]);
+                          else setEditCampaignPlatforms((prev) => prev.filter((x) => x !== p));
+                        }}
+                        className="w-4 h-4"
+                      />
+                      {p.replaceAll("_", " ")}
+                    </label>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label htmlFor="edit-camp-status" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Status</label>
+                <select id="edit-camp-status" value={editCampaignStatus} onChange={(e) => setEditCampaignStatus(e.target.value)} className="w-full rounded-md px-3 py-2 text-sm">
+                  {CAMPAIGN_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="flex gap-2 justify-end mt-6">
+              <button className="btn-secondary text-sm" onClick={() => setShowEditCampaign(false)}>Cancel</button>
+              <button
+                className="btn-primary text-sm"
+                disabled={isLoading("edit-campaign") || !editCampaignName.trim()}
+                onClick={saveEditCampaign}
+              >
+                {isLoading("edit-campaign") ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ---- Campaign header ---- */}
       <PageHeader
-        title={campaign.name}
-        subtitle={`${campaign.objective} · ${campaign.targetPlatforms.join(", ")}`}
+        title={campaignData.name}
+        subtitle={`${campaignData.objective} · ${campaignData.targetPlatforms.join(", ")}`}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Campaigns", href: "/campaigns" },
-          { label: campaign.name },
+          { label: campaignData.name },
         ]}
         action={
           <div className="flex items-center gap-2">
-            <StatusBadge status={campaign.status} />
+            <StatusBadge status={campaignData.status} />
+            <button
+              className="btn-secondary text-sm"
+              onClick={() => {
+                setEditCampaignName(campaignData.name);
+                setEditCampaignObjective(campaignData.objective);
+                setEditCampaignPlatforms(campaignData.targetPlatforms);
+                setEditCampaignStatus(campaignData.status);
+                setShowEditCampaign(true);
+              }}
+            >
+              Edit Campaign
+            </button>
           </div>
         }
       />
       <ClientAccountBanner account={activeAccount} />
       <div className="flex flex-wrap gap-2 mb-6">
         <Link
-          href={`/campaigns/${campaign.id}/posts/new`}
+          href={`/campaigns/${campaignData.id}/posts/new`}
           className="btn-primary text-sm"
         >
           Add Post
@@ -502,7 +716,7 @@ export default function CampaignPostsManager({
               className="text-sm"
               style={{ color: "var(--text-tertiary)", textDecoration: "underline", background: "none", border: "none", cursor: "pointer", padding: "0.375rem 0.5rem" }}
               disabled={isLoading("batch-schedule")}
-              onClick={scheduleAllDrafts}
+              onClick={openBatchScheduleModal}
             >
               {isLoading("batch-schedule") ? "Scheduling..." : "Schedule All at..."}
             </button>
@@ -580,6 +794,17 @@ export default function CampaignPostsManager({
                         Edit
                       </button>
                     )}
+                    {/* Submit for Approval */}
+                    {post.status === "DRAFT" && (
+                      <button
+                        className="btn-secondary"
+                        style={{ fontSize: "0.75rem", padding: "0.375rem 0.75rem" }}
+                        disabled={isLoading(`approval-${post.id}`)}
+                        onClick={() => submitForApproval(post)}
+                      >
+                        {isLoading(`approval-${post.id}`) ? "Submitting..." : "Submit for Approval"}
+                      </button>
+                    )}
                     {/* Schedule (auto — one click) */}
                     {canSchedule(post.status) && !isScheduling && (
                       <>
@@ -607,6 +832,17 @@ export default function CampaignPostsManager({
                         onClick={() => startPublishing(post)}
                       >
                         Publish Now{activeAccount ? ` \u2192 ${activeAccount.name}` : ""}
+                      </button>
+                    )}
+                    {/* FIX 15: Retry for failed posts */}
+                    {post.status === "FAILED" && (
+                      <button
+                        className="btn-primary"
+                        style={{ background: "var(--accent-red)", fontSize: "0.75rem", padding: "0.375rem 0.75rem" }}
+                        disabled={isLoading(`retry-${post.id}`)}
+                        onClick={() => retryPublish(post)}
+                      >
+                        {isLoading(`retry-${post.id}`) ? "Retrying..." : "Retry"}
                       </button>
                     )}
                     {/* Delete */}

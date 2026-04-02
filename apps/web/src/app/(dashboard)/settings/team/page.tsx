@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db";
 import { getSessionOrg } from "@/lib/auth";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
+import { InviteMemberForm } from "./invite-member-form";
 
 export const metadata: Metadata = {
   title: "Team",
@@ -52,6 +53,12 @@ export default async function TeamPage() {
             </span>
           </div>
         ))}
+      </div>
+
+      {/* Invite Member */}
+      <div className="mb-8">
+        <div className="section-label mb-3">Invite Member</div>
+        <InviteMemberForm orgId={orgId} />
       </div>
 
       {pendingInvites.length > 0 && (

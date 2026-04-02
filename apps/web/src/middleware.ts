@@ -78,6 +78,12 @@ export const config = {
     "/settings/:path*",
     "/onboarding/:path*",
     "/org-picker/:path*",
+    "/drafts/:path*",
+    "/leads/:path*",
+    "/approvals/:path*",
+    "/email/:path*",
+    "/reports/:path*",
+    "/tools/:path*",
     "/api/:path*",
   ],
 };

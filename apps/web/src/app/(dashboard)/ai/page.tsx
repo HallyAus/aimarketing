@@ -4,6 +4,173 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
 
+/* ── Shared action buttons for AI output ─────────────────── */
+
+function AiOutputActions({
+  content,
+  platform,
+  showPostNow,
+}: {
+  content: string;
+  platform?: string;
+  showPostNow?: boolean;
+}) {
+  const [saving, setSaving] = useState(false);
+  const [scheduling, setScheduling] = useState(false);
+  const [feedback, setFeedback] = useState("");
+  const [showPublishModal, setShowPublishModal] = useState(false);
+  const [connections, setConnections] = useState<Array<{ id: string; platform: string; platformAccountName: string | null }>>([]);
+  const [selectedConnectionId, setSelectedConnectionId] = useState("");
+  const [publishing, setPublishing] = useState(false);
+
+  async function saveAsDraft() {
+    setSaving(true);
+    setFeedback("");
+    try {
+      const res = await fetch("/api/ai/drafts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content, platform: platform ?? "INSTAGRAM" }),
+      });
+      if (!res.ok) throw new Error("Failed to save");
+      setFeedback("Saved as draft!");
+    } catch {
+      setFeedback("Error saving draft");
+    } finally {
+      setSaving(false);
+      setTimeout(() => setFeedback(""), 3000);
+    }
+  }
+
+  async function schedulePost() {
+    setScheduling(true);
+    setFeedback("");
+    try {
+      const res = await fetch("/api/posts/auto-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          drafts: [{ content, platform: platform ?? "INSTAGRAM" }],
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to schedule");
+      const data = await res.json();
+      const time = data.scheduled?.[0]?.scheduledAt;
+      setFeedback(time ? `Scheduled for ${new Date(time).toLocaleString()}` : "Scheduled!");
+    } catch {
+      setFeedback("Error scheduling post");
+    } finally {
+      setScheduling(false);
+      setTimeout(() => setFeedback(""), 4000);
+    }
+  }
+
+  async function openPublishModal() {
+    setShowPublishModal(true);
+    try {
+      const res = await fetch("/api/connections");
+      const data = await res.json();
+      setConnections(data.data ?? []);
+      const match = (data.data ?? []).find((c: { platform: string }) => c.platform === (platform ?? "INSTAGRAM"));
+      if (match) setSelectedConnectionId(match.id);
+    } catch { /* ignore */ }
+  }
+
+  async function publishNow() {
+    if (!selectedConnectionId) return;
+    setPublishing(true);
+    setFeedback("");
+    try {
+      const res = await fetch("/api/posts/publish-now", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content,
+          platform: platform ?? "INSTAGRAM",
+          connectionId: selectedConnectionId,
+        }),
+      });
+      if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? "Failed"); }
+      setFeedback("Posted successfully!");
+      setShowPublishModal(false);
+    } catch (e) {
+      setFeedback(e instanceof Error ? e.message : "Error posting");
+    } finally {
+      setPublishing(false);
+      setTimeout(() => setFeedback(""), 4000);
+    }
+  }
+
+  return (
+    <>
+      <div className="mt-2 flex flex-wrap gap-2 items-center">
+        <button
+          onClick={() => navigator.clipboard.writeText(content)}
+          className="text-sm"
+          style={{ color: "var(--accent-blue)" }}
+        >
+          Copy
+        </button>
+        <button
+          onClick={saveAsDraft}
+          disabled={saving}
+          className="btn-secondary text-xs"
+        >
+          {saving ? "Saving..." : "Save as Draft"}
+        </button>
+        <button
+          onClick={schedulePost}
+          disabled={scheduling}
+          className="btn-secondary text-xs"
+        >
+          {scheduling ? "Scheduling..." : "Schedule"}
+        </button>
+        {showPostNow && (
+          <button
+            onClick={openPublishModal}
+            className="btn-primary text-xs"
+          >
+            Post Now
+          </button>
+        )}
+        {feedback && (
+          <span className="text-xs font-medium" style={{ color: "var(--accent-emerald)" }}>
+            {feedback}
+          </span>
+        )}
+      </div>
+
+      {/* Publish Modal */}
+      {showPublishModal && (
+        <div className="modal-overlay" onClick={() => setShowPublishModal(false)} role="dialog" aria-modal="true" aria-label="Publish post">
+          <div onClick={e => e.stopPropagation()} className="modal-panel">
+            <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Post Now</h2>
+            <p className="text-xs mb-3 truncate" style={{ color: "var(--text-tertiary)" }}>{content.substring(0, 100)}...</p>
+            <label htmlFor="ai-pub-conn" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Connection</label>
+            <select
+              id="ai-pub-conn"
+              value={selectedConnectionId}
+              onChange={e => setSelectedConnectionId(e.target.value)}
+              className="w-full mb-4"
+            >
+              <option value="">Select connection</option>
+              {connections.map(c => (
+                <option key={c.id} value={c.id}>{c.platformAccountName ?? c.platform}</option>
+              ))}
+            </select>
+            <div className="flex gap-2 justify-end">
+              <button onClick={() => setShowPublishModal(false)} className="btn-secondary min-h-[44px]">Cancel</button>
+              <button onClick={publishNow} disabled={publishing || !selectedConnectionId} className="btn-primary min-h-[44px]">
+                {publishing ? "Posting..." : "Publish"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 const PLATFORMS = ["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT"];
 const TONES = ["professional", "casual", "humorous", "urgent", "inspirational", "educational"];
 const IMAGE_PRESETS = [
@@ -32,7 +199,7 @@ export default function AIStudioPage() {
         ]}
       />
 
-      {/* Tabs */}
+      {/* Inline tabs */}
       <div className="tab-bar mb-6 overflow-x-auto" role="tablist" aria-label="AI Studio tools">
         {[
           { id: "post" as const, label: "Generate Post" },
@@ -50,78 +217,44 @@ export default function AIStudioPage() {
             {tab.label}
           </button>
         ))}
-        <button
-          onClick={() => router.push("/ai/brand-voice")}
-          className="tab-item"
-        >
-          Brand Voice
-        </button>
-        <button
-          onClick={() => router.push("/ai/competitor-spy")}
-          className="tab-item"
-        >
-          Competitor Spy
-        </button>
-        <button
-          onClick={() => router.push("/ai/hashtags")}
-          className="tab-item"
-        >
-          Hashtags
-        </button>
-        <button
-          onClick={() => router.push("/ai/image-gen")}
-          className="tab-item"
-        >
-          Image Gen
-        </button>
-        <button
-          onClick={() => router.push("/ai/video-scripts")}
-          className="tab-item"
-        >
-          Video Scripts
-        </button>
-        <button
-          onClick={() => router.push("/ai/url-to-posts")}
-          className="tab-item"
-        >
-          URL to Posts
-        </button>
-        <button
-          onClick={() => router.push("/ai/bulk-generate")}
-          className="tab-item"
-        >
-          Bulk Generate
-        </button>
-        <button
-          onClick={() => router.push("/ai/repurpose")}
-          className="tab-item"
-        >
-          Repurpose
-        </button>
-        <button
-          onClick={() => router.push("/ai/ab-test")}
-          className="tab-item"
-        >
-          A/B Variants
-        </button>
-        <button
-          onClick={() => router.push("/ai/carousel")}
-          className="tab-item"
-        >
-          Carousel
-        </button>
-        <button
-          onClick={() => router.push("/ai/templates-ai")}
-          className="tab-item"
-        >
-          Story Templates
-        </button>
       </div>
 
       {activeTab === "post" && <GeneratePostTab />}
       {activeTab === "improve" && <ImprovePostTab />}
       {activeTab === "ideas" && <CampaignIdeasTab />}
       {activeTab === "image" && <CreateImageTab />}
+
+      {/* More Tools section */}
+      <div className="mt-10">
+        <h3 className="text-sm font-semibold mb-3" style={{ color: "var(--text-secondary)" }}>More Tools</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+          {[
+            { href: "/ai/brand-voice", label: "Brand Voice", icon: "M12 18.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM8 5.5h8M8 9h8M10 12.5h4" },
+            { href: "/ai/competitor-spy", label: "Competitor Spy", icon: "M15 12a3 3 0 11-6 0 3 3 0 016 0zM2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" },
+            { href: "/ai/hashtags", label: "Hashtags", icon: "M7 20l4-16m2 16l4-16M6 9h14M4 15h14" },
+            { href: "/ai/image-gen", label: "Image Gen", icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" },
+            { href: "/ai/video-scripts", label: "Video Scripts", icon: "M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" },
+            { href: "/ai/url-to-posts", label: "URL to Posts", icon: "M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101M10.172 13.828a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" },
+            { href: "/ai/bulk-generate", label: "Bulk Generate", icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" },
+            { href: "/ai/repurpose", label: "Repurpose", icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" },
+            { href: "/ai/ab-test", label: "A/B Variants", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" },
+            { href: "/ai/carousel", label: "Carousel", icon: "M4 6h16M4 10h16M4 14h16M4 18h16" },
+            { href: "/ai/templates-ai", label: "Story Templates", icon: "M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" },
+          ].map((tool) => (
+            <button
+              key={tool.href}
+              onClick={() => router.push(tool.href)}
+              className="card flex flex-col items-center gap-2 p-4 text-center transition-all hover:ring-1"
+              style={{ cursor: "pointer", border: "1px solid var(--border-primary)", background: "var(--bg-secondary)" }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--accent-blue)" }}>
+                <path d={tool.icon} />
+              </svg>
+              <span className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>{tool.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -211,13 +344,7 @@ function GeneratePostTab() {
           {result || "Your AI-generated post will appear here..."}
         </div>
         {result && (
-          <button
-            onClick={() => navigator.clipboard.writeText(result)}
-            className="mt-2 text-sm"
-            style={{ color: "var(--accent-blue)" }}
-          >
-            Copy to clipboard
-          </button>
+          <AiOutputActions content={result} platform={platform} showPostNow />
         )}
       </div>
     </div>
@@ -300,13 +427,7 @@ function ImprovePostTab() {
           {result || "Improved version will appear here..."}
         </div>
         {result && (
-          <button
-            onClick={() => navigator.clipboard.writeText(result)}
-            className="mt-2 text-sm"
-            style={{ color: "var(--accent-blue)" }}
-          >
-            Copy to clipboard
-          </button>
+          <AiOutputActions content={result} platform={platform} />
         )}
       </div>
     </div>
@@ -366,17 +487,20 @@ function CampaignIdeasTab() {
         {loading ? "Generating Ideas..." : "Generate Campaign Ideas"}
       </button>
       {result && (
-        <div
-          className="rounded-lg p-4 whitespace-pre-wrap text-sm mt-4"
-          aria-live="polite"
-          style={{
-            border: "1px solid var(--border-primary)",
-            background: "var(--bg-secondary)",
-            color: "var(--text-primary)",
-          }}
-        >
-          {result}
-        </div>
+        <>
+          <div
+            className="rounded-lg p-4 whitespace-pre-wrap text-sm mt-4"
+            aria-live="polite"
+            style={{
+              border: "1px solid var(--border-primary)",
+              background: "var(--bg-secondary)",
+              color: "var(--text-primary)",
+            }}
+          >
+            {result}
+          </div>
+          <AiOutputActions content={result} />
+        </>
       )}
     </div>
   );

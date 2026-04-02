@@ -37,11 +37,12 @@ function relativeTime(date: Date): string {
 }
 
 function formatTime(date: Date): string {
-  return date.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
+  // Use UTC-based formatting on server; client components handle timezone via getUserTimezone()
+  const h = date.getUTCHours();
+  const m = date.getUTCMinutes();
+  const ampm = h >= 12 ? "PM" : "AM";
+  const h12 = h % 12 || 12;
+  return `${h12}:${m.toString().padStart(2, "0")} ${ampm} UTC`;
 }
 
 function isToday(date: Date): boolean {
@@ -66,7 +67,8 @@ function isTomorrow(date: Date): boolean {
 function formatScheduleLabel(date: Date): string {
   if (isToday(date)) return `Today ${formatTime(date)}`;
   if (isTomorrow(date)) return `Tomorrow ${formatTime(date)}`;
-  return `${date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })} ${formatTime(date)}`;
+  const month = date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", timeZone: "UTC" });
+  return `${month} ${formatTime(date)}`;
 }
 
 /* ── SVG Icons ───────────────────────────────────────────── */
@@ -320,6 +322,29 @@ export default async function DashboardPage() {
         breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }]}
       />
       <ActiveAccountBanner account={activeAccount} />
+
+      {/* Welcome banner for new users with zero posts and zero connections */}
+      {totalPosts === 0 && platformConnections.length === 0 && (
+        <div
+          className="rounded-xl p-5 mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+          style={{
+            background: "var(--accent-blue-muted)",
+            border: "1px solid var(--accent-blue)",
+          }}
+        >
+          <div>
+            <h2 className="text-base font-bold mb-1" style={{ color: "var(--text-primary)" }}>
+              Welcome to AdPilot! Let&apos;s set up your account.
+            </h2>
+            <p className="text-sm m-0" style={{ color: "var(--text-secondary)" }}>
+              Connect your social accounts and create your first campaign in minutes.
+            </p>
+          </div>
+          <Link href="/onboarding" className="btn-primary text-sm flex-shrink-0">
+            Get Started &rarr;
+          </Link>
+        </div>
+      )}
 
       {/* Real-time polling widget bar */}
       <DashboardWidgets />

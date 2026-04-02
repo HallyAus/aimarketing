@@ -250,6 +250,28 @@ export function SidebarNav() {
         )}
       </div>
 
+      {/* Get Started link for new users (before nav sections) */}
+      {mounted && (() => {
+        try { if (localStorage.getItem("adpilot-onboarding-complete")) return null; } catch { return null; }
+        return (
+          <div className="px-3 mb-1">
+            <Link
+              href="/onboarding"
+              onClick={isMobile ? () => setMobileOpen(false) : undefined}
+              className={`
+                flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all duration-150
+                text-white font-medium text-[13px] no-underline
+                ${collapsed && !isMobile ? "justify-center px-0 py-2.5 mx-auto w-10 h-10" : ""}
+              `}
+              style={{ background: "var(--accent-blue)" }}
+            >
+              <NavIcon type="zap" />
+              {(!collapsed || isMobile) && <span>Get Started</span>}
+            </Link>
+          </div>
+        );
+      })()}
+
       {/* Navigation sections */}
       <nav className="flex-1 px-3 py-2 overflow-y-auto" role="navigation" aria-label="Main navigation">
         {NAV_SECTIONS.map((section, sIdx) => (
