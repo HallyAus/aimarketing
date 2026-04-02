@@ -5,6 +5,39 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
 import { getPlatformAccent, getPlatformLabel } from "@/lib/platform-colors";
 
+/** Palette of 10 distinct colors for page/account differentiation */
+const PAGE_COLORS = [
+  "#3b82f6", // blue
+  "#8b5cf6", // violet
+  "#ec4899", // pink
+  "#f59e0b", // amber
+  "#10b981", // emerald
+  "#ef4444", // red
+  "#06b6d4", // cyan
+  "#f97316", // orange
+  "#6366f1", // indigo
+  "#14b8a6", // teal
+];
+
+/** Deterministic color from pageId hash */
+function getPageColor(pageId: string): string {
+  let hash = 0;
+  for (let i = 0; i < pageId.length; i++) {
+    hash = ((hash << 5) - hash + pageId.charCodeAt(i)) | 0;
+  }
+  return PAGE_COLORS[Math.abs(hash) % PAGE_COLORS.length]!;
+}
+
+/** Get the accent color for a post: page-based if pageId exists, else platform default */
+function getPostAccent(post: { pageId: string | null; platform: string }): string {
+  return post.pageId ? getPageColor(post.pageId) : getPlatformAccent(post.platform);
+}
+
+/** Display label for a post entry */
+function getPostLabel(post: { pageName: string | null; campaign: { name: string } | null }): string {
+  return post.pageName ?? post.campaign?.name ?? "Draft";
+}
+
 export const metadata: Metadata = {
   title: "Content Calendar",
   robots: { index: false },
@@ -50,6 +83,17 @@ export default async function CalendarPage({
     postsByDay.set(day, existing);
   }
 
+  // Build legend: unique pages/accounts
+  const uniquePages = new Map<string, { color: string; label: string }>();
+  for (const post of posts) {
+    if (post.pageId && !uniquePages.has(post.pageId)) {
+      uniquePages.set(post.pageId, {
+        color: getPageColor(post.pageId),
+        label: post.pageName ?? post.pageId,
+      });
+    }
+  }
+
   const monthName = startOfMonth.toLocaleString("default", { month: "long" });
   const prevMonth = month === 1 ? 12 : month - 1;
   const prevYear = month === 1 ? year - 1 : year;
@@ -85,6 +129,21 @@ export default async function CalendarPage({
         </div>
       </div>
 
+      {/* Page/account legend */}
+      {uniquePages.size > 0 && (
+        <div className="flex flex-wrap items-center gap-3 mb-4">
+          {Array.from(uniquePages.entries()).map(([id, { color, label }]) => (
+            <div key={id} className="flex items-center gap-1.5 text-xs" style={{ color: "var(--text-secondary)" }}>
+              <span
+                className="inline-block w-2.5 h-2.5 rounded-full flex-shrink-0"
+                style={{ background: color }}
+              />
+              {label}
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Mobile list view */}
       <div className="md:hidden space-y-2">
         {Array.from({ length: daysInMonth }).map((_, i) => {
@@ -116,15 +175,15 @@ export default async function CalendarPage({
                     key={post.id}
                     className="text-sm p-2 rounded flex items-center gap-2"
                     style={{
-                      borderLeft: `3px solid ${getPlatformAccent(post.platform)}`,
+                      borderLeft: `3px solid ${getPostAccent(post)}`,
                       background: "var(--bg-tertiary)",
                     }}
                   >
-                    <span className="text-xs font-medium flex-shrink-0" style={{ color: getPlatformAccent(post.platform) }}>
+                    <span className="text-xs font-medium flex-shrink-0" style={{ color: getPostAccent(post) }}>
                       {getPlatformLabel(post.platform)}
                     </span>
                     <span className="truncate" style={{ color: "var(--text-secondary)" }}>
-                      {post.campaign?.name ?? "Draft"}
+                      {getPostLabel(post)}
                     </span>
                   </div>
                 ))}
@@ -199,13 +258,13 @@ export default async function CalendarPage({
                       key={post.id}
                       className="text-xs p-1 rounded truncate"
                       style={{
-                        borderLeft: `2px solid ${getPlatformAccent(post.platform)}`,
+                        borderLeft: `2px solid ${getPostAccent(post)}`,
                         background: "var(--bg-tertiary)",
                         color: "var(--text-secondary)",
                       }}
-                      title={`${post.platform}: ${post.content.substring(0, 100)}`}
+                      title={`${post.platform}${post.pageName ? ` (${post.pageName})` : ""}: ${post.content.substring(0, 100)}`}
                     >
-                      {post.campaign?.name ?? "Draft"}
+                      {getPostLabel(post)}
                     </div>
                   ))}
                   {dayPosts.length > 3 && (

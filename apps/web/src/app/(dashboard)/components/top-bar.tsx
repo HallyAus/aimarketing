@@ -1,11 +1,43 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { AccountSelector } from "./account-selector";
 
 export function TopBar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [publishingPaused, setPublishingPaused] = useState<boolean | null>(null);
+  const [toggling, setToggling] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  // Fetch initial publishing state from the dedicated endpoint
+  useEffect(() => {
+    fetch("/api/organizations/pause-publishing")
+      .then((res) => res.json())
+      .then((data) => {
+        if (typeof data.paused === "boolean") {
+          setPublishingPaused(data.paused);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const togglePause = useCallback(async () => {
+    if (toggling) return;
+    setToggling(true);
+    try {
+      const res = await fetch("/api/organizations/pause-publishing", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (typeof data.paused === "boolean") {
+        setPublishingPaused(data.paused);
+      }
+    } catch {
+      // Silently fail — user can retry
+    } finally {
+      setToggling(false);
+    }
+  }, [toggling]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -27,8 +59,57 @@ export function TopBar() {
         {/* Breadcrumbs are rendered per-page inside PageHeader */}
       </div>
 
-      {/* Right: search + notification + user */}
+      {/* Right: publishing toggle + search + notification + user */}
       <div className="flex items-center gap-3">
+        {/* Publishing pause toggle */}
+        {publishingPaused !== null && (
+          <button
+            type="button"
+            onClick={togglePause}
+            disabled={toggling}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors"
+            style={{
+              background: publishingPaused
+                ? "var(--accent-red-muted, rgba(239,68,68,0.1))"
+                : "var(--accent-green-muted, rgba(34,197,94,0.1))",
+              borderColor: publishingPaused
+                ? "var(--accent-red, #ef4444)"
+                : "var(--accent-green, #22c55e)",
+              color: publishingPaused
+                ? "var(--accent-red, #ef4444)"
+                : "var(--accent-green, #22c55e)",
+              opacity: toggling ? 0.6 : 1,
+            }}
+            aria-label={publishingPaused ? "Resume publishing" : "Pause publishing"}
+          >
+            {publishingPaused ? (
+              <>
+                <span
+                  className="relative flex h-2 w-2"
+                  aria-hidden="true"
+                >
+                  <span
+                    className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                    style={{ background: "var(--accent-red, #ef4444)" }}
+                  />
+                  <span
+                    className="relative inline-flex rounded-full h-2 w-2"
+                    style={{ background: "var(--accent-red, #ef4444)" }}
+                  />
+                </span>
+                <span>Publishing Paused</span>
+              </>
+            ) : (
+              <>
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Publishing Active</span>
+              </>
+            )}
+          </button>
+        )}
+
         {/* Search placeholder */}
         <button
           type="button"

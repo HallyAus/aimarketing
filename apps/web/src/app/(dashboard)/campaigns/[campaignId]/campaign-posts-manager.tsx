@@ -20,6 +20,8 @@ interface PostData {
   platformPostId: string | null;
   rejectionReason: string | null;
   errorMessage: string | null;
+  pageId: string | null;
+  pageName: string | null;
   version: number;
   createdAt: string;
   approver: { name: string | null } | null;
@@ -556,6 +558,11 @@ export default function CampaignPostsManager({
                 <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
                   <div className="flex items-center gap-2">
                     <PlatformBadge platform={post.platform} />
+                    {post.pageName && (
+                      <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+                        &rarr; {post.pageName}
+                      </span>
+                    )}
                     <StatusBadge status={post.status} />
                   </div>
                   <div className="flex gap-1.5 flex-wrap">

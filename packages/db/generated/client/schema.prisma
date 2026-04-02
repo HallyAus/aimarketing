@@ -91,6 +91,7 @@ model Organization {
   billingCycleAnchor   DateTime?
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
+  publishingPaused     Boolean   @default(false)
   deletedAt            DateTime?
 
   memberships         Membership[]
@@ -273,6 +274,8 @@ model Post {
   rejectionReason    String?
   engagementSnapshot Json?
   errorMessage       String?
+  pageId             String?
+  pageName           String?
   sourceUrl          String?
   tone               String?
   version            Int        @default(1)

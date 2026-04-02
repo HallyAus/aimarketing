@@ -13,6 +13,8 @@ interface Draft {
   content: string;
   sourceUrl: string | null;
   tone: string | null;
+  pageId: string | null;
+  pageName: string | null;
   createdAt: string;
 }
 
@@ -404,6 +406,11 @@ export default function DraftsPage() {
               {/* Header: platform badge + date + source */}
               <div className="flex items-center gap-2 mb-3 flex-wrap">
                 <PlatformBadge platform={draft.platform} />
+                {draft.pageName && (
+                  <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+                    &rarr; {draft.pageName}
+                  </span>
+                )}
                 {draft.tone && (
                   <span
                     className="text-xs px-2 py-0.5 rounded"

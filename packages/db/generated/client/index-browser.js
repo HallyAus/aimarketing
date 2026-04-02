@@ -132,6 +132,7 @@ exports.Prisma.OrganizationScalarFieldEnum = {
   billingCycleAnchor: 'billingCycleAnchor',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  publishingPaused: 'publishingPaused',
   deletedAt: 'deletedAt'
 };
 
@@ -250,6 +251,8 @@ exports.Prisma.PostScalarFieldEnum = {
   rejectionReason: 'rejectionReason',
   engagementSnapshot: 'engagementSnapshot',
   errorMessage: 'errorMessage',
+  pageId: 'pageId',
+  pageName: 'pageName',
   sourceUrl: 'sourceUrl',
   tone: 'tone',
   version: 'version',

@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
 import { StatusBadge } from "@/components/status-badge";
 import { FacebookPages } from "./facebook-pages";
+import { BackfillPagesButton } from "./backfill-pages-button";
 
 export const metadata: Metadata = {
   title: "Platform Connections",
@@ -57,6 +58,19 @@ export default async function ConnectionsPage({
           Connection failed: {params.error.replace(/_/g, " ")}
         </div>
       )}
+
+      {/* Backfill tool for posts missing page assignments */}
+      <div className="mb-6 p-4 rounded-lg border border-[var(--border-secondary)] bg-[var(--bg-secondary)]/50">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div>
+            <h3 className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>Page Assignment Backfill</h3>
+            <p className="text-xs mt-0.5" style={{ color: "var(--text-tertiary)" }}>
+              Assign page IDs to existing posts that are missing them. Works when a platform has exactly one page selected.
+            </p>
+          </div>
+          <BackfillPagesButton />
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {PLATFORM_ORDER.map((platform) => {

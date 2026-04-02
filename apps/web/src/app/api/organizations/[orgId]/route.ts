@@ -18,6 +18,7 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
       name: true,
       slug: true,
       plan: true,
+      publishingPaused: true,
       billingEmail: true,
       createdAt: true,
       _count: {

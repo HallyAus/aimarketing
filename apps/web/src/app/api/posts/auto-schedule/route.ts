@@ -10,11 +10,15 @@ interface AutoScheduleBody {
   /** Schedule multiple existing posts by ID */
   postIds?: string[];
   /** Create + schedule new posts from draft content */
-  drafts?: Array<{ content: string; platform: string; mediaUrls?: string[] }>;
+  drafts?: Array<{ content: string; platform: string; mediaUrls?: string[]; pageId?: string; pageName?: string }>;
   /** Campaign to schedule into (auto-creates "Scheduled Posts" if omitted) */
   campaignId?: string;
   /** Hours between each post (default 6) */
   intervalHours?: number;
+  /** Page/account ID for all posts in this batch */
+  pageId?: string;
+  /** Human-readable page name */
+  pageName?: string;
 }
 
 /** AEST offset: UTC+10 = 600 minutes */
@@ -116,6 +120,15 @@ export const POST = withErrorHandler(
     const body: AutoScheduleBody = await req.json();
     const intervalHours = body.intervalHours ?? DEFAULT_INTERVAL_HOURS;
 
+    // Check if publishing is paused — allow scheduling but return a warning
+    const org = await prisma.organization.findUniqueOrThrow({
+      where: { id: req.orgId },
+      select: { publishingPaused: true },
+    });
+    const publishingPausedWarning = org.publishingPaused
+      ? "Publishing is currently paused. Posts are scheduled but will not be published until publishing is resumed."
+      : undefined;
+
     // Resolve campaign (auto-creates if needed)
     const campaignId = await getOrCreateCampaign(body.campaignId, req.orgId, req.userId);
 
@@ -136,6 +149,8 @@ export const POST = withErrorHandler(
             platform: draft.platform as never,
             content: sanitizeHtml(draft.content),
             mediaUrls: draft.mediaUrls ?? [],
+            pageId: draft.pageId ?? body.pageId ?? null,
+            pageName: draft.pageName ?? body.pageName ?? null,
             status: "DRAFT",
           },
         });
@@ -221,6 +236,10 @@ export const POST = withErrorHandler(
       })
       .catch((err) => console.error("[autoSchedule] auditLog error:", err));
 
-    return NextResponse.json({ scheduled, campaignId }, { status: 200 });
+    return NextResponse.json({
+      scheduled,
+      campaignId,
+      ...(publishingPausedWarning ? { warning: publishingPausedWarning } : {}),
+    }, { status: 200 });
   }),
 );

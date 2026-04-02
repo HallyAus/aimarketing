@@ -41,6 +41,8 @@ export default async function CampaignDetailPage({
       platformPostId: p.platformPostId ?? null,
       rejectionReason: p.rejectionReason ?? null,
       errorMessage: p.errorMessage ?? null,
+      pageId: p.pageId ?? null,
+      pageName: p.pageName ?? null,
       version: p.version,
       createdAt: p.createdAt.toISOString(),
       approver: p.approver,

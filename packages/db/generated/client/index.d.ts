@@ -2643,6 +2643,7 @@ export namespace Prisma {
     billingCycleAnchor: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    publishingPaused: boolean | null
     deletedAt: Date | null
   }
 
@@ -2657,6 +2658,7 @@ export namespace Prisma {
     billingCycleAnchor: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    publishingPaused: boolean | null
     deletedAt: Date | null
   }
 
@@ -2671,6 +2673,7 @@ export namespace Prisma {
     billingCycleAnchor: number
     createdAt: number
     updatedAt: number
+    publishingPaused: number
     deletedAt: number
     _all: number
   }
@@ -2687,6 +2690,7 @@ export namespace Prisma {
     billingCycleAnchor?: true
     createdAt?: true
     updatedAt?: true
+    publishingPaused?: true
     deletedAt?: true
   }
 
@@ -2701,6 +2705,7 @@ export namespace Prisma {
     billingCycleAnchor?: true
     createdAt?: true
     updatedAt?: true
+    publishingPaused?: true
     deletedAt?: true
   }
 
@@ -2715,6 +2720,7 @@ export namespace Prisma {
     billingCycleAnchor?: true
     createdAt?: true
     updatedAt?: true
+    publishingPaused?: true
     deletedAt?: true
     _all?: true
   }
@@ -2802,6 +2808,7 @@ export namespace Prisma {
     billingCycleAnchor: Date | null
     createdAt: Date
     updatedAt: Date
+    publishingPaused: boolean
     deletedAt: Date | null
     _count: OrganizationCountAggregateOutputType | null
     _min: OrganizationMinAggregateOutputType | null
@@ -2833,6 +2840,7 @@ export namespace Prisma {
     billingCycleAnchor?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    publishingPaused?: boolean
     deletedAt?: boolean
     memberships?: boolean | Organization$membershipsArgs<ExtArgs>
     invitations?: boolean | Organization$invitationsArgs<ExtArgs>
@@ -2856,6 +2864,7 @@ export namespace Prisma {
     billingCycleAnchor?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    publishingPaused?: boolean
     deletedAt?: boolean
   }, ExtArgs["result"]["organization"]>
 
@@ -2870,6 +2879,7 @@ export namespace Prisma {
     billingCycleAnchor?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    publishingPaused?: boolean
     deletedAt?: boolean
   }, ExtArgs["result"]["organization"]>
 
@@ -2884,10 +2894,11 @@ export namespace Prisma {
     billingCycleAnchor?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    publishingPaused?: boolean
     deletedAt?: boolean
   }
 
-  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "plan" | "stripeCustomerId" | "stripeSubscriptionId" | "billingEmail" | "billingCycleAnchor" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["organization"]>
+  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "plan" | "stripeCustomerId" | "stripeSubscriptionId" | "billingEmail" | "billingCycleAnchor" | "createdAt" | "updatedAt" | "publishingPaused" | "deletedAt", ExtArgs["result"]["organization"]>
   export type OrganizationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberships?: boolean | Organization$membershipsArgs<ExtArgs>
     invitations?: boolean | Organization$invitationsArgs<ExtArgs>
@@ -2925,6 +2936,7 @@ export namespace Prisma {
       billingCycleAnchor: Date | null
       createdAt: Date
       updatedAt: Date
+      publishingPaused: boolean
       deletedAt: Date | null
     }, ExtArgs["result"]["organization"]>
     composites: {}
@@ -3367,6 +3379,7 @@ export namespace Prisma {
     readonly billingCycleAnchor: FieldRef<"Organization", 'DateTime'>
     readonly createdAt: FieldRef<"Organization", 'DateTime'>
     readonly updatedAt: FieldRef<"Organization", 'DateTime'>
+    readonly publishingPaused: FieldRef<"Organization", 'Boolean'>
     readonly deletedAt: FieldRef<"Organization", 'DateTime'>
   }
     
@@ -13250,6 +13263,8 @@ export namespace Prisma {
     approvedBy: string | null
     rejectionReason: string | null
     errorMessage: string | null
+    pageId: string | null
+    pageName: string | null
     sourceUrl: string | null
     tone: string | null
     version: number | null
@@ -13270,6 +13285,8 @@ export namespace Prisma {
     approvedBy: string | null
     rejectionReason: string | null
     errorMessage: string | null
+    pageId: string | null
+    pageName: string | null
     sourceUrl: string | null
     tone: string | null
     version: number | null
@@ -13292,6 +13309,8 @@ export namespace Prisma {
     rejectionReason: number
     engagementSnapshot: number
     errorMessage: number
+    pageId: number
+    pageName: number
     sourceUrl: number
     tone: number
     version: number
@@ -13322,6 +13341,8 @@ export namespace Prisma {
     approvedBy?: true
     rejectionReason?: true
     errorMessage?: true
+    pageId?: true
+    pageName?: true
     sourceUrl?: true
     tone?: true
     version?: true
@@ -13342,6 +13363,8 @@ export namespace Prisma {
     approvedBy?: true
     rejectionReason?: true
     errorMessage?: true
+    pageId?: true
+    pageName?: true
     sourceUrl?: true
     tone?: true
     version?: true
@@ -13364,6 +13387,8 @@ export namespace Prisma {
     rejectionReason?: true
     engagementSnapshot?: true
     errorMessage?: true
+    pageId?: true
+    pageName?: true
     sourceUrl?: true
     tone?: true
     version?: true
@@ -13473,6 +13498,8 @@ export namespace Prisma {
     rejectionReason: string | null
     engagementSnapshot: JsonValue | null
     errorMessage: string | null
+    pageId: string | null
+    pageName: string | null
     sourceUrl: string | null
     tone: string | null
     version: number
@@ -13514,6 +13541,8 @@ export namespace Prisma {
     rejectionReason?: boolean
     engagementSnapshot?: boolean
     errorMessage?: boolean
+    pageId?: boolean
+    pageName?: boolean
     sourceUrl?: boolean
     tone?: boolean
     version?: boolean
@@ -13541,6 +13570,8 @@ export namespace Prisma {
     rejectionReason?: boolean
     engagementSnapshot?: boolean
     errorMessage?: boolean
+    pageId?: boolean
+    pageName?: boolean
     sourceUrl?: boolean
     tone?: boolean
     version?: boolean
@@ -13566,6 +13597,8 @@ export namespace Prisma {
     rejectionReason?: boolean
     engagementSnapshot?: boolean
     errorMessage?: boolean
+    pageId?: boolean
+    pageName?: boolean
     sourceUrl?: boolean
     tone?: boolean
     version?: boolean
@@ -13591,6 +13624,8 @@ export namespace Prisma {
     rejectionReason?: boolean
     engagementSnapshot?: boolean
     errorMessage?: boolean
+    pageId?: boolean
+    pageName?: boolean
     sourceUrl?: boolean
     tone?: boolean
     version?: boolean
@@ -13598,7 +13633,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "campaignId" | "orgId" | "platform" | "content" | "mediaUrls" | "scheduledAt" | "publishedAt" | "platformPostId" | "status" | "approvedBy" | "rejectionReason" | "engagementSnapshot" | "errorMessage" | "sourceUrl" | "tone" | "version" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "campaignId" | "orgId" | "platform" | "content" | "mediaUrls" | "scheduledAt" | "publishedAt" | "platformPostId" | "status" | "approvedBy" | "rejectionReason" | "engagementSnapshot" | "errorMessage" | "pageId" | "pageName" | "sourceUrl" | "tone" | "version" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
   export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     campaign?: boolean | Post$campaignArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
@@ -13640,6 +13675,8 @@ export namespace Prisma {
       rejectionReason: string | null
       engagementSnapshot: Prisma.JsonValue | null
       errorMessage: string | null
+      pageId: string | null
+      pageName: string | null
       sourceUrl: string | null
       tone: string | null
       version: number
@@ -14086,6 +14123,8 @@ export namespace Prisma {
     readonly rejectionReason: FieldRef<"Post", 'String'>
     readonly engagementSnapshot: FieldRef<"Post", 'Json'>
     readonly errorMessage: FieldRef<"Post", 'String'>
+    readonly pageId: FieldRef<"Post", 'String'>
+    readonly pageName: FieldRef<"Post", 'String'>
     readonly sourceUrl: FieldRef<"Post", 'String'>
     readonly tone: FieldRef<"Post", 'String'>
     readonly version: FieldRef<"Post", 'Int'>
@@ -21586,6 +21625,7 @@ export namespace Prisma {
     billingCycleAnchor: 'billingCycleAnchor',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    publishingPaused: 'publishingPaused',
     deletedAt: 'deletedAt'
   };
 
@@ -21731,6 +21771,8 @@ export namespace Prisma {
     rejectionReason: 'rejectionReason',
     engagementSnapshot: 'engagementSnapshot',
     errorMessage: 'errorMessage',
+    pageId: 'pageId',
+    pageName: 'pageName',
     sourceUrl: 'sourceUrl',
     tone: 'tone',
     version: 'version',
@@ -21944,6 +21986,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -22109,13 +22158,6 @@ export namespace Prisma {
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
   /**
    * Deep Input Types
    */
@@ -22135,6 +22177,7 @@ export namespace Prisma {
     billingCycleAnchor?: DateTimeNullableFilter<"Organization"> | Date | string | null
     createdAt?: DateTimeFilter<"Organization"> | Date | string
     updatedAt?: DateTimeFilter<"Organization"> | Date | string
+    publishingPaused?: BoolFilter<"Organization"> | boolean
     deletedAt?: DateTimeNullableFilter<"Organization"> | Date | string | null
     memberships?: MembershipListRelationFilter
     invitations?: InvitationListRelationFilter
@@ -22157,6 +22200,7 @@ export namespace Prisma {
     billingCycleAnchor?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    publishingPaused?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     memberships?: MembershipOrderByRelationAggregateInput
     invitations?: InvitationOrderByRelationAggregateInput
@@ -22182,6 +22226,7 @@ export namespace Prisma {
     billingCycleAnchor?: DateTimeNullableFilter<"Organization"> | Date | string | null
     createdAt?: DateTimeFilter<"Organization"> | Date | string
     updatedAt?: DateTimeFilter<"Organization"> | Date | string
+    publishingPaused?: BoolFilter<"Organization"> | boolean
     deletedAt?: DateTimeNullableFilter<"Organization"> | Date | string | null
     memberships?: MembershipListRelationFilter
     invitations?: InvitationListRelationFilter
@@ -22204,6 +22249,7 @@ export namespace Prisma {
     billingCycleAnchor?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    publishingPaused?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     _count?: OrganizationCountOrderByAggregateInput
     _max?: OrganizationMaxOrderByAggregateInput
@@ -22224,6 +22270,7 @@ export namespace Prisma {
     billingCycleAnchor?: DateTimeNullableWithAggregatesFilter<"Organization"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Organization"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Organization"> | Date | string
+    publishingPaused?: BoolWithAggregatesFilter<"Organization"> | boolean
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Organization"> | Date | string | null
   }
 
@@ -22912,6 +22959,8 @@ export namespace Prisma {
     rejectionReason?: StringNullableFilter<"Post"> | string | null
     engagementSnapshot?: JsonNullableFilter<"Post">
     errorMessage?: StringNullableFilter<"Post"> | string | null
+    pageId?: StringNullableFilter<"Post"> | string | null
+    pageName?: StringNullableFilter<"Post"> | string | null
     sourceUrl?: StringNullableFilter<"Post"> | string | null
     tone?: StringNullableFilter<"Post"> | string | null
     version?: IntFilter<"Post"> | number
@@ -22938,6 +22987,8 @@ export namespace Prisma {
     rejectionReason?: SortOrderInput | SortOrder
     engagementSnapshot?: SortOrderInput | SortOrder
     errorMessage?: SortOrderInput | SortOrder
+    pageId?: SortOrderInput | SortOrder
+    pageName?: SortOrderInput | SortOrder
     sourceUrl?: SortOrderInput | SortOrder
     tone?: SortOrderInput | SortOrder
     version?: SortOrder
@@ -22967,6 +23018,8 @@ export namespace Prisma {
     rejectionReason?: StringNullableFilter<"Post"> | string | null
     engagementSnapshot?: JsonNullableFilter<"Post">
     errorMessage?: StringNullableFilter<"Post"> | string | null
+    pageId?: StringNullableFilter<"Post"> | string | null
+    pageName?: StringNullableFilter<"Post"> | string | null
     sourceUrl?: StringNullableFilter<"Post"> | string | null
     tone?: StringNullableFilter<"Post"> | string | null
     version?: IntFilter<"Post"> | number
@@ -22993,6 +23046,8 @@ export namespace Prisma {
     rejectionReason?: SortOrderInput | SortOrder
     engagementSnapshot?: SortOrderInput | SortOrder
     errorMessage?: SortOrderInput | SortOrder
+    pageId?: SortOrderInput | SortOrder
+    pageName?: SortOrderInput | SortOrder
     sourceUrl?: SortOrderInput | SortOrder
     tone?: SortOrderInput | SortOrder
     version?: SortOrder
@@ -23023,6 +23078,8 @@ export namespace Prisma {
     rejectionReason?: StringNullableWithAggregatesFilter<"Post"> | string | null
     engagementSnapshot?: JsonNullableWithAggregatesFilter<"Post">
     errorMessage?: StringNullableWithAggregatesFilter<"Post"> | string | null
+    pageId?: StringNullableWithAggregatesFilter<"Post"> | string | null
+    pageName?: StringNullableWithAggregatesFilter<"Post"> | string | null
     sourceUrl?: StringNullableWithAggregatesFilter<"Post"> | string | null
     tone?: StringNullableWithAggregatesFilter<"Post"> | string | null
     version?: IntWithAggregatesFilter<"Post"> | number
@@ -23587,6 +23644,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -23609,6 +23667,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -23631,6 +23690,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -23653,6 +23713,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -23675,6 +23736,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
   }
 
@@ -23689,6 +23751,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -23703,6 +23766,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -24452,6 +24516,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -24478,6 +24544,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -24498,6 +24566,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -24524,6 +24594,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -24547,6 +24619,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -24566,6 +24640,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -24588,6 +24664,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -25270,6 +25348,11 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type MembershipListRelationFilter = {
     every?: MembershipWhereInput
     some?: MembershipWhereInput
@@ -25366,6 +25449,7 @@ export namespace Prisma {
     billingCycleAnchor?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    publishingPaused?: SortOrder
     deletedAt?: SortOrder
   }
 
@@ -25380,6 +25464,7 @@ export namespace Prisma {
     billingCycleAnchor?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    publishingPaused?: SortOrder
     deletedAt?: SortOrder
   }
 
@@ -25394,6 +25479,7 @@ export namespace Prisma {
     billingCycleAnchor?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    publishingPaused?: SortOrder
     deletedAt?: SortOrder
   }
 
@@ -25469,6 +25555,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type AuthenticatorListRelationFilter = {
@@ -26115,6 +26209,8 @@ export namespace Prisma {
     rejectionReason?: SortOrder
     engagementSnapshot?: SortOrder
     errorMessage?: SortOrder
+    pageId?: SortOrder
+    pageName?: SortOrder
     sourceUrl?: SortOrder
     tone?: SortOrder
     version?: SortOrder
@@ -26139,6 +26235,8 @@ export namespace Prisma {
     approvedBy?: SortOrder
     rejectionReason?: SortOrder
     errorMessage?: SortOrder
+    pageId?: SortOrder
+    pageName?: SortOrder
     sourceUrl?: SortOrder
     tone?: SortOrder
     version?: SortOrder
@@ -26159,6 +26257,8 @@ export namespace Prisma {
     approvedBy?: SortOrder
     rejectionReason?: SortOrder
     errorMessage?: SortOrder
+    pageId?: SortOrder
+    pageName?: SortOrder
     sourceUrl?: SortOrder
     tone?: SortOrder
     version?: SortOrder
@@ -26499,11 +26599,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type WebhookEventPlatformPlatformEventIdCompoundUniqueInput = {
     platform: $Enums.Platform
     platformEventId: string
@@ -26570,14 +26665,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedJsonFilter<$PrismaModel>
     _max?: NestedJsonFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type EnumPlatformNullableFilter<$PrismaModel = never> = {
@@ -26808,6 +26895,10 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type MembershipUpdateManyWithoutOrganizationNestedInput = {
@@ -27896,10 +27987,6 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuditLogsInput, UserUpdateWithoutAuditLogsInput>, UserUncheckedUpdateWithoutAuditLogsInput>
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type PostTemplateCreatemediaUrlsInput = {
     set: string[]
   }
@@ -28021,6 +28108,11 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -28113,6 +28205,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -28407,11 +28507,6 @@ export namespace Prisma {
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
   }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -28434,14 +28529,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedEnumPlatformNullableFilter<$PrismaModel = never> = {
@@ -28625,6 +28712,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -28649,6 +28738,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -28946,6 +29037,8 @@ export namespace Prisma {
     rejectionReason?: StringNullableFilter<"Post"> | string | null
     engagementSnapshot?: JsonNullableFilter<"Post">
     errorMessage?: StringNullableFilter<"Post"> | string | null
+    pageId?: StringNullableFilter<"Post"> | string | null
+    pageName?: StringNullableFilter<"Post"> | string | null
     sourceUrl?: StringNullableFilter<"Post"> | string | null
     tone?: StringNullableFilter<"Post"> | string | null
     version?: IntFilter<"Post"> | number
@@ -29217,6 +29310,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -29241,6 +29336,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -29889,6 +29986,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
     platformConnections?: PlatformConnectionCreateNestedManyWithoutOrganizationInput
@@ -29910,6 +30008,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
     platformConnections?: PlatformConnectionUncheckedCreateNestedManyWithoutOrganizationInput
@@ -30002,6 +30101,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
     platformConnections?: PlatformConnectionUpdateManyWithoutOrganizationNestedInput
@@ -30023,6 +30123,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
     platformConnections?: PlatformConnectionUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -30044,6 +30145,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     platformConnections?: PlatformConnectionCreateNestedManyWithoutOrganizationInput
@@ -30065,6 +30167,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     platformConnections?: PlatformConnectionUncheckedCreateNestedManyWithoutOrganizationInput
@@ -30151,6 +30254,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     platformConnections?: PlatformConnectionUpdateManyWithoutOrganizationNestedInput
@@ -30172,6 +30276,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     platformConnections?: PlatformConnectionUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -30248,6 +30353,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -30269,6 +30375,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -30355,6 +30462,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -30376,6 +30484,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -30452,6 +30561,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -30473,6 +30583,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -30549,6 +30660,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -30573,6 +30686,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -30613,6 +30728,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -30634,6 +30750,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -30767,6 +30884,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -30788,6 +30906,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -30973,6 +31092,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -30994,6 +31114,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -31111,6 +31232,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -31132,6 +31254,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -31169,6 +31292,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -31190,6 +31314,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -31212,6 +31337,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -31237,6 +31364,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -31272,6 +31401,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -31297,6 +31428,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -31315,6 +31448,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -31336,6 +31470,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -31422,6 +31557,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -31443,6 +31579,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -31519,6 +31656,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -31540,6 +31678,7 @@ export namespace Prisma {
     billingCycleAnchor?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    publishingPaused?: boolean
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -31626,6 +31765,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -31647,6 +31787,7 @@ export namespace Prisma {
     billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -31885,6 +32026,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -32111,6 +32254,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -32135,6 +32280,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -32157,6 +32304,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -32353,6 +32502,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -32594,6 +32745,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -32618,6 +32771,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -32640,6 +32795,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -32826,6 +32983,8 @@ export namespace Prisma {
     rejectionReason?: string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: string | null
+    pageId?: string | null
+    pageName?: string | null
     sourceUrl?: string | null
     tone?: string | null
     version?: number
@@ -32845,6 +33004,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -32869,6 +33030,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number
@@ -32891,6 +33054,8 @@ export namespace Prisma {
     rejectionReason?: NullableStringFieldUpdateOperationsInput | string | null
     engagementSnapshot?: NullableJsonNullValueInput | InputJsonValue
     errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
+    pageName?: NullableStringFieldUpdateOperationsInput | string | null
     sourceUrl?: NullableStringFieldUpdateOperationsInput | string | null
     tone?: NullableStringFieldUpdateOperationsInput | string | null
     version?: IntFieldUpdateOperationsInput | number

@@ -144,6 +144,11 @@ export default async function DashboardPage() {
               <div key={post.id} className="table-row flex items-center justify-between px-3 py-2.5 rounded-lg">
                 <div className="flex items-center gap-3 min-w-0">
                   <span className="badge badge-info text-[10px]">{post.platform}</span>
+                  {post.pageName && (
+                    <span className="text-xs flex-shrink-0" style={{ color: "var(--text-tertiary)" }}>
+                      &rarr; {post.pageName}
+                    </span>
+                  )}
                   <span className="text-sm truncate" style={{ color: "var(--text-primary)" }}>{post.content.substring(0, 80)}</span>
                 </div>
                 <div className="text-xs whitespace-nowrap ml-3" style={{ color: "var(--text-tertiary)" }}>

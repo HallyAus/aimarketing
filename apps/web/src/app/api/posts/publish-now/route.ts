@@ -39,6 +39,18 @@ export const POST = withErrorHandler(
       throw new ZodValidationError("connectionId is required");
     }
 
+    // Check if publishing is paused for this org
+    const org = await prisma.organization.findUniqueOrThrow({
+      where: { id: req.orgId },
+      select: { publishingPaused: true },
+    });
+    if (org.publishingPaused) {
+      return NextResponse.json(
+        { error: "Publishing is paused. Re-enable in settings.", code: "PUBLISHING_PAUSED", statusCode: 403 },
+        { status: 403 },
+      );
+    }
+
     // Get the platform connection and verify it belongs to the org
     const connection = await prisma.platformConnection.findFirst({
       where: {
@@ -93,6 +105,26 @@ export const POST = withErrorHandler(
       campaignId = defaultCampaign.id;
     }
 
+    // Resolve page name from connection metadata
+    let resolvedPageId = body.pageId ?? null;
+    let resolvedPageName: string | null = null;
+    if ((body.platform === "FACEBOOK" || body.platform === "INSTAGRAM") && connection.metadata) {
+      const meta = connection.metadata as Record<string, unknown>;
+      const selectedPages = meta.selectedPages as Array<{ id: string; name?: string }> | undefined;
+      if (selectedPages && selectedPages.length > 0) {
+        const matchedPage = body.pageId
+          ? selectedPages.find(p => p.id === body.pageId)
+          : selectedPages[0];
+        if (matchedPage) {
+          resolvedPageId = matchedPage.id;
+          resolvedPageName = matchedPage.name ?? connection.platformAccountName ?? null;
+        }
+      }
+    }
+    if (!resolvedPageName && connection.platformAccountName) {
+      resolvedPageName = connection.platformAccountName;
+    }
+
     // Create the post record in PUBLISHING state
     const post = await prisma.post.create({
       data: {
@@ -101,6 +133,8 @@ export const POST = withErrorHandler(
         platform: body.platform as never,
         content: sanitizeHtml(body.content),
         mediaUrls: body.mediaUrls ?? [],
+        pageId: resolvedPageId,
+        pageName: resolvedPageName,
         status: "PUBLISHING",
       },
     });

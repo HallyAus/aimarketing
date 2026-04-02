@@ -20,6 +20,7 @@ export const GET = withErrorHandler(async (req: NextRequest) => {
           name: true,
           slug: true,
           plan: true,
+          publishingPaused: true,
           createdAt: true,
         },
       },

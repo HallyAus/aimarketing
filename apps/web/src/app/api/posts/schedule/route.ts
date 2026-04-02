@@ -10,17 +10,23 @@ interface SchedulePostBody {
   campaignId: string;
   scheduledAt: string;
   mediaUrls?: string[];
+  pageId?: string;
+  pageName?: string;
 }
 
 interface ScheduleAllBody {
   posts: Array<{
     content: string;
     platform: string;
+    pageId?: string;
+    pageName?: string;
   }>;
   campaignId: string;
   startAt: string;
   intervalMinutes: number;
   mediaUrls?: string[];
+  pageId?: string;
+  pageName?: string;
 }
 
 const VALID_PLATFORMS = [
@@ -96,6 +102,8 @@ async function handleSingleSchedule(
       platform: body.platform as never,
       content: sanitizeHtml(body.content),
       mediaUrls: body.mediaUrls ?? [],
+      pageId: body.pageId ?? null,
+      pageName: body.pageName ?? null,
       scheduledAt,
       status: "SCHEDULED",
     },
@@ -170,6 +178,8 @@ async function handleBatchSchedule(
         platform: item.platform as never,
         content: sanitizeHtml(item.content),
         mediaUrls: body.mediaUrls ?? [],
+        pageId: item.pageId ?? body.pageId ?? null,
+        pageName: item.pageName ?? body.pageName ?? null,
         scheduledAt,
         status: "SCHEDULED",
       },
