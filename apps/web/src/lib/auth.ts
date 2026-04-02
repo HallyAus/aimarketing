@@ -14,22 +14,26 @@ const nextAuth = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        try {
-          if (!credentials?.email || !credentials?.password) return null;
-          const user = await prisma.user.findUnique({
-            where: { email: (credentials.email as string).toLowerCase() },
-          });
-          if (!user?.password) return null;
-          const valid = await bcrypt.compare(
-            credentials.password as string,
-            user.password,
-          );
-          if (!valid) return null;
-          return { id: user.id, email: user.email, name: user.name };
-        } catch (e) {
-          console.error("[auth] authorize error:", e);
-          return null;
+        if (!credentials?.email || !credentials?.password) return null;
+        // Retry once on failure (Neon cold start can timeout on first query)
+        for (let attempt = 0; attempt < 2; attempt++) {
+          try {
+            const user = await prisma.user.findUnique({
+              where: { email: (credentials.email as string).toLowerCase() },
+            });
+            if (!user?.password) return null;
+            const valid = await bcrypt.compare(
+              credentials.password as string,
+              user.password,
+            );
+            if (!valid) return null;
+            return { id: user.id, email: user.email, name: user.name };
+          } catch (e) {
+            console.error(`[auth] authorize attempt ${attempt + 1} error:`, e);
+            if (attempt === 0) await new Promise((r) => setTimeout(r, 1000));
+          }
         }
+        return null;
       },
     }),
 
