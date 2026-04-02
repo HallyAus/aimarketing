@@ -79,12 +79,15 @@ export function PublishModal({ isOpen, onClose, content, platform, connections, 
 
   return (
     <div
-      style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center" }}
+      style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 50, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }}
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Post now to ${platform.replace("_", " ")}`}
     >
       <div
         onClick={e => e.stopPropagation()}
-        className="rounded-lg p-6 w-full max-w-md"
+        className="rounded-lg p-6 w-full max-w-md max-h-[calc(100vh-2rem)] overflow-y-auto"
         style={{ background: "var(--bg-secondary)", border: "1px solid var(--border-primary)" }}
       >
         <h3 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>
@@ -103,18 +106,19 @@ export function PublishModal({ isOpen, onClose, content, platform, connections, 
 
         {conn && isFacebook && (
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
+            <label htmlFor="publish-page-select" className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
               Posting to Page:
             </label>
             {fetchingPages ? (
               <div className="text-xs py-2" style={{ color: "var(--text-tertiary)" }}>Loading pages...</div>
             ) : pages.length === 0 ? (
               <div className="text-xs py-2" style={{ color: "var(--accent-red)" }}>
-                No pages found. Go to Settings → Connections → select your Facebook pages first.
+                No pages found. Go to Settings, then Connections, and select your Facebook pages first.
               </div>
             ) : (
               <>
                 <select
+                  id="publish-page-select"
                   value={selectedPageId}
                   onChange={e => setSelectedPageId(e.target.value)}
                   className="w-full rounded px-3 py-2 text-sm mb-2"
@@ -157,14 +161,14 @@ export function PublishModal({ isOpen, onClose, content, platform, connections, 
         )}
 
         <div className="flex gap-2 justify-end">
-          <button onClick={onClose} className="btn-secondary text-sm">
+          <button onClick={onClose} className="btn-secondary text-sm min-h-[44px]">
             {success ? "Close" : "Cancel"}
           </button>
           {!success && (
             <button
               onClick={handlePublish}
               disabled={loading || !conn || (isFacebook && (!selectedPageId || pages.length === 0))}
-              className="btn-primary text-sm"
+              className="btn-primary text-sm min-h-[44px]"
               style={{ opacity: loading || !conn || (isFacebook && (!selectedPageId || pages.length === 0)) ? 0.5 : 1 }}
             >
               {loading ? "Publishing..." : "Publish Now"}

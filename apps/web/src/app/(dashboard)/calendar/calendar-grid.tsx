@@ -118,7 +118,8 @@ function MobilePostEntry({
         e.stopPropagation();
         onClick();
       }}
-      className="w-full text-sm p-2 rounded flex items-start gap-2 transition-all hover:ring-1 text-left"
+      aria-label={`View ${platformLabel} post${post.pageName ? ` on ${post.pageName}` : ""}: ${post.content.substring(0, 60)}`}
+      className="w-full text-sm p-3 rounded flex items-start gap-2 transition-all hover:ring-1 text-left min-h-[44px]"
       style={{
         borderLeft: `3px solid ${statusColor}`,
         background: "var(--bg-tertiary)",
@@ -332,13 +333,14 @@ export function CalendarGrid({
                   ))}
                   {dayPosts.length > 3 && (
                     <button
-                      className="text-xs w-full text-left px-1"
+                      className="text-xs w-full text-left px-1 py-1"
                       style={{
                         color: "var(--accent-blue)",
                         background: "none",
                         border: "none",
                         cursor: "pointer",
                       }}
+                      aria-label={`View ${dayPosts.length - 3} more posts`}
                       onClick={() => {
                         // Show the 4th post in detail, user can navigate from there
                         setSelectedPost(dayPosts[3]!);

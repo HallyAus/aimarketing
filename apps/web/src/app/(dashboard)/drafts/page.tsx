@@ -394,13 +394,13 @@ export default function DraftsPage() {
       )}
 
       {successMessage && (
-        <div className="alert alert-success mb-4">
+        <div className="alert alert-success mb-4" role="status" aria-live="polite">
           {successMessage}
         </div>
       )}
 
       {error && (
-        <div className="alert alert-error mb-4">
+        <div className="alert alert-error mb-4" role="alert" aria-live="assertive">
           {error}
         </div>
       )}
@@ -464,7 +464,9 @@ export default function DraftsPage() {
               {/* Content */}
               {editingId === draft.id ? (
                 <div className="space-y-2">
+                  <label htmlFor={`edit-${draft.id}`} className="sr-only">Edit draft content</label>
                   <textarea
+                    id={`edit-${draft.id}`}
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
                     rows={5}
@@ -532,20 +534,20 @@ export default function DraftsPage() {
       )}
       {/* Schedule Modal */}
       {modalType === "schedule" && activeDraft && (
-        <div className="modal-overlay" onClick={() => setModalType(null)}>
+        <div className="modal-overlay" onClick={() => setModalType(null)} role="dialog" aria-modal="true" aria-label="Schedule post">
           <div onClick={e => e.stopPropagation()} className="modal-panel">
             <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Schedule Post</h2>
             <p className="text-xs mb-3 truncate" style={{ color: "var(--text-tertiary)" }}>{activeDraft.content.substring(0, 80)}...</p>
-            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Campaign</label>
-            <select value={selectedCampaign} onChange={e => setSelectedCampaign(e.target.value)} className="w-full mb-3">
+            <label htmlFor="sched-campaign" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Campaign</label>
+            <select id="sched-campaign" value={selectedCampaign} onChange={e => setSelectedCampaign(e.target.value)} className="w-full mb-3">
               <option value="">Select campaign</option>
               {campaigns.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
-            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Schedule Date & Time</label>
-            <input type="datetime-local" value={scheduleDate} onChange={e => setScheduleDate(e.target.value)} className="w-full mb-4" />
+            <label htmlFor="sched-datetime" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Schedule Date & Time</label>
+            <input id="sched-datetime" type="datetime-local" value={scheduleDate} onChange={e => setScheduleDate(e.target.value)} className="w-full mb-4" />
             <div className="flex gap-2 justify-end">
-              <button onClick={() => setModalType(null)} className="btn-secondary">Cancel</button>
-              <button onClick={handleSchedule} disabled={actionLoading || !selectedCampaign || !scheduleDate} className="btn-primary">{actionLoading ? "Scheduling..." : "Schedule"}</button>
+              <button onClick={() => setModalType(null)} className="btn-secondary min-h-[44px]">Cancel</button>
+              <button onClick={handleSchedule} disabled={actionLoading || !selectedCampaign || !scheduleDate} className="btn-primary min-h-[44px]">{actionLoading ? "Scheduling..." : "Schedule"}</button>
             </div>
           </div>
         </div>
@@ -553,7 +555,7 @@ export default function DraftsPage() {
 
       {/* Post Now Modal */}
       {modalType === "postNow" && activeDraft && (
-        <div className="modal-overlay" onClick={() => setModalType(null)}>
+        <div className="modal-overlay" onClick={() => setModalType(null)} role="dialog" aria-modal="true" aria-label="Post now">
           <div onClick={e => e.stopPropagation()} className="modal-panel">
             <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Post Now</h2>
             <p className="text-xs mb-3 truncate" style={{ color: "var(--text-tertiary)" }}>{activeDraft.content.substring(0, 80)}...</p>
@@ -572,18 +574,18 @@ export default function DraftsPage() {
 
       {/* Schedule All Modal */}
       {modalType === "scheduleAll" && (
-        <div className="modal-overlay" onClick={() => setModalType(null)}>
+        <div className="modal-overlay" onClick={() => setModalType(null)} role="dialog" aria-modal="true" aria-label="Schedule all drafts">
           <div onClick={e => e.stopPropagation()} className="modal-panel">
             <h2 className="text-lg font-semibold mb-4" style={{ color: "var(--text-primary)" }}>Schedule All {drafts.length} Drafts</h2>
-            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Campaign</label>
-            <select value={selectedCampaign} onChange={e => setSelectedCampaign(e.target.value)} className="w-full mb-3">
+            <label htmlFor="schedall-campaign" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Campaign</label>
+            <select id="schedall-campaign" value={selectedCampaign} onChange={e => setSelectedCampaign(e.target.value)} className="w-full mb-3">
               <option value="">Select campaign</option>
               {campaigns.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
-            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Start Date & Time</label>
-            <input type="datetime-local" value={scheduleDate} onChange={e => setScheduleDate(e.target.value)} className="w-full mb-3" />
-            <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Post every</label>
-            <select value={scheduleInterval} onChange={e => setScheduleInterval(e.target.value)} className="w-full mb-4">
+            <label htmlFor="schedall-datetime" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Start Date & Time</label>
+            <input id="schedall-datetime" type="datetime-local" value={scheduleDate} onChange={e => setScheduleDate(e.target.value)} className="w-full mb-3" />
+            <label htmlFor="schedall-interval" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Post every</label>
+            <select id="schedall-interval" value={scheduleInterval} onChange={e => setScheduleInterval(e.target.value)} className="w-full mb-4">
               <option value="120">2 hours</option>
               <option value="240">4 hours</option>
               <option value="360">6 hours</option>
@@ -592,8 +594,8 @@ export default function DraftsPage() {
               <option value="1440">24 hours</option>
             </select>
             <div className="flex gap-2 justify-end">
-              <button onClick={() => setModalType(null)} className="btn-secondary">Cancel</button>
-              <button onClick={handleScheduleAll} disabled={actionLoading || !selectedCampaign || !scheduleDate} className="btn-primary">{actionLoading ? "Scheduling..." : `Schedule All ${drafts.length}`}</button>
+              <button onClick={() => setModalType(null)} className="btn-secondary min-h-[44px]">Cancel</button>
+              <button onClick={handleScheduleAll} disabled={actionLoading || !selectedCampaign || !scheduleDate} className="btn-primary min-h-[44px]">{actionLoading ? "Scheduling..." : `Schedule All ${drafts.length}`}</button>
             </div>
           </div>
         </div>

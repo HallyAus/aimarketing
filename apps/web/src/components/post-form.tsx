@@ -81,12 +81,14 @@ export function PostForm({ campaignId, platforms, templates }: PostFormProps) {
       <form action={handleSubmit} className="space-y-4">
         <div>
           <label
+            htmlFor="post-platform"
             className="block text-sm font-medium mb-1"
             style={{ color: "var(--text-secondary)" }}
           >
             Platform
           </label>
           <select
+            id="post-platform"
             name="platform"
             required
             className="w-full rounded-md px-3 py-2 text-sm"
@@ -106,12 +108,14 @@ export function PostForm({ campaignId, platforms, templates }: PostFormProps) {
 
         <div>
           <label
+            htmlFor="post-content"
             className="block text-sm font-medium mb-1"
             style={{ color: "var(--text-secondary)" }}
           >
             Content
           </label>
           <textarea
+            id="post-content"
             name="content"
             required
             rows={6}
@@ -147,12 +151,14 @@ export function PostForm({ campaignId, platforms, templates }: PostFormProps) {
 
         <div>
           <label
+            htmlFor="post-schedule"
             className="block text-sm font-medium mb-1"
             style={{ color: "var(--text-secondary)" }}
           >
             Schedule (optional)
           </label>
           <input
+            id="post-schedule"
             name="scheduledAt"
             type="datetime-local"
             className="w-full rounded-md px-3 py-2 text-sm"

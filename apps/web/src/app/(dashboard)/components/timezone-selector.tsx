@@ -23,7 +23,10 @@ export function TimezoneSelector() {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-left transition-colors hover:bg-[var(--bg-hover)]"
+        aria-expanded={open}
+        aria-haspopup="listbox"
+        aria-label={`Timezone: ${currentLabel}`}
+        className="w-full flex items-center gap-2 px-3 py-2 text-xs text-left transition-colors hover:bg-[var(--bg-hover)] min-h-[44px]"
         style={{ color: "var(--text-secondary)" }}
       >
         <svg
@@ -32,6 +35,7 @@ export function TimezoneSelector() {
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth={1.5}
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"
@@ -62,6 +66,8 @@ export function TimezoneSelector() {
       {open && (
         <div
           className="absolute left-0 right-0 bottom-full mb-1 max-h-48 overflow-y-auto rounded-lg py-1 z-50"
+          role="listbox"
+          aria-label="Select timezone"
           style={{
             background: "var(--bg-elevated)",
             border: "1px solid var(--border-primary)",
@@ -71,6 +77,8 @@ export function TimezoneSelector() {
           {COMMON_TIMEZONES.map((t) => (
             <button
               key={t.value}
+              role="option"
+              aria-selected={t.value === tz}
               onClick={() => {
                 setUserTimezone(t.value);
                 setTz(t.value);

@@ -188,14 +188,20 @@ export function DashboardTabs({
     <div>
       {/* Tab bar */}
       <div
-        className="flex items-center gap-1 mb-4 border-b"
+        className="flex items-center gap-1 mb-4 border-b overflow-x-auto"
         style={{ borderColor: "var(--border-primary)" }}
+        role="tablist"
+        aria-label="Dashboard content tabs"
       >
         {tabs.map((t) => (
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className="px-4 py-2.5 text-sm font-medium transition-colors relative"
+            role="tab"
+            aria-selected={tab === t.key}
+            aria-controls={`tabpanel-${t.key}`}
+            id={`tab-${t.key}`}
+            className="px-4 py-2.5 text-sm font-medium transition-colors relative whitespace-nowrap min-h-[44px]"
             style={{
               color:
                 tab === t.key
@@ -228,6 +234,7 @@ export function DashboardTabs({
               <div
                 className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full"
                 style={{ background: "var(--accent-blue)" }}
+                aria-hidden="true"
               />
             )}
           </button>
@@ -236,7 +243,7 @@ export function DashboardTabs({
 
       {/* Overview tab — both sections */}
       {tab === "overview" && (
-        <div className="space-y-6">
+        <div className="space-y-6" role="tabpanel" id="tabpanel-overview" aria-labelledby="tab-overview">
           {/* Upcoming scheduled */}
           {scheduledPosts.length > 0 && (
             <div>
@@ -292,7 +299,7 @@ export function DashboardTabs({
 
       {/* Scheduled tab */}
       {tab === "scheduled" && (
-        <div>
+        <div role="tabpanel" id="tabpanel-scheduled" aria-labelledby="tab-scheduled">
           {scheduledPosts.length === 0 ? (
             <div
               className="text-center py-12 rounded-lg"
@@ -336,7 +343,7 @@ export function DashboardTabs({
 
       {/* Recent tab */}
       {tab === "recent" && (
-        <div>
+        <div role="tabpanel" id="tabpanel-recent" aria-labelledby="tab-recent">
           {recentPosts.length === 0 ? (
             <div
               className="text-center py-12 rounded-lg"

@@ -205,6 +205,7 @@ export function ImageUpload({
         <div
           role="button"
           tabIndex={0}
+          aria-label={`Upload media files. ${files.length} of ${maxFiles} files uploaded.`}
           onDragOver={(e) => {
             e.preventDefault();
             setDragOver(true);
@@ -256,6 +257,7 @@ export function ImageUpload({
           <input
             ref={inputRef}
             type="file"
+            aria-label="Choose media files to upload"
             accept={spec?.formats.join(",") ?? "image/*"}
             multiple={maxFiles > 1}
             style={{ display: "none" }}

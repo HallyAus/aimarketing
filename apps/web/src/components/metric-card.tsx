@@ -20,6 +20,7 @@ export function MetricCard({ label, value, accent, trend, icon }: MetricCardProp
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
             style={{ background: "var(--bg-tertiary)", color: "var(--text-tertiary)" }}
+            aria-hidden="true"
           >
             {icon}
           </div>
@@ -47,6 +48,7 @@ export function MetricCard({ label, value, accent, trend, icon }: MetricCardProp
               height="12"
               viewBox="0 0 12 12"
               fill="none"
+              aria-hidden="true"
               style={{
                 transform: trend.direction === "down" ? "rotate(180deg)" : undefined,
               }}

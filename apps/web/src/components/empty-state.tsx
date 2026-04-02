@@ -37,6 +37,7 @@ export function EmptyState({ title, description, action, icon }: EmptyStateProps
       <div
         className="w-14 h-14 rounded-xl flex items-center justify-center mb-4"
         style={{ background: "var(--bg-tertiary)", color: "var(--text-tertiary)" }}
+        aria-hidden="true"
       >
         {icon ?? <DefaultIcon />}
       </div>

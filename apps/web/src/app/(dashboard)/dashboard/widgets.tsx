@@ -93,22 +93,29 @@ export function DashboardWidgets() {
   }
 
   return (
-    <div className="flex items-center gap-4 mb-3 px-1 text-xs" style={{ color: "var(--text-tertiary)" }}>
+    <div
+      className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-3 px-1 text-xs"
+      style={{ color: "var(--text-tertiary)" }}
+      role="status"
+      aria-live="polite"
+      aria-label="Live dashboard metrics"
+    >
       {/* Live metrics bar — compact, integrated */}
       <div className="flex items-center gap-3">
         <div
           className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+          aria-hidden="true"
           style={{
             background: secondsAgo < 35 ? "var(--accent-emerald)" : "var(--accent-amber)",
             animation: secondsAgo < 35 ? "pulse 2s infinite" : "none",
           }}
         />
-        <span>Live</span>
+        <span>{secondsAgo < 35 ? "Live" : "Stale"}</span>
       </div>
 
-      <span style={{ color: "var(--border-primary)" }}>|</span>
+      <span className="hidden sm:inline" style={{ color: "var(--border-primary)" }} aria-hidden="true">|</span>
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
         <span>
           Posts: <span className="font-medium" style={{ color: "var(--text-secondary)" }}>
             <AnimatedCounter value={metrics.totalPosts} />
@@ -124,20 +131,21 @@ export function DashboardWidgets() {
             <AnimatedCounter value={metrics.publishedToday} />
           </span>
         </span>
-        <span>
+        <span className="hidden sm:inline">
           Engagement: <span className="font-medium" style={{ color: "var(--accent-purple)" }}>
             <AnimatedCounter value={metrics.engagementRate} decimals={1} />%
           </span>
         </span>
       </div>
 
-      <span style={{ color: "var(--border-primary)" }}>|</span>
+      <span className="hidden sm:inline" style={{ color: "var(--border-primary)" }} aria-hidden="true">|</span>
 
       <span>{secondsAgo}s ago</span>
       <button
         onClick={fetchMetrics}
         className="btn-ghost px-1.5 py-0.5 text-[11px]"
         style={{ minHeight: "auto" }}
+        aria-label="Refresh dashboard metrics"
       >
         Refresh
       </button>

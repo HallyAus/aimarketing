@@ -203,11 +203,15 @@ export function PostDetailPanel({
         className="fixed inset-0 z-40"
         style={{ background: "rgba(0,0,0,0.4)" }}
         onClick={onClose}
+        aria-hidden="true"
       />
 
       {/* Slide-out panel */}
       <div
         className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-md overflow-y-auto"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Post details"
         style={{
           background: "var(--bg-primary)",
           borderLeft: "1px solid var(--border-primary)",
@@ -222,12 +226,12 @@ export function PostDetailPanel({
             borderBottom: "1px solid var(--border-primary)",
           }}
         >
-          <h3
+          <h2
             className="text-sm font-semibold"
             style={{ color: "var(--text-primary)" }}
           >
             Post Details
-          </h3>
+          </h2>
           <button
             onClick={onClose}
             className="p-1.5 rounded-lg hover:bg-[var(--bg-hover)] transition-colors"
@@ -331,7 +335,9 @@ export function PostDetailPanel({
             </div>
             {editing ? (
               <div className="space-y-2">
+                <label htmlFor="post-edit-content" className="sr-only">Edit post content</label>
                 <textarea
+                  id="post-edit-content"
                   value={editContent}
                   onChange={(e) => setEditContent(e.target.value)}
                   className="w-full rounded-lg p-3 text-sm resize-y min-h-[120px]"
@@ -383,13 +389,15 @@ export function PostDetailPanel({
                 border: "1px solid var(--border-primary)",
               }}
             >
-              <div
-                className="text-xs font-medium"
+              <label
+                htmlFor="reschedule-date"
+                className="text-xs font-medium block"
                 style={{ color: "var(--text-tertiary)" }}
               >
                 Reschedule Post
-              </div>
+              </label>
               <input
+                id="reschedule-date"
                 type="datetime-local"
                 value={newScheduleDate}
                 onChange={(e) => setNewScheduleDate(e.target.value)}
@@ -486,9 +494,9 @@ export function PostDetailPanel({
                 {(post.status === "DRAFT" || post.status === "REJECTED") && (
                   <button
                     onClick={() => setEditing(true)}
-                    className="btn-ghost text-xs px-3 py-1.5 flex items-center gap-1.5"
+                    className="btn-ghost text-xs px-3 py-2 flex items-center gap-1.5 min-h-[44px]"
                   >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
                       <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
                     </svg>
@@ -499,9 +507,9 @@ export function PostDetailPanel({
                   <>
                     <button
                       onClick={() => setRescheduling(true)}
-                      className="btn-ghost text-xs px-3 py-1.5 flex items-center gap-1.5"
+                      className="btn-ghost text-xs px-3 py-2 flex items-center gap-1.5 min-h-[44px]"
                     >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <circle cx="12" cy="12" r="10" />
                         <path d="M12 6v6l4 2" />
                       </svg>
@@ -510,9 +518,9 @@ export function PostDetailPanel({
                     <button
                       onClick={handlePublishNow}
                       disabled={loading}
-                      className="btn-primary text-xs px-3 py-1.5 flex items-center gap-1.5"
+                      className="btn-primary text-xs px-3 py-2 flex items-center gap-1.5 min-h-[44px]"
                     >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
                       </svg>
                       {loading ? "Publishing..." : "Post Now"}
@@ -522,14 +530,14 @@ export function PostDetailPanel({
                 {!isPublished && (
                   <button
                     onClick={() => setConfirmDelete(true)}
-                    className="text-xs px-3 py-1.5 rounded-lg flex items-center gap-1.5"
+                    className="text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 min-h-[44px]"
                     style={{
                       color: "var(--accent-red)",
                       background: "transparent",
                       border: "1px solid var(--accent-red)",
                     }}
                   >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <polyline points="3 6 5 6 21 6" />
                       <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
                     </svg>

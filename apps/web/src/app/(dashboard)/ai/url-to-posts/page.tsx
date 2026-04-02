@@ -443,7 +443,7 @@ export default function UrlToPostsPage() {
       <ClientAccountBanner account={activeAccount} />
 
       {successMessage && (
-        <div className="alert alert-success mb-6">
+        <div className="alert alert-success mb-6" role="status" aria-live="polite">
           {successMessage}
         </div>
       )}
@@ -454,12 +454,14 @@ export default function UrlToPostsPage() {
           {/* URL Input */}
           <div>
             <label
+              htmlFor="url-input"
               className="block text-sm font-medium mb-1"
               style={{ color: "var(--text-secondary)" }}
             >
               URL
             </label>
             <input
+              id="url-input"
               type="url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
@@ -477,12 +479,14 @@ export default function UrlToPostsPage() {
           {/* Posts per platform */}
           <div>
             <label
+              htmlFor="posts-per-platform"
               className="block text-sm font-medium mb-1"
               style={{ color: "var(--text-secondary)" }}
             >
               Posts per platform
             </label>
             <select
+              id="posts-per-platform"
               value={postsPerPlatform}
               onChange={(e) => setPostsPerPlatform(Number(e.target.value))}
               className="w-full rounded-md px-3 py-2 text-sm"
@@ -503,12 +507,14 @@ export default function UrlToPostsPage() {
           {/* Tone */}
           <div>
             <label
+              htmlFor="url-tone"
               className="block text-sm font-medium mb-1"
               style={{ color: "var(--text-secondary)" }}
             >
               Tone
             </label>
             <select
+              id="url-tone"
               value={tone}
               onChange={(e) => setTone(e.target.value)}
               className="w-full rounded-md px-3 py-2 text-sm"
@@ -712,12 +718,12 @@ export default function UrlToPostsPage() {
                                 Suggested time: {post.suggestedTime}
                               </span>
                             )}
-                            <div className="flex gap-2 ml-auto items-center">
+                            <div className="flex flex-wrap gap-2 ml-auto items-center">
                               <button
                                 onClick={() =>
                                   copyPost(post.content, globalIdx)
                                 }
-                                className="px-3 py-1 rounded text-xs font-medium"
+                                className="px-3 py-2 rounded text-xs font-medium min-h-[36px]"
                                 style={{
                                   border: "1px solid var(--border-primary)",
                                   background: "var(--bg-primary)",
@@ -812,14 +818,17 @@ export default function UrlToPostsPage() {
       {/* --- Modal Overlay --- */}
       {modalMode && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
           style={{ background: "rgba(0,0,0,0.5)" }}
+          role="dialog"
+          aria-modal="true"
+          aria-label={modalMode === "schedule" ? "Schedule post" : modalMode === "schedule-all" ? "Schedule all posts" : "Publish post now"}
           onClick={(e) => {
             if (e.target === e.currentTarget) closeModal();
           }}
         >
           <div
-            className="rounded-lg p-6 w-full max-w-md mx-4"
+            className="rounded-lg p-6 w-full max-w-md max-h-[calc(100vh-2rem)] overflow-y-auto"
             style={{
               background: "var(--bg-primary)",
               border: "1px solid var(--border-primary)",
@@ -846,12 +855,14 @@ export default function UrlToPostsPage() {
                   <div className="space-y-4">
                     <div>
                       <label
+                        htmlFor="modal-campaign"
                         className="block text-sm font-medium mb-1"
                         style={{ color: "var(--text-secondary)" }}
                       >
                         Campaign
                       </label>
                       <select
+                        id="modal-campaign"
                         value={selectedCampaignId}
                         onChange={(e) => setSelectedCampaignId(e.target.value)}
                         className="w-full rounded-md px-3 py-2 text-sm"
@@ -871,12 +882,14 @@ export default function UrlToPostsPage() {
 
                     <div>
                       <label
+                        htmlFor="modal-schedule-date"
                         className="block text-sm font-medium mb-1"
                         style={{ color: "var(--text-secondary)" }}
                       >
                         Schedule Date & Time
                       </label>
                       <input
+                        id="modal-schedule-date"
                         type="datetime-local"
                         value={scheduleDate}
                         onChange={(e) => setScheduleDate(e.target.value)}

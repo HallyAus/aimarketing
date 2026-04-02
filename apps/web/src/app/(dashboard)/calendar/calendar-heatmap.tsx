@@ -53,10 +53,12 @@ export function CalendarHeatmapToggle({
   return (
     <div>
       {/* View toggle */}
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex items-center gap-2 mb-4" role="tablist" aria-label="Calendar view mode">
         <button
           onClick={() => setView("calendar")}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+          role="tab"
+          aria-selected={view === "calendar"}
+          className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors min-h-[44px] ${
             view === "calendar"
               ? "bg-[var(--accent-blue-muted)] text-[var(--accent-blue)] border-[var(--accent-blue)]"
               : "bg-[var(--bg-tertiary)] text-[var(--text-secondary)] border-[var(--border-primary)] hover:bg-[var(--bg-hover)]"
@@ -66,7 +68,9 @@ export function CalendarHeatmapToggle({
         </button>
         <button
           onClick={() => setView("heatmap")}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
+          role="tab"
+          aria-selected={view === "heatmap"}
+          className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors min-h-[44px] ${
             view === "heatmap"
               ? "bg-[var(--accent-blue-muted)] text-[var(--accent-blue)] border-[var(--accent-blue)]"
               : "bg-[var(--bg-tertiary)] text-[var(--text-secondary)] border-[var(--border-primary)] hover:bg-[var(--bg-hover)]"

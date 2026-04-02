@@ -64,7 +64,7 @@ export default async function ConnectionsPage({
       <div className="mb-6 p-4 rounded-lg border border-[var(--border-secondary)] bg-[var(--bg-secondary)]/50">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
-            <h3 className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>Page Assignment Backfill</h3>
+            <h2 className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>Page Assignment Backfill</h2>
             <p className="text-xs mt-0.5" style={{ color: "var(--text-tertiary)" }}>
               Assign page IDs to existing posts that are missing them. Works when a platform has exactly one page selected.
             </p>
@@ -91,7 +91,7 @@ export default async function ConnectionsPage({
             >
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-medium" style={{ color: "var(--text-primary)" }}>{config.displayName}</h3>
+                  <h2 className="font-medium text-base" style={{ color: "var(--text-primary)" }}>{config.displayName}</h2>
                   {connection && (
                     <StatusBadge status={connection.status} />
                   )}
@@ -156,7 +156,7 @@ export default async function ConnectionsPage({
 
       {/* Google Business Profile */}
       <div className="mt-8">
-        <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-4">Additional Platforms</h3>
+        <h2 className="text-sm font-semibold text-[var(--text-primary)] mb-4">Additional Platforms</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <GbpConnect />
         </div>

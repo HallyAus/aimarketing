@@ -435,7 +435,7 @@ export default function CampaignPostsManager({
     <div>
       {/* ---- Success banner ---- */}
       {successMessage && (
-        <div className="alert alert-success mb-4">
+        <div className="alert alert-success mb-4" role="status" aria-live="polite">
           <span>{successMessage}</span>
           <button
             onClick={() => setSuccessMessage(null)}
@@ -452,7 +452,7 @@ export default function CampaignPostsManager({
 
       {/* ---- Error banner ---- */}
       {error && (
-        <div className="alert alert-error mb-4">
+        <div className="alert alert-error mb-4" role="alert" aria-live="assertive">
           <span>{error}</span>
           <button
             onClick={clearError}
@@ -518,7 +518,7 @@ export default function CampaignPostsManager({
       </div>
 
       {/* ---- Filter tabs ---- */}
-      <div className="tab-bar mb-5 overflow-x-auto">
+      <div className="tab-bar mb-5 overflow-x-auto" role="tablist" aria-label="Filter posts by status">
         {FILTER_TABS.map((tab) => {
           const count =
             tab === "ALL"
@@ -529,6 +529,8 @@ export default function CampaignPostsManager({
             <button
               key={tab}
               onClick={() => setFilter(tab)}
+              role="tab"
+              aria-selected={active}
               className={`tab-item ${active ? "tab-item-active" : ""}`}
             >
               {tab} ({count})
@@ -623,7 +625,9 @@ export default function CampaignPostsManager({
                 {/* ---- Content ---- */}
                 {isEditing ? (
                   <div className="mb-3">
+                    <label htmlFor={`edit-content-${post.id}`} className="sr-only">Edit post content</label>
                     <textarea
+                      id={`edit-content-${post.id}`}
                       value={editContent}
                       onChange={(e) => setEditContent(e.target.value)}
                       rows={6}
@@ -670,10 +674,11 @@ export default function CampaignPostsManager({
                 {/* ---- Schedule inline form ---- */}
                 {isScheduling && (
                   <div className="inline-form">
-                    <label style={{ color: "var(--text-secondary)", fontSize: "0.8125rem" }}>
+                    <label htmlFor={`sched-${post.id}`} style={{ color: "var(--text-secondary)", fontSize: "0.8125rem" }}>
                       Schedule for:
                     </label>
                     <input
+                      id={`sched-${post.id}`}
                       type="datetime-local"
                       value={scheduleDate}
                       onChange={(e) => setScheduleDate(e.target.value)}
@@ -700,7 +705,7 @@ export default function CampaignPostsManager({
                 {/* ---- Publish inline form ---- */}
                 {isPublishingThis && (
                   <div className="inline-form">
-                    <label style={{ color: "var(--text-secondary)", fontSize: "0.8125rem" }}>
+                    <label htmlFor={`pub-conn-${post.id}`} style={{ color: "var(--text-secondary)", fontSize: "0.8125rem" }}>
                       Connection:
                     </label>
                     {connectionsForPlatform.length === 0 ? (
@@ -712,6 +717,7 @@ export default function CampaignPostsManager({
                       </span>
                     ) : (
                       <select
+                        id={`pub-conn-${post.id}`}
                         value={selectedConnectionId}
                         onChange={(e) => setSelectedConnectionId(e.target.value)}
                         style={{ fontSize: "0.8125rem" }}

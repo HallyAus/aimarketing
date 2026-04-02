@@ -247,6 +247,8 @@
     padding: 1.5rem;
     width: 100%;
     max-width: 28rem;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   }
 
@@ -309,6 +311,36 @@
     background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-elevated) 50%, var(--bg-tertiary) 75%);
     background-size: 200% 100%;
     animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  }
+}
+
+  /* ---- Accessible minimum touch target ---- */
+
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* ---- Overflow scroll wrapper for tables ---- */
+
+  .table-scroll-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
+  /* ---- Aria-live status region ---- */
+
+  .sr-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 }
 

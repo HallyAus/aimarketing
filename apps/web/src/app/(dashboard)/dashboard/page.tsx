@@ -9,6 +9,7 @@ import { ActiveAccountBanner } from "@/components/active-account-banner";
 import { getActiveAccount, getPageFilter } from "@/lib/active-account";
 import { DashboardWidgets } from "./widgets";
 import { DashboardTabs } from "./dashboard-tabs";
+import { QuickPost } from "./quick-post";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -322,6 +323,11 @@ export default async function DashboardPage() {
 
       {/* Real-time polling widget bar */}
       <DashboardWidgets />
+
+      {/* Quick Post — generate and publish in one click */}
+      <div className="mb-4">
+        <QuickPost />
+      </div>
 
       {/* ── TOP: 5 Metric Cards ───────────────────────── */}
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 mb-4">
