@@ -162,108 +162,27 @@ export default function DraftsPage() {
     });
   }
 
-  async function handleAutoSchedule(draft: Draft) {
-    setAutoScheduleLoading(draft.id);
-    setError("");
-    try {
-      // First create the post in a campaign, then auto-schedule it
-      const campaignId = campaigns[0]?.id;
-      const res = await fetch("/api/posts/schedule", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: draft.content,
-          platform: draft.platform,
-          campaignId: campaignId || undefined,
-          scheduledAt: new Date(Date.now() + 365 * 24 * 60 * 60_000).toISOString(), // placeholder
-        }),
-      });
-      if (res.ok) {
-        const post = await res.json();
-        // Now auto-schedule it properly
-        const autoRes = await fetch("/api/posts/auto-schedule", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ postId: post.id, campaignId: campaignId || undefined }),
-        });
-        if (!autoRes.ok) { const d = await autoRes.json(); throw new Error(d.error ?? "Failed to auto-schedule"); }
-        const data = await autoRes.json();
-        await fetch(`/api/ai/drafts?id=${draft.id}`, { method: "DELETE" });
-        setDrafts(prev => prev.filter(d => d.id !== draft.id));
-        const time = data.scheduled?.[0]?.scheduledAt;
-        setSuccessMessage(time ? `Scheduled for ${formatScheduleTime(time)}` : "Post scheduled!");
-        setTimeout(() => setSuccessMessage(""), 4000);
-      } else {
-        // Campaign might not exist — use auto-schedule with auto-create campaign
-        const autoRes = await fetch("/api/posts/auto-schedule", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            postIds: [],
-            campaignId: undefined,
-          }),
-        });
-        // Fallback: create post directly via auto-schedule approach
-        throw new Error("Please create a campaign first, or use Schedule at...");
-      }
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to auto-schedule");
-    } finally {
-      setAutoScheduleLoading(null);
-    }
-  }
-
   async function handleAutoScheduleSingle(draft: Draft) {
     setAutoScheduleLoading(draft.id);
     setError("");
     try {
-      // Create post in first available campaign (or auto-create one)
-      const campaignId = campaigns[0]?.id;
-
-      // Use the schedule endpoint to create the post, then auto-schedule will fix the time
-      const createRes = await fetch("/api/posts/schedule", {
+      const res = await fetch("/api/posts/auto-schedule", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          content: draft.content,
-          platform: draft.platform,
-          campaignId: campaignId ?? "__auto__",
-          scheduledAt: new Date(Date.now() + 365 * 24 * 60 * 60_000).toISOString(),
+          drafts: [{ content: draft.content, platform: draft.platform }],
+          campaignId: campaigns[0]?.id || undefined,
         }),
       });
-
-      let postId: string;
-      if (createRes.ok) {
-        const post = await createRes.json();
-        postId = post.id;
-      } else {
-        // No campaign — let auto-schedule create one. But we need a post first.
-        // We'll create the post directly via auto-schedule which handles campaign creation
-        throw new Error("needsAutoCreate");
-      }
-
-      const autoRes = await fetch("/api/posts/auto-schedule", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ postId, campaignId: campaignId || undefined }),
-      });
-      if (!autoRes.ok) {
-        const d = await autoRes.json();
-        throw new Error(d.error ?? "Failed");
-      }
-      const data = await autoRes.json();
+      if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? "Failed to auto-schedule"); }
+      const data = await res.json();
       await fetch(`/api/ai/drafts?id=${draft.id}`, { method: "DELETE" });
       setDrafts(prev => prev.filter(d => d.id !== draft.id));
       const time = data.scheduled?.[0]?.scheduledAt;
       setSuccessMessage(time ? `Scheduled for ${formatScheduleTime(time)}` : "Post scheduled!");
       setTimeout(() => setSuccessMessage(""), 4000);
     } catch (e) {
-      if (e instanceof Error && e.message === "needsAutoCreate") {
-        // Fallback — open the manual scheduler
-        setError("No campaigns found. Use \"Schedule at...\" to pick a campaign and time.");
-      } else {
-        setError(e instanceof Error ? e.message : "Failed to auto-schedule");
-      }
+      setError(e instanceof Error ? e.message : "Failed to auto-schedule");
     } finally {
       setAutoScheduleLoading(null);
     }
@@ -274,51 +193,24 @@ export default function DraftsPage() {
     setActionLoading(true);
     setError("");
     try {
-      const campaignId = campaigns[0]?.id;
-
-      // Create all posts first
-      const postIds: string[] = [];
-      for (const draft of drafts) {
-        const res = await fetch("/api/posts/schedule", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            content: draft.content,
-            platform: draft.platform,
-            campaignId: campaignId ?? "__auto__",
-            scheduledAt: new Date(Date.now() + 365 * 24 * 60 * 60_000).toISOString(),
-          }),
-        });
-        if (res.ok) {
-          const post = await res.json();
-          postIds.push(post.id);
-        }
-      }
-
-      if (postIds.length === 0) {
-        throw new Error("No campaigns found. Please create a campaign first.");
-      }
-
-      // Auto-schedule them all
-      const autoRes = await fetch("/api/posts/auto-schedule", {
+      const res = await fetch("/api/posts/auto-schedule", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ postIds, campaignId: campaignId || undefined }),
+        body: JSON.stringify({
+          drafts: drafts.map(d => ({ content: d.content, platform: d.platform })),
+          campaignId: campaigns[0]?.id || undefined,
+        }),
       });
-      if (!autoRes.ok) {
-        const d = await autoRes.json();
-        throw new Error(d.error ?? "Failed");
-      }
-      const data = await autoRes.json();
-      const items = data.scheduled ?? [];
+      if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? "Failed"); }
+      const data = await res.json();
+      const items: Array<{ scheduledAt: string }> = data.scheduled ?? [];
 
-      // Delete all drafts
       await Promise.all(drafts.map(d => fetch(`/api/ai/drafts?id=${d.id}`, { method: "DELETE" })));
       setDrafts([]);
 
       if (items.length > 0) {
-        const first = formatScheduleTime(items[0].scheduledAt);
-        const last = formatScheduleTime(items[items.length - 1].scheduledAt);
+        const first = formatScheduleTime(items[0]!.scheduledAt);
+        const last = formatScheduleTime(items[items.length - 1]!.scheduledAt);
         setSuccessMessage(
           items.length === 1
             ? `1 post scheduled: ${first}`
@@ -455,10 +347,18 @@ export default function DraftsPage() {
       {drafts.length > 0 && (
         <div className="flex items-center justify-end gap-2 mb-6">
           <button
-            onClick={() => { setModalType("scheduleAll"); setScheduleDate(""); setSelectedCampaign(""); }}
+            onClick={handleAutoScheduleAll}
+            disabled={actionLoading}
             className="btn-primary text-sm"
           >
-            Schedule All
+            {actionLoading ? "Scheduling..." : "Schedule All"}
+          </button>
+          <button
+            onClick={() => { setModalType("scheduleAll"); setScheduleDate(""); setSelectedCampaign(""); }}
+            className="text-sm"
+            style={{ color: "var(--text-tertiary)", textDecoration: "underline", background: "none", border: "none", cursor: "pointer", padding: "0.375rem 0.5rem" }}
+          >
+            Schedule All at...
           </button>
           <button
             onClick={deleteAll}
@@ -563,20 +463,28 @@ export default function DraftsPage() {
 
               {/* Actions */}
               {editingId !== draft.id && (
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex gap-2 flex-wrap items-center">
                   <button onClick={() => startEdit(draft)} className="btn-secondary text-xs">
                     Edit
                   </button>
                   <button
-                    onClick={() => { setActiveDraft(draft); setModalType("schedule"); setScheduleDate(""); setSelectedCampaign(""); }}
-                    className="btn-secondary text-xs"
-                    style={{ borderColor: "var(--accent-blue)", color: "var(--accent-blue)" }}
+                    onClick={() => handleAutoScheduleSingle(draft)}
+                    disabled={autoScheduleLoading === draft.id}
+                    className="btn-primary text-xs"
+                    style={{ background: "var(--accent-blue)", borderColor: "var(--accent-blue)" }}
                   >
-                    Schedule
+                    {autoScheduleLoading === draft.id ? "Scheduling..." : "Schedule"}
+                  </button>
+                  <button
+                    onClick={() => { setActiveDraft(draft); setModalType("schedule"); setScheduleDate(""); setSelectedCampaign(""); }}
+                    className="text-xs"
+                    style={{ color: "var(--text-tertiary)", textDecoration: "underline", background: "none", border: "none", cursor: "pointer", padding: "0.25rem 0.375rem" }}
+                  >
+                    Schedule at...
                   </button>
                   <button
                     onClick={() => { setActiveDraft(draft); setModalType("postNow"); }}
-                    className="btn-primary text-xs"
+                    className="btn-secondary text-xs"
                   >
                     Post Now
                   </button>

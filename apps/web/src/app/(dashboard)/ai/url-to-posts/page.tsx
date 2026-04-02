@@ -170,6 +170,73 @@ export default function UrlToPostsPage() {
     setTimeout(() => setCopiedIndex(null), 2000);
   }
 
+  // --- Auto-schedule (one click) ---
+
+  async function handleAutoScheduleSingle(postIndex: number) {
+    const post = posts[postIndex];
+    if (!post) return;
+    setSubmitting(true);
+    setSuccessMessage("");
+    setError("");
+    try {
+      const res = await fetch("/api/posts/auto-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          drafts: [{ content: post.content, platform: post.platform }],
+          campaignId: campaigns[0]?.id || undefined,
+        }),
+      });
+      if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? "Failed"); }
+      const data = await res.json();
+      const time = data.scheduled?.[0]?.scheduledAt;
+      setSuccessMessage(
+        time
+          ? `Scheduled for ${new Date(time).toLocaleString()}`
+          : "Post scheduled!"
+      );
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to auto-schedule");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function handleAutoScheduleAll() {
+    if (posts.length === 0) return;
+    setSubmitting(true);
+    setSuccessMessage("");
+    setError("");
+    try {
+      const res = await fetch("/api/posts/auto-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          drafts: posts.map(p => ({ content: p.content, platform: p.platform })),
+          campaignId: campaigns[0]?.id || undefined,
+        }),
+      });
+      if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? "Failed"); }
+      const data = await res.json();
+      const items: Array<{ scheduledAt: string }> = data.scheduled ?? [];
+      if (items.length > 0) {
+        const first = new Date(items[0]!.scheduledAt).toLocaleString();
+        const last = new Date(items[items.length - 1]!.scheduledAt).toLocaleString();
+        setSuccessMessage(
+          items.length === 1
+            ? `1 post scheduled: ${first}`
+            : `${items.length} posts scheduled: first at ${first}, last at ${last} (every 6h)`
+        );
+      } else {
+        setSuccessMessage("Posts scheduled!");
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to auto-schedule all");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   // --- Modal openers ---
 
   function openScheduleModal(postIndex: number) {
@@ -617,7 +684,7 @@ export default function UrlToPostsPage() {
                                 Suggested time: {post.suggestedTime}
                               </span>
                             )}
-                            <div className="flex gap-2 ml-auto">
+                            <div className="flex gap-2 ml-auto items-center">
                               <button
                                 onClick={() =>
                                   copyPost(post.content, globalIdx)
@@ -637,21 +704,36 @@ export default function UrlToPostsPage() {
                               <button
                                 className="px-3 py-1 rounded text-xs font-medium"
                                 style={{
+                                  background: "var(--accent-blue)",
+                                  color: "white",
                                   border: "1px solid var(--accent-blue)",
-                                  background: "transparent",
-                                  color: "var(--accent-blue)",
+                                }}
+                                disabled={submitting}
+                                onClick={() => handleAutoScheduleSingle(globalIdx)}
+                              >
+                                Schedule
+                              </button>
+                              <button
+                                className="text-xs"
+                                style={{
+                                  color: "var(--text-tertiary)",
+                                  textDecoration: "underline",
+                                  background: "none",
+                                  border: "none",
+                                  cursor: "pointer",
+                                  padding: "0.25rem 0.25rem",
                                 }}
                                 onClick={() => openScheduleModal(globalIdx)}
                               >
-                                Schedule
+                                Schedule at...
                               </button>
                               {platformConns.length > 0 && (
                                 <button
                                   className="px-3 py-1 rounded text-xs font-medium"
                                   style={{
-                                    background: "var(--accent-blue)",
-                                    color: "white",
-                                    border: "1px solid var(--accent-blue)",
+                                    border: "1px solid var(--border-primary)",
+                                    background: "var(--bg-primary)",
+                                    color: "var(--text-secondary)",
                                   }}
                                   onClick={() =>
                                     openPublishNowModal(globalIdx)
@@ -670,12 +752,30 @@ export default function UrlToPostsPage() {
               ))}
 
               {/* Schedule All */}
-              <button
-                className="btn-primary text-sm min-h-[44px] w-full"
-                onClick={openScheduleAllModal}
-              >
-                Schedule All Posts
-              </button>
+              <div className="flex gap-3 items-center">
+                <button
+                  className="btn-primary text-sm min-h-[44px] flex-1"
+                  disabled={submitting}
+                  onClick={handleAutoScheduleAll}
+                >
+                  {submitting ? "Scheduling..." : "Schedule All Posts"}
+                </button>
+                <button
+                  className="text-sm"
+                  style={{
+                    color: "var(--text-tertiary)",
+                    textDecoration: "underline",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: "0.375rem 0.5rem",
+                    whiteSpace: "nowrap",
+                  }}
+                  onClick={openScheduleAllModal}
+                >
+                  Schedule at...
+                </button>
+              </div>
             </div>
           )}
         </div>

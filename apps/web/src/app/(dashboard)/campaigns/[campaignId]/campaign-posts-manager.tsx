@@ -71,6 +71,7 @@ export default function CampaignPostsManager({
   const [selectedConnectionId, setSelectedConnectionId] = useState("");
   const [loadingAction, setLoadingAction] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   // Fetch connections on mount
   useEffect(() => {
@@ -247,7 +248,85 @@ export default function CampaignPostsManager({
     }
   };
 
-  /* ---- Batch schedule all drafts ---- */
+  /* ---- Auto-schedule a single draft (one click) ---- */
+
+  const autoScheduleSingle = async (post: PostData) => {
+    setLoadingAction(`auto-schedule-${post.id}`);
+    clearError();
+    try {
+      const res = await fetch("/api/posts/auto-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postId: post.id, campaignId: campaign.id }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Failed to auto-schedule");
+        return;
+      }
+      const data = await res.json();
+      const item = data.scheduled?.[0];
+      if (item) {
+        setPosts((prev) => prev.map((p) =>
+          p.id === post.id ? { ...p, status: "SCHEDULED", scheduledAt: item.scheduledAt, version: p.version + 1 } : p
+        ));
+        setSuccessMessage(`Scheduled for ${new Date(item.scheduledAt).toLocaleString()}`);
+        setTimeout(() => setSuccessMessage(null), 4000);
+      }
+    } catch {
+      setError("Network error while auto-scheduling");
+    } finally {
+      setLoadingAction(null);
+    }
+  };
+
+  /* ---- Auto-schedule all drafts (one click) ---- */
+
+  const autoScheduleAllDrafts = async () => {
+    if (draftPosts.length === 0) return;
+    setLoadingAction("batch-auto-schedule");
+    clearError();
+    try {
+      const res = await fetch("/api/posts/auto-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          postIds: draftPosts.map((p) => p.id),
+          campaignId: campaign.id,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Failed to auto-schedule");
+        return;
+      }
+      const data = await res.json();
+      const items: Array<{ postId: string; scheduledAt: string }> = data.scheduled ?? [];
+      // Update local state
+      const schedMap = new Map(items.map((s) => [s.postId, s.scheduledAt]));
+      setPosts((prev) => prev.map((p) => {
+        const at = schedMap.get(p.id);
+        if (at) return { ...p, status: "SCHEDULED", scheduledAt: at, version: p.version + 1 };
+        return p;
+      }));
+      if (items.length > 0) {
+        const first = new Date(items[0]!.scheduledAt).toLocaleString();
+        const last = new Date(items[items.length - 1]!.scheduledAt).toLocaleString();
+        setSuccessMessage(
+          items.length === 1
+            ? `1 post scheduled: ${first}`
+            : `${items.length} posts scheduled: first at ${first}, last at ${last} (every 6h)`
+        );
+        setTimeout(() => setSuccessMessage(null), 6000);
+      }
+    } catch {
+      setError("Error during batch auto-scheduling");
+    } finally {
+      setLoadingAction(null);
+    }
+  };
+
+  /* ---- Batch schedule all drafts (manual — Schedule at...) ---- */
 
   const scheduleAllDrafts = async () => {
     const dateStr = prompt("Schedule all drafts starting at (YYYY-MM-DDTHH:mm):");
@@ -350,6 +429,23 @@ export default function CampaignPostsManager({
 
   return (
     <div>
+      {/* ---- Success banner ---- */}
+      {successMessage && (
+        <div className="alert alert-success mb-4">
+          <span>{successMessage}</span>
+          <button
+            onClick={() => setSuccessMessage(null)}
+            className="btn-ghost p-1"
+            style={{ color: "var(--accent-emerald, #10b981)" }}
+            aria-label="Dismiss"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      )}
+
       {/* ---- Error banner ---- */}
       {error && (
         <div className="alert alert-error mb-4">
@@ -391,11 +487,19 @@ export default function CampaignPostsManager({
         {draftPosts.length > 0 && (
           <>
             <button
-              className="btn-secondary text-sm"
+              className="btn-primary text-sm"
+              disabled={isLoading("batch-auto-schedule")}
+              onClick={autoScheduleAllDrafts}
+            >
+              {isLoading("batch-auto-schedule") ? "Scheduling..." : `Schedule All Drafts (${draftPosts.length})`}
+            </button>
+            <button
+              className="text-sm"
+              style={{ color: "var(--text-tertiary)", textDecoration: "underline", background: "none", border: "none", cursor: "pointer", padding: "0.375rem 0.5rem" }}
               disabled={isLoading("batch-schedule")}
               onClick={scheduleAllDrafts}
             >
-              {isLoading("batch-schedule") ? "Scheduling..." : `Schedule All Drafts (${draftPosts.length})`}
+              {isLoading("batch-schedule") ? "Scheduling..." : "Schedule All at..."}
             </button>
             <button
               className="btn-secondary text-sm"
@@ -464,14 +568,25 @@ export default function CampaignPostsManager({
                         Edit
                       </button>
                     )}
-                    {/* Schedule */}
+                    {/* Schedule (auto — one click) */}
                     {canSchedule(post.status) && !isScheduling && (
-                      <button
-                        className="btn-secondary"
-                        onClick={() => startScheduling(post.id)}
-                      >
-                        Schedule
-                      </button>
+                      <>
+                        <button
+                          className="btn-primary"
+                          style={{ fontSize: "0.75rem", padding: "0.375rem 0.75rem" }}
+                          disabled={isLoading(`auto-schedule-${post.id}`)}
+                          onClick={() => autoScheduleSingle(post)}
+                        >
+                          {isLoading(`auto-schedule-${post.id}`) ? "Scheduling..." : "Schedule"}
+                        </button>
+                        <button
+                          className="btn-ghost"
+                          style={{ fontSize: "0.75rem", color: "var(--text-tertiary)", textDecoration: "underline", padding: "0.375rem 0.25rem" }}
+                          onClick={() => startScheduling(post.id)}
+                        >
+                          Schedule at...
+                        </button>
+                      </>
                     )}
                     {/* Publish Now */}
                     {canPublish(post.status) && !isPublishingThis && (
