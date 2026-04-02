@@ -1,8 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
   transpilePackages: ["@adpilot/db", "@adpilot/shared", "@adpilot/ui", "@adpilot/platform-sdk"],
+  outputFileTracingIncludes: {
+    "/**": ["../../node_modules/.prisma/client/**", "../../node_modules/@prisma/engines/**"],
+  },
   headers: async () => [
     {
       source: "/(.*)",
