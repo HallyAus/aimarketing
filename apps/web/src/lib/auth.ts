@@ -1,6 +1,11 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Google from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
+import Resend from "next-auth/providers/resend";
+import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id";
+import WebAuthn from "next-auth/providers/webauthn";
+import bcrypt from "bcryptjs";
 import { prisma } from "@adpilot/db";
 import { redirect } from "next/navigation";
 
@@ -18,7 +23,41 @@ const nextAuth = NextAuth({
     },
   },
   session: { strategy: "jwt" },
+  experimental: { enableWebAuthn: true },
   providers: [
+    // Email + Password
+    Credentials({
+      name: "credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) return null;
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email as string },
+        });
+        if (!user?.password) return null;
+        const valid = await bcrypt.compare(
+          credentials.password as string,
+          user.password,
+        );
+        if (!valid) return null;
+        return { id: user.id, email: user.email, name: user.name };
+      },
+    }),
+
+    // Magic Link via Resend
+    ...(process.env.RESEND_API_KEY
+      ? [
+          Resend({
+            from: process.env.EMAIL_FROM || "AdPilot <noreply@adpilot.ai>",
+            apiKey: process.env.RESEND_API_KEY,
+          }),
+        ]
+      : []),
+
+    // Google OAuth
     ...(process.env.GOOGLE_CLIENT_ID
       ? [
           Google({
@@ -27,6 +66,21 @@ const nextAuth = NextAuth({
           }),
         ]
       : []),
+
+    // Microsoft / Azure AD (personal + work accounts)
+    ...(process.env.MICROSOFT_CLIENT_ID
+      ? [
+          MicrosoftEntraID({
+            clientId: process.env.MICROSOFT_CLIENT_ID,
+            clientSecret: process.env.MICROSOFT_CLIENT_SECRET!,
+            // "common" allows personal + work accounts
+            issuer: "https://login.microsoftonline.com/common/v2.0/",
+          }),
+        ]
+      : []),
+
+    // Passkeys / WebAuthn
+    WebAuthn,
   ],
   pages: {
     signIn: "/signin",
@@ -44,7 +98,12 @@ const nextAuth = NextAuth({
 
       if (orgCookie?.value && token.userId) {
         const membership = await prisma.membership.findUnique({
-          where: { userId_orgId: { userId: token.userId as string, orgId: orgCookie.value } },
+          where: {
+            userId_orgId: {
+              userId: token.userId as string,
+              orgId: orgCookie.value,
+            },
+          },
         });
         if (membership) {
           token.currentOrgId = membership.orgId;

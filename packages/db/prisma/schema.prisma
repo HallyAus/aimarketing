@@ -110,6 +110,9 @@ model User {
   name          String?
   avatar        String?
   emailVerified DateTime?
+  password      String?   // bcrypt hashed, null for OAuth/magic-link users
+  passwordResetToken   String?   @unique
+  passwordResetExpires DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -120,6 +123,7 @@ model User {
   postsApproved     Post[]         @relation("ApprovedBy")
   auditLogs         AuditLog[]
   templatesCreated  PostTemplate[] @relation("TemplateCreatedBy")
+  authenticators    Authenticator[]
 
   // NextAuth fields
   accounts Account[]
@@ -387,4 +391,19 @@ model PostTemplate {
 
   @@index([orgId])
   @@index([createdBy])
+}
+
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
 }
