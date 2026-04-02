@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/page-header";
 import { EmptyState } from "@/components/empty-state";
 import { ActiveAccountBanner } from "@/components/active-account-banner";
 import { getActiveAccount, getPageFilter } from "@/lib/active-account";
+import { DashboardWidgets } from "./widgets";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -96,6 +97,9 @@ export default async function DashboardPage() {
         breadcrumbs={[{ label: "Home", href: "/dashboard" }]}
       />
       <ActiveAccountBanner account={activeAccount} />
+
+      {/* Real-time widgets */}
+      <DashboardWidgets />
 
       {/* Metrics grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">

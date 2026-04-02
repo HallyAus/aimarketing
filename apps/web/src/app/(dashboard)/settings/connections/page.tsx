@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/page-header";
 import { StatusBadge } from "@/components/status-badge";
 import { FacebookPages } from "./facebook-pages";
 import { BackfillPagesButton } from "./backfill-pages-button";
+import { GbpConnect } from "./gbp-connect";
 
 export const metadata: Metadata = {
   title: "Platform Connections",
@@ -151,6 +152,14 @@ export default async function ConnectionsPage({
             </div>
           );
         })}
+      </div>
+
+      {/* Google Business Profile */}
+      <div className="mt-8">
+        <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-4">Additional Platforms</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <GbpConnect />
+        </div>
       </div>
     </div>
   );

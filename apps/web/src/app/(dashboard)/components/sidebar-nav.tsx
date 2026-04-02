@@ -31,6 +31,22 @@ const ICONS: Record<string, string> = {
     "M11 17l-5-5 5-5M18 17l-5-5 5-5",
   "chevrons-right":
     "M13 17l5-5-5-5M6 17l5-5-5-5",
+  check: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+  rss: "M4 11a9 9 0 019 9M4 4a16 16 0 0116 16M5 20a1 1 0 100-2 1 1 0 000 2z",
+  zap: "M13 2L3 14h9l-1 8 10-12h-9l1-8z",
+  globe: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z",
+  mail: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+  layout: "M4 3h16a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1zm0 9h16M9 12v9",
+  "contact-book": "M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zm-7 5a2 2 0 100 4 2 2 0 000-4zm4 8H8v-1c0-1.33 2.67-2 4-2s4 .67 4 2v1z",
+  "clip-report": "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9h6m-6 4h6m-6-8h2",
+  translate: "M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129",
+  clock: "M12 2a10 10 0 100 20 10 10 0 000-20zm0 0v10l4 2",
+  smile: "M12 2a10 10 0 100 20 10 10 0 000-20zm-3 9h.01M15 11h.01M8 15s1.5 2 4 2 4-2 4-2",
+  target: "M12 2a10 10 0 100 20 10 10 0 000-20zm0 4a6 6 0 100 12 6 6 0 000-12zm0 4a2 2 0 100 4 2 2 0 000-4z",
+  dollar: "M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6",
+  "trending-up": "M23 6l-9.5 9.5-5-5L1 18",
+  "message-circle": "M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z",
+  inbox: "M22 12h-6l-2 3h-4l-2-3H2M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z",
 };
 
 function NavIcon({ type, className }: { type: string; className?: string }) {
@@ -94,13 +110,40 @@ const NAV_SECTIONS: NavSection[] = [
       { href: "/ai/ab-test", label: "A/B Variants", icon: "copy" },
       { href: "/ai/carousel", label: "Carousel Builder", icon: "file-text" },
       { href: "/ai/templates-ai", label: "Story Templates", icon: "sparkles" },
+      { href: "/ai/trending", label: "Trending Topics", icon: "trending-up" },
+      { href: "/ai/translate", label: "Translate", icon: "translate" },
       { href: "/analytics", label: "Analytics", icon: "bar-chart" },
+      { href: "/analytics/benchmarking", label: "Benchmarking", icon: "target" },
+      { href: "/analytics/best-times", label: "Best Times", icon: "clock" },
+      { href: "/analytics/sentiment", label: "Sentiment", icon: "smile" },
+      { href: "/analytics/audience", label: "Audience", icon: "users" },
+      { href: "/analytics/roi", label: "ROI Calculator", icon: "dollar" },
+    ],
+  },
+  {
+    title: "LEADS & CRM",
+    items: [
+      { href: "/leads", label: "Lead Capture", icon: "inbox" },
+      { href: "/approvals", label: "Approvals", icon: "check" },
+      { href: "/settings/crm", label: "CRM", icon: "contact-book" },
+    ],
+  },
+  {
+    title: "TOOLS",
+    items: [
+      { href: "/tools/utm", label: "UTM Builder", icon: "link" },
+      { href: "/tools/landing-page", label: "Landing Pages", icon: "layout" },
+      { href: "/email", label: "Email Marketing", icon: "mail" },
     ],
   },
   {
     title: "SETTINGS",
     items: [
       { href: "/settings/connections", label: "Connections", icon: "link" },
+      { href: "/settings/rss", label: "RSS Feeds", icon: "rss" },
+      { href: "/settings/webhooks", label: "Webhooks", icon: "zap" },
+      { href: "/settings/reports", label: "Reports", icon: "clip-report" },
+      { href: "/settings/auto-reply", label: "Auto-Reply", icon: "message-circle" },
       { href: "/settings/team", label: "Team", icon: "users" },
       { href: "/settings/billing", label: "Billing", icon: "credit-card" },
     ],

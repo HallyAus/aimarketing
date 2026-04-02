@@ -1,0 +1,131 @@
+import { NextRequest, NextResponse } from "next/server";
+import Anthropic from "@anthropic-ai/sdk";
+import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
+import { withRole } from "@/lib/auth-middleware";
+import { z } from "zod";
+
+let _client: Anthropic | null = null;
+function getClient(): Anthropic {
+  if (!_client) {
+    _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "" });
+  }
+  return _client;
+}
+
+const singleSchema = z.object({
+  url: z.string().min(1).max(2000),
+  compareSummary: z.literal(false).or(z.undefined()).optional(),
+});
+
+const summarySchema = z.object({
+  compareSummary: z.literal(true),
+  competitors: z.array(
+    z.object({
+      url: z.string(),
+      analysis: z.any(),
+    })
+  ),
+});
+
+async function fetchUrlContent(url: string): Promise<string> {
+  try {
+    const normalizedUrl = url.startsWith("http") ? url : `https://${url}`;
+    const res = await fetch(normalizedUrl, {
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; AdPilot/1.0; Content Analysis Bot)" },
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!res.ok) return `Could not fetch URL (status ${res.status}). Analyzing based on the URL/handle provided.`;
+    const html = await res.text();
+    const text = html
+      .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
+      .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    return text.slice(0, 8000);
+  } catch {
+    return `Could not fetch URL content. Analyzing based on the URL/handle provided: ${url}`;
+  }
+}
+
+export const POST = withErrorHandler(
+  withRole("EDITOR", async (req: NextRequest) => {
+    const body = await req.json();
+
+    // Check if this is a compare summary request
+    const summaryParsed = summarySchema.safeParse(body);
+    if (summaryParsed.success) {
+      const { competitors } = summaryParsed.data;
+      const competitorSummaries = competitors
+        .map((c) => `Competitor: ${c.url}\n${JSON.stringify(c.analysis, null, 2)}`)
+        .join("\n\n---\n\n");
+
+      const response = await getClient().messages.create({
+        model: "claude-sonnet-4-6",
+        max_tokens: 2048,
+        messages: [
+          {
+            role: "user",
+            content: `Compare these competitors and provide a strategic analysis.
+
+${competitorSummaries}
+
+Return ONLY valid JSON (no markdown, no code fences):
+{
+  "summary": "2-3 paragraph competitive landscape summary",
+  "recommendations": ["actionable recommendation 1", "actionable recommendation 2", "actionable recommendation 3", "actionable recommendation 4", "actionable recommendation 5"]
+}`,
+          },
+        ],
+      });
+
+      const text = response.content[0];
+      if (text?.type !== "text") throw new Error("No text in AI response");
+      const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+      const summary = JSON.parse(cleaned);
+      return NextResponse.json({ summary });
+    }
+
+    // Single competitor analysis
+    const parsed = singleSchema.safeParse(body);
+    if (!parsed.success) {
+      throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
+    }
+
+    const { url } = parsed.data;
+    const content = await fetchUrlContent(url);
+
+    const response = await getClient().messages.create({
+      model: "claude-sonnet-4-6",
+      max_tokens: 2048,
+      messages: [
+        {
+          role: "user",
+          content: `Analyze this competitor's online presence and content strategy.
+
+Competitor URL/handle: ${url}
+Content from their page:
+${content}
+
+Return ONLY valid JSON (no markdown, no code fences):
+{
+  "contentThemes": ["theme1", "theme2", "theme3", "theme4", "theme5"],
+  "postingFrequency": "estimated posting frequency description",
+  "toneAnalysis": "description of their brand tone and voice",
+  "topContentTypes": ["type1", "type2", "type3"],
+  "engagementStrategies": ["strategy1", "strategy2", "strategy3"],
+  "strengths": ["strength1", "strength2", "strength3"],
+  "weaknesses": ["weakness1", "weakness2", "weakness3"],
+  "recommendations": ["recommendation1", "recommendation2", "recommendation3", "recommendation4", "recommendation5"]
+}`,
+        },
+      ],
+    });
+
+    const text = response.content[0];
+    if (text?.type !== "text") throw new Error("No text in AI response");
+    const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+    const analysis = JSON.parse(cleaned);
+    return NextResponse.json({ analysis });
+  })
+);
