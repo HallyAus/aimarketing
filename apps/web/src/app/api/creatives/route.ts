@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 import { PLAN_LIMITS, ALLOWED_MIME_TYPES } from "@adpilot/shared";
 import { z } from "zod";
 import { uploadToR2 } from "@/lib/r2";

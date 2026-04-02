@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 import { cookies } from "next/headers";
 import { encode } from "next-auth/jwt";
 

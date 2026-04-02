@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@adpilot/db";
-import type { Platform } from "@adpilot/db";
+import { prisma } from "@/lib/db";
+import type { Platform } from "@/lib/db";
 import { getWebhookVerifier } from "@adpilot/platform-sdk";
 import { createHash } from "crypto";
 

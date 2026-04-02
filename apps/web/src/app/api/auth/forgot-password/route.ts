@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import crypto from "crypto";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 
 const schema = z.object({
   email: z.string().email(),

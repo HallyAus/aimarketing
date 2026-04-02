@@ -1,6 +1,6 @@
 import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 import { SubmitButton } from "@/components/submit-button";
 
 export default async function NewPostPage({

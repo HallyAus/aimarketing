@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
-import { prisma } from "@adpilot/db";
-import type { Plan } from "@adpilot/db";
+import { prisma } from "@/lib/db";
+import type { Plan } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   const body = await req.text();

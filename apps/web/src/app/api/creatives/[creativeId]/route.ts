@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 import { updateCreativeSchema } from "@adpilot/shared";
 import { deleteFromR2 } from "@/lib/r2";
 

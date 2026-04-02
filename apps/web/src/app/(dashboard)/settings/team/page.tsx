@@ -1,4 +1,4 @@
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 import { getSessionOrg } from "@/lib/auth";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";

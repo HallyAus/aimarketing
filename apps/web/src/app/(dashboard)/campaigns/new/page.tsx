@@ -1,6 +1,6 @@
 import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 import { SubmitButton } from "@/components/submit-button";
 
 const OBJECTIVES = ["AWARENESS", "TRAFFIC", "ENGAGEMENT", "CONVERSIONS", "LEADS"];

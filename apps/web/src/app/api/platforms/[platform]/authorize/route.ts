@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 import { checkPlanLimit } from "@adpilot/shared";
 import { getAdapter, type Platform } from "@adpilot/platform-sdk";
 import { encrypt } from "@adpilot/shared";

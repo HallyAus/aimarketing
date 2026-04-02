@@ -1,4 +1,4 @@
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 import Link from "next/link";
 import { MetricCard } from "@/components/metric-card";
 import { PageHeader } from "@/components/page-header";

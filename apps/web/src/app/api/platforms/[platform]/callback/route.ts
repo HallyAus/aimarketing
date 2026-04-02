@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 import { encrypt, decrypt } from "@adpilot/shared";
 import { getAdapter, type Platform } from "@adpilot/platform-sdk";
 import { cookies } from "next/headers";

@@ -1,6 +1,6 @@
 import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 import { PLATFORM_CONFIGS } from "@adpilot/platform-sdk";
 import type { Platform } from "@adpilot/platform-sdk";
 import type { Metadata } from "next";

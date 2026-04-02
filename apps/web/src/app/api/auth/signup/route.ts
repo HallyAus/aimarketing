@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 
 const signupSchema = z.object({
   email: z.string().email("Invalid email address"),

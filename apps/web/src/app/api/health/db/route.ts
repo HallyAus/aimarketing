@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 
 export async function GET() {
   try {
@@ -8,7 +8,7 @@ export async function GET() {
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { status: "error", service: "postgresql", error: msg, hasDbUrl: !!process.env.DATABASE_URL },
+      { status: "error", service: "postgresql", error: msg, hasDbUrl: !!process.env.DATABASE_URL, dbUrlPrefix: (process.env.DATABASE_URL || "").substring(0, 30) },
       { status: 503 }
     );
   }

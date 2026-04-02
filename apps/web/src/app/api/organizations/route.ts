@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 import { createOrgSchema, checkPlanLimit } from "@adpilot/shared";
 
 // GET /api/organizations — list user's organizations

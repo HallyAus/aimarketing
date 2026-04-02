@@ -1,4 +1,4 @@
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 import { getSessionOrg } from "@/lib/auth";
 import { PLAN_LIMITS } from "@adpilot/shared";
 import type { Metadata } from "next";

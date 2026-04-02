@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@/lib/db";
 import { Queue } from "bullmq";
 import { redis } from "@/lib/redis";
 
