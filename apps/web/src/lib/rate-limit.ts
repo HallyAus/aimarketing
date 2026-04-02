@@ -50,7 +50,7 @@ function maybeCleanup(limiter: EdgeRateLimiter) {
 }
 
 export const authRateLimiter = new EdgeRateLimiter({
-  points: 5,
+  points: 20,
   duration: 60,
 });
 
