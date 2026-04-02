@@ -15,8 +15,11 @@ function getClient(): Anthropic {
 // GET /api/analytics/audience — AI-estimated audience insights
 export const GET = withErrorHandler(
   withRole("VIEWER", async (req) => {
+    const url = new URL(req.url);
+    const pageId = url.searchParams.get("pageId") || undefined;
+
     const posts = await prisma.post.findMany({
-      where: { orgId: req.orgId, status: "PUBLISHED" },
+      where: { orgId: req.orgId, status: "PUBLISHED", ...(pageId ? { pageId } : {}) },
       select: {
         content: true,
         platform: true,

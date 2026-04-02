@@ -15,12 +15,16 @@ function getClient(): Anthropic {
 // GET /api/analytics/best-times — analyze best posting times
 export const GET = withErrorHandler(
   withRole("VIEWER", async (req) => {
+    const url = new URL(req.url);
+    const pageId = url.searchParams.get("pageId") || undefined;
+
     // Get published posts with engagement data
     const posts = await prisma.post.findMany({
       where: {
         orgId: req.orgId,
         status: "PUBLISHED",
         publishedAt: { not: null },
+        ...(pageId ? { pageId } : {}),
       },
       select: {
         id: true,

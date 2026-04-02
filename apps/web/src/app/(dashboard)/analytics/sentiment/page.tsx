@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { PageHeader } from "@/components/page-header";
+import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 interface SentimentResult {
   positive: number;
@@ -101,19 +102,18 @@ function TrendBars({ trend }: { trend: SentimentResult["trend"] }) {
 }
 
 export default function SentimentPage() {
+  const activeAccount = useActiveAccount();
   const [data, setData] = useState<SentimentResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    fetchSentiment();
-  }, []);
-
-  async function fetchSentiment() {
+  const fetchSentiment = useCallback(async () => {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/analytics/sentiment");
+      const pageId = activeAccount?.id;
+      const qs = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+      const res = await fetch(`/api/analytics/sentiment${qs}`);
       if (!res.ok) throw new Error("Failed to analyze sentiment");
       const result = await res.json();
       setData(result);
@@ -122,13 +122,17 @@ export default function SentimentPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [activeAccount?.id]);
+
+  useEffect(() => {
+    fetchSentiment();
+  }, [fetchSentiment]);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <PageHeader
         title="Sentiment Analysis"
-        subtitle="AI-powered analysis of your post content sentiment over time"
+        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "AI-powered analysis of your post content sentiment over time"}
         breadcrumbs={[
           { label: "Analytics", href: "/analytics" },
           { label: "Sentiment" },

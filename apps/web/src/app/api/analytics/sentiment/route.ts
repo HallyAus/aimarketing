@@ -15,8 +15,11 @@ function getClient(): Anthropic {
 // GET /api/analytics/sentiment — analyze sentiment of org posts
 export const GET = withErrorHandler(
   withRole("VIEWER", async (req) => {
+    const url = new URL(req.url);
+    const pageId = url.searchParams.get("pageId") || undefined;
+
     const posts = await prisma.post.findMany({
-      where: { orgId: req.orgId },
+      where: { orgId: req.orgId, ...(pageId ? { pageId } : {}) },
       select: {
         id: true,
         content: true,

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { PageHeader } from "@/components/page-header";
+import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 interface TimeSlot {
   day: number; // 0-6 (Mon-Sun)
@@ -41,21 +42,20 @@ function formatHour(h: number): string {
 }
 
 export default function BestTimesPage() {
+  const activeAccount = useActiveAccount();
   const [data, setData] = useState<BestTimesData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [autoOptimize, setAutoOptimize] = useState(false);
   const [selectedPlatform, setSelectedPlatform] = useState("ALL");
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  async function fetchData() {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/analytics/best-times");
+      const pageId = activeAccount?.id;
+      const qs = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+      const res = await fetch(`/api/analytics/best-times${qs}`);
       if (!res.ok) throw new Error("Failed to load data");
       const result = await res.json();
       setData(result);
@@ -64,7 +64,11 @@ export default function BestTimesPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [activeAccount?.id]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   async function toggleAutoOptimize() {
     const newVal = !autoOptimize;
@@ -84,7 +88,7 @@ export default function BestTimesPage() {
     <div className="max-w-6xl mx-auto px-4 py-8">
       <PageHeader
         title="Best Time to Post"
-        subtitle="AI-powered analysis of your best posting times based on historical engagement data"
+        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "AI-powered analysis of your best posting times based on historical engagement data"}
         breadcrumbs={[
           { label: "Analytics", href: "/analytics" },
           { label: "Best Times" },

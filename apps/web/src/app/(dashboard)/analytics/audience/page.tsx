@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { PageHeader } from "@/components/page-header";
+import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 interface AudienceData {
   demographics: {
@@ -75,19 +76,18 @@ function ActivityChart({ data }: { data: { hour: number; activity: number }[] })
 }
 
 export default function AudiencePage() {
+  const activeAccount = useActiveAccount();
   const [data, setData] = useState<AudienceData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    fetchAudience();
-  }, []);
-
-  async function fetchAudience() {
+  const fetchAudience = useCallback(async () => {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/analytics/audience");
+      const pageId = activeAccount?.id;
+      const qs = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+      const res = await fetch(`/api/analytics/audience${qs}`);
       if (!res.ok) throw new Error("Failed to load audience insights");
       const result = await res.json();
       setData(result);
@@ -96,7 +96,11 @@ export default function AudiencePage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [activeAccount?.id]);
+
+  useEffect(() => {
+    fetchAudience();
+  }, [fetchAudience]);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
