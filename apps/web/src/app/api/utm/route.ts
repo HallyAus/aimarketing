@@ -10,15 +10,21 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get("limit") ?? "20", 10)));
   const skip = (page - 1) * limit;
 
+  const pageId = url.searchParams.get("pageId") || undefined;
+
+  const utmWhere = pageId
+    ? { orgId: req.orgId, post: { pageId } }
+    : { orgId: req.orgId };
+
   const [links, total] = await Promise.all([
     prisma.utmLink.findMany({
-      where: { orgId: req.orgId },
+      where: utmWhere,
       include: { post: { select: { id: true, content: true, platform: true } } },
       orderBy: { createdAt: "desc" },
       skip,
       take: limit,
     }),
-    prisma.utmLink.count({ where: { orgId: req.orgId } }),
+    prisma.utmLink.count({ where: utmWhere }),
   ]);
 
   return NextResponse.json({ data: links, pagination: { page, limit, total, hasMore: skip + links.length < total } });

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { PageHeader } from "@/components/page-header";
+import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 interface Lead {
   id: string;
@@ -14,6 +15,7 @@ interface Lead {
 }
 
 export default function LeadsPage() {
+  const activeAccount = useActiveAccount();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -27,7 +29,9 @@ export default function LeadsPage() {
   const fetchLeads = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/leads");
+      const pageId = activeAccount?.id;
+      const qs = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+      const res = await fetch(`/api/leads${qs}`);
       if (!res.ok) throw new Error("Failed to load leads");
       const data = await res.json();
       setLeads(data.leads || []);
@@ -36,7 +40,7 @@ export default function LeadsPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [activeAccount?.id]);
 
   useEffect(() => {
     fetchLeads();
@@ -191,7 +195,7 @@ document.getElementById('adpilot-form').addEventListener('submit', async functio
     <div className="max-w-6xl mx-auto px-4 py-8">
       <PageHeader
         title="Lead Capture"
-        subtitle="View, manage, and export captured leads from your forms"
+        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "View, manage, and export captured leads from your forms"}
         breadcrumbs={[{ label: "Leads" }]}
         action={
           <div className="flex gap-2">
@@ -207,6 +211,8 @@ document.getElementById('adpilot-form').addEventListener('submit', async functio
           </div>
         }
       />
+
+      <ClientAccountBanner account={activeAccount} onClear={() => fetchLeads()} />
 
       {error && <div className="alert alert-error mb-6">{error}</div>}
 

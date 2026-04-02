@@ -204,7 +204,7 @@ export default function UrlToPostsPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          drafts: [{ content: post.content, platform: post.platform }],
+          drafts: [{ content: post.content, platform: post.platform, pageId: activeAccount?.id ?? undefined, pageName: activeAccount?.name ?? undefined }],
           campaignId: campaigns[0]?.id || undefined,
         }),
       });
@@ -233,7 +233,7 @@ export default function UrlToPostsPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          drafts: posts.map(p => ({ content: p.content, platform: p.platform })),
+          drafts: posts.map(p => ({ content: p.content, platform: p.platform, pageId: activeAccount?.id ?? undefined, pageName: activeAccount?.name ?? undefined })),
           campaignId: campaigns[0]?.id || undefined,
         }),
       });
@@ -318,6 +318,8 @@ export default function UrlToPostsPage() {
           platform: post.platform,
           campaignId: selectedCampaignId,
           scheduledAt: new Date(scheduleDate).toISOString(),
+          pageId: activeAccount?.id ?? undefined,
+          pageName: activeAccount?.name ?? undefined,
         }),
       });
       const data = await res.json();
@@ -350,6 +352,8 @@ export default function UrlToPostsPage() {
           posts: posts.map((p) => ({
             content: p.content,
             platform: p.platform,
+            pageId: activeAccount?.id ?? undefined,
+            pageName: activeAccount?.name ?? undefined,
           })),
           campaignId: selectedCampaignId,
           startAt: new Date(batchStartDate).toISOString(),
@@ -388,6 +392,8 @@ export default function UrlToPostsPage() {
           content: post.content,
           platform: post.platform,
           connectionId: selectedConnectionId,
+          pageId: activeAccount?.id ?? undefined,
+          pageName: activeAccount?.name ?? undefined,
         }),
       });
       const data = await res.json();

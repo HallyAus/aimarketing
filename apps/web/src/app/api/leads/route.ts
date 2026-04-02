@@ -30,7 +30,12 @@ export const GET = withErrorHandler(
     const take = Math.min(parseInt(url.searchParams.get("take") ?? "100"), 500);
     const skip = parseInt(url.searchParams.get("skip") ?? "0");
 
+    const pageId = url.searchParams.get("pageId") || undefined;
+
     const where: Record<string, unknown> = { orgId: req.orgId };
+    if (pageId) {
+      where.pageId = pageId;
+    }
     if (search) {
       where.OR = [
         { name: { contains: search, mode: "insensitive" } },

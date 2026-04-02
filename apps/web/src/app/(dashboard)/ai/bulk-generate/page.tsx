@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { PageHeader } from "@/components/page-header";
+import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -72,6 +73,8 @@ const PLATFORM_META: Record<string, { color: string; label: string }> = {
 /* ------------------------------------------------------------------ */
 
 export default function BulkGeneratePage() {
+  const globalActiveAccount = useActiveAccount();
+
   // Data
   const [accounts, setAccounts] = useState<ActiveAccount[]>([]);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
@@ -116,7 +119,13 @@ export default function BulkGeneratePage() {
           const accData = await accRes.json();
           const list: ActiveAccount[] = accData.accounts ?? [];
           setAccounts(list);
-          if (list.length > 0) setSelectedAccountId(list[0]!.id);
+          // Pre-select the global active account if set, otherwise first account
+          const globalId = globalActiveAccount?.id;
+          if (globalId && list.some((a) => a.id === globalId)) {
+            setSelectedAccountId(globalId);
+          } else if (list.length > 0) {
+            setSelectedAccountId(list[0]!.id);
+          }
         }
         if (campRes.ok) {
           const campData = await campRes.json();
@@ -194,10 +203,14 @@ export default function BulkGeneratePage() {
           posts: allPosts.map((p) => ({
             content: p.content,
             platform: selectedAccount.platform,
+            pageId: selectedAccount.id,
+            pageName: selectedAccount.name,
           })),
           campaignId,
           startAt: startAt.toISOString(),
           intervalMinutes: frequency,
+          pageId: selectedAccount.id,
+          pageName: selectedAccount.name,
         }),
       });
 
@@ -230,13 +243,15 @@ export default function BulkGeneratePage() {
     <div>
       <PageHeader
         title="Bulk Generate Posts"
-        subtitle="Generate a week or month of posts from a URL or topic, then schedule them all at once."
+        subtitle={globalActiveAccount ? `Generating for: ${globalActiveAccount.name}` : "Generate a week or month of posts from a URL or topic, then schedule them all at once."}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "AI Studio", href: "/ai" },
           { label: "Bulk Generate" },
         ]}
       />
+
+      <ClientAccountBanner account={globalActiveAccount} />
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         {/* ---------- Left: Form ---------- */}

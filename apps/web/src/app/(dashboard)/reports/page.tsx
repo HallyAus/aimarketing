@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState } from "@/components/empty-state";
-import { useActiveAccount } from "@/components/client-account-banner";
+import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 interface Report {
   id: string;
@@ -40,7 +40,9 @@ export default function ReportsPage() {
 
   const fetchReports = useCallback(async () => {
     try {
-      const res = await fetch("/api/reports/generate");
+      const pageId = activeAccount?.id;
+      const qs = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+      const res = await fetch(`/api/reports/generate${qs}`);
       if (!res.ok) throw new Error("Failed to load reports");
       const data = await res.json();
       setReports(data.data ?? []);
@@ -49,7 +51,7 @@ export default function ReportsPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [activeAccount?.id]);
 
   useEffect(() => { fetchReports(); }, [fetchReports]);
 
@@ -98,11 +100,12 @@ export default function ReportsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <PageHeader title="White-Label Reports" subtitle="Generate branded performance reports for clients" />
+        <PageHeader title="White-Label Reports" subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "Generate branded performance reports for clients"} />
         <button onClick={() => setShowGenerate(!showGenerate)} className="btn-primary text-sm">
           Generate Report
         </button>
       </div>
+      <ClientAccountBanner account={activeAccount} onClear={() => fetchReports()} />
 
       {success && <div className="alert alert-success mb-4">{success}</div>}
       {error && <div className="alert alert-error mb-4">{error}</div>}

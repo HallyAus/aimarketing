@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { PageHeader } from "@/components/page-header";
+import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 export default function EmailMarketingPage() {
+  const activeAccount = useActiveAccount();
   const [tab, setTab] = useState<"compose" | "recipients" | "preview">("compose");
   const [brief, setBrief] = useState("");
   const [subject, setSubject] = useState("");
@@ -92,7 +94,8 @@ export default function EmailMarketingPage() {
 
   return (
     <div>
-      <PageHeader title="Email Marketing" subtitle="AI-powered email campaigns with template editing" />
+      <PageHeader title="Email Marketing" subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "AI-powered email campaigns with template editing"} />
+      <ClientAccountBanner account={activeAccount} />
 
       {success && <div className="alert alert-success mb-4 mt-4">{success}</div>}
       {error && <div className="alert alert-error mb-4 mt-4">{error}</div>}

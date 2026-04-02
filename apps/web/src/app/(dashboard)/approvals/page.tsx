@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState } from "@/components/empty-state";
+import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 interface Approval {
   id: string;
@@ -17,6 +18,7 @@ interface Approval {
 }
 
 export default function ApprovalsPage() {
+  const activeAccount = useActiveAccount();
   const [approvals, setApprovals] = useState<Approval[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -28,7 +30,10 @@ export default function ApprovalsPage() {
 
   const fetchApprovals = useCallback(async () => {
     try {
-      const res = await fetch(`/api/approvals?status=${filter}`);
+      const pageId = activeAccount?.id;
+      const params = new URLSearchParams({ status: filter });
+      if (pageId) params.set("pageId", pageId);
+      const res = await fetch(`/api/approvals?${params.toString()}`);
       if (!res.ok) throw new Error("Failed to load approvals");
       const data = await res.json();
       setApprovals(data.data ?? []);
@@ -37,7 +42,7 @@ export default function ApprovalsPage() {
     } finally {
       setLoading(false);
     }
-  }, [filter]);
+  }, [filter, activeAccount?.id]);
 
   useEffect(() => { fetchApprovals(); }, [fetchApprovals]);
 
@@ -71,11 +76,12 @@ export default function ApprovalsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <PageHeader title="Approval Workflow" subtitle="Review and approve posts before publishing" />
+        <PageHeader title="Approval Workflow" subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "Review and approve posts before publishing"} />
         {pendingCount > 0 && (
           <span className="badge badge-warning">{pendingCount} pending</span>
         )}
       </div>
+      <ClientAccountBanner account={activeAccount} onClear={() => fetchApprovals()} />
 
       {success && <div className="alert alert-success mb-4">{success}</div>}
       {error && <div className="alert alert-error mb-4">{error}</div>}

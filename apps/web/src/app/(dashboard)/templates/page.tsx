@@ -5,6 +5,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState } from "@/components/empty-state";
+import { ActiveAccountBanner } from "@/components/active-account-banner";
+import { getActiveAccount } from "@/lib/active-account";
 
 export const metadata: Metadata = {
   title: "Post Templates",
@@ -12,8 +14,13 @@ export const metadata: Metadata = {
 };
 
 export default async function TemplatesPage() {
+  const activeAccount = await getActiveAccount();
+
+  // Filter templates by platform when a specific account is selected
+  const platformFilter = activeAccount ? { platform: activeAccount.platform } : {};
+
   const templates = await prisma.postTemplate.findMany({
-    where: { orgId: await getSessionOrg() },
+    where: { orgId: await getSessionOrg(), ...platformFilter },
     orderBy: { createdAt: "desc" },
   });
 
@@ -21,6 +28,7 @@ export default async function TemplatesPage() {
     <div>
       <PageHeader
         title="Post Templates"
+        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "Showing: All Accounts"}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Templates" },
@@ -31,6 +39,7 @@ export default async function TemplatesPage() {
           </Link>
         }
       />
+      <ActiveAccountBanner account={activeAccount} />
 
       {templates.length === 0 ? (
         <EmptyState

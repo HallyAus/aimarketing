@@ -90,6 +90,8 @@ export default function DraftsPage() {
           platform: activeDraft.platform,
           campaignId: selectedCampaign,
           scheduledAt: new Date(scheduleDate).toISOString(),
+          pageId: activeDraft.pageId ?? activeAccount?.id ?? undefined,
+          pageName: activeDraft.pageName ?? activeAccount?.name ?? undefined,
         }),
       });
       if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? "Failed"); }
@@ -119,6 +121,8 @@ export default function DraftsPage() {
           content: activeDraft.content,
           platform: activeDraft.platform,
           connectionId: conn.id,
+          pageId: activeDraft.pageId ?? activeAccount?.id ?? undefined,
+          pageName: activeDraft.pageName ?? activeAccount?.name ?? undefined,
         }),
       });
       if (!res.ok) { const d = await res.json(); throw new Error(d.error ?? "Failed"); }
@@ -143,7 +147,12 @@ export default function DraftsPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          posts: drafts.map(d => ({ content: d.content, platform: d.platform })),
+          posts: drafts.map(d => ({
+            content: d.content,
+            platform: d.platform,
+            pageId: d.pageId ?? activeAccount?.id ?? undefined,
+            pageName: d.pageName ?? activeAccount?.name ?? undefined,
+          })),
           campaignId: selectedCampaign,
           startAt: new Date(scheduleDate).toISOString(),
           intervalMinutes: parseInt(scheduleInterval),
@@ -179,7 +188,7 @@ export default function DraftsPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          drafts: [{ content: draft.content, platform: draft.platform }],
+          drafts: [{ content: draft.content, platform: draft.platform, pageId: draft.pageId ?? activeAccount?.id ?? undefined, pageName: draft.pageName ?? activeAccount?.name ?? undefined }],
           campaignId: campaigns[0]?.id || undefined,
         }),
       });
@@ -206,7 +215,12 @@ export default function DraftsPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          drafts: drafts.map(d => ({ content: d.content, platform: d.platform })),
+          drafts: drafts.map(d => ({
+            content: d.content,
+            platform: d.platform,
+            pageId: d.pageId ?? activeAccount?.id ?? undefined,
+            pageName: d.pageName ?? activeAccount?.name ?? undefined,
+          })),
           campaignId: campaigns[0]?.id || undefined,
         }),
       });

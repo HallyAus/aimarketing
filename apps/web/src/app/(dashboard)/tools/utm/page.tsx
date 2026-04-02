@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { PageHeader } from "@/components/page-header";
 import { EmptyState } from "@/components/empty-state";
+import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 interface UtmLink {
   id: string;
@@ -18,6 +19,7 @@ interface UtmLink {
 }
 
 export default function UtmBuilderPage() {
+  const activeAccount = useActiveAccount();
   const [links, setLinks] = useState<UtmLink[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -49,7 +51,9 @@ export default function UtmBuilderPage() {
 
   const fetchLinks = useCallback(async () => {
     try {
-      const res = await fetch("/api/utm");
+      const pageId = activeAccount?.id;
+      const qs = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+      const res = await fetch(`/api/utm${qs}`);
       if (!res.ok) throw new Error("Failed to load links");
       const data = await res.json();
       setLinks(data.data ?? []);
@@ -58,7 +62,7 @@ export default function UtmBuilderPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [activeAccount?.id]);
 
   useEffect(() => { fetchLinks(); }, [fetchLinks]);
 
@@ -115,7 +119,8 @@ export default function UtmBuilderPage() {
 
   return (
     <div>
-      <PageHeader title="UTM Link Builder" subtitle="Create trackable campaign URLs with UTM parameters" />
+      <PageHeader title="UTM Link Builder" subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "Create trackable campaign URLs with UTM parameters"} />
+      <ClientAccountBanner account={activeAccount} onClear={() => fetchLinks()} />
 
       {success && <div className="alert alert-success mb-4 mt-4">{success}</div>}
       {error && <div className="alert alert-error mb-4 mt-4">{error}</div>}

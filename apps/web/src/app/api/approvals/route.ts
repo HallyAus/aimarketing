@@ -7,14 +7,15 @@ import { prisma } from "@/lib/db";
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   const url = new URL(req.url);
   const status = url.searchParams.get("status") ?? "PENDING";
+  const pageId = url.searchParams.get("pageId") || undefined;
 
   const approvals = await prisma.approvalRequest.findMany({
     where: {
-      post: { orgId: req.orgId },
+      post: { orgId: req.orgId, ...(pageId ? { pageId } : {}) },
       ...(status !== "ALL" ? { status } : {}),
     },
     include: {
-      post: { select: { id: true, content: true, platform: true, pageName: true, status: true } },
+      post: { select: { id: true, content: true, platform: true, pageName: true, pageId: true, status: true } },
       requester: { select: { id: true, name: true, email: true } },
       reviewer: { select: { id: true, name: true, email: true } },
     },

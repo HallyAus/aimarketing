@@ -5,26 +5,31 @@ import { prisma } from "@/lib/db";
 
 // GET /api/analytics/dashboard-widgets — real-time dashboard widget metrics
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
+  const url = new URL(req.url);
+  const pageId = url.searchParams.get("pageId") || undefined;
+  const pageFilter = pageId ? { pageId } : {};
+
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0);
 
   const [totalPosts, scheduledCount, publishedToday, recentSnapshots] = await Promise.all([
     prisma.post.count({
-      where: { orgId: req.orgId },
+      where: { orgId: req.orgId, ...pageFilter },
     }),
     prisma.post.count({
-      where: { orgId: req.orgId, status: "SCHEDULED" },
+      where: { orgId: req.orgId, status: "SCHEDULED", ...pageFilter },
     }),
     prisma.post.count({
       where: {
         orgId: req.orgId,
         status: "PUBLISHED",
         publishedAt: { gte: todayStart },
+        ...pageFilter,
       },
     }),
     prisma.analyticsSnapshot.findMany({
       where: {
-        post: { orgId: req.orgId, status: "PUBLISHED" },
+        post: { orgId: req.orgId, status: "PUBLISHED", ...pageFilter },
         snapshotAt: { gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) },
       },
       orderBy: { snapshotAt: "desc" },

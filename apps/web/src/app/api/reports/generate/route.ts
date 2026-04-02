@@ -5,8 +5,11 @@ import { prisma } from "@/lib/db";
 
 // GET /api/reports/generate — list generated reports
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
+  const url = new URL(req.url);
+  const pageId = url.searchParams.get("pageId") || undefined;
+
   const reports = await prisma.performanceReport.findMany({
-    where: { orgId: req.orgId },
+    where: { orgId: req.orgId, ...(pageId ? { pageId } : {}) },
     include: { page: { select: { id: true, name: true, platform: true } } },
     orderBy: { createdAt: "desc" },
   });

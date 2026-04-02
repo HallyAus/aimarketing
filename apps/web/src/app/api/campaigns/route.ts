@@ -10,19 +10,27 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   const page = Math.max(1, parseInt(url.searchParams.get("page") ?? "1", 10));
   const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get("limit") ?? "20", 10)));
   const skip = (page - 1) * limit;
+  const pageId = url.searchParams.get("pageId") || undefined;
+
+  // When filtering by pageId, only return campaigns that have posts for that page
+  const campaignWhere = pageId
+    ? { orgId: req.orgId, posts: { some: { pageId } } }
+    : { orgId: req.orgId };
+
+  const postCountWhere = pageId ? { where: { pageId } } : true;
 
   const [campaigns, total] = await Promise.all([
     prisma.campaign.findMany({
-      where: { orgId: req.orgId },
+      where: campaignWhere,
       include: {
-        _count: { select: { posts: true } },
+        _count: { select: { posts: postCountWhere as never } },
         creator: { select: { name: true, email: true } },
       },
       orderBy: { createdAt: "desc" },
       skip,
       take: limit,
     }),
-    prisma.campaign.count({ where: { orgId: req.orgId } }),
+    prisma.campaign.count({ where: campaignWhere }),
   ]);
 
   return NextResponse.json({

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useActiveAccount } from "@/components/client-account-banner";
 
 interface DashboardMetrics {
   totalPosts: number;
@@ -41,6 +42,7 @@ function AnimatedCounter({ value, decimals = 0 }: { value: number; decimals?: nu
 const POLL_INTERVAL = 30_000;
 
 export function DashboardWidgets() {
+  const activeAccount = useActiveAccount();
   const [metrics, setMetrics] = useState<DashboardMetrics>({
     totalPosts: 0,
     scheduledCount: 0,
@@ -53,7 +55,9 @@ export function DashboardWidgets() {
 
   const fetchMetrics = useCallback(async () => {
     try {
-      const res = await fetch("/api/analytics/dashboard-widgets");
+      const pageId = activeAccount?.id;
+      const qs = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+      const res = await fetch(`/api/analytics/dashboard-widgets${qs}`);
       if (res.ok) {
         const data = await res.json();
         setMetrics(data);
@@ -65,7 +69,7 @@ export function DashboardWidgets() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [activeAccount?.id]);
 
   useEffect(() => {
     fetchMetrics();
