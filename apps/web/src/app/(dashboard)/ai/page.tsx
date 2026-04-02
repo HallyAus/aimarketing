@@ -54,6 +54,12 @@ export default function AIStudioPage() {
         >
           URL to Posts
         </button>
+        <button
+          onClick={() => router.push("/ai/bulk-generate")}
+          className="tab-item"
+        >
+          Bulk Generate
+        </button>
       </div>
 
       {activeTab === "post" && <GeneratePostTab />}

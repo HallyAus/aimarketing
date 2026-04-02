@@ -83,6 +83,7 @@ const NAV_SECTIONS: NavSection[] = [
     title: "INTELLIGENCE",
     items: [
       { href: "/ai", label: "AI Studio", icon: "sparkles" },
+      { href: "/ai/bulk-generate", label: "Bulk Generate", icon: "copy" },
       { href: "/analytics", label: "Analytics", icon: "bar-chart" },
     ],
   },

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { AccountSelector } from "./account-selector";
 
 export function TopBar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -42,6 +43,9 @@ export function TopBar() {
             <span className="text-[9px]">&#8984;</span>K
           </kbd>
         </button>
+
+        {/* Account / page selector */}
+        <AccountSelector />
 
         {/* Notification bell */}
         <button

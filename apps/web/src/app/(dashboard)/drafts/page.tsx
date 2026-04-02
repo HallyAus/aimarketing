@@ -27,7 +27,7 @@ interface Connection {
   platformUserName: string | null;
 }
 
-type ModalType = "schedule" | "postNow" | "scheduleAll" | null;
+type ModalType = "schedule" | "postNow" | "scheduleAll" | "scheduleAt" | null;
 
 export default function DraftsPage() {
   const [drafts, setDrafts] = useState<Draft[]>([]);
@@ -45,6 +45,7 @@ export default function DraftsPage() {
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleInterval, setScheduleInterval] = useState("360");
   const [actionLoading, setActionLoading] = useState(false);
+  const [autoScheduleLoading, setAutoScheduleLoading] = useState<string | null>(null);
 
   const fetchDrafts = useCallback(async () => {
     try {
@@ -145,6 +146,188 @@ export default function DraftsPage() {
       setModalType(null);
       setSuccessMessage(`All ${drafts.length} posts scheduled!`);
       setTimeout(() => setSuccessMessage(""), 3000);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to schedule all");
+    } finally {
+      setActionLoading(false);
+    }
+  }
+
+  function formatScheduleTime(iso: string) {
+    return new Date(iso).toLocaleDateString(undefined, {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
+  async function handleAutoSchedule(draft: Draft) {
+    setAutoScheduleLoading(draft.id);
+    setError("");
+    try {
+      // First create the post in a campaign, then auto-schedule it
+      const campaignId = campaigns[0]?.id;
+      const res = await fetch("/api/posts/schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: draft.content,
+          platform: draft.platform,
+          campaignId: campaignId || undefined,
+          scheduledAt: new Date(Date.now() + 365 * 24 * 60 * 60_000).toISOString(), // placeholder
+        }),
+      });
+      if (res.ok) {
+        const post = await res.json();
+        // Now auto-schedule it properly
+        const autoRes = await fetch("/api/posts/auto-schedule", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ postId: post.id, campaignId: campaignId || undefined }),
+        });
+        if (!autoRes.ok) { const d = await autoRes.json(); throw new Error(d.error ?? "Failed to auto-schedule"); }
+        const data = await autoRes.json();
+        await fetch(`/api/ai/drafts?id=${draft.id}`, { method: "DELETE" });
+        setDrafts(prev => prev.filter(d => d.id !== draft.id));
+        const time = data.scheduled?.[0]?.scheduledAt;
+        setSuccessMessage(time ? `Scheduled for ${formatScheduleTime(time)}` : "Post scheduled!");
+        setTimeout(() => setSuccessMessage(""), 4000);
+      } else {
+        // Campaign might not exist — use auto-schedule with auto-create campaign
+        const autoRes = await fetch("/api/posts/auto-schedule", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            postIds: [],
+            campaignId: undefined,
+          }),
+        });
+        // Fallback: create post directly via auto-schedule approach
+        throw new Error("Please create a campaign first, or use Schedule at...");
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to auto-schedule");
+    } finally {
+      setAutoScheduleLoading(null);
+    }
+  }
+
+  async function handleAutoScheduleSingle(draft: Draft) {
+    setAutoScheduleLoading(draft.id);
+    setError("");
+    try {
+      // Create post in first available campaign (or auto-create one)
+      const campaignId = campaigns[0]?.id;
+
+      // Use the schedule endpoint to create the post, then auto-schedule will fix the time
+      const createRes = await fetch("/api/posts/schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          content: draft.content,
+          platform: draft.platform,
+          campaignId: campaignId ?? "__auto__",
+          scheduledAt: new Date(Date.now() + 365 * 24 * 60 * 60_000).toISOString(),
+        }),
+      });
+
+      let postId: string;
+      if (createRes.ok) {
+        const post = await createRes.json();
+        postId = post.id;
+      } else {
+        // No campaign — let auto-schedule create one. But we need a post first.
+        // We'll create the post directly via auto-schedule which handles campaign creation
+        throw new Error("needsAutoCreate");
+      }
+
+      const autoRes = await fetch("/api/posts/auto-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postId, campaignId: campaignId || undefined }),
+      });
+      if (!autoRes.ok) {
+        const d = await autoRes.json();
+        throw new Error(d.error ?? "Failed");
+      }
+      const data = await autoRes.json();
+      await fetch(`/api/ai/drafts?id=${draft.id}`, { method: "DELETE" });
+      setDrafts(prev => prev.filter(d => d.id !== draft.id));
+      const time = data.scheduled?.[0]?.scheduledAt;
+      setSuccessMessage(time ? `Scheduled for ${formatScheduleTime(time)}` : "Post scheduled!");
+      setTimeout(() => setSuccessMessage(""), 4000);
+    } catch (e) {
+      if (e instanceof Error && e.message === "needsAutoCreate") {
+        // Fallback — open the manual scheduler
+        setError("No campaigns found. Use \"Schedule at...\" to pick a campaign and time.");
+      } else {
+        setError(e instanceof Error ? e.message : "Failed to auto-schedule");
+      }
+    } finally {
+      setAutoScheduleLoading(null);
+    }
+  }
+
+  async function handleAutoScheduleAll() {
+    if (drafts.length === 0) return;
+    setActionLoading(true);
+    setError("");
+    try {
+      const campaignId = campaigns[0]?.id;
+
+      // Create all posts first
+      const postIds: string[] = [];
+      for (const draft of drafts) {
+        const res = await fetch("/api/posts/schedule", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            content: draft.content,
+            platform: draft.platform,
+            campaignId: campaignId ?? "__auto__",
+            scheduledAt: new Date(Date.now() + 365 * 24 * 60 * 60_000).toISOString(),
+          }),
+        });
+        if (res.ok) {
+          const post = await res.json();
+          postIds.push(post.id);
+        }
+      }
+
+      if (postIds.length === 0) {
+        throw new Error("No campaigns found. Please create a campaign first.");
+      }
+
+      // Auto-schedule them all
+      const autoRes = await fetch("/api/posts/auto-schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postIds, campaignId: campaignId || undefined }),
+      });
+      if (!autoRes.ok) {
+        const d = await autoRes.json();
+        throw new Error(d.error ?? "Failed");
+      }
+      const data = await autoRes.json();
+      const items = data.scheduled ?? [];
+
+      // Delete all drafts
+      await Promise.all(drafts.map(d => fetch(`/api/ai/drafts?id=${d.id}`, { method: "DELETE" })));
+      setDrafts([]);
+
+      if (items.length > 0) {
+        const first = formatScheduleTime(items[0].scheduledAt);
+        const last = formatScheduleTime(items[items.length - 1].scheduledAt);
+        setSuccessMessage(
+          items.length === 1
+            ? `1 post scheduled: ${first}`
+            : `${items.length} posts scheduled: first at ${first}, last at ${last} (every 6h)`
+        );
+      } else {
+        setSuccessMessage("Posts scheduled!");
+      }
+      setTimeout(() => setSuccessMessage(""), 6000);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to schedule all");
     } finally {
