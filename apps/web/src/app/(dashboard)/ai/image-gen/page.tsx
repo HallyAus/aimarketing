@@ -118,6 +118,7 @@ export default function ImageGenPage() {
       const generated: GeneratedImage[] = data.images ?? [];
       setImages(generated);
       setSelectedImages(new Set(generated.map((img) => img.id)));
+      if (data.caption) setCaption(data.caption);
       if (data.extractedContent) setExtractedContent(data.extractedContent);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to generate images");

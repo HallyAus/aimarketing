@@ -80,7 +80,7 @@ async function generateCardSpecs(
   width: number,
   height: number,
   brandName?: string,
-): Promise<CardSpec[]> {
+): Promise<{ specs: CardSpec[]; caption: string }> {
   if (!process.env.ANTHROPIC_API_KEY) {
     throw new ZodValidationError("AI service not configured. Set ANTHROPIC_API_KEY.");
   }
@@ -130,7 +130,13 @@ Only include fields relevant to each template. Omit null/empty fields.
 ${aspectRatio === "portrait" ? "For portrait/story format, favor bold headlines and less text." : ""}
 ${aspectRatio === "landscape" ? "For landscape format, use wider layouts with supporting text." : ""}
 
-Return ONLY the JSON array. No markdown, no explanations.`,
+Return a JSON object (not array) with this structure:
+{
+  "caption": "A ready-to-post social media caption with hashtags (2-3 sentences max)",
+  "cards": [ ...array of card specs... ]
+}
+
+The caption should be engaging, include relevant hashtags, and work for the platform. Return ONLY the JSON, no markdown, no explanations.`,
       },
     ],
   });
@@ -139,22 +145,28 @@ Return ONLY the JSON array. No markdown, no explanations.`,
   if (text?.type !== "text") throw new Error("No text in AI response");
 
   const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
-  const specs: CardSpec[] = JSON.parse(cleaned);
+  const parsed = JSON.parse(cleaned);
+
+  // Handle both { caption, cards } wrapper and plain array
+  const rawSpecs: CardSpec[] = Array.isArray(parsed) ? parsed : (parsed.cards ?? parsed);
+  const caption: string = Array.isArray(parsed) ? "" : (parsed.caption ?? "");
 
   // Validate and sanitize
-  return specs.slice(0, count).map((spec) => ({
+  const specs = rawSpecs.slice(0, count).map((spec) => ({
     ...spec,
     template: VALID_TEMPLATES.includes(spec.template) ? spec.template : "announcement",
     headline: (spec.headline ?? "").substring(0, 80),
     subtext: spec.subtext?.substring(0, 150),
-    palette: Array.isArray(spec.palette) && spec.palette.length === 2
-      ? spec.palette as [string, string]
-      : ["#667eea", "#764ba2"],
+    palette: (Array.isArray(spec.palette) && spec.palette.length >= 2
+      ? [spec.palette[0], spec.palette[1]]
+      : ["#667eea", "#764ba2"]) as [string, string],
     accentColor: spec.accentColor ?? "#4facfe",
     mood: (["bold", "elegant", "playful", "minimal", "warm"] as const).includes(spec.mood as any)
       ? spec.mood
       : "bold",
   }));
+
+  return { specs, caption };
 }
 
 /* ── Route handler ─────────────────────────────────────────────── */
@@ -203,7 +215,7 @@ export const POST = withErrorHandler(
     }
 
     // ── Generate creative briefs via Claude ────────────────────
-    const specs = await generateCardSpecs(content, count, width, height, brandName);
+    const { specs, caption: generatedCaption } = await generateCardSpecs(content, count, width, height, brandName);
 
     // ── Render all cards to PNG + generate HTML ─────────────────
     const images = await Promise.all(
@@ -224,6 +236,7 @@ export const POST = withErrorHandler(
 
     return NextResponse.json({
       images,
+      caption: generatedCaption,
       extractedContent,
     });
   }),
