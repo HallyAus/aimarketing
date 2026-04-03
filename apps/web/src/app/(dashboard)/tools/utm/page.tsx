@@ -119,7 +119,7 @@ export default function UtmBuilderPage() {
 
   return (
     <div>
-      <PageHeader title="UTM Link Builder" subtitle={activeAccount ? `Generate UTM-tagged URLs for tracking \u2014 see click history for every link \u2014 ${activeAccount.name}` : "Generate UTM-tagged URLs for tracking \u2014 see click history for every link"} />
+      <PageHeader title="UTM Link Builder" subtitle={activeAccount ? `Generate UTM-tagged URLs for tracking \— see click history for every link \— ${activeAccount.name}` : "Generate UTM-tagged URLs for tracking \— see click history for every link"} />
       <ClientAccountBanner account={activeAccount} onClear={() => fetchLinks()} />
 
       {success && <div className="alert alert-success mb-4 mt-4">{success}</div>}

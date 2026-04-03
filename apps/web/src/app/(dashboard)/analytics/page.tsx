@@ -79,7 +79,7 @@ export default async function AnalyticsPage() {
     <div>
       <PageHeader
         title="Analytics"
-        subtitle={activeAccount ? `See how your posts perform \u2014 impressions, clicks, engagement across all platforms \u2014 ${activeAccount.name}` : "See how your posts perform \u2014 impressions, clicks, engagement across all platforms"}
+        subtitle={activeAccount ? `See how your posts perform \— impressions, clicks, engagement across all platforms \— ${activeAccount.name}` : "See how your posts perform \— impressions, clicks, engagement across all platforms"}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Analytics" },

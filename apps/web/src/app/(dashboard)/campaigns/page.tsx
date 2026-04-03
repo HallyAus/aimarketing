@@ -49,7 +49,7 @@ export default async function CampaignsPage() {
     <div>
       <PageHeader
         title="Campaigns"
-        subtitle={activeAccount ? `Organize posts into campaigns \u2014 create, schedule, and track performance \u2014 ${activeAccount.name}` : "Organize posts into campaigns \u2014 create, schedule, and track performance"}
+        subtitle={activeAccount ? `Organize posts into campaigns \— create, schedule, and track performance \— ${activeAccount.name}` : "Organize posts into campaigns \— create, schedule, and track performance"}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Campaigns" },
@@ -65,7 +65,7 @@ export default async function CampaignsPage() {
       {campaigns.length === 0 ? (
         <EmptyState
           title="No campaigns yet"
-          description="No campaigns yet. Campaigns help you organize posts by goal \u2014 create one to start scheduling content."
+          description="No campaigns yet. Campaigns help you organize posts by goal \— create one to start scheduling content."
           action={
             <Link href="/campaigns/new" className="btn-primary text-sm">
               Create your first campaign

@@ -126,7 +126,7 @@ export default function CrmPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <PageHeader title="CRM Integration" subtitle="Connect your CRM to sync leads automatically \u2014 manage contacts and deal stages" />
+        <PageHeader title="CRM Integration" subtitle="Connect your CRM to sync leads automatically \— manage contacts and deal stages" />
         <div className="flex gap-2">
           <button onClick={syncLeads} disabled={actionLoading} className="btn-secondary text-sm">Sync to CRM</button>
           <button onClick={() => setTab("add")} className="btn-primary text-sm">Add Lead</button>

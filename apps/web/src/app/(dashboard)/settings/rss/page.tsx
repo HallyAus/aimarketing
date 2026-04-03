@@ -111,7 +111,7 @@ export default function RssSettingsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <PageHeader title="RSS Feeds" subtitle="Add blog RSS feeds \u2014 AdPilot auto-generates social posts from new articles" />
+        <PageHeader title="RSS Feeds" subtitle="Add blog RSS feeds \— AdPilot auto-generates social posts from new articles" />
         <button onClick={() => setShowAdd(!showAdd)} className="btn-primary text-sm">
           Add RSS Feed
         </button>

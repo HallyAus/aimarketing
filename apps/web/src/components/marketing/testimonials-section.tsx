@@ -13,7 +13,7 @@ const benefits = [
   {
     title: "Smart Timezone Scheduling",
     description:
-      "Auto-detect your timezone on signup. Schedule posts for when your audience is online \u2014 across every timezone.",
+      "Auto-detect your timezone on signup. Schedule posts for when your audience is online \— across every timezone.",
     icon: "\u{1F30D}",
     color: "var(--accent-purple)",
   },

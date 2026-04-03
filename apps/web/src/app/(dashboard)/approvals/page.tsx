@@ -76,7 +76,7 @@ export default function ApprovalsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <PageHeader title="Approval Workflow" subtitle={activeAccount ? `Posts submitted by team members waiting for your review \u2014 approve or reject with comments \u2014 ${activeAccount.name}` : "Posts submitted by team members waiting for your review \u2014 approve or reject with comments"} />
+        <PageHeader title="Approval Workflow" subtitle={activeAccount ? `Posts submitted by team members waiting for your review \— approve or reject with comments \— ${activeAccount.name}` : "Posts submitted by team members waiting for your review \— approve or reject with comments"} />
         {pendingCount > 0 && (
           <span className="badge badge-warning">{pendingCount} pending</span>
         )}

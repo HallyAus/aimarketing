@@ -87,7 +87,7 @@ interface NavSection {
 const NAV_SECTIONS: NavSection[] = [
   {
     title: "OVERVIEW",
-    items: [{ href: "/dashboard", label: "Dashboard", icon: "grid", description: "Your command centre \u2014 metrics, upcoming posts, quick actions" }],
+    items: [{ href: "/dashboard", label: "Dashboard", icon: "grid", description: "Your command centre \— metrics, upcoming posts, quick actions" }],
   },
   {
     title: "CONTENT",
@@ -104,7 +104,7 @@ const NAV_SECTIONS: NavSection[] = [
       { href: "/ai", label: "AI Studio", icon: "sparkles", description: "Generate posts, improve content, create images with AI" },
       { href: "/ai/brand-voice", label: "Brand Voice", icon: "megaphone", description: "Train AI to write in your brand's unique tone and style" },
       { href: "/ai/competitor-match", label: "Competitor Match", icon: "target", description: "Create your version of a competitor's post targeting the same audience" },
-      { href: "/ai/keyword-scanner", label: "Keyword Scanner", icon: "globe", description: "Compare your website keywords vs competitors \u2014 find gaps" },
+      { href: "/ai/keyword-scanner", label: "Keyword Scanner", icon: "globe", description: "Compare your website keywords vs competitors \— find gaps" },
       { href: "/ai/competitor-spy", label: "Competitor Spy", icon: "users", description: "Analyze competitor strategies and content patterns" },
       { href: "/ai/hashtags", label: "Hashtag Research", icon: "link", description: "Find trending and niche hashtags for any topic" },
       { href: "/ai/image-gen", label: "Image Generator", icon: "grid", description: "Create social media images from text descriptions" },
@@ -120,7 +120,7 @@ const NAV_SECTIONS: NavSection[] = [
       { href: "/analytics/benchmarking", label: "Benchmarking", icon: "target", description: "Compare your metrics against competitors" },
       { href: "/analytics/best-times", label: "Best Times", icon: "clock", description: "AI-predicted optimal posting times for your audience" },
       { href: "/analytics/sentiment", label: "Sentiment", icon: "smile", description: "Analyze the emotional tone of your content" },
-      { href: "/analytics/audience", label: "Audience", icon: "users", description: "Understand your followers \u2014 demographics, interests, active hours" },
+      { href: "/analytics/audience", label: "Audience", icon: "users", description: "Understand your followers \— demographics, interests, active hours" },
       { href: "/analytics/roi", label: "ROI Calculator", icon: "dollar", description: "Calculate return on your marketing investment" },
     ],
   },
@@ -143,10 +143,10 @@ const NAV_SECTIONS: NavSection[] = [
   {
     title: "SETTINGS",
     items: [
-      { href: "/settings/business-profile", label: "Business Profile", icon: "globe", description: "Your website, industry, competitors \u2014 used by AI tools" },
+      { href: "/settings/business-profile", label: "Business Profile", icon: "globe", description: "Your website, industry, competitors \— used by AI tools" },
       { href: "/settings/connections", label: "Connections", icon: "link", description: "Connect your social media accounts" },
       { href: "/settings/rss", label: "RSS Feeds", icon: "rss", description: "Auto-generate posts from blog RSS feeds" },
-      { href: "/settings/webhooks", label: "Webhooks", icon: "zap", description: "Automated triggers \u2014 when X happens, do Y" },
+      { href: "/settings/webhooks", label: "Webhooks", icon: "zap", description: "Automated triggers \— when X happens, do Y" },
       { href: "/settings/reports", label: "Reports", icon: "clip-report", description: "Schedule weekly performance reports via email" },
       { href: "/settings/auto-reply", label: "Auto-Reply", icon: "message-circle", description: "AI-powered automatic responses to messages" },
       { href: "/settings/team", label: "Team", icon: "users", description: "Manage team members and permissions" },

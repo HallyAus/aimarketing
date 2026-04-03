@@ -46,7 +46,7 @@ const faqs = [
   {
     question: "How does AdPilot handle timezones?",
     answer:
-      "AdPilot auto-detects your timezone the moment you sign up \u2014 no setup needed. All scheduled posts display in your local time. If you have a team spread across timezones, each member sees times in their own timezone automatically. Our Smart Scheduling AI also considers your audience\u2019s timezones to recommend optimal posting windows.",
+      "AdPilot auto-detects your timezone the moment you sign up \— no setup needed. All scheduled posts display in your local time. If you have a team spread across timezones, each member sees times in their own timezone automatically. Our Smart Scheduling AI also considers your audience\'s timezones to recommend optimal posting windows.",
   },
   {
     question: "Can I schedule posts for a different timezone?",
@@ -56,7 +56,7 @@ const faqs = [
   {
     question: "Does AdPilot support teams across timezones?",
     answer:
-      "Absolutely. Each team member sees the content calendar in their own local timezone. A post scheduled for \u20189:00 AM\u2019 shows each person the correct time in their timezone. No confusion, no manual conversion.",
+      "Absolutely. Each team member sees the content calendar in their own local timezone. A post scheduled for \'9:00 AM\' shows each person the correct time in their timezone. No confusion, no manual conversion.",
   },
 ];
 

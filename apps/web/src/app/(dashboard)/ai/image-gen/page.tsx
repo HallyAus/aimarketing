@@ -63,7 +63,7 @@ export default function ImageGenPage() {
     <div>
       <PageHeader
         title="AI Image Generator"
-        subtitle="Describe what you want \u2014 AI creates social media images in multiple styles"
+        subtitle="Describe what you want \— AI creates social media images in multiple styles"
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "AI Studio", href: "/ai" },

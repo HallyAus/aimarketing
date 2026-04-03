@@ -27,7 +27,7 @@ export default async function TeamPage() {
     <div>
       <PageHeader
         title="Team"
-        subtitle={`Invite team members, set roles (Admin, Editor, Viewer), manage access \u2014 ${members.length} member${members.length !== 1 ? "s" : ""}`}
+        subtitle={`Invite team members, set roles (Admin, Editor, Viewer), manage access \— ${members.length} member${members.length !== 1 ? "s" : ""}`}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Settings", href: "/settings/connections" },

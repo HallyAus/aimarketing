@@ -19,7 +19,7 @@ const features = [
     icon: "🕐",
     title: "Smart Scheduling",
     description:
-      "AI-optimized posting times across every timezone. We auto-detect your timezone on signup \u2014 zero config. Your team sees their local time. Your audience gets posts when they\u2019re online.",
+      "AI-optimized posting times across every timezone. We auto-detect your timezone on signup \— zero config. Your team sees their local time. Your audience gets posts when they\'re online.",
   },
   {
     icon: "📊",

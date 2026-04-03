@@ -73,7 +73,7 @@ export default function KeywordScannerPage() {
     <div>
       <PageHeader
         title="Keyword Scanner"
-        subtitle="Enter your URL and competitor URLs \u2014 AI finds keyword gaps and content opportunities"
+        subtitle="Enter your URL and competitor URLs \— AI finds keyword gaps and content opportunities"
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "AI Studio", href: "/ai" },

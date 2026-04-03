@@ -197,7 +197,7 @@ export function getTimezoneDisplayName(iana: string): string {
       const shortName = longName
         .replace(/ (Standard|Daylight|Summer)/, "")
         .trim();
-      return `${shortName} \u2014 ${city} (UTC${offset})`;
+      return `${shortName} — ${city} (UTC${offset})`;
     }
   } catch {
     // fall through

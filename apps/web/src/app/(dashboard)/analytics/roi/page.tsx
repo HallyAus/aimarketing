@@ -104,7 +104,7 @@ export default function ROIPage() {
     <div className="w-full">
       <PageHeader
         title="ROI Calculator"
-        subtitle="Enter your ad spend and revenue \u2014 calculate ROAS, CPA, and ROI per platform"
+        subtitle="Enter your ad spend and revenue \— calculate ROAS, CPA, and ROI per platform"
         breadcrumbs={[
           { label: "Analytics", href: "/analytics" },
           { label: "ROI Calculator" },
