@@ -57,12 +57,27 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req, context) => 
     data: { status: "PUBLISHING", version: { increment: 1 } },
   });
 
+  // Use Page token + Page ID if post is assigned to a page (required for Facebook Pages)
+  let publishToken = decrypt(connection.accessToken, process.env.MASTER_ENCRYPTION_KEY ?? "");
+  let publishUserId = connection.platformUserId;
+
+  if (post.pageId) {
+    const page = await prisma.page.findUnique({
+      where: { id: post.pageId },
+      select: { platformPageId: true, accessToken: true },
+    });
+    if (page?.accessToken && page?.platformPageId) {
+      publishToken = decrypt(page.accessToken, process.env.MASTER_ENCRYPTION_KEY ?? "");
+      publishUserId = page.platformPageId;
+    }
+  }
+
   const result = await publishPost(post.platform, {
     content: post.content,
     mediaUrls: post.mediaUrls,
     platform: post.platform,
-    accessToken: decrypt(connection.accessToken, process.env.MASTER_ENCRYPTION_KEY ?? ""),
-    platformUserId: connection.platformUserId,
+    accessToken: publishToken,
+    platformUserId: publishUserId,
   });
 
   if (result.success) {
