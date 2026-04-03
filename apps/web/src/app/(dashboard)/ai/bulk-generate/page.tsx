@@ -243,7 +243,7 @@ export default function BulkGeneratePage() {
     <div>
       <PageHeader
         title="Bulk Generate Posts"
-        subtitle={globalActiveAccount ? `Generate and schedule a week or month of posts for any page in one click \— ${globalActiveAccount.name}` : "Generate and schedule a week or month of posts for any page in one click"}
+        subtitle={globalActiveAccount ? `Generate and schedule a week or month of posts for any page in one click — ${globalActiveAccount.name}` : "Generate and schedule a week or month of posts for any page in one click"}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "AI Studio", href: "/ai" },

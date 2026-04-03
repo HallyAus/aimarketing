@@ -100,7 +100,7 @@ export default function CompetitorMatchPage() {
     <div>
       <PageHeader
         title="Competitor Match"
-        subtitle="Paste a competitor's post \— AI creates your version targeting the same audience"
+        subtitle="Paste a competitor's post — AI creates your version targeting the same audience"
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "AI Studio", href: "/ai" },

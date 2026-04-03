@@ -88,7 +88,7 @@ Return the full HTML document that can be opened directly in a browser.`,
 
   return (
     <div>
-      <PageHeader title="Landing Page Builder" subtitle="AI creates campaign-specific landing pages \— choose a template, customize, and export" />
+      <PageHeader title="Landing Page Builder" subtitle="AI creates campaign-specific landing pages — choose a template, customize, and export" />
 
       {success && <div className="alert alert-success mb-4 mt-4">{success}</div>}
       {error && <div className="alert alert-error mb-4 mt-4">{error}</div>}

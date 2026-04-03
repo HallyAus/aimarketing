@@ -195,7 +195,7 @@ document.getElementById('adpilot-form').addEventListener('submit', async functio
     <div className="w-full">
       <PageHeader
         title="Lead Capture"
-        subtitle={activeAccount ? `Contacts captured from your forms and social channels \— export, filter, and manage \— ${activeAccount.name}` : "Contacts captured from your forms and social channels \— export, filter, and manage"}
+        subtitle={activeAccount ? `Contacts captured from your forms and social channels — export, filter, and manage — ${activeAccount.name}` : "Contacts captured from your forms and social channels — export, filter, and manage"}
         breadcrumbs={[{ label: "Leads" }]}
         action={
           <div className="flex gap-2">

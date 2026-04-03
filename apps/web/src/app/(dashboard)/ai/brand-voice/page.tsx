@@ -176,7 +176,7 @@ export default function BrandVoicePage() {
     <div>
       <PageHeader
         title="Brand Voice Training"
-        subtitle="Upload sample content and AI learns your writing style \— applied to all future generations"
+        subtitle="Upload sample content and AI learns your writing style — applied to all future generations"
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "AI Studio", href: "/ai" },

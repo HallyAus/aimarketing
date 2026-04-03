@@ -78,7 +78,7 @@ export default function CompetitorSpyPage() {
     <div>
       <PageHeader
         title="Competitor Content Spy"
-        subtitle="Enter a competitor URL \— AI analyzes their content strategy and suggests improvements"
+        subtitle="Enter a competitor URL — AI analyzes their content strategy and suggests improvements"
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "AI Studio", href: "/ai" },

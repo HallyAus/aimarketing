@@ -46,7 +46,7 @@ const faqs = [
   {
     question: "How does AdPilot handle timezones?",
     answer:
-      "AdPilot auto-detects your timezone the moment you sign up \— no setup needed. All scheduled posts display in your local time. If you have a team spread across timezones, each member sees times in their own timezone automatically. Our Smart Scheduling AI also considers your audience\'s timezones to recommend optimal posting windows.",
+      "AdPilot auto-detects your timezone the moment you sign up — no setup needed. All scheduled posts display in your local time. If you have a team spread across timezones, each member sees times in their own timezone automatically. Our Smart Scheduling AI also considers your audience\'s timezones to recommend optimal posting windows.",
   },
   {
     question: "Can I schedule posts for a different timezone?",

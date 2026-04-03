@@ -88,7 +88,7 @@ export default function ReportsSettingsPage() {
     <div className="w-full">
       <PageHeader
         title="Report Settings"
-        subtitle="Generate and schedule branded performance reports \— send weekly to stakeholders"
+        subtitle="Generate and schedule branded performance reports — send weekly to stakeholders"
         breadcrumbs={[
           { label: "Settings", href: "/settings/connections" },
           { label: "Reports" },

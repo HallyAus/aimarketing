@@ -124,7 +124,7 @@ export default function WebhooksPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <PageHeader title="Webhook Rules" subtitle="Set up automation rules \— when a post hits 100 likes, send a notification" />
+        <PageHeader title="Webhook Rules" subtitle="Set up automation rules — when a post hits 100 likes, send a notification" />
         <button onClick={() => setShowAdd(!showAdd)} className="btn-primary text-sm">
           Create Rule
         </button>

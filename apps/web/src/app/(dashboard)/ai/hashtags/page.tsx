@@ -169,7 +169,7 @@ export default function HashtagsPage() {
     <div>
       <PageHeader
         title="Hashtag Research"
-        subtitle="Enter a topic \— AI finds trending, niche, and branded hashtags with reach estimates"
+        subtitle="Enter a topic — AI finds trending, niche, and branded hashtags with reach estimates"
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "AI Studio", href: "/ai" },
