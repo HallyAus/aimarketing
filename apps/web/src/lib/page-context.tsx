@@ -4,10 +4,12 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
+  useState,
   type ReactNode,
 } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -59,54 +61,50 @@ export function PageProvider({
   initialPages: PageInfo[];
 }) {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const [currentPageId, setCurrentPageId] = useState(initialPageId);
+
+  // Sync if server passes a different initialPageId (e.g. after refresh)
+  useEffect(() => {
+    setCurrentPageId(initialPageId);
+  }, [initialPageId]);
 
   const activePage = useMemo(
-    () => initialPages.find((p) => p.id === initialPageId) ?? null,
-    [initialPages, initialPageId],
+    () => initialPages.find((p) => p.id === currentPageId) ?? null,
+    [initialPages, currentPageId],
   );
 
   const switchPage = useCallback(
     (pageId: string) => {
       const page = initialPages.find((p) => p.id === pageId);
 
-      // 1. Update cookie FIRST (so server reads it immediately on next request)
+      // 1. Update client state IMMEDIATELY (instant UI update)
+      setCurrentPageId(pageId);
+
+      // 2. Update cookie (so server reads it on next request)
       if (page) {
-        setCookie(
-          COOKIE_KEY,
-          JSON.stringify({
-            id: page.id,
-            platform: page.platform,
-            name: page.name,
-            type: "page",
-            connectionId: page.platformPageId,
-          }),
-        );
-        // Also update the legacy cookie for backwards compat
-        setCookie("adpilot-active-page", JSON.stringify({
+        const cookieVal = JSON.stringify({
           id: page.id,
           platform: page.platform,
           name: page.name,
           type: "page",
           connectionId: page.platformPageId,
-        }));
+        });
+        setCookie(COOKIE_KEY, cookieVal);
       }
 
-      // 2. Dispatch event for client components (backwards compat)
+      // 3. Dispatch event for other client components
       window.dispatchEvent(
         new CustomEvent("account-changed", { detail: page ?? null }),
       );
 
-      // 3. Persist to user preferences (fire-and-forget)
+      // 4. Persist to user preferences (fire-and-forget)
       fetch("/api/user/preferences", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lastSelectedPageId: pageId }),
       }).catch(() => {});
 
-      // 4. Navigate — use router.refresh() to re-fetch server data with new cookie
-      //    This is faster than router.push() because it reuses the current route
+      // 5. Refresh server data with new cookie
       router.refresh();
     },
     [router, initialPages],
@@ -114,7 +112,7 @@ export function PageProvider({
 
   const value = useMemo<PageContextValue>(
     () => ({
-      activePageId: initialPageId,
+      activePageId: currentPageId,
       activePage,
       allPages: initialPages,
       switchPage,
