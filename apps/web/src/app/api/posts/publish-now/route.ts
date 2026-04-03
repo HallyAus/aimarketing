@@ -2,43 +2,19 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { sanitizeHtml, decrypt } from "@adpilot/shared";
+import { sanitizeHtml, decrypt, publishNowSchema } from "@adpilot/shared";
 import { publishPost } from "@adpilot/platform-sdk";
-
-interface PublishNowBody {
-  content: string;
-  platform: string;
-  connectionId: string;
-  campaignId?: string;
-  mediaUrls?: string[];
-  pageId?: string; // Internal Page.id (cuid) for the target page
-  pageName?: string;
-}
-
-const VALID_PLATFORMS = [
-  "FACEBOOK",
-  "INSTAGRAM",
-  "LINKEDIN",
-  "TWITTER_X",
-];
 
 // POST /api/posts/publish-now
 // Immediately publishes a post to the specified platform
 export const POST = withErrorHandler(
   withRole("EDITOR", async (req) => {
-    const body = (await req.json()) as PublishNowBody;
-
-    if (!body.content?.trim()) {
-      throw new ZodValidationError("content is required");
+    const rawBody = await req.json();
+    const parsed = publishNowSchema.safeParse(rawBody);
+    if (!parsed.success) {
+      throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
     }
-    if (!body.platform || !VALID_PLATFORMS.includes(body.platform)) {
-      throw new ZodValidationError(
-        `platform must be one of: ${VALID_PLATFORMS.join(", ")}`,
-      );
-    }
-    if (!body.connectionId) {
-      throw new ZodValidationError("connectionId is required");
-    }
+    const body = parsed.data;
 
     // Check if publishing is paused for this org
     const org = await prisma.organization.findUniqueOrThrow({

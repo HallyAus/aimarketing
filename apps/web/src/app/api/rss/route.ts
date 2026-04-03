@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
-import { withErrorHandler } from "@/lib/api-handler";
+import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
+import { createRssFeedSchema, updateRssFeedSchema } from "@adpilot/shared";
 
 // GET /api/rss — list RSS feeds for current org
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
@@ -23,10 +24,13 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
 
 // POST /api/rss — create a new RSS feed
 export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
-  const { pageId, url: feedUrl, name, autoPost, tone } = await req.json();
-  if (!pageId || !feedUrl) {
-    return NextResponse.json({ error: "pageId and url are required", code: "VALIDATION_ERROR", statusCode: 400 }, { status: 400 });
+  const body = await req.json();
+  const parsed = createRssFeedSchema.safeParse(body);
+  if (!parsed.success) {
+    throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
   }
+
+  const { pageId, url: feedUrl, name, autoPost, tone } = parsed.data;
 
   const page = await prisma.page.findFirst({ where: { id: pageId, orgId: req.orgId } });
   if (!page) {
@@ -34,7 +38,7 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
   }
 
   const feed = await prisma.rssFeed.create({
-    data: { pageId, url: feedUrl, name: name ?? null, autoPost: autoPost ?? false, tone: tone ?? null },
+    data: { pageId, url: feedUrl, name: name ?? null, autoPost, tone: tone ?? null },
   });
 
   return NextResponse.json(feed, { status: 201 });
@@ -42,10 +46,13 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
 
 // PATCH /api/rss — update an RSS feed
 export const PATCH = withErrorHandler(withRole("EDITOR", async (req) => {
-  const { feedId, isActive, autoPost, tone, name } = await req.json();
-  if (!feedId) {
-    return NextResponse.json({ error: "feedId is required", code: "VALIDATION_ERROR", statusCode: 400 }, { status: 400 });
+  const body = await req.json();
+  const parsed = updateRssFeedSchema.safeParse(body);
+  if (!parsed.success) {
+    throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
   }
+
+  const { feedId, isActive, autoPost, tone, name } = parsed.data;
 
   const feed = await prisma.rssFeed.findUnique({ where: { id: feedId }, include: { page: true } });
   if (!feed || feed.page.orgId !== req.orgId) {

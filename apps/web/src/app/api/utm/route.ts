@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
-import { withErrorHandler } from "@/lib/api-handler";
+import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
+import { createUtmLinkSchema } from "@adpilot/shared";
 
 // GET /api/utm — list UTM links for current org
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
@@ -32,10 +33,13 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
 
 // POST /api/utm — create a new UTM link
 export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
-  const { url: baseUrl, source, medium, campaign, term, content, postId } = await req.json();
-  if (!baseUrl || !source || !medium || !campaign) {
-    return NextResponse.json({ error: "url, source, medium, and campaign are required", code: "VALIDATION_ERROR", statusCode: 400 }, { status: 400 });
+  const body = await req.json();
+  const parsed = createUtmLinkSchema.safeParse(body);
+  if (!parsed.success) {
+    throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
   }
+
+  const { url: baseUrl, source, medium, campaign, term, content, postId } = parsed.data;
 
   // Build the full UTM URL
   const utmUrl = new URL(baseUrl);

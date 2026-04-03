@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
-import { withErrorHandler } from "@/lib/api-handler";
+import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
+import { createWebhookRuleSchema, updateWebhookRuleSchema } from "@adpilot/shared";
 
 // GET /api/webhooks/rules — list webhook rules for current org
 // Optional: ?trigger=AUTO_REPLY to filter by trigger type
@@ -24,10 +25,13 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
 
 // POST /api/webhooks/rules — create a new webhook rule
 export const POST = withErrorHandler(withRole("ADMIN", async (req) => {
-  const { name, trigger, action, config, pageId } = await req.json();
-  if (!name || !trigger || !action) {
-    return NextResponse.json({ error: "name, trigger, and action are required", code: "VALIDATION_ERROR", statusCode: 400 }, { status: 400 });
+  const body = await req.json();
+  const parsed = createWebhookRuleSchema.safeParse(body);
+  if (!parsed.success) {
+    throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
   }
+
+  const { name, trigger, action, config, pageId } = parsed.data;
 
   const rule = await prisma.webhookRule.create({
     data: {
@@ -36,7 +40,7 @@ export const POST = withErrorHandler(withRole("ADMIN", async (req) => {
       name,
       trigger,
       action,
-      config: config ?? {},
+      config: (config ?? {}) as never,
       isActive: true,
     },
   });
@@ -46,10 +50,13 @@ export const POST = withErrorHandler(withRole("ADMIN", async (req) => {
 
 // PATCH /api/webhooks/rules — update a webhook rule
 export const PATCH = withErrorHandler(withRole("ADMIN", async (req) => {
-  const { ruleId, isActive, name, trigger, action, config } = await req.json();
-  if (!ruleId) {
-    return NextResponse.json({ error: "ruleId is required", code: "VALIDATION_ERROR", statusCode: 400 }, { status: 400 });
+  const body = await req.json();
+  const parsed = updateWebhookRuleSchema.safeParse(body);
+  if (!parsed.success) {
+    throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
   }
+
+  const { ruleId, isActive, name, trigger, action, config } = parsed.data;
 
   const rule = await prisma.webhookRule.findFirst({ where: { id: ruleId, orgId: req.orgId } });
   if (!rule) {
@@ -63,7 +70,7 @@ export const PATCH = withErrorHandler(withRole("ADMIN", async (req) => {
       ...(name ? { name } : {}),
       ...(trigger ? { trigger } : {}),
       ...(action ? { action } : {}),
-      ...(config ? { config } : {}),
+      ...(config ? { config: config as never } : {}),
     },
   });
 

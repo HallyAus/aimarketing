@@ -58,8 +58,7 @@ export async function POST(req: Request) {
       });
     } else {
       console.warn(
-        "RESEND_API_KEY not configured — password reset email not sent. Token:",
-        token,
+        "RESEND_API_KEY not configured — password reset email not sent. Configure RESEND_API_KEY to enable.",
       );
     }
 

@@ -47,14 +47,14 @@ export async function POST(req: Request) {
 
     const { email, password, name } = parsed.data;
 
-    // Check if user already exists
+    // Check if user already exists — return generic message to prevent email enumeration
     const existing = await prisma.user.findUnique({
       where: { email: email.toLowerCase() },
     });
     if (existing) {
       return NextResponse.json(
-        { error: "An account with this email already exists" },
-        { status: 409 },
+        { success: true, message: "If this email is available, your account has been created. Please try signing in." },
+        { status: 201 },
       );
     }
 
