@@ -1,41 +1,372 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { Navbar } from "@/components/marketing/navbar";
+import { Footer } from "@/components/marketing/footer";
+import "@/styles/marketing.css";
 
 export const metadata: Metadata = {
-  title: "Terms of Service",
-  description: "Terms of service for AdPilot marketing automation platform.",
+  title: "Terms of Service | AdPilot",
+  description:
+    "Terms of service for AdPilot marketing automation platform. Subscription terms, data ownership, and user responsibilities.",
+  openGraph: {
+    title: "Terms of Service | AdPilot",
+    description:
+      "Terms of service for AdPilot — subscription terms, data ownership, and user responsibilities.",
+    type: "website",
+    url: "https://adpilot.au/terms",
+  },
 };
 
 export default function TermsPage() {
   return (
-    <main className="max-w-3xl mx-auto p-8" style={{ background: "var(--bg-primary)", minHeight: "100vh" }}>
-      <h1 className="text-3xl font-bold mb-6" style={{ color: "var(--text-primary)" }}>Terms of Service</h1>
-      <p className="text-sm mb-8" style={{ color: "var(--text-secondary)" }}>Last updated: March 29, 2026</p>
+    <>
+      <Navbar />
+      <main
+        id="main-content"
+        className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20"
+        style={{ background: "var(--bg-primary)", minHeight: "100vh" }}
+      >
+        <h1
+          className="text-3xl font-bold mb-2"
+          style={{ color: "var(--text-primary)" }}
+        >
+          Terms of Service
+        </h1>
+        <p className="text-sm mb-10" style={{ color: "var(--text-secondary)" }}>
+          Last updated: April 3, 2026
+        </p>
 
-      <div className="prose prose-sm prose-invert space-y-4">
-        <h2 className="text-xl font-semibold mt-6" style={{ color: "var(--text-primary)" }}>1. Acceptance of Terms</h2>
-        <p style={{ color: "var(--text-secondary)" }}>By using AdPilot, you agree to these terms. AdPilot is a marketing agency platform that helps you manage social media campaigns across multiple platforms.</p>
+        <div className="space-y-8">
+          {/* 1 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              1. Acceptance of Terms
+            </h2>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+              By creating an account or using AdPilot, you agree to these Terms
+              of Service. AdPilot is a software-as-a-service (SaaS) marketing
+              automation platform that enables you to create, schedule, and
+              publish content across multiple social media platforms using
+              AI-powered tools. If you do not agree to these terms, do not use
+              AdPilot.
+            </p>
+          </section>
 
-        <h2 className="text-xl font-semibold mt-6" style={{ color: "var(--text-primary)" }}>2. Account Responsibility</h2>
-        <p style={{ color: "var(--text-secondary)" }}>You are responsible for maintaining the security of your account and all content published through AdPilot. You must have authorization to manage any social media accounts you connect.</p>
+          {/* 2 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              2. Account Responsibility
+            </h2>
+            <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+              <p>
+                You are responsible for maintaining the security of your account
+                credentials and all activity that occurs under your account. You
+                must have authorization to manage any social media accounts you
+                connect to AdPilot.
+              </p>
+              <p>
+                You must be at least 18 years old to create an account. If you
+                are creating an account on behalf of a company, you represent
+                that you have authority to bind that company to these terms.
+              </p>
+            </div>
+          </section>
 
-        <h2 className="text-xl font-semibold mt-6" style={{ color: "var(--text-primary)" }}>3. Platform Compliance</h2>
-        <p style={{ color: "var(--text-secondary)" }}>You agree to comply with the terms of service of all connected social media platforms. AdPilot is not responsible for account suspensions resulting from content that violates platform policies.</p>
+          {/* 3 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              3. Service Plans and Pricing
+            </h2>
+            <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+              <p>AdPilot offers the following subscription plans:</p>
+              <ul className="list-disc ml-5 space-y-1">
+                <li>
+                  <strong style={{ color: "var(--text-primary)" }}>Free:</strong>{" "}
+                  $0/month — limited features, ideal for individuals getting
+                  started.
+                </li>
+                <li>
+                  <strong style={{ color: "var(--text-primary)" }}>Pro:</strong>{" "}
+                  $49/month (USD) — full AI content studio, all platforms,
+                  advanced analytics.
+                </li>
+                <li>
+                  <strong style={{ color: "var(--text-primary)" }}>Agency:</strong>{" "}
+                  $299/month (USD) — unlimited client accounts, team
+                  collaboration, priority support, custom webhooks.
+                </li>
+              </ul>
+              <p>
+                All prices are in US Dollars (USD). We accept international
+                credit and debit cards via Stripe. Prices may change with 30
+                days notice. Existing subscribers will be notified by email
+                before any price change takes effect.
+              </p>
+            </div>
+          </section>
 
-        <h2 className="text-xl font-semibold mt-6" style={{ color: "var(--text-primary)" }}>4. Service Plans</h2>
-        <p style={{ color: "var(--text-secondary)" }}>AdPilot offers Free, Pro ($49/mo), and Agency ($149/mo) plans with varying feature limits. Plan details are available on our pricing page.</p>
+          {/* 4 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              4. Billing and Cancellation
+            </h2>
+            <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+              <p>
+                Paid subscriptions are billed monthly in advance. You can cancel
+                your subscription at any time from your account settings.
+                Cancellation takes effect at the end of the current billing
+                period — you retain access until then.
+              </p>
+              <p>
+                We do not offer prorated refunds for partial months. If you
+                downgrade from a paid plan to Free, you retain access to paid
+                features until the end of your current billing cycle.
+              </p>
+            </div>
+          </section>
 
-        <h2 className="text-xl font-semibold mt-6" style={{ color: "var(--text-primary)" }}>5. Data Usage</h2>
-        <p style={{ color: "var(--text-secondary)" }}>We process your data as described in our Privacy Policy. By connecting social media accounts, you authorize AdPilot to access platform APIs on your behalf.</p>
+          {/* 5 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              5. Data Ownership
+            </h2>
+            <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+              <p>
+                <strong style={{ color: "var(--text-primary)" }}>
+                  You own your content.
+                </strong>{" "}
+                All content you create, upload, or generate using AdPilot
+                remains your intellectual property. We do not claim ownership of
+                your content.
+              </p>
+              <p>
+                You grant AdPilot a limited license to store, process, and
+                transmit your content solely for the purpose of providing the
+                service (e.g., publishing to connected platforms, generating AI
+                suggestions based on your brand voice).
+              </p>
+              <p>
+                You can export your data at any time from your dashboard. Upon
+                account deletion, we remove your content and personal data
+                within 30 days.
+              </p>
+            </div>
+          </section>
 
-        <h2 className="text-xl font-semibold mt-6" style={{ color: "var(--text-primary)" }}>6. Limitation of Liability</h2>
-        <p style={{ color: "var(--text-secondary)" }}>AdPilot is provided "as is" without warranties. We are not liable for any damages arising from the use of our platform, including failed post publications or data loss.</p>
+          {/* 6 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              6. Platform Compliance
+            </h2>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+              You agree to comply with the terms of service of all connected
+              social media platforms. AdPilot is not responsible for account
+              suspensions, content removal, or other actions taken by third-party
+              platforms as a result of content you publish through AdPilot.
+            </p>
+          </section>
 
-        <h2 className="text-xl font-semibold mt-6" style={{ color: "var(--text-primary)" }}>7. Termination</h2>
-        <p style={{ color: "var(--text-secondary)" }}>You can cancel your account at any time. Upon cancellation, we will revoke all platform connections and delete your data within 30 days.</p>
+          {/* 7 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              7. AI-Generated Content
+            </h2>
+            <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+              <p>
+                AdPilot uses AI (powered by Anthropic's Claude) to assist with
+                content creation. AI-generated content is provided as
+                suggestions. You are responsible for reviewing, editing, and
+                approving all content before publishing.
+              </p>
+              <p>
+                AdPilot does not guarantee that AI-generated content is accurate,
+                original, or suitable for any specific purpose. You assume full
+                responsibility for content published through the platform.
+              </p>
+            </div>
+          </section>
 
-        <h2 className="text-xl font-semibold mt-6" style={{ color: "var(--text-primary)" }}>8. Contact</h2>
-        <p style={{ color: "var(--text-secondary)" }}>For questions about these terms, contact us at daniel@printforge.com.au</p>
-      </div>
-    </main>
+          {/* 8 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              8. Uptime and Availability
+            </h2>
+            <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+              <p>
+                We target 99.9% uptime for the AdPilot platform. Scheduled
+                maintenance windows will be communicated in advance via email
+                and our{" "}
+                <Link href="/status" style={{ color: "var(--accent-blue)" }}>
+                  status page
+                </Link>
+                .
+              </p>
+              <p>
+                We are not liable for downtime caused by third-party platform
+                outages, force majeure events, or circumstances beyond our
+                reasonable control.
+              </p>
+            </div>
+          </section>
+
+          {/* 9 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              9. Data Usage
+            </h2>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+              We process your data as described in our{" "}
+              <Link href="/privacy" style={{ color: "var(--accent-blue)" }}>
+                Privacy Policy
+              </Link>
+              . By connecting social media accounts, you authorize AdPilot to
+              access platform APIs on your behalf using OAuth 2.0 with PKCE.
+            </p>
+          </section>
+
+          {/* 10 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              10. Limitation of Liability
+            </h2>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+              AdPilot is provided "as is" without warranties of any kind, either
+              express or implied. We are not liable for any indirect, incidental,
+              special, consequential, or punitive damages arising from the use
+              of our platform, including but not limited to failed post
+              publications, data loss, or revenue loss. Our total liability is
+              limited to the amount you paid us in the 12 months preceding the
+              claim.
+            </p>
+          </section>
+
+          {/* 11 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              11. Termination
+            </h2>
+            <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+              <p>
+                You can cancel your account at any time. Upon cancellation, we
+                will revoke all platform connections and delete your data within
+                30 days.
+              </p>
+              <p>
+                We reserve the right to suspend or terminate accounts that
+                violate these terms, engage in abusive behavior, or use AdPilot
+                to publish content that violates applicable law.
+              </p>
+            </div>
+          </section>
+
+          {/* 12 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              12. Governing Law
+            </h2>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+              These terms are governed by the laws of New South Wales, Australia.
+              Any disputes arising from these terms or your use of AdPilot will
+              be resolved in the courts of New South Wales, Australia. Nothing in
+              these terms limits your rights under mandatory consumer protection
+              laws in your jurisdiction.
+            </p>
+          </section>
+
+          {/* 13 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              13. Changes to These Terms
+            </h2>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+              We may update these terms from time to time. Material changes will
+              be communicated via email at least 30 days before they take effect.
+              Continued use of AdPilot after changes take effect constitutes
+              acceptance of the updated terms.
+            </p>
+          </section>
+
+          {/* 14 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              14. Contact
+            </h2>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+              For questions about these terms, contact us at{" "}
+              <a
+                href="mailto:support@adpilot.com.au"
+                style={{ color: "var(--accent-blue)" }}
+              >
+                support@adpilot.com.au
+              </a>
+              .
+            </p>
+          </section>
+        </div>
+
+        <div
+          className="mt-12 pt-8 text-center"
+          style={{ borderTop: "1px solid var(--border-primary)" }}
+        >
+          <Link
+            href="/privacy"
+            className="text-sm font-medium mr-6"
+            style={{ color: "var(--accent-blue)" }}
+          >
+            Privacy Policy &rarr;
+          </Link>
+          <Link
+            href="/security"
+            className="text-sm font-medium"
+            style={{ color: "var(--accent-blue)" }}
+          >
+            Security &rarr;
+          </Link>
+        </div>
+      </main>
+      <Footer />
+    </>
   );
 }

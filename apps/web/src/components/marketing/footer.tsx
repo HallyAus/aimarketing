@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 const footerColumns = [
   {
     title: "Product",
@@ -85,23 +87,32 @@ export function Footer() {
                 {column.title}
               </h3>
               <ul className="space-y-3">
-                {column.links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-sm transition-colors"
-                      style={{ color: "var(--text-tertiary)" }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.color = "var(--text-primary)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.color = "var(--text-tertiary)";
-                      }}
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
+                {column.links.map((link) => {
+                  const isInternal = link.href.startsWith("/");
+                  const linkProps = {
+                    className: "text-sm transition-colors",
+                    style: { color: "var(--text-tertiary)" } as React.CSSProperties,
+                    onMouseEnter: (e: React.MouseEvent<HTMLAnchorElement>) => {
+                      e.currentTarget.style.color = "var(--text-primary)";
+                    },
+                    onMouseLeave: (e: React.MouseEvent<HTMLAnchorElement>) => {
+                      e.currentTarget.style.color = "var(--text-tertiary)";
+                    },
+                  };
+                  return (
+                    <li key={link.label}>
+                      {isInternal ? (
+                        <Link href={link.href} {...linkProps}>
+                          {link.label}
+                        </Link>
+                      ) : (
+                        <a href={link.href} {...linkProps}>
+                          {link.label}
+                        </a>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}
@@ -139,7 +150,7 @@ export function Footer() {
                 border: "1px solid var(--border-primary)",
               }}
             >
-              <span>🇦🇺</span> Built in Australia
+              <span>🇦🇺</span> Built in Australia, used worldwide
             </span>
 
             {/* Social icons */}

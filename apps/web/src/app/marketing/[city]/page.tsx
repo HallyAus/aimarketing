@@ -783,7 +783,7 @@ export default async function CityPage({ params }: CityPageProps) {
               className="text-lg mb-8 max-w-2xl mx-auto"
               style={{ color: "var(--text-secondary)" }}
             >
-              Join thousands of Australian businesses using AdPilot to automate
+              Join thousands of businesses using AdPilot to automate
               their marketing across 9 platforms. Start with our free plan — no
               credit card required.
             </p>

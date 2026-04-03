@@ -1,31 +1,27 @@
 "use client";
 
-const testimonials = [
+import Link from "next/link";
+
+const benefits = [
   {
-    quote:
-      "AdPilot completely transformed how we manage our clients' social media. We went from juggling 6 tools to one dashboard. Our team saves 15+ hours every week.",
-    name: "Sarah Mitchell",
-    role: "Head of Digital",
-    company: "Reef Digital Agency",
-    initials: "SM",
+    title: "Free Forever Plan",
+    description:
+      "Start with 3 platforms, 30 posts/month, and AI content generation. No credit card required.",
+    icon: "\u{1F381}",
     color: "var(--accent-blue)",
   },
   {
-    quote:
-      "The AI content studio is a game-changer. It understands our brand voice better than most junior copywriters. We've tripled our content output without hiring anyone new.",
-    name: "James Chen",
-    role: "Marketing Director",
-    company: "Harbour Commerce",
-    initials: "JC",
+    title: "Smart Timezone Scheduling",
+    description:
+      "Auto-detect your timezone on signup. Schedule posts for when your audience is online \u2014 across every timezone.",
+    icon: "\u{1F30D}",
     color: "var(--accent-purple)",
   },
   {
-    quote:
-      "We manage social for 40+ Australian businesses. AdPilot's white-label reports and multi-account management made it possible to scale without the chaos.",
-    name: "Emily Oakes",
-    role: "Founder & CEO",
-    company: "Southern Social Co.",
-    initials: "EO",
+    title: "9-Platform Publishing",
+    description:
+      "Manage Facebook, Instagram, TikTok, LinkedIn, Twitter, YouTube, Google Ads, Pinterest, and Snapchat from one dashboard.",
+    icon: "\u{1F4E1}",
     color: "var(--accent-emerald)",
   },
 ];
@@ -34,10 +30,10 @@ export function TestimonialsSection() {
   return (
     <section className="py-24 px-4" style={{ background: "var(--bg-primary)" }}>
       <style>{`
-        .testimonial-card {
+        .benefit-card {
           transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
-        .testimonial-card:hover {
+        .benefit-card:hover {
           transform: translateY(-4px);
         }
       `}</style>
@@ -52,13 +48,13 @@ export function TestimonialsSection() {
               color: "var(--accent-purple)",
             }}
           >
-            Testimonials
+            Early Access
           </span>
           <h2
             className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4"
             style={{ color: "var(--text-primary)" }}
           >
-            Trusted by Agencies Across{" "}
+            Be One of Our{" "}
             <span
               style={{
                 background: "linear-gradient(135deg, var(--accent-purple), var(--accent-blue))",
@@ -67,17 +63,23 @@ export function TestimonialsSection() {
                 backgroundClip: "text",
               }}
             >
-              Australia
+              First Users
             </span>
           </h2>
+          <p
+            className="text-base sm:text-lg max-w-2xl mx-auto"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            AdPilot is in public beta. Join thousands of teams already automating their marketing.
+          </p>
         </div>
 
-        {/* Testimonial Cards */}
+        {/* Benefit Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((t) => (
+          {benefits.map((b) => (
             <div
-              key={t.name}
-              className="testimonial-card relative rounded-2xl p-6 lg:p-8"
+              key={b.title}
+              className="benefit-card relative rounded-2xl p-6 lg:p-8"
               style={{
                 background: "var(--bg-secondary)",
                 border: "1px solid var(--border-secondary)",
@@ -92,47 +94,50 @@ export function TestimonialsSection() {
                 e.currentTarget.style.boxShadow = "none";
               }}
             >
-              {/* Quote mark */}
+              {/* Icon */}
               <div
-                className="text-4xl font-serif leading-none mb-4"
-                style={{ color: "var(--border-primary)", opacity: 0.5 }}
+                className="flex items-center justify-center w-12 h-12 rounded-xl text-2xl mb-5"
+                style={{
+                  background: `color-mix(in srgb, ${b.color} 15%, transparent)`,
+                  border: `1px solid color-mix(in srgb, ${b.color} 25%, transparent)`,
+                }}
               >
-                &ldquo;
+                {b.icon}
               </div>
 
-              {/* Quote text */}
+              {/* Title */}
+              <h3
+                className="text-lg font-semibold mb-2"
+                style={{ color: "var(--text-primary)" }}
+              >
+                {b.title}
+              </h3>
+
+              {/* Description */}
               <p
-                className="text-sm leading-relaxed mb-6"
+                className="text-sm leading-relaxed"
                 style={{ color: "var(--text-secondary)" }}
               >
-                {t.quote}
+                {b.description}
               </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-3">
-                <div
-                  className="flex items-center justify-center w-10 h-10 rounded-full text-sm font-bold"
-                  style={{
-                    background: `${t.color}20`,
-                    color: t.color,
-                  }}
-                >
-                  {t.initials}
-                </div>
-                <div>
-                  <p
-                    className="text-sm font-semibold"
-                    style={{ color: "var(--text-primary)" }}
-                  >
-                    {t.name}
-                  </p>
-                  <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
-                    {t.role}, {t.company}
-                  </p>
-                </div>
-              </div>
             </div>
           ))}
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mt-12">
+          <Link
+            href="/signup"
+            className="inline-block px-10 py-4 text-base font-semibold rounded-xl transition-all"
+            style={{
+              background: "var(--accent-blue)",
+              color: "#fff",
+              boxShadow:
+                "0 0 30px rgba(59, 130, 246, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            Start Free
+          </Link>
         </div>
       </div>
     </section>

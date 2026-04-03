@@ -11,10 +11,10 @@ const platformIcons = [
 ];
 
 const stats = [
-  { label: "9 Platforms", icon: "🌐" },
-  { label: "AI-Powered", icon: "🤖" },
-  { label: "Set Up in 5 Min", icon: "⚡" },
-  { label: "Free to Start", icon: "🎯" },
+  { label: "9 Platforms", icon: "\u{1F310}" },
+  { label: "AI-Powered", icon: "\u{1F916}" },
+  { label: "Set Up in 5 Min", icon: "\u26A1" },
+  { label: "Auto Timezone Detection", icon: "\u{1F30D}" },
 ];
 
 export function HeroSection() {
@@ -186,7 +186,7 @@ export function HeroSection() {
             Start Free
           </a>
           <a
-            href="#demo"
+            href="#how-it-works"
             className="px-8 py-3.5 text-base font-semibold rounded-xl transition-all"
             style={{
               background: "transparent",
@@ -194,7 +194,7 @@ export function HeroSection() {
               border: "1px solid var(--border-primary)",
             }}
           >
-            Watch Demo
+            See How It Works
           </a>
         </div>
 
@@ -203,7 +203,7 @@ export function HeroSection() {
           className="hero-fade-up hero-fade-up-delay-4 text-sm mb-10"
           style={{ color: "var(--text-tertiary)" }}
         >
-          Trusted by 500+ Australian businesses
+          Trusted by teams in 30+ countries
         </p>
 
         {/* Stats bar */}

@@ -47,7 +47,7 @@ export function CtaSection() {
           className="text-base sm:text-lg mb-10 max-w-xl mx-auto"
           style={{ color: "var(--text-secondary)" }}
         >
-          Join 500+ Australian businesses. Start free, no credit card required.
+          Join teams worldwide. Start free, no credit card required.
         </p>
         <a
           href="#pricing"

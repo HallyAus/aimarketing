@@ -39,9 +39,24 @@ const faqs = [
       "AdPilot provides real-time analytics across all connected platforms, including engagement rates, reach, impressions, click-through rates, and audience demographics. Pro and Agency plans include advanced analytics with custom reports and trend analysis.",
   },
   {
-    question: "Do you offer support for Australian businesses?",
+    question: "Do you offer global support?",
     answer:
-      "AdPilot is built in Australia, for Australian businesses. We offer local support during AEST business hours, with priority and dedicated support on Pro and Agency plans respectively. Our team understands the Australian market and its unique requirements.",
+      "AdPilot is built in Australia and used by teams worldwide. We offer support across all timezones with response within 24 hours. Pro and Agency plans include priority and dedicated support.",
+  },
+  {
+    question: "How does AdPilot handle timezones?",
+    answer:
+      "AdPilot auto-detects your timezone the moment you sign up \u2014 no setup needed. All scheduled posts display in your local time. If you have a team spread across timezones, each member sees times in their own timezone automatically. Our Smart Scheduling AI also considers your audience\u2019s timezones to recommend optimal posting windows.",
+  },
+  {
+    question: "Can I schedule posts for a different timezone?",
+    answer:
+      "Yes. Your timezone is auto-detected but you can override it anytime. You can also set audience timezones per platform so AdPilot optimizes posting times for when your followers are actually online.",
+  },
+  {
+    question: "Does AdPilot support teams across timezones?",
+    answer:
+      "Absolutely. Each team member sees the content calendar in their own local timezone. A post scheduled for \u20189:00 AM\u2019 shows each person the correct time in their timezone. No confusion, no manual conversion.",
   },
 ];
 
@@ -132,7 +147,7 @@ export function FaqSection() {
                 <div
                   className="overflow-hidden transition-all duration-300"
                   style={{
-                    maxHeight: isOpen ? "300px" : "0",
+                    maxHeight: isOpen ? "500px" : "0",
                     opacity: isOpen ? 1 : 0,
                   }}
                 >

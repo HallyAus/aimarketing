@@ -17,7 +17,7 @@ const steps = [
     number: "03",
     title: "Automate",
     description:
-      "Schedule, publish, and analyze — all on autopilot. Set it once, and let AdPilot handle the rest while you focus on strategy.",
+      "Schedule, publish, and analyze — all on autopilot. Your timezone is auto-detected; your team sees their local time. Set it once and let AdPilot handle the rest.",
     icon: "🚀",
   },
 ];
