@@ -123,10 +123,11 @@ export default async function InvitesPage({
           borderRadius: 8,
           border: "1px solid var(--border-primary, #2a2a2a)",
           overflowX: "auto",
+          WebkitOverflowScrolling: "touch",
         }}
       >
         <table
-          style={{ width: "100%", borderCollapse: "collapse", minWidth: 800 }}
+          style={{ width: "100%", borderCollapse: "collapse", minWidth: 600 }}
         >
           <thead>
             <tr>

@@ -93,7 +93,7 @@ export default async function BillingDashboardPage() {
       </h1>
 
       {/* Summary Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16, marginBottom: 32 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 16, marginBottom: 32 }}>
         {cards.map((card) => (
           <div
             key={card.label}
@@ -116,7 +116,6 @@ export default async function BillingDashboardPage() {
           background: "var(--bg-secondary)",
           borderRadius: "var(--radius-lg)",
           border: "1px solid var(--border-primary)",
-          overflow: "auto",
         }}
       >
         <div style={{ padding: "16px 20px", borderBottom: "1px solid var(--border-primary)" }}>
@@ -124,7 +123,8 @@ export default async function BillingDashboardPage() {
             Recent Invoices
           </h2>
         </div>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+        <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14, minWidth: 600 }}>
           <thead>
             <tr style={{ borderBottom: "1px solid var(--border-primary)", textAlign: "left" }}>
               {["Organization", "Invoice #", "Amount", "Status", "Date"].map((h) => (
@@ -196,6 +196,7 @@ export default async function BillingDashboardPage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

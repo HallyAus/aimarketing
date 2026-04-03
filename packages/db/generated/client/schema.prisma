@@ -585,6 +585,7 @@ model Page {
   ingestionJobs      IngestionJob[]
   historicalPosts    HistoricalPost[]
   historicalMetrics  HistoricalMetricSnapshot[]
+  cachedInsights     CachedInsight[]
 
   @@unique([orgId, platform, platformPageId])
   @@index([orgId])
@@ -998,4 +999,23 @@ model EmailVerification {
   @@index([token])
   @@index([userId])
   @@index([email])
+}
+
+// ── AI Insights Cache ──────────────────────────────────────────────────
+
+model CachedInsight {
+  id          String   @id @default(cuid())
+  pageId      String
+  orgId       String
+  type        String // "sentiment" | "audience" | "best-times" | "benchmarking" | "trending"
+  data        Json
+  generatedAt DateTime
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+
+  page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@unique([pageId, type])
+  @@index([pageId, type])
+  @@index([expiresAt])
 }

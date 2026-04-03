@@ -133,7 +133,7 @@ export default async function AdminDashboard() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
           gap: 16,
           marginBottom: 32,
         }}
@@ -164,7 +164,8 @@ export default async function AdminDashboard() {
         {recentLogs.length === 0 ? (
           <p style={{ color: "var(--text-secondary)", fontSize: 14 }}>No activity yet.</p>
         ) : (
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" as const }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 600 }}>
             <thead>
               <tr>
                 {["Time", "User", "Action", "Entity", "Entity ID"].map((h) => (
@@ -224,6 +225,7 @@ export default async function AdminDashboard() {
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </div>
 
@@ -231,7 +233,7 @@ export default async function AdminDashboard() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
           gap: 16,
         }}
       >

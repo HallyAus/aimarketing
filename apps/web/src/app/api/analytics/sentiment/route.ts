@@ -3,6 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { prisma } from "@/lib/db";
+import { getCachedInsight, setCachedInsight, canRegenerate } from "@/lib/insight-cache";
 
 let _client: Anthropic | null = null;
 function getClient(): Anthropic {
@@ -17,7 +18,38 @@ export const GET = withErrorHandler(
   withRole("VIEWER", async (req) => {
     const url = new URL(req.url);
     const pageId = url.searchParams.get("pageId") || undefined;
+    const forceRegenerate = url.searchParams.get("regenerate") === "true";
 
+    // ── Cache-first: return cached if available ──────────────
+    if (pageId && !forceRegenerate) {
+      const cached = await getCachedInsight(pageId, "sentiment");
+      if (cached && !cached.expired) {
+        return NextResponse.json({
+          ...cached.data as Record<string, unknown>,
+          _cached: true,
+          _generatedAt: cached.generatedAt.toISOString(),
+        });
+      }
+    }
+
+    // ── Rate limit regeneration ──────────────────────────────
+    if (pageId && forceRegenerate) {
+      const allowed = await canRegenerate(pageId, "sentiment");
+      if (!allowed) {
+        // Return stale cache instead
+        const cached = await getCachedInsight(pageId, "sentiment");
+        if (cached) {
+          return NextResponse.json({
+            ...cached.data as Record<string, unknown>,
+            _cached: true,
+            _generatedAt: cached.generatedAt.toISOString(),
+            _rateLimited: true,
+          });
+        }
+      }
+    }
+
+    // ── Generate fresh analysis ──────────────────────────────
     const posts = await prisma.post.findMany({
       where: { orgId: req.orgId, ...(pageId ? { pageId } : {}) },
       select: {
@@ -41,7 +73,6 @@ export const GET = withErrorHandler(
       });
     }
 
-    // Prepare post content for AI analysis
     const postSummary = posts
       .slice(0, 50)
       .map((p, i) => `Post ${i + 1} (ID: ${p.id}): ${p.content.slice(0, 200)}`)
@@ -76,7 +107,6 @@ Return ONLY valid JSON (no markdown, no code fences):
     const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
     const aiResult = JSON.parse(cleaned);
 
-    // Count sentiments
     let positive = 0;
     let neutral = 0;
     let negative = 0;
@@ -98,7 +128,6 @@ Return ONLY valid JSON (no markdown, no code fences):
       });
     }
 
-    // Build trend by grouping posts by week
     const weekMap = new Map<string, { positive: number; neutral: number; negative: number }>();
     for (const aiPost of aiResult.posts || []) {
       const originalPost = posts.find((p) => p.id === aiPost.id);
@@ -121,13 +150,24 @@ Return ONLY valid JSON (no markdown, no code fences):
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([date, data]) => ({ date, ...data }));
 
-    return NextResponse.json({
+    const result = {
       positive,
       neutral,
       negative,
       trend,
       recommendations: aiResult.recommendations || [],
       postBreakdown: postBreakdown.slice(0, 30),
+    };
+
+    // ── Save to cache ────────────────────────────────────────
+    if (pageId) {
+      setCachedInsight(pageId, req.orgId, "sentiment", result).catch(() => {});
+    }
+
+    return NextResponse.json({
+      ...result,
+      _cached: false,
+      _generatedAt: new Date().toISOString(),
     });
   })
 );

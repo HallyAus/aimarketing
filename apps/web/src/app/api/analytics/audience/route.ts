@@ -3,6 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { prisma } from "@/lib/db";
+import { getCachedInsight, setCachedInsight, canRegenerate } from "@/lib/insight-cache";
 
 let _client: Anthropic | null = null;
 function getClient(): Anthropic {
@@ -17,7 +18,38 @@ export const GET = withErrorHandler(
   withRole("VIEWER", async (req) => {
     const url = new URL(req.url);
     const pageId = url.searchParams.get("pageId") || undefined;
+    const forceRegenerate = url.searchParams.get("regenerate") === "true";
 
+    // ── Cache-first: return cached if available ──────────────
+    if (pageId && !forceRegenerate) {
+      const cached = await getCachedInsight(pageId, "audience");
+      if (cached && !cached.expired) {
+        return NextResponse.json({
+          ...cached.data as Record<string, unknown>,
+          _cached: true,
+          _generatedAt: cached.generatedAt.toISOString(),
+        });
+      }
+    }
+
+    // ── Rate limit regeneration ──────────────────────────────
+    if (pageId && forceRegenerate) {
+      const allowed = await canRegenerate(pageId, "audience");
+      if (!allowed) {
+        // Return stale cache instead
+        const cached = await getCachedInsight(pageId, "audience");
+        if (cached) {
+          return NextResponse.json({
+            ...cached.data as Record<string, unknown>,
+            _cached: true,
+            _generatedAt: cached.generatedAt.toISOString(),
+            _rateLimited: true,
+          });
+        }
+      }
+    }
+
+    // ── Generate fresh analysis ──────────────────────────────
     const posts = await prisma.post.findMany({
       where: { orgId: req.orgId, status: "PUBLISHED", ...(pageId ? { pageId } : {}) },
       select: {
@@ -134,6 +166,15 @@ Return ONLY valid JSON (no markdown, no code fences):
     const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
     const result = JSON.parse(cleaned);
 
-    return NextResponse.json(result);
+    // ── Save to cache ────────────────────────────────────────
+    if (pageId) {
+      setCachedInsight(pageId, req.orgId, "audience", result).catch(() => {});
+    }
+
+    return NextResponse.json({
+      ...result,
+      _cached: false,
+      _generatedAt: new Date().toISOString(),
+    });
   })
 );

@@ -151,10 +151,11 @@ export default async function AdminIngestionPage({
 
       {/* Jobs Table */}
       <div
-        className="rounded-lg border overflow-hidden"
-        style={{ background: "var(--bg-secondary)", borderColor: "var(--border-secondary)" }}
+        className="rounded-lg border"
+        style={{ background: "var(--bg-secondary)", borderColor: "var(--border-secondary)", overflow: "hidden" }}
       >
-        <table className="w-full text-sm">
+        <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+        <table className="w-full text-sm" style={{ minWidth: 650 }}>
           <thead>
             <tr style={{ borderBottom: "1px solid var(--border-secondary)" }}>
               {["Page", "Platform", "Status", "Progress", "Processed", "Started", "Duration", "Error"].map((h) => (
@@ -247,6 +248,7 @@ export default async function AdminIngestionPage({
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Pagination */}

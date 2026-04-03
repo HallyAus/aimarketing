@@ -689,6 +689,17 @@ exports.Prisma.EmailVerificationScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CachedInsightScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  orgId: 'orgId',
+  type: 'type',
+  data: 'data',
+  generatedAt: 'generatedAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -902,7 +913,8 @@ exports.Prisma.ModelName = {
   IngestionJob: 'IngestionJob',
   HistoricalPost: 'HistoricalPost',
   HistoricalMetricSnapshot: 'HistoricalMetricSnapshot',
-  EmailVerification: 'EmailVerification'
+  EmailVerification: 'EmailVerification',
+  CachedInsight: 'CachedInsight'
 };
 
 /**

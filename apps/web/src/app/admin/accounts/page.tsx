@@ -123,7 +123,7 @@ export default async function AccountsPage({ searchParams }: Props) {
         {total} connection{total !== 1 ? "s" : ""} found
       </div>
 
-      <div style={{ overflowX: "auto" }}>
+      <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
           <thead>
             <tr style={{ borderBottom: "1px solid var(--border-primary, #2a2a2a)" }}>

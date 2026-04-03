@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { PageHeader } from "@/components/page-header";
+import { CacheStatus } from "@/components/cache-status";
 
 interface CompetitorEntry {
   url: string;
@@ -24,6 +25,9 @@ interface CompetitorAnalysis {
 interface BenchmarkSummary {
   summary: string;
   recommendations: string[];
+  _cached?: boolean;
+  _generatedAt?: string;
+  _rateLimited?: boolean;
 }
 
 export default function BenchmarkingPage() {
@@ -97,7 +101,7 @@ export default function BenchmarkingPage() {
     await Promise.all(promises);
   }
 
-  async function generateSummary() {
+  async function generateSummary(regenerate = false) {
     const analyzed = competitors.filter((c) => c.analysis);
     if (analyzed.length === 0) return;
 
@@ -112,6 +116,7 @@ export default function BenchmarkingPage() {
             url: c.url,
             analysis: c.analysis,
           })),
+          ...(regenerate && { regenerate: true }),
         }),
       });
 
@@ -150,6 +155,14 @@ export default function BenchmarkingPage() {
             </button>
           </div>
         }
+      />
+
+      <CacheStatus
+        cached={aiSummary?._cached}
+        generatedAt={aiSummary?._generatedAt}
+        rateLimited={aiSummary?._rateLimited}
+        onRegenerate={() => generateSummary(true)}
+        loading={summaryLoading}
       />
 
       {/* Competitor inputs */}
@@ -199,7 +212,7 @@ export default function BenchmarkingPage() {
               Side-by-Side Comparison
             </h2>
             <button
-              onClick={generateSummary}
+              onClick={() => generateSummary()}
               disabled={summaryLoading || analyzedCount < 1}
               className="btn-primary"
             >

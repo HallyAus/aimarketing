@@ -104,7 +104,7 @@ export default async function SystemPage() {
       </h1>
 
       {/* Overview cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 32 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 16, marginBottom: 32 }}>
         <div style={cardStyle}>
           <div style={statLabel}>Scheduled (Next 24h)</div>
           <div style={statValue}>{scheduledNext24h}</div>
@@ -139,8 +139,8 @@ export default async function SystemPage() {
           <h2 style={{ fontSize: 18, fontWeight: 600, color: "var(--text-primary)", marginBottom: 16 }}>
             Queue Status
           </h2>
-          <div style={{ overflowX: "auto", marginBottom: 32 }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+          <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch", marginBottom: 32 }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14, minWidth: 500 }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid var(--border-primary, #2a2a2a)" }}>
                   {["Queue", "Waiting", "Active", "Completed", "Failed"].map((h) => (
@@ -175,8 +175,8 @@ export default async function SystemPage() {
           No system metrics recorded yet
         </div>
       ) : (
-        <div style={{ overflowX: "auto", marginBottom: 32 }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+        <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch", marginBottom: 32 }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14, minWidth: 500 }}>
             <thead>
               <tr style={{ borderBottom: "1px solid var(--border-primary, #2a2a2a)" }}>
                 {["Metric", "Value", "Tags", "Recorded"].map((h) => (
@@ -213,8 +213,8 @@ export default async function SystemPage() {
           No failed posts in the last 7 days
         </div>
       ) : (
-        <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+        <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14, minWidth: 500 }}>
             <thead>
               <tr style={{ borderBottom: "1px solid var(--border-primary, #2a2a2a)" }}>
                 {["Content", "Organization", "Platform", "Error", "When"].map((h) => (

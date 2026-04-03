@@ -77,7 +77,7 @@ export default async function WaitlistPage({ searchParams }: Props) {
       </h1>
 
       {/* Stats cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16, marginBottom: 24 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 16, marginBottom: 24 }}>
         <div style={cardStyle}>
           <div style={{ fontSize: 12, color: "var(--text-secondary)", textTransform: "uppercase", fontWeight: 600, marginBottom: 4 }}>
             Total Entries
@@ -156,8 +156,8 @@ export default async function WaitlistPage({ searchParams }: Props) {
         </button>
       </form>
 
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+      <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14, minWidth: 600 }}>
           <thead>
             <tr style={{ borderBottom: "1px solid var(--border-primary, #2a2a2a)" }}>
               {["Email", "Name", "Company", "Plan Interest", "Timezone", "Source", "Signed Up", "Status"].map((h) => (

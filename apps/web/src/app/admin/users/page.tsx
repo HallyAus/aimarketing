@@ -138,9 +138,9 @@ export default async function UsersPage({
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 12 }}>
         <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--text-primary)" }}>Users</h1>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
           <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>
             {total} user{total !== 1 ? "s" : ""}
           </span>
@@ -169,9 +169,10 @@ export default async function UsersPage({
           borderRadius: 8,
           border: "1px solid var(--border-primary, #2a2a2a)",
           overflowX: "auto",
+          WebkitOverflowScrolling: "touch",
         }}
       >
-        <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 900 }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 650 }}>
           <thead>
             <tr>
               <th style={thStyle}>Name / Email</th>

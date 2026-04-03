@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { PageHeader } from "@/components/page-header";
+import { CacheStatus } from "@/components/cache-status";
 import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 interface AudienceData {
@@ -20,6 +21,9 @@ interface AudienceData {
     platforms: string[];
     contentLikes: string[];
   };
+  _cached?: boolean;
+  _generatedAt?: string;
+  _rateLimited?: boolean;
 }
 
 function BarList({ items, color }: { items: { label: string; percentage: number }[]; color: string }) {
@@ -81,12 +85,15 @@ export default function AudiencePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const fetchAudience = useCallback(async () => {
+  const fetchAudience = useCallback(async (regenerate = false) => {
     setLoading(true);
     setError("");
     try {
       const pageId = activeAccount?.id;
-      const qs = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+      const params = new URLSearchParams();
+      if (pageId) params.set("pageId", pageId);
+      if (regenerate) params.set("regenerate", "true");
+      const qs = params.toString() ? `?${params.toString()}` : "";
       const res = await fetch(`/api/analytics/audience${qs}`);
       if (!res.ok) throw new Error("Failed to load audience insights");
       const result = await res.json();
@@ -112,10 +119,18 @@ export default function AudiencePage() {
           { label: "Audience" },
         ]}
         action={
-          <button onClick={fetchAudience} className="btn-secondary" disabled={loading}>
+          <button onClick={() => fetchAudience(true)} className="btn-secondary" disabled={loading}>
             {loading ? "Analyzing..." : "Re-analyze"}
           </button>
         }
+      />
+
+      <CacheStatus
+        cached={data?._cached}
+        generatedAt={data?._generatedAt}
+        rateLimited={data?._rateLimited}
+        onRegenerate={() => fetchAudience(true)}
+        loading={loading}
       />
 
       {error && <div className="alert alert-error mb-6">{error}</div>}

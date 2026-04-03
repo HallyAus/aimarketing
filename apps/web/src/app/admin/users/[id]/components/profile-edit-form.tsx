@@ -46,7 +46,7 @@ export function ProfileEditForm({ user }: { user: ProfileData }) {
 
   const fieldStyle: React.CSSProperties = {
     display: "grid",
-    gridTemplateColumns: "140px 1fr",
+    gridTemplateColumns: "minmax(100px, 140px) 1fr",
     alignItems: "center",
     gap: 8,
     padding: "10px 0",

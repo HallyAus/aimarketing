@@ -203,6 +203,11 @@ export type HistoricalMetricSnapshot = $Result.DefaultSelection<Prisma.$Historic
  * 
  */
 export type EmailVerification = $Result.DefaultSelection<Prisma.$EmailVerificationPayload>
+/**
+ * Model CachedInsight
+ * 
+ */
+export type CachedInsight = $Result.DefaultSelection<Prisma.$CachedInsightPayload>
 
 /**
  * Enums
@@ -978,6 +983,16 @@ export class PrismaClient<
     * ```
     */
   get emailVerification(): Prisma.EmailVerificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cachedInsight`: Exposes CRUD operations for the **CachedInsight** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CachedInsights
+    * const cachedInsights = await prisma.cachedInsight.findMany()
+    * ```
+    */
+  get cachedInsight(): Prisma.CachedInsightDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1456,7 +1471,8 @@ export namespace Prisma {
     IngestionJob: 'IngestionJob',
     HistoricalPost: 'HistoricalPost',
     HistoricalMetricSnapshot: 'HistoricalMetricSnapshot',
-    EmailVerification: 'EmailVerification'
+    EmailVerification: 'EmailVerification',
+    CachedInsight: 'CachedInsight'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1475,7 +1491,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "organization" | "user" | "account" | "session" | "verificationToken" | "membership" | "invitation" | "platformConnection" | "campaign" | "post" | "creative" | "analyticsSnapshot" | "auditLog" | "webhookEvent" | "postTemplate" | "authenticator" | "page" | "brandVoice" | "hashtagSet" | "contentTemplate" | "approvalRequest" | "rssFeed" | "webhookRule" | "leadCapture" | "utmLink" | "performanceReport" | "invoice" | "usageRecord" | "paymentMethod" | "apiKey" | "featureFlag" | "systemMetric" | "announcement" | "waitlistEntry" | "ingestionJob" | "historicalPost" | "historicalMetricSnapshot" | "emailVerification"
+      modelProps: "organization" | "user" | "account" | "session" | "verificationToken" | "membership" | "invitation" | "platformConnection" | "campaign" | "post" | "creative" | "analyticsSnapshot" | "auditLog" | "webhookEvent" | "postTemplate" | "authenticator" | "page" | "brandVoice" | "hashtagSet" | "contentTemplate" | "approvalRequest" | "rssFeed" | "webhookRule" | "leadCapture" | "utmLink" | "performanceReport" | "invoice" | "usageRecord" | "paymentMethod" | "apiKey" | "featureFlag" | "systemMetric" | "announcement" | "waitlistEntry" | "ingestionJob" | "historicalPost" | "historicalMetricSnapshot" | "emailVerification" | "cachedInsight"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4291,6 +4307,80 @@ export namespace Prisma {
           }
         }
       }
+      CachedInsight: {
+        payload: Prisma.$CachedInsightPayload<ExtArgs>
+        fields: Prisma.CachedInsightFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CachedInsightFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CachedInsightPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CachedInsightFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CachedInsightPayload>
+          }
+          findFirst: {
+            args: Prisma.CachedInsightFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CachedInsightPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CachedInsightFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CachedInsightPayload>
+          }
+          findMany: {
+            args: Prisma.CachedInsightFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CachedInsightPayload>[]
+          }
+          create: {
+            args: Prisma.CachedInsightCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CachedInsightPayload>
+          }
+          createMany: {
+            args: Prisma.CachedInsightCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CachedInsightCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CachedInsightPayload>[]
+          }
+          delete: {
+            args: Prisma.CachedInsightDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CachedInsightPayload>
+          }
+          update: {
+            args: Prisma.CachedInsightUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CachedInsightPayload>
+          }
+          deleteMany: {
+            args: Prisma.CachedInsightDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CachedInsightUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CachedInsightUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CachedInsightPayload>[]
+          }
+          upsert: {
+            args: Prisma.CachedInsightUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CachedInsightPayload>
+          }
+          aggregate: {
+            args: Prisma.CachedInsightAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCachedInsight>
+          }
+          groupBy: {
+            args: Prisma.CachedInsightGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CachedInsightGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CachedInsightCountArgs<ExtArgs>
+            result: $Utils.Optional<CachedInsightCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4425,6 +4515,7 @@ export namespace Prisma {
     historicalPost?: HistoricalPostOmit
     historicalMetricSnapshot?: HistoricalMetricSnapshotOmit
     emailVerification?: EmailVerificationOmit
+    cachedInsight?: CachedInsightOmit
   }
 
   /* Types for Logging */
@@ -4933,6 +5024,7 @@ export namespace Prisma {
     ingestionJobs: number
     historicalPosts: number
     historicalMetrics: number
+    cachedInsights: number
   }
 
   export type PageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4948,6 +5040,7 @@ export namespace Prisma {
     ingestionJobs?: boolean | PageCountOutputTypeCountIngestionJobsArgs
     historicalPosts?: boolean | PageCountOutputTypeCountHistoricalPostsArgs
     historicalMetrics?: boolean | PageCountOutputTypeCountHistoricalMetricsArgs
+    cachedInsights?: boolean | PageCountOutputTypeCountCachedInsightsArgs
   }
 
   // Custom InputTypes
@@ -5043,6 +5136,13 @@ export namespace Prisma {
    */
   export type PageCountOutputTypeCountHistoricalMetricsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: HistoricalMetricSnapshotWhereInput
+  }
+
+  /**
+   * PageCountOutputType without action
+   */
+  export type PageCountOutputTypeCountCachedInsightsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CachedInsightWhereInput
   }
 
 
@@ -25293,6 +25393,7 @@ export namespace Prisma {
     ingestionJobs?: boolean | Page$ingestionJobsArgs<ExtArgs>
     historicalPosts?: boolean | Page$historicalPostsArgs<ExtArgs>
     historicalMetrics?: boolean | Page$historicalMetricsArgs<ExtArgs>
+    cachedInsights?: boolean | Page$cachedInsightsArgs<ExtArgs>
     _count?: boolean | PageCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["page"]>
 
@@ -25367,6 +25468,7 @@ export namespace Prisma {
     ingestionJobs?: boolean | Page$ingestionJobsArgs<ExtArgs>
     historicalPosts?: boolean | Page$historicalPostsArgs<ExtArgs>
     historicalMetrics?: boolean | Page$historicalMetricsArgs<ExtArgs>
+    cachedInsights?: boolean | Page$cachedInsightsArgs<ExtArgs>
     _count?: boolean | PageCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -25395,6 +25497,7 @@ export namespace Prisma {
       ingestionJobs: Prisma.$IngestionJobPayload<ExtArgs>[]
       historicalPosts: Prisma.$HistoricalPostPayload<ExtArgs>[]
       historicalMetrics: Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>[]
+      cachedInsights: Prisma.$CachedInsightPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -25819,6 +25922,7 @@ export namespace Prisma {
     ingestionJobs<T extends Page$ingestionJobsArgs<ExtArgs> = {}>(args?: Subset<T, Page$ingestionJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IngestionJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     historicalPosts<T extends Page$historicalPostsArgs<ExtArgs> = {}>(args?: Subset<T, Page$historicalPostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricalPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     historicalMetrics<T extends Page$historicalMetricsArgs<ExtArgs> = {}>(args?: Subset<T, Page$historicalMetricsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    cachedInsights<T extends Page$cachedInsightsArgs<ExtArgs> = {}>(args?: Subset<T, Page$cachedInsightsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CachedInsightPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -26543,6 +26647,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: HistoricalMetricSnapshotScalarFieldEnum | HistoricalMetricSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * Page.cachedInsights
+   */
+  export type Page$cachedInsightsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CachedInsight
+     */
+    select?: CachedInsightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CachedInsight
+     */
+    omit?: CachedInsightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CachedInsightInclude<ExtArgs> | null
+    where?: CachedInsightWhereInput
+    orderBy?: CachedInsightOrderByWithRelationInput | CachedInsightOrderByWithRelationInput[]
+    cursor?: CachedInsightWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CachedInsightScalarFieldEnum | CachedInsightScalarFieldEnum[]
   }
 
   /**
@@ -50525,6 +50653,1099 @@ export namespace Prisma {
 
 
   /**
+   * Model CachedInsight
+   */
+
+  export type AggregateCachedInsight = {
+    _count: CachedInsightCountAggregateOutputType | null
+    _min: CachedInsightMinAggregateOutputType | null
+    _max: CachedInsightMaxAggregateOutputType | null
+  }
+
+  export type CachedInsightMinAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    orgId: string | null
+    type: string | null
+    generatedAt: Date | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type CachedInsightMaxAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    orgId: string | null
+    type: string | null
+    generatedAt: Date | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type CachedInsightCountAggregateOutputType = {
+    id: number
+    pageId: number
+    orgId: number
+    type: number
+    data: number
+    generatedAt: number
+    expiresAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CachedInsightMinAggregateInputType = {
+    id?: true
+    pageId?: true
+    orgId?: true
+    type?: true
+    generatedAt?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type CachedInsightMaxAggregateInputType = {
+    id?: true
+    pageId?: true
+    orgId?: true
+    type?: true
+    generatedAt?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type CachedInsightCountAggregateInputType = {
+    id?: true
+    pageId?: true
+    orgId?: true
+    type?: true
+    data?: true
+    generatedAt?: true
+    expiresAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CachedInsightAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CachedInsight to aggregate.
+     */
+    where?: CachedInsightWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CachedInsights to fetch.
+     */
+    orderBy?: CachedInsightOrderByWithRelationInput | CachedInsightOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CachedInsightWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CachedInsights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CachedInsights.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CachedInsights
+    **/
+    _count?: true | CachedInsightCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CachedInsightMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CachedInsightMaxAggregateInputType
+  }
+
+  export type GetCachedInsightAggregateType<T extends CachedInsightAggregateArgs> = {
+        [P in keyof T & keyof AggregateCachedInsight]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCachedInsight[P]>
+      : GetScalarType<T[P], AggregateCachedInsight[P]>
+  }
+
+
+
+
+  export type CachedInsightGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CachedInsightWhereInput
+    orderBy?: CachedInsightOrderByWithAggregationInput | CachedInsightOrderByWithAggregationInput[]
+    by: CachedInsightScalarFieldEnum[] | CachedInsightScalarFieldEnum
+    having?: CachedInsightScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CachedInsightCountAggregateInputType | true
+    _min?: CachedInsightMinAggregateInputType
+    _max?: CachedInsightMaxAggregateInputType
+  }
+
+  export type CachedInsightGroupByOutputType = {
+    id: string
+    pageId: string
+    orgId: string
+    type: string
+    data: JsonValue
+    generatedAt: Date
+    expiresAt: Date
+    createdAt: Date
+    _count: CachedInsightCountAggregateOutputType | null
+    _min: CachedInsightMinAggregateOutputType | null
+    _max: CachedInsightMaxAggregateOutputType | null
+  }
+
+  type GetCachedInsightGroupByPayload<T extends CachedInsightGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CachedInsightGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CachedInsightGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CachedInsightGroupByOutputType[P]>
+            : GetScalarType<T[P], CachedInsightGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CachedInsightSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    type?: boolean
+    data?: boolean
+    generatedAt?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cachedInsight"]>
+
+  export type CachedInsightSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    type?: boolean
+    data?: boolean
+    generatedAt?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cachedInsight"]>
+
+  export type CachedInsightSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    type?: boolean
+    data?: boolean
+    generatedAt?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cachedInsight"]>
+
+  export type CachedInsightSelectScalar = {
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    type?: boolean
+    data?: boolean
+    generatedAt?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type CachedInsightOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pageId" | "orgId" | "type" | "data" | "generatedAt" | "expiresAt" | "createdAt", ExtArgs["result"]["cachedInsight"]>
+  export type CachedInsightInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }
+  export type CachedInsightIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }
+  export type CachedInsightIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }
+
+  export type $CachedInsightPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CachedInsight"
+    objects: {
+      page: Prisma.$PagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pageId: string
+      orgId: string
+      type: string
+      data: Prisma.JsonValue
+      generatedAt: Date
+      expiresAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["cachedInsight"]>
+    composites: {}
+  }
+
+  type CachedInsightGetPayload<S extends boolean | null | undefined | CachedInsightDefaultArgs> = $Result.GetResult<Prisma.$CachedInsightPayload, S>
+
+  type CachedInsightCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CachedInsightFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CachedInsightCountAggregateInputType | true
+    }
+
+  export interface CachedInsightDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CachedInsight'], meta: { name: 'CachedInsight' } }
+    /**
+     * Find zero or one CachedInsight that matches the filter.
+     * @param {CachedInsightFindUniqueArgs} args - Arguments to find a CachedInsight
+     * @example
+     * // Get one CachedInsight
+     * const cachedInsight = await prisma.cachedInsight.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CachedInsightFindUniqueArgs>(args: SelectSubset<T, CachedInsightFindUniqueArgs<ExtArgs>>): Prisma__CachedInsightClient<$Result.GetResult<Prisma.$CachedInsightPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CachedInsight that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CachedInsightFindUniqueOrThrowArgs} args - Arguments to find a CachedInsight
+     * @example
+     * // Get one CachedInsight
+     * const cachedInsight = await prisma.cachedInsight.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CachedInsightFindUniqueOrThrowArgs>(args: SelectSubset<T, CachedInsightFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CachedInsightClient<$Result.GetResult<Prisma.$CachedInsightPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CachedInsight that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CachedInsightFindFirstArgs} args - Arguments to find a CachedInsight
+     * @example
+     * // Get one CachedInsight
+     * const cachedInsight = await prisma.cachedInsight.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CachedInsightFindFirstArgs>(args?: SelectSubset<T, CachedInsightFindFirstArgs<ExtArgs>>): Prisma__CachedInsightClient<$Result.GetResult<Prisma.$CachedInsightPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CachedInsight that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CachedInsightFindFirstOrThrowArgs} args - Arguments to find a CachedInsight
+     * @example
+     * // Get one CachedInsight
+     * const cachedInsight = await prisma.cachedInsight.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CachedInsightFindFirstOrThrowArgs>(args?: SelectSubset<T, CachedInsightFindFirstOrThrowArgs<ExtArgs>>): Prisma__CachedInsightClient<$Result.GetResult<Prisma.$CachedInsightPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CachedInsights that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CachedInsightFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CachedInsights
+     * const cachedInsights = await prisma.cachedInsight.findMany()
+     * 
+     * // Get first 10 CachedInsights
+     * const cachedInsights = await prisma.cachedInsight.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const cachedInsightWithIdOnly = await prisma.cachedInsight.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CachedInsightFindManyArgs>(args?: SelectSubset<T, CachedInsightFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CachedInsightPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CachedInsight.
+     * @param {CachedInsightCreateArgs} args - Arguments to create a CachedInsight.
+     * @example
+     * // Create one CachedInsight
+     * const CachedInsight = await prisma.cachedInsight.create({
+     *   data: {
+     *     // ... data to create a CachedInsight
+     *   }
+     * })
+     * 
+     */
+    create<T extends CachedInsightCreateArgs>(args: SelectSubset<T, CachedInsightCreateArgs<ExtArgs>>): Prisma__CachedInsightClient<$Result.GetResult<Prisma.$CachedInsightPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CachedInsights.
+     * @param {CachedInsightCreateManyArgs} args - Arguments to create many CachedInsights.
+     * @example
+     * // Create many CachedInsights
+     * const cachedInsight = await prisma.cachedInsight.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CachedInsightCreateManyArgs>(args?: SelectSubset<T, CachedInsightCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CachedInsights and returns the data saved in the database.
+     * @param {CachedInsightCreateManyAndReturnArgs} args - Arguments to create many CachedInsights.
+     * @example
+     * // Create many CachedInsights
+     * const cachedInsight = await prisma.cachedInsight.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CachedInsights and only return the `id`
+     * const cachedInsightWithIdOnly = await prisma.cachedInsight.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CachedInsightCreateManyAndReturnArgs>(args?: SelectSubset<T, CachedInsightCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CachedInsightPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CachedInsight.
+     * @param {CachedInsightDeleteArgs} args - Arguments to delete one CachedInsight.
+     * @example
+     * // Delete one CachedInsight
+     * const CachedInsight = await prisma.cachedInsight.delete({
+     *   where: {
+     *     // ... filter to delete one CachedInsight
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CachedInsightDeleteArgs>(args: SelectSubset<T, CachedInsightDeleteArgs<ExtArgs>>): Prisma__CachedInsightClient<$Result.GetResult<Prisma.$CachedInsightPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CachedInsight.
+     * @param {CachedInsightUpdateArgs} args - Arguments to update one CachedInsight.
+     * @example
+     * // Update one CachedInsight
+     * const cachedInsight = await prisma.cachedInsight.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CachedInsightUpdateArgs>(args: SelectSubset<T, CachedInsightUpdateArgs<ExtArgs>>): Prisma__CachedInsightClient<$Result.GetResult<Prisma.$CachedInsightPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CachedInsights.
+     * @param {CachedInsightDeleteManyArgs} args - Arguments to filter CachedInsights to delete.
+     * @example
+     * // Delete a few CachedInsights
+     * const { count } = await prisma.cachedInsight.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CachedInsightDeleteManyArgs>(args?: SelectSubset<T, CachedInsightDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CachedInsights.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CachedInsightUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CachedInsights
+     * const cachedInsight = await prisma.cachedInsight.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CachedInsightUpdateManyArgs>(args: SelectSubset<T, CachedInsightUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CachedInsights and returns the data updated in the database.
+     * @param {CachedInsightUpdateManyAndReturnArgs} args - Arguments to update many CachedInsights.
+     * @example
+     * // Update many CachedInsights
+     * const cachedInsight = await prisma.cachedInsight.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CachedInsights and only return the `id`
+     * const cachedInsightWithIdOnly = await prisma.cachedInsight.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CachedInsightUpdateManyAndReturnArgs>(args: SelectSubset<T, CachedInsightUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CachedInsightPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CachedInsight.
+     * @param {CachedInsightUpsertArgs} args - Arguments to update or create a CachedInsight.
+     * @example
+     * // Update or create a CachedInsight
+     * const cachedInsight = await prisma.cachedInsight.upsert({
+     *   create: {
+     *     // ... data to create a CachedInsight
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CachedInsight we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CachedInsightUpsertArgs>(args: SelectSubset<T, CachedInsightUpsertArgs<ExtArgs>>): Prisma__CachedInsightClient<$Result.GetResult<Prisma.$CachedInsightPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CachedInsights.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CachedInsightCountArgs} args - Arguments to filter CachedInsights to count.
+     * @example
+     * // Count the number of CachedInsights
+     * const count = await prisma.cachedInsight.count({
+     *   where: {
+     *     // ... the filter for the CachedInsights we want to count
+     *   }
+     * })
+    **/
+    count<T extends CachedInsightCountArgs>(
+      args?: Subset<T, CachedInsightCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CachedInsightCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CachedInsight.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CachedInsightAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CachedInsightAggregateArgs>(args: Subset<T, CachedInsightAggregateArgs>): Prisma.PrismaPromise<GetCachedInsightAggregateType<T>>
+
+    /**
+     * Group by CachedInsight.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CachedInsightGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CachedInsightGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CachedInsightGroupByArgs['orderBy'] }
+        : { orderBy?: CachedInsightGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CachedInsightGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCachedInsightGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CachedInsight model
+   */
+  readonly fields: CachedInsightFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CachedInsight.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CachedInsightClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    page<T extends PageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PageDefaultArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CachedInsight model
+   */
+  interface CachedInsightFieldRefs {
+    readonly id: FieldRef<"CachedInsight", 'String'>
+    readonly pageId: FieldRef<"CachedInsight", 'String'>
+    readonly orgId: FieldRef<"CachedInsight", 'String'>
+    readonly type: FieldRef<"CachedInsight", 'String'>
+    readonly data: FieldRef<"CachedInsight", 'Json'>
+    readonly generatedAt: FieldRef<"CachedInsight", 'DateTime'>
+    readonly expiresAt: FieldRef<"CachedInsight", 'DateTime'>
+    readonly createdAt: FieldRef<"CachedInsight", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CachedInsight findUnique
+   */
+  export type CachedInsightFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CachedInsight
+     */
+    select?: CachedInsightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CachedInsight
+     */
+    omit?: CachedInsightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CachedInsightInclude<ExtArgs> | null
+    /**
+     * Filter, which CachedInsight to fetch.
+     */
+    where: CachedInsightWhereUniqueInput
+  }
+
+  /**
+   * CachedInsight findUniqueOrThrow
+   */
+  export type CachedInsightFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CachedInsight
+     */
+    select?: CachedInsightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CachedInsight
+     */
+    omit?: CachedInsightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CachedInsightInclude<ExtArgs> | null
+    /**
+     * Filter, which CachedInsight to fetch.
+     */
+    where: CachedInsightWhereUniqueInput
+  }
+
+  /**
+   * CachedInsight findFirst
+   */
+  export type CachedInsightFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CachedInsight
+     */
+    select?: CachedInsightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CachedInsight
+     */
+    omit?: CachedInsightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CachedInsightInclude<ExtArgs> | null
+    /**
+     * Filter, which CachedInsight to fetch.
+     */
+    where?: CachedInsightWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CachedInsights to fetch.
+     */
+    orderBy?: CachedInsightOrderByWithRelationInput | CachedInsightOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CachedInsights.
+     */
+    cursor?: CachedInsightWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CachedInsights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CachedInsights.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CachedInsights.
+     */
+    distinct?: CachedInsightScalarFieldEnum | CachedInsightScalarFieldEnum[]
+  }
+
+  /**
+   * CachedInsight findFirstOrThrow
+   */
+  export type CachedInsightFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CachedInsight
+     */
+    select?: CachedInsightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CachedInsight
+     */
+    omit?: CachedInsightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CachedInsightInclude<ExtArgs> | null
+    /**
+     * Filter, which CachedInsight to fetch.
+     */
+    where?: CachedInsightWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CachedInsights to fetch.
+     */
+    orderBy?: CachedInsightOrderByWithRelationInput | CachedInsightOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CachedInsights.
+     */
+    cursor?: CachedInsightWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CachedInsights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CachedInsights.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CachedInsights.
+     */
+    distinct?: CachedInsightScalarFieldEnum | CachedInsightScalarFieldEnum[]
+  }
+
+  /**
+   * CachedInsight findMany
+   */
+  export type CachedInsightFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CachedInsight
+     */
+    select?: CachedInsightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CachedInsight
+     */
+    omit?: CachedInsightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CachedInsightInclude<ExtArgs> | null
+    /**
+     * Filter, which CachedInsights to fetch.
+     */
+    where?: CachedInsightWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CachedInsights to fetch.
+     */
+    orderBy?: CachedInsightOrderByWithRelationInput | CachedInsightOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CachedInsights.
+     */
+    cursor?: CachedInsightWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CachedInsights from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CachedInsights.
+     */
+    skip?: number
+    distinct?: CachedInsightScalarFieldEnum | CachedInsightScalarFieldEnum[]
+  }
+
+  /**
+   * CachedInsight create
+   */
+  export type CachedInsightCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CachedInsight
+     */
+    select?: CachedInsightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CachedInsight
+     */
+    omit?: CachedInsightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CachedInsightInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CachedInsight.
+     */
+    data: XOR<CachedInsightCreateInput, CachedInsightUncheckedCreateInput>
+  }
+
+  /**
+   * CachedInsight createMany
+   */
+  export type CachedInsightCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CachedInsights.
+     */
+    data: CachedInsightCreateManyInput | CachedInsightCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CachedInsight createManyAndReturn
+   */
+  export type CachedInsightCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CachedInsight
+     */
+    select?: CachedInsightSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CachedInsight
+     */
+    omit?: CachedInsightOmit<ExtArgs> | null
+    /**
+     * The data used to create many CachedInsights.
+     */
+    data: CachedInsightCreateManyInput | CachedInsightCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CachedInsightIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CachedInsight update
+   */
+  export type CachedInsightUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CachedInsight
+     */
+    select?: CachedInsightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CachedInsight
+     */
+    omit?: CachedInsightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CachedInsightInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CachedInsight.
+     */
+    data: XOR<CachedInsightUpdateInput, CachedInsightUncheckedUpdateInput>
+    /**
+     * Choose, which CachedInsight to update.
+     */
+    where: CachedInsightWhereUniqueInput
+  }
+
+  /**
+   * CachedInsight updateMany
+   */
+  export type CachedInsightUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CachedInsights.
+     */
+    data: XOR<CachedInsightUpdateManyMutationInput, CachedInsightUncheckedUpdateManyInput>
+    /**
+     * Filter which CachedInsights to update
+     */
+    where?: CachedInsightWhereInput
+    /**
+     * Limit how many CachedInsights to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CachedInsight updateManyAndReturn
+   */
+  export type CachedInsightUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CachedInsight
+     */
+    select?: CachedInsightSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CachedInsight
+     */
+    omit?: CachedInsightOmit<ExtArgs> | null
+    /**
+     * The data used to update CachedInsights.
+     */
+    data: XOR<CachedInsightUpdateManyMutationInput, CachedInsightUncheckedUpdateManyInput>
+    /**
+     * Filter which CachedInsights to update
+     */
+    where?: CachedInsightWhereInput
+    /**
+     * Limit how many CachedInsights to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CachedInsightIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CachedInsight upsert
+   */
+  export type CachedInsightUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CachedInsight
+     */
+    select?: CachedInsightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CachedInsight
+     */
+    omit?: CachedInsightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CachedInsightInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CachedInsight to update in case it exists.
+     */
+    where: CachedInsightWhereUniqueInput
+    /**
+     * In case the CachedInsight found by the `where` argument doesn't exist, create a new CachedInsight with this data.
+     */
+    create: XOR<CachedInsightCreateInput, CachedInsightUncheckedCreateInput>
+    /**
+     * In case the CachedInsight was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CachedInsightUpdateInput, CachedInsightUncheckedUpdateInput>
+  }
+
+  /**
+   * CachedInsight delete
+   */
+  export type CachedInsightDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CachedInsight
+     */
+    select?: CachedInsightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CachedInsight
+     */
+    omit?: CachedInsightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CachedInsightInclude<ExtArgs> | null
+    /**
+     * Filter which CachedInsight to delete.
+     */
+    where: CachedInsightWhereUniqueInput
+  }
+
+  /**
+   * CachedInsight deleteMany
+   */
+  export type CachedInsightDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CachedInsights to delete
+     */
+    where?: CachedInsightWhereInput
+    /**
+     * Limit how many CachedInsights to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CachedInsight without action
+   */
+  export type CachedInsightDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CachedInsight
+     */
+    select?: CachedInsightSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CachedInsight
+     */
+    omit?: CachedInsightOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CachedInsightInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -51218,6 +52439,20 @@ export namespace Prisma {
   };
 
   export type EmailVerificationScalarFieldEnum = (typeof EmailVerificationScalarFieldEnum)[keyof typeof EmailVerificationScalarFieldEnum]
+
+
+  export const CachedInsightScalarFieldEnum: {
+    id: 'id',
+    pageId: 'pageId',
+    orgId: 'orgId',
+    type: 'type',
+    data: 'data',
+    generatedAt: 'generatedAt',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt'
+  };
+
+  export type CachedInsightScalarFieldEnum = (typeof CachedInsightScalarFieldEnum)[keyof typeof CachedInsightScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -53360,6 +54595,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobListRelationFilter
     historicalPosts?: HistoricalPostListRelationFilter
     historicalMetrics?: HistoricalMetricSnapshotListRelationFilter
+    cachedInsights?: CachedInsightListRelationFilter
   }
 
   export type PageOrderByWithRelationInput = {
@@ -53391,6 +54627,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobOrderByRelationAggregateInput
     historicalPosts?: HistoricalPostOrderByRelationAggregateInput
     historicalMetrics?: HistoricalMetricSnapshotOrderByRelationAggregateInput
+    cachedInsights?: CachedInsightOrderByRelationAggregateInput
   }
 
   export type PageWhereUniqueInput = Prisma.AtLeast<{
@@ -53426,6 +54663,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobListRelationFilter
     historicalPosts?: HistoricalPostListRelationFilter
     historicalMetrics?: HistoricalMetricSnapshotListRelationFilter
+    cachedInsights?: CachedInsightListRelationFilter
   }, "id" | "orgId_platform_platformPageId">
 
   export type PageOrderByWithAggregationInput = {
@@ -55254,6 +56492,77 @@ export namespace Prisma {
     expiresAt?: DateTimeWithAggregatesFilter<"EmailVerification"> | Date | string
     usedAt?: DateTimeNullableWithAggregatesFilter<"EmailVerification"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"EmailVerification"> | Date | string
+  }
+
+  export type CachedInsightWhereInput = {
+    AND?: CachedInsightWhereInput | CachedInsightWhereInput[]
+    OR?: CachedInsightWhereInput[]
+    NOT?: CachedInsightWhereInput | CachedInsightWhereInput[]
+    id?: StringFilter<"CachedInsight"> | string
+    pageId?: StringFilter<"CachedInsight"> | string
+    orgId?: StringFilter<"CachedInsight"> | string
+    type?: StringFilter<"CachedInsight"> | string
+    data?: JsonFilter<"CachedInsight">
+    generatedAt?: DateTimeFilter<"CachedInsight"> | Date | string
+    expiresAt?: DateTimeFilter<"CachedInsight"> | Date | string
+    createdAt?: DateTimeFilter<"CachedInsight"> | Date | string
+    page?: XOR<PageScalarRelationFilter, PageWhereInput>
+  }
+
+  export type CachedInsightOrderByWithRelationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    type?: SortOrder
+    data?: SortOrder
+    generatedAt?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    page?: PageOrderByWithRelationInput
+  }
+
+  export type CachedInsightWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    pageId_type?: CachedInsightPageIdTypeCompoundUniqueInput
+    AND?: CachedInsightWhereInput | CachedInsightWhereInput[]
+    OR?: CachedInsightWhereInput[]
+    NOT?: CachedInsightWhereInput | CachedInsightWhereInput[]
+    pageId?: StringFilter<"CachedInsight"> | string
+    orgId?: StringFilter<"CachedInsight"> | string
+    type?: StringFilter<"CachedInsight"> | string
+    data?: JsonFilter<"CachedInsight">
+    generatedAt?: DateTimeFilter<"CachedInsight"> | Date | string
+    expiresAt?: DateTimeFilter<"CachedInsight"> | Date | string
+    createdAt?: DateTimeFilter<"CachedInsight"> | Date | string
+    page?: XOR<PageScalarRelationFilter, PageWhereInput>
+  }, "id" | "pageId_type">
+
+  export type CachedInsightOrderByWithAggregationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    type?: SortOrder
+    data?: SortOrder
+    generatedAt?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: CachedInsightCountOrderByAggregateInput
+    _max?: CachedInsightMaxOrderByAggregateInput
+    _min?: CachedInsightMinOrderByAggregateInput
+  }
+
+  export type CachedInsightScalarWhereWithAggregatesInput = {
+    AND?: CachedInsightScalarWhereWithAggregatesInput | CachedInsightScalarWhereWithAggregatesInput[]
+    OR?: CachedInsightScalarWhereWithAggregatesInput[]
+    NOT?: CachedInsightScalarWhereWithAggregatesInput | CachedInsightScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CachedInsight"> | string
+    pageId?: StringWithAggregatesFilter<"CachedInsight"> | string
+    orgId?: StringWithAggregatesFilter<"CachedInsight"> | string
+    type?: StringWithAggregatesFilter<"CachedInsight"> | string
+    data?: JsonWithAggregatesFilter<"CachedInsight">
+    generatedAt?: DateTimeWithAggregatesFilter<"CachedInsight"> | Date | string
+    expiresAt?: DateTimeWithAggregatesFilter<"CachedInsight"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"CachedInsight"> | Date | string
   }
 
   export type OrganizationCreateInput = {
@@ -57235,6 +58544,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateInput = {
@@ -57264,6 +58574,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageUpdateInput = {
@@ -57293,6 +58604,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateInput = {
@@ -57322,6 +58634,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PageCreateManyInput = {
@@ -59373,6 +60686,82 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CachedInsightCreateInput = {
+    id?: string
+    orgId: string
+    type: string
+    data: JsonNullValueInput | InputJsonValue
+    generatedAt: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    page: PageCreateNestedOneWithoutCachedInsightsInput
+  }
+
+  export type CachedInsightUncheckedCreateInput = {
+    id?: string
+    pageId: string
+    orgId: string
+    type: string
+    data: JsonNullValueInput | InputJsonValue
+    generatedAt: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type CachedInsightUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: PageUpdateOneRequiredWithoutCachedInsightsNestedInput
+  }
+
+  export type CachedInsightUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CachedInsightCreateManyInput = {
+    id?: string
+    pageId: string
+    orgId: string
+    type: string
+    data: JsonNullValueInput | InputJsonValue
+    generatedAt: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type CachedInsightUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CachedInsightUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -61215,6 +62604,12 @@ export namespace Prisma {
     none?: HistoricalMetricSnapshotWhereInput
   }
 
+  export type CachedInsightListRelationFilter = {
+    every?: CachedInsightWhereInput
+    some?: CachedInsightWhereInput
+    none?: CachedInsightWhereInput
+  }
+
   export type BrandVoiceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -61236,6 +62631,10 @@ export namespace Prisma {
   }
 
   export type HistoricalMetricSnapshotOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CachedInsightOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -62373,6 +63772,42 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumVerificationTypeFilter<$PrismaModel>
     _max?: NestedEnumVerificationTypeFilter<$PrismaModel>
+  }
+
+  export type CachedInsightPageIdTypeCompoundUniqueInput = {
+    pageId: string
+    type: string
+  }
+
+  export type CachedInsightCountOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    type?: SortOrder
+    data?: SortOrder
+    generatedAt?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CachedInsightMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    type?: SortOrder
+    generatedAt?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CachedInsightMinOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    type?: SortOrder
+    generatedAt?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type MembershipCreateNestedManyWithoutOrganizationInput = {
@@ -64429,6 +65864,13 @@ export namespace Prisma {
     connect?: HistoricalMetricSnapshotWhereUniqueInput | HistoricalMetricSnapshotWhereUniqueInput[]
   }
 
+  export type CachedInsightCreateNestedManyWithoutPageInput = {
+    create?: XOR<CachedInsightCreateWithoutPageInput, CachedInsightUncheckedCreateWithoutPageInput> | CachedInsightCreateWithoutPageInput[] | CachedInsightUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: CachedInsightCreateOrConnectWithoutPageInput | CachedInsightCreateOrConnectWithoutPageInput[]
+    createMany?: CachedInsightCreateManyPageInputEnvelope
+    connect?: CachedInsightWhereUniqueInput | CachedInsightWhereUniqueInput[]
+  }
+
   export type PostUncheckedCreateNestedManyWithoutPageInput = {
     create?: XOR<PostCreateWithoutPageInput, PostUncheckedCreateWithoutPageInput> | PostCreateWithoutPageInput[] | PostUncheckedCreateWithoutPageInput[]
     connectOrCreate?: PostCreateOrConnectWithoutPageInput | PostCreateOrConnectWithoutPageInput[]
@@ -64511,6 +65953,13 @@ export namespace Prisma {
     connectOrCreate?: HistoricalMetricSnapshotCreateOrConnectWithoutPageInput | HistoricalMetricSnapshotCreateOrConnectWithoutPageInput[]
     createMany?: HistoricalMetricSnapshotCreateManyPageInputEnvelope
     connect?: HistoricalMetricSnapshotWhereUniqueInput | HistoricalMetricSnapshotWhereUniqueInput[]
+  }
+
+  export type CachedInsightUncheckedCreateNestedManyWithoutPageInput = {
+    create?: XOR<CachedInsightCreateWithoutPageInput, CachedInsightUncheckedCreateWithoutPageInput> | CachedInsightCreateWithoutPageInput[] | CachedInsightUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: CachedInsightCreateOrConnectWithoutPageInput | CachedInsightCreateOrConnectWithoutPageInput[]
+    createMany?: CachedInsightCreateManyPageInputEnvelope
+    connect?: CachedInsightWhereUniqueInput | CachedInsightWhereUniqueInput[]
   }
 
   export type OrganizationUpdateOneRequiredWithoutPagesNestedInput = {
@@ -64697,6 +66146,20 @@ export namespace Prisma {
     deleteMany?: HistoricalMetricSnapshotScalarWhereInput | HistoricalMetricSnapshotScalarWhereInput[]
   }
 
+  export type CachedInsightUpdateManyWithoutPageNestedInput = {
+    create?: XOR<CachedInsightCreateWithoutPageInput, CachedInsightUncheckedCreateWithoutPageInput> | CachedInsightCreateWithoutPageInput[] | CachedInsightUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: CachedInsightCreateOrConnectWithoutPageInput | CachedInsightCreateOrConnectWithoutPageInput[]
+    upsert?: CachedInsightUpsertWithWhereUniqueWithoutPageInput | CachedInsightUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: CachedInsightCreateManyPageInputEnvelope
+    set?: CachedInsightWhereUniqueInput | CachedInsightWhereUniqueInput[]
+    disconnect?: CachedInsightWhereUniqueInput | CachedInsightWhereUniqueInput[]
+    delete?: CachedInsightWhereUniqueInput | CachedInsightWhereUniqueInput[]
+    connect?: CachedInsightWhereUniqueInput | CachedInsightWhereUniqueInput[]
+    update?: CachedInsightUpdateWithWhereUniqueWithoutPageInput | CachedInsightUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: CachedInsightUpdateManyWithWhereWithoutPageInput | CachedInsightUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: CachedInsightScalarWhereInput | CachedInsightScalarWhereInput[]
+  }
+
   export type PostUncheckedUpdateManyWithoutPageNestedInput = {
     create?: XOR<PostCreateWithoutPageInput, PostUncheckedCreateWithoutPageInput> | PostCreateWithoutPageInput[] | PostUncheckedCreateWithoutPageInput[]
     connectOrCreate?: PostCreateOrConnectWithoutPageInput | PostCreateOrConnectWithoutPageInput[]
@@ -64863,6 +66326,20 @@ export namespace Prisma {
     update?: HistoricalMetricSnapshotUpdateWithWhereUniqueWithoutPageInput | HistoricalMetricSnapshotUpdateWithWhereUniqueWithoutPageInput[]
     updateMany?: HistoricalMetricSnapshotUpdateManyWithWhereWithoutPageInput | HistoricalMetricSnapshotUpdateManyWithWhereWithoutPageInput[]
     deleteMany?: HistoricalMetricSnapshotScalarWhereInput | HistoricalMetricSnapshotScalarWhereInput[]
+  }
+
+  export type CachedInsightUncheckedUpdateManyWithoutPageNestedInput = {
+    create?: XOR<CachedInsightCreateWithoutPageInput, CachedInsightUncheckedCreateWithoutPageInput> | CachedInsightCreateWithoutPageInput[] | CachedInsightUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: CachedInsightCreateOrConnectWithoutPageInput | CachedInsightCreateOrConnectWithoutPageInput[]
+    upsert?: CachedInsightUpsertWithWhereUniqueWithoutPageInput | CachedInsightUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: CachedInsightCreateManyPageInputEnvelope
+    set?: CachedInsightWhereUniqueInput | CachedInsightWhereUniqueInput[]
+    disconnect?: CachedInsightWhereUniqueInput | CachedInsightWhereUniqueInput[]
+    delete?: CachedInsightWhereUniqueInput | CachedInsightWhereUniqueInput[]
+    connect?: CachedInsightWhereUniqueInput | CachedInsightWhereUniqueInput[]
+    update?: CachedInsightUpdateWithWhereUniqueWithoutPageInput | CachedInsightUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: CachedInsightUpdateManyWithWhereWithoutPageInput | CachedInsightUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: CachedInsightScalarWhereInput | CachedInsightScalarWhereInput[]
   }
 
   export type BrandVoiceCreatesampleTextsInput = {
@@ -65311,6 +66788,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutEmailVerificationsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutEmailVerificationsInput, UserUpdateWithoutEmailVerificationsInput>, UserUncheckedUpdateWithoutEmailVerificationsInput>
+  }
+
+  export type PageCreateNestedOneWithoutCachedInsightsInput = {
+    create?: XOR<PageCreateWithoutCachedInsightsInput, PageUncheckedCreateWithoutCachedInsightsInput>
+    connectOrCreate?: PageCreateOrConnectWithoutCachedInsightsInput
+    connect?: PageWhereUniqueInput
+  }
+
+  export type PageUpdateOneRequiredWithoutCachedInsightsNestedInput = {
+    create?: XOR<PageCreateWithoutCachedInsightsInput, PageUncheckedCreateWithoutCachedInsightsInput>
+    connectOrCreate?: PageCreateOrConnectWithoutCachedInsightsInput
+    upsert?: PageUpsertWithoutCachedInsightsInput
+    connect?: PageWhereUniqueInput
+    update?: XOR<XOR<PageUpdateToOneWithWhereWithoutCachedInsightsInput, PageUpdateWithoutCachedInsightsInput>, PageUncheckedUpdateWithoutCachedInsightsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -66135,6 +67626,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutOrganizationInput = {
@@ -66163,6 +67655,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutOrganizationInput = {
@@ -69316,6 +70809,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutConnectionInput = {
@@ -69344,6 +70838,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutConnectionInput = {
@@ -69695,6 +71190,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutCampaignsInput = {
@@ -69723,6 +71219,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutCampaignsInput = {
@@ -70019,6 +71516,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutCampaignsInput = {
@@ -70047,6 +71545,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type UserUpsertWithoutCampaignsCreatedInput = {
@@ -70324,6 +71823,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutPostsInput = {
@@ -70352,6 +71852,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutPostsInput = {
@@ -70750,6 +72251,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutPostsInput = {
@@ -70778,6 +72280,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type UserUpsertWithoutPostsApprovedInput = {
@@ -72847,6 +74350,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CachedInsightCreateWithoutPageInput = {
+    id?: string
+    orgId: string
+    type: string
+    data: JsonNullValueInput | InputJsonValue
+    generatedAt: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type CachedInsightUncheckedCreateWithoutPageInput = {
+    id?: string
+    orgId: string
+    type: string
+    data: JsonNullValueInput | InputJsonValue
+    generatedAt: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type CachedInsightCreateOrConnectWithoutPageInput = {
+    where: CachedInsightWhereUniqueInput
+    create: XOR<CachedInsightCreateWithoutPageInput, CachedInsightUncheckedCreateWithoutPageInput>
+  }
+
+  export type CachedInsightCreateManyPageInputEnvelope = {
+    data: CachedInsightCreateManyPageInput | CachedInsightCreateManyPageInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OrganizationUpsertWithoutPagesInput = {
     update: XOR<OrganizationUpdateWithoutPagesInput, OrganizationUncheckedUpdateWithoutPagesInput>
     create: XOR<OrganizationCreateWithoutPagesInput, OrganizationUncheckedCreateWithoutPagesInput>
@@ -73308,6 +74841,36 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"HistoricalMetricSnapshot"> | Date | string
   }
 
+  export type CachedInsightUpsertWithWhereUniqueWithoutPageInput = {
+    where: CachedInsightWhereUniqueInput
+    update: XOR<CachedInsightUpdateWithoutPageInput, CachedInsightUncheckedUpdateWithoutPageInput>
+    create: XOR<CachedInsightCreateWithoutPageInput, CachedInsightUncheckedCreateWithoutPageInput>
+  }
+
+  export type CachedInsightUpdateWithWhereUniqueWithoutPageInput = {
+    where: CachedInsightWhereUniqueInput
+    data: XOR<CachedInsightUpdateWithoutPageInput, CachedInsightUncheckedUpdateWithoutPageInput>
+  }
+
+  export type CachedInsightUpdateManyWithWhereWithoutPageInput = {
+    where: CachedInsightScalarWhereInput
+    data: XOR<CachedInsightUpdateManyMutationInput, CachedInsightUncheckedUpdateManyWithoutPageInput>
+  }
+
+  export type CachedInsightScalarWhereInput = {
+    AND?: CachedInsightScalarWhereInput | CachedInsightScalarWhereInput[]
+    OR?: CachedInsightScalarWhereInput[]
+    NOT?: CachedInsightScalarWhereInput | CachedInsightScalarWhereInput[]
+    id?: StringFilter<"CachedInsight"> | string
+    pageId?: StringFilter<"CachedInsight"> | string
+    orgId?: StringFilter<"CachedInsight"> | string
+    type?: StringFilter<"CachedInsight"> | string
+    data?: JsonFilter<"CachedInsight">
+    generatedAt?: DateTimeFilter<"CachedInsight"> | Date | string
+    expiresAt?: DateTimeFilter<"CachedInsight"> | Date | string
+    createdAt?: DateTimeFilter<"CachedInsight"> | Date | string
+  }
+
   export type PageCreateWithoutBrandVoicesInput = {
     id?: string
     platform: $Enums.Platform
@@ -73334,6 +74897,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutBrandVoicesInput = {
@@ -73362,6 +74926,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutBrandVoicesInput = {
@@ -73406,6 +74971,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutBrandVoicesInput = {
@@ -73434,6 +75000,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PageCreateWithoutHashtagSetsInput = {
@@ -73462,6 +75029,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutHashtagSetsInput = {
@@ -73490,6 +75058,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutHashtagSetsInput = {
@@ -73534,6 +75103,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutHashtagSetsInput = {
@@ -73562,6 +75132,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PageCreateWithoutContentTemplatesInput = {
@@ -73590,6 +75161,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutContentTemplatesInput = {
@@ -73618,6 +75190,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutContentTemplatesInput = {
@@ -73763,6 +75336,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutContentTemplatesInput = {
@@ -73791,6 +75365,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type OrganizationUpsertWithoutContentTemplatesInput = {
@@ -74390,6 +75965,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutRssFeedsInput = {
@@ -74418,6 +75994,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutRssFeedsInput = {
@@ -74462,6 +76039,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutRssFeedsInput = {
@@ -74490,6 +76068,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type OrganizationCreateWithoutWebhookRulesInput = {
@@ -74619,6 +76198,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutWebhookRulesInput = {
@@ -74647,6 +76227,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutWebhookRulesInput = {
@@ -74798,6 +76379,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutWebhookRulesInput = {
@@ -74826,6 +76408,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type OrganizationCreateWithoutLeadCapturesInput = {
@@ -74955,6 +76538,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutLeadCapturesInput = {
@@ -74983,6 +76567,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutLeadCapturesInput = {
@@ -75134,6 +76719,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutLeadCapturesInput = {
@@ -75162,6 +76748,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type OrganizationCreateWithoutUtmLinksInput = {
@@ -75619,6 +77206,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutPerformanceReportsInput = {
@@ -75647,6 +77235,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutPerformanceReportsInput = {
@@ -75798,6 +77387,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutPerformanceReportsInput = {
@@ -75826,6 +77416,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type OrganizationCreateWithoutInvoicesInput = {
@@ -76442,6 +78033,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutIngestionJobsInput = {
@@ -76470,6 +78062,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutIngestionJobsInput = {
@@ -76514,6 +78107,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutIngestionJobsInput = {
@@ -76542,6 +78136,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PageCreateWithoutHistoricalPostsInput = {
@@ -76570,6 +78165,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutHistoricalPostsInput = {
@@ -76598,6 +78194,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutHistoricalPostsInput = {
@@ -76642,6 +78239,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutHistoricalPostsInput = {
@@ -76670,6 +78268,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PageCreateWithoutHistoricalMetricsInput = {
@@ -76698,6 +78297,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
     ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutHistoricalMetricsInput = {
@@ -76726,6 +78326,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
     ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
     historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    cachedInsights?: CachedInsightUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutHistoricalMetricsInput = {
@@ -76770,6 +78371,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutHistoricalMetricsInput = {
@@ -76798,6 +78400,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type UserCreateWithoutEmailVerificationsInput = {
@@ -76970,6 +78573,138 @@ export namespace Prisma {
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PageCreateWithoutCachedInsightsInput = {
+    id?: string
+    platform: $Enums.Platform
+    platformPageId: string
+    name: string
+    pictureUrl?: string | null
+    avatarUrl?: string | null
+    accessToken: string
+    isActive?: boolean
+    followerCount?: number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organization: OrganizationCreateNestedOneWithoutPagesInput
+    connection: PlatformConnectionCreateNestedOneWithoutPagesInput
+    posts?: PostCreateNestedManyWithoutPageInput
+    campaigns?: CampaignCreateNestedManyWithoutPageInput
+    brandVoices?: BrandVoiceCreateNestedManyWithoutPageInput
+    hashtagSets?: HashtagSetCreateNestedManyWithoutPageInput
+    contentTemplates?: ContentTemplateCreateNestedManyWithoutPageInput
+    rssFeeds?: RssFeedCreateNestedManyWithoutPageInput
+    webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
+    leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
+    performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+  }
+
+  export type PageUncheckedCreateWithoutCachedInsightsInput = {
+    id?: string
+    orgId: string
+    connectionId: string
+    platform: $Enums.Platform
+    platformPageId: string
+    name: string
+    pictureUrl?: string | null
+    avatarUrl?: string | null
+    accessToken: string
+    isActive?: boolean
+    followerCount?: number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    posts?: PostUncheckedCreateNestedManyWithoutPageInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutPageInput
+    brandVoices?: BrandVoiceUncheckedCreateNestedManyWithoutPageInput
+    hashtagSets?: HashtagSetUncheckedCreateNestedManyWithoutPageInput
+    contentTemplates?: ContentTemplateUncheckedCreateNestedManyWithoutPageInput
+    rssFeeds?: RssFeedUncheckedCreateNestedManyWithoutPageInput
+    webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
+    leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
+    performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type PageCreateOrConnectWithoutCachedInsightsInput = {
+    where: PageWhereUniqueInput
+    create: XOR<PageCreateWithoutCachedInsightsInput, PageUncheckedCreateWithoutCachedInsightsInput>
+  }
+
+  export type PageUpsertWithoutCachedInsightsInput = {
+    update: XOR<PageUpdateWithoutCachedInsightsInput, PageUncheckedUpdateWithoutCachedInsightsInput>
+    create: XOR<PageCreateWithoutCachedInsightsInput, PageUncheckedCreateWithoutCachedInsightsInput>
+    where?: PageWhereInput
+  }
+
+  export type PageUpdateToOneWithWhereWithoutCachedInsightsInput = {
+    where?: PageWhereInput
+    data: XOR<PageUpdateWithoutCachedInsightsInput, PageUncheckedUpdateWithoutCachedInsightsInput>
+  }
+
+  export type PageUpdateWithoutCachedInsightsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    platformPageId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organization?: OrganizationUpdateOneRequiredWithoutPagesNestedInput
+    connection?: PlatformConnectionUpdateOneRequiredWithoutPagesNestedInput
+    posts?: PostUpdateManyWithoutPageNestedInput
+    campaigns?: CampaignUpdateManyWithoutPageNestedInput
+    brandVoices?: BrandVoiceUpdateManyWithoutPageNestedInput
+    hashtagSets?: HashtagSetUpdateManyWithoutPageNestedInput
+    contentTemplates?: ContentTemplateUpdateManyWithoutPageNestedInput
+    rssFeeds?: RssFeedUpdateManyWithoutPageNestedInput
+    webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
+    leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
+    performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+  }
+
+  export type PageUncheckedUpdateWithoutCachedInsightsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    connectionId?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    platformPageId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    posts?: PostUncheckedUpdateManyWithoutPageNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutPageNestedInput
+    brandVoices?: BrandVoiceUncheckedUpdateManyWithoutPageNestedInput
+    hashtagSets?: HashtagSetUncheckedUpdateManyWithoutPageNestedInput
+    contentTemplates?: ContentTemplateUncheckedUpdateManyWithoutPageNestedInput
+    rssFeeds?: RssFeedUncheckedUpdateManyWithoutPageNestedInput
+    webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
+    leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
+    performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type MembershipCreateManyOrganizationInput = {
@@ -77345,6 +79080,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutOrganizationInput = {
@@ -77373,6 +79109,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateManyWithoutOrganizationInput = {
@@ -78670,6 +80407,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutConnectionInput = {
@@ -78698,6 +80436,7 @@ export namespace Prisma {
     ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+    cachedInsights?: CachedInsightUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateManyWithoutConnectionInput = {
@@ -79132,6 +80871,16 @@ export namespace Prisma {
     pageEngagement?: number | null
     audienceData?: NullableJsonNullValueInput | InputJsonValue
     rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type CachedInsightCreateManyPageInput = {
+    id?: string
+    orgId: string
+    type: string
+    data: JsonNullValueInput | InputJsonValue
+    generatedAt: Date | string
+    expiresAt: Date | string
     createdAt?: Date | string
   }
 
@@ -79683,6 +81432,36 @@ export namespace Prisma {
     pageEngagement?: NullableIntFieldUpdateOperationsInput | number | null
     audienceData?: NullableJsonNullValueInput | InputJsonValue
     rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CachedInsightUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CachedInsightUncheckedUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CachedInsightUncheckedUpdateManyWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

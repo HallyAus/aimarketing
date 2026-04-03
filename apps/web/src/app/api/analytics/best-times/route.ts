@@ -3,6 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { prisma } from "@/lib/db";
+import { getCachedInsight, setCachedInsight, canRegenerate } from "@/lib/insight-cache";
 
 let _client: Anthropic | null = null;
 function getClient(): Anthropic {
@@ -17,6 +18,35 @@ export const GET = withErrorHandler(
   withRole("VIEWER", async (req) => {
     const url = new URL(req.url);
     const pageId = url.searchParams.get("pageId") || undefined;
+    const forceRegenerate = url.searchParams.get("regenerate") === "true";
+
+    // Cache-first: return cached insight if fresh and not force-regenerating
+    if (pageId && !forceRegenerate) {
+      const cached = await getCachedInsight(pageId, "best-times");
+      if (cached) {
+        return NextResponse.json({
+          ...(cached as object),
+          _cached: true,
+          _generatedAt: (cached as { _generatedAt?: string })._generatedAt,
+        });
+      }
+    }
+
+    // Rate-limit guard for forced regeneration
+    if (pageId && forceRegenerate) {
+      const allowed = await canRegenerate(pageId, "best-times");
+      if (!allowed) {
+        const stale = await getCachedInsight(pageId, "best-times");
+        if (stale) {
+          return NextResponse.json({
+            ...(stale as object),
+            _cached: true,
+            _rateLimited: true,
+            _generatedAt: (stale as { _generatedAt?: string })._generatedAt,
+          });
+        }
+      }
+    }
 
     // Get published posts with engagement data
     const posts = await prisma.post.findMany({
@@ -157,7 +187,9 @@ Return ONLY valid JSON (no markdown, no code fences):
       }
     }
 
-    return NextResponse.json({ heatmap, platformRecommendations });
+    const result = { heatmap, platformRecommendations };
+    if (pageId) setCachedInsight(pageId, req.orgId, "best-times", result).catch(() => {});
+    return NextResponse.json({ ...result, _cached: false, _generatedAt: new Date().toISOString() });
   })
 );
 

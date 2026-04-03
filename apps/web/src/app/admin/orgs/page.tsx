@@ -177,10 +177,16 @@ export default async function OrgsPage({ searchParams }: PageProps) {
       {/* Table */}
       <div
         style={{
+          overflowX: "auto",
+          WebkitOverflowScrolling: "touch",
+        }}
+      >
+      <div
+        style={{
           background: "var(--bg-secondary)",
           borderRadius: "var(--radius-lg)",
           border: "1px solid var(--border-primary)",
-          overflow: "auto",
+          minWidth: 700,
         }}
       >
         <table
@@ -310,6 +316,7 @@ export default async function OrgsPage({ searchParams }: PageProps) {
             )}
           </tbody>
         </table>
+      </div>
       </div>
 
       {/* Pagination */}

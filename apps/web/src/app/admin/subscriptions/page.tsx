@@ -183,10 +183,10 @@ export default async function SubscriptionsPage({ searchParams }: PageProps) {
           background: "var(--bg-secondary)",
           borderRadius: "var(--radius-lg)",
           border: "1px solid var(--border-primary)",
-          overflow: "auto",
         }}
       >
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+        <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14, minWidth: 600 }}>
           <thead>
             <tr style={{ borderBottom: "1px solid var(--border-primary)", textAlign: "left" }}>
               {["Organization", "Plan", "Status", "Cycle", "Est. MRR", "Next Billing", ""].map((h) => (
@@ -291,6 +291,7 @@ export default async function SubscriptionsPage({ searchParams }: PageProps) {
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Pagination */}

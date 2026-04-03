@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
+import { getCachedInsight, setCachedInsight, canRegenerate } from "@/lib/insight-cache";
 import { z } from "zod";
 
 let _client: Anthropic | null = null;
@@ -49,7 +50,11 @@ async function fetchUrlContent(url: string): Promise<string> {
 }
 
 export const POST = withErrorHandler(
-  withRole("EDITOR", async (req: NextRequest) => {
+  withRole("EDITOR", async (req) => {
+    const reqUrl = new URL(req.url);
+    const pageId = reqUrl.searchParams.get("pageId") || undefined;
+    const forceRegenerate = reqUrl.searchParams.get("regenerate") === "true";
+
     const body = await req.json();
 
     // Check if this is a compare summary request
@@ -84,6 +89,34 @@ Return ONLY valid JSON (no markdown, no code fences):
       const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
       const summary = JSON.parse(cleaned);
       return NextResponse.json({ summary });
+    }
+
+    // ── Cache-first: return cached if available ──────────────
+    if (pageId && !forceRegenerate) {
+      const cached = await getCachedInsight(pageId, "benchmarking");
+      if (cached && !cached.expired) {
+        return NextResponse.json({
+          ...(cached.data as Record<string, unknown>),
+          _cached: true,
+          _generatedAt: cached.generatedAt.toISOString(),
+        });
+      }
+    }
+
+    // ── Rate limit regeneration ──────────────────────────────
+    if (pageId && forceRegenerate) {
+      const allowed = await canRegenerate(pageId, "benchmarking");
+      if (!allowed) {
+        const cached = await getCachedInsight(pageId, "benchmarking");
+        if (cached) {
+          return NextResponse.json({
+            ...(cached.data as Record<string, unknown>),
+            _cached: true,
+            _generatedAt: cached.generatedAt.toISOString(),
+            _rateLimited: true,
+          });
+        }
+      }
     }
 
     // Single competitor analysis
@@ -126,6 +159,16 @@ Return ONLY valid JSON (no markdown, no code fences):
     if (text?.type !== "text") throw new Error("No text in AI response");
     const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
     const analysis = JSON.parse(cleaned);
-    return NextResponse.json({ analysis });
+
+    const result = { analysis };
+
+    // ── Save to cache ────────────────────────────────────────
+    if (pageId) setCachedInsight(pageId, req.orgId, "benchmarking", result).catch(() => {});
+
+    return NextResponse.json({
+      ...result,
+      _cached: false,
+      _generatedAt: new Date().toISOString(),
+    });
   })
 );

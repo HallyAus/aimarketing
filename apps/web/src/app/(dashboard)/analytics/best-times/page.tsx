@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { PageHeader } from "@/components/page-header";
+import { CacheStatus } from "@/components/cache-status";
 import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 interface TimeSlot {
@@ -20,6 +21,9 @@ interface PlatformRecommendation {
 interface BestTimesData {
   heatmap: TimeSlot[];
   platformRecommendations: PlatformRecommendation[];
+  _cached?: boolean;
+  _generatedAt?: string;
+  _rateLimited?: boolean;
 }
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -49,12 +53,15 @@ export default function BestTimesPage() {
   const [autoOptimize, setAutoOptimize] = useState(false);
   const [selectedPlatform, setSelectedPlatform] = useState("ALL");
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (regenerate = false) => {
     setLoading(true);
     setError("");
     try {
       const pageId = activeAccount?.id;
-      const qs = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+      const params = new URLSearchParams();
+      if (pageId) params.set("pageId", pageId);
+      if (regenerate) params.set("regenerate", "true");
+      const qs = params.toString() ? `?${params.toString()}` : "";
       const res = await fetch(`/api/analytics/best-times${qs}`);
       if (!res.ok) throw new Error("Failed to load data");
       const result = await res.json();
@@ -94,10 +101,18 @@ export default function BestTimesPage() {
           { label: "Best Times" },
         ]}
         action={
-          <button onClick={fetchData} className="btn-secondary" disabled={loading}>
+          <button onClick={() => fetchData(true)} className="btn-secondary" disabled={loading}>
             {loading ? "Analyzing..." : "Re-analyze"}
           </button>
         }
+      />
+
+      <CacheStatus
+        cached={data?._cached}
+        generatedAt={data?._generatedAt}
+        rateLimited={data?._rateLimited}
+        onRegenerate={() => fetchData(true)}
+        loading={loading}
       />
 
       {error && <div className="alert alert-error mb-6">{error}</div>}

@@ -49,7 +49,7 @@ export default async function AdminLayout({
         <div className="flex-1 flex flex-col min-w-0">
           {/* Top bar */}
           <header
-            className="shrink-0 flex items-center gap-4 px-6 lg:px-8 py-3"
+            className="shrink-0 flex items-center gap-4 px-4 md:px-6 lg:px-8 py-3"
             style={{
               borderBottom: "1px solid var(--border-primary)",
               background: "var(--bg-primary)",
@@ -99,7 +99,7 @@ export default async function AdminLayout({
 
           {/* Main content */}
           <main
-            className="flex-1 p-6 lg:p-8 overflow-x-auto"
+            className="flex-1 p-4 md:p-6 lg:p-8 overflow-x-auto"
             style={{ background: "var(--bg-primary)" }}
           >
             {children}

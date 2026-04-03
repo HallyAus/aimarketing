@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { PageHeader } from "@/components/page-header";
+import { CacheStatus } from "@/components/cache-status";
 import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 
 interface SentimentResult {
@@ -11,6 +12,9 @@ interface SentimentResult {
   trend: { date: string; positive: number; neutral: number; negative: number }[];
   recommendations: string[];
   postBreakdown: { id: string; content: string; sentiment: string; score: number }[];
+  _cached?: boolean;
+  _generatedAt?: string;
+  _rateLimited?: boolean;
 }
 
 const SENTIMENT_COLORS = {
@@ -107,12 +111,15 @@ export default function SentimentPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const fetchSentiment = useCallback(async () => {
+  const fetchSentiment = useCallback(async (regenerate = false) => {
     setLoading(true);
     setError("");
     try {
       const pageId = activeAccount?.id;
-      const qs = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+      const params = new URLSearchParams();
+      if (pageId) params.set("pageId", pageId);
+      if (regenerate) params.set("regenerate", "true");
+      const qs = params.toString() ? `?${params}` : "";
       const res = await fetch(`/api/analytics/sentiment${qs}`);
       if (!res.ok) throw new Error("Failed to analyze sentiment");
       const result = await res.json();
@@ -138,11 +145,23 @@ export default function SentimentPage() {
           { label: "Sentiment" },
         ]}
         action={
-          <button onClick={fetchSentiment} className="btn-secondary" disabled={loading}>
+          <button onClick={() => fetchSentiment(true)} className="btn-secondary" disabled={loading}>
             {loading ? "Analyzing..." : "Re-analyze"}
           </button>
         }
       />
+
+      {data && (
+        <div className="mb-4">
+          <CacheStatus
+            cached={data._cached}
+            generatedAt={data._generatedAt}
+            rateLimited={data._rateLimited}
+            onRegenerate={() => fetchSentiment(true)}
+            loading={loading}
+          />
+        </div>
+      )}
 
       {error && <div className="alert alert-error mb-6">{error}</div>}
 

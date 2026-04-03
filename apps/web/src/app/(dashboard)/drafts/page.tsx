@@ -50,6 +50,35 @@ export default function DraftsPage() {
   const [scheduleInterval, setScheduleInterval] = useState("360");
   const [actionLoading, setActionLoading] = useState(false);
   const [autoScheduleLoading, setAutoScheduleLoading] = useState<string | null>(null);
+  const [sentimentScores, setSentimentScores] = useState<Record<string, { sentiment: string; score: number; suggestions: string[] }>>({});
+  const [sentimentLoading, setSentimentLoading] = useState<Set<string>>(new Set());
+  const [batchSentimentLoading, setBatchSentimentLoading] = useState(false);
+
+  async function checkDraftSentiment(draftId: string, content: string) {
+    setSentimentLoading((prev) => new Set(prev).add(draftId));
+    try {
+      const res = await fetch("/api/ai/sentiment-check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content }),
+      });
+      if (!res.ok) return;
+      const result = await res.json();
+      setSentimentScores((prev) => ({ ...prev, [draftId]: result }));
+    } catch { /* ignore */ } finally {
+      setSentimentLoading((prev) => { const s = new Set(prev); s.delete(draftId); return s; });
+    }
+  }
+
+  async function checkAllSentiment() {
+    setBatchSentimentLoading(true);
+    for (const draft of drafts) {
+      if (!sentimentScores[draft.id]) {
+        await checkDraftSentiment(draft.id, draft.content);
+      }
+    }
+    setBatchSentimentLoading(false);
+  }
 
   const fetchDrafts = useCallback(async () => {
     try {
@@ -415,7 +444,14 @@ export default function DraftsPage() {
       />
       <ClientAccountBanner account={activeAccount} onClear={() => { setLoading(true); fetchDrafts(); }} />
       {drafts.length > 0 && (
-        <div className="flex items-center justify-end gap-2 mb-6">
+        <div className="flex items-center justify-end gap-2 mb-6 flex-wrap">
+          <button
+            onClick={checkAllSentiment}
+            disabled={batchSentimentLoading}
+            className="btn-secondary text-sm"
+          >
+            {batchSentimentLoading ? "Checking..." : "Check Sentiment"}
+          </button>
           <button
             onClick={handleAutoScheduleAll}
             disabled={actionLoading}
@@ -478,6 +514,30 @@ export default function DraftsPage() {
                   <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
                     &rarr; {draft.pageName}
                   </span>
+                )}
+                {sentimentScores[draft.id] && (() => {
+                  const sc = sentimentScores[draft.id]!;
+                  return (
+                    <span
+                      className="text-xs px-2 py-0.5 rounded font-medium"
+                      style={{
+                        background: sc.sentiment === "positive" ? "var(--accent-emerald)" : sc.sentiment === "negative" ? "var(--accent-red)" : "var(--accent-amber)",
+                        color: "#fff",
+                      }}
+                    >
+                      {sc.score}/100
+                    </span>
+                  );
+                })()}
+                {!sentimentScores[draft.id] && (
+                  <button
+                    onClick={() => checkDraftSentiment(draft.id, draft.content)}
+                    disabled={sentimentLoading.has(draft.id)}
+                    className="text-xs"
+                    style={{ color: "var(--accent-blue)", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                  >
+                    {sentimentLoading.has(draft.id) ? "..." : "Score"}
+                  </button>
                 )}
                 {draft.tone && (
                   <span

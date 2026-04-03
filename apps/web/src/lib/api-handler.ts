@@ -27,8 +27,21 @@ export function withErrorHandler(
         );
       }
 
+      // Surface Anthropic API errors clearly
+      const msg = error instanceof Error ? error.message : "Unknown error";
+      const isAiError =
+        msg.includes("api_key") ||
+        msg.includes("authentication") ||
+        msg.includes("credit") ||
+        msg.includes("rate_limit") ||
+        msg.includes("overloaded");
+
       return NextResponse.json(
-        { error: "Internal server error", code: "INTERNAL_ERROR", statusCode: 500 },
+        {
+          error: isAiError ? `AI service error: ${msg}` : "Internal server error",
+          code: "INTERNAL_ERROR",
+          statusCode: 500,
+        },
         { status: 500 }
       );
     }

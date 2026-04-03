@@ -4,6 +4,66 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
 
+/* ── Sentiment Check Panel ────────────────────────────────── */
+
+function SentimentCheckPanel({ content }: { content: string }) {
+  const [checking, setChecking] = useState(false);
+  const [result, setResult] = useState<{ sentiment: string; score: number; suggestions: string[] } | null>(null);
+
+  async function checkSentiment() {
+    setChecking(true);
+    try {
+      const res = await fetch("/api/ai/sentiment-check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      setResult(await res.json());
+    } catch {
+      setResult(null);
+    } finally {
+      setChecking(false);
+    }
+  }
+
+  const sentimentColor = result?.sentiment === "positive" ? "var(--accent-emerald)" : result?.sentiment === "negative" ? "var(--accent-red)" : "var(--accent-amber)";
+
+  return (
+    <div className="mt-3 rounded-lg p-3" style={{ border: "1px solid var(--border-primary)", background: "var(--bg-secondary)" }}>
+      <div className="flex items-center justify-between mb-1">
+        <span className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>Sentiment Check</span>
+        <button onClick={checkSentiment} disabled={checking} className="text-xs font-medium" style={{ color: "var(--accent-blue)", background: "none", border: "none", cursor: "pointer" }}>
+          {checking ? "Analyzing..." : result ? "Re-check" : "Check Sentiment"}
+        </button>
+      </div>
+      {result && (
+        <div className="space-y-2">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-semibold px-2 py-0.5 rounded" style={{ background: sentimentColor, color: "#fff" }}>
+              {result.sentiment.toUpperCase()}
+            </span>
+            <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: "var(--bg-tertiary)" }}>
+              <div className="h-full rounded-full transition-all" style={{ width: `${result.score}%`, background: sentimentColor }} />
+            </div>
+            <span className="text-xs font-medium" style={{ color: "var(--text-tertiary)" }}>{result.score}/100</span>
+          </div>
+          {result.suggestions.length > 0 && (
+            <ul className="space-y-1">
+              {result.suggestions.map((s, i) => (
+                <li key={i} className="text-xs flex items-start gap-1.5" style={{ color: "var(--text-secondary)" }}>
+                  <span style={{ color: "var(--accent-blue)" }}>&#8226;</span>
+                  {s}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ── Shared action buttons for AI output ─────────────────── */
 
 function AiOutputActions({
@@ -139,6 +199,8 @@ function AiOutputActions({
           </span>
         )}
       </div>
+
+      <SentimentCheckPanel content={content} />
 
       {/* Publish Modal */}
       {showPublishModal && (

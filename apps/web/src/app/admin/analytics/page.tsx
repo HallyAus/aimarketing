@@ -104,7 +104,7 @@ export default async function AnalyticsPage() {
       </h1>
 
       {/* Overview cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16, marginBottom: 32 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 16, marginBottom: 32 }}>
         <div style={cardStyle}>
           <div style={statLabel}>Total Posts</div>
           <div style={statValue}>{totalPosts.toLocaleString()}</div>
@@ -162,7 +162,7 @@ export default async function AnalyticsPage() {
       <h2 style={{ fontSize: 18, fontWeight: 600, color: "var(--text-primary)", marginBottom: 16 }}>
         Top 10 Posts by Engagement
       </h2>
-      <div style={{ overflowX: "auto", marginBottom: 32 }}>
+      <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch", marginBottom: 32 }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
           <thead>
             <tr style={{ borderBottom: "1px solid var(--border-primary, #2a2a2a)" }}>

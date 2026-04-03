@@ -39,6 +39,8 @@ export function OrgDetailTabs({ overview, members, billing, posts, auditLog }: O
           gap: 0,
           borderBottom: "1px solid var(--border-primary)",
           marginBottom: 24,
+          overflowX: "auto",
+          WebkitOverflowScrolling: "touch",
         }}
       >
         {tabs.map((tab) => (
@@ -55,6 +57,8 @@ export function OrgDetailTabs({ overview, members, billing, posts, auditLog }: O
               borderBottom: active === tab.key ? "2px solid var(--accent-blue)" : "2px solid transparent",
               cursor: "pointer",
               transition: "color 0.15s, border-color 0.15s",
+              flexShrink: 0,
+              whiteSpace: "nowrap",
             }}
           >
             {tab.label}

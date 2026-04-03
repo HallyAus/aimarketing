@@ -38,8 +38,8 @@ export default async function FeaturesPage() {
         </Link>
       </div>
 
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+      <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14, minWidth: 600 }}>
           <thead>
             <tr style={{ borderBottom: "1px solid var(--border-primary, #2a2a2a)" }}>
               {["Key", "Name", "Global Enabled", "Enabled Tiers", "Org Overrides", "Actions"].map((h) => (

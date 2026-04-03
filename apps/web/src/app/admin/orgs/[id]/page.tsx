@@ -180,7 +180,7 @@ export default async function OrgDetailPage({ params }: PageProps) {
   // ── Overview Tab ────────────────────────────────────────────────────
 
   const overviewTab = (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 24 }}>
       <div
         style={{
           background: "var(--bg-secondary)",
@@ -204,12 +204,12 @@ export default async function OrgDetailPage({ params }: PageProps) {
             ["Billing Email", org.billingEmail ?? "N/A"],
             ["Created", formatDate(org.createdAt)],
           ].map(([label, value]) => (
-            <div key={label} style={{ display: "flex", justifyContent: "space-between" }}>
+            <div key={label} style={{ display: "grid", gridTemplateColumns: "minmax(100px, 140px) 1fr", gap: 8 }}>
               <span style={{ color: "var(--text-secondary)" }}>{label}</span>
               <span style={{ color: "var(--text-primary)", fontWeight: 500 }}>{value}</span>
             </div>
           ))}
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "minmax(100px, 140px) 1fr", gap: 8 }}>
             <span style={{ color: "var(--text-secondary)" }}>Publishing</span>
             <span style={{ color: org.publishingPaused ? "var(--accent-red)" : "var(--accent-emerald)", fontWeight: 500 }}>
               {org.publishingPaused ? "Paused" : "Active"}
@@ -246,7 +246,7 @@ export default async function OrgDetailPage({ params }: PageProps) {
         <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 16, color: "var(--text-primary)" }}>
           Subscription Details
         </h3>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, fontSize: 14 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, fontSize: 14 }}>
           {[
             ["Plan", org.plan],
             ["Status", org.subscriptionStatus],
@@ -271,12 +271,13 @@ export default async function OrgDetailPage({ params }: PageProps) {
   // ── Members Tab ─────────────────────────────────────────────────────
 
   const membersTab = (
+    <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
     <div
       style={{
         background: "var(--bg-secondary)",
         borderRadius: "var(--radius-lg)",
         border: "1px solid var(--border-primary)",
-        overflow: "auto",
+        minWidth: 500,
       }}
     >
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
@@ -331,6 +332,7 @@ export default async function OrgDetailPage({ params }: PageProps) {
         </tbody>
       </table>
     </div>
+    </div>
   );
 
   // ── Billing Tab ─────────────────────────────────────────────────────
@@ -340,7 +342,7 @@ export default async function OrgDetailPage({ params }: PageProps) {
   const billingTab = (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       {/* Summary Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 16 }}>
         <div
           style={{
             background: "var(--bg-secondary)",
@@ -446,12 +448,13 @@ export default async function OrgDetailPage({ params }: PageProps) {
       </div>
 
       {/* Invoice History */}
+      <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
       <div
         style={{
           background: "var(--bg-secondary)",
           borderRadius: "var(--radius-lg)",
           border: "1px solid var(--border-primary)",
-          overflow: "auto",
+          minWidth: 560,
         }}
       >
         <div style={{ padding: "16px 20px", borderBottom: "1px solid var(--border-primary)" }}>
@@ -523,6 +526,7 @@ export default async function OrgDetailPage({ params }: PageProps) {
           </tbody>
         </table>
       </div>
+      </div>
     </div>
   );
 
@@ -541,12 +545,13 @@ export default async function OrgDetailPage({ params }: PageProps) {
   };
 
   const postsTab = (
+    <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
     <div
       style={{
         background: "var(--bg-secondary)",
         borderRadius: "var(--radius-lg)",
         border: "1px solid var(--border-primary)",
-        overflow: "auto",
+        minWidth: 560,
       }}
     >
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
@@ -611,17 +616,19 @@ export default async function OrgDetailPage({ params }: PageProps) {
         </tbody>
       </table>
     </div>
+    </div>
   );
 
   // ── Audit Log Tab ──────────────────────────────────────────────────
 
   const auditLogTab = (
+    <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
     <div
       style={{
         background: "var(--bg-secondary)",
         borderRadius: "var(--radius-lg)",
         border: "1px solid var(--border-primary)",
-        overflow: "auto",
+        minWidth: 500,
       }}
     >
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
@@ -679,6 +686,7 @@ export default async function OrgDetailPage({ params }: PageProps) {
           )}
         </tbody>
       </table>
+    </div>
     </div>
   );
 

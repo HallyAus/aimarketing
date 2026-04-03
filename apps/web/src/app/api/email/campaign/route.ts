@@ -18,13 +18,21 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
       return NextResponse.json({ error: "brief is required for generation", code: "VALIDATION_ERROR", statusCode: 400 }, { status: 400 });
     }
 
-    const response = await getClient().messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 4096,
-      messages: [
-        {
-          role: "user",
-          content: `Create a professional marketing email based on this brief: ${brief}
+    if (!process.env.ANTHROPIC_API_KEY) {
+      return NextResponse.json({ error: "AI service not configured. Set ANTHROPIC_API_KEY.", code: "CONFIG_ERROR", statusCode: 503 }, { status: 503 });
+    }
+
+    const isLandingPage = template === "landing-page";
+
+    const prompt = isLandingPage
+      ? `Create a complete, modern landing page based on this brief: ${brief}
+
+${tone ? `Tone: ${tone}` : "Tone: professional"}
+
+The landing page should be a complete HTML document with inline CSS that can be opened directly in a browser. Make it responsive, modern, and visually appealing.
+
+Return ONLY the raw HTML document — no JSON wrapping, no markdown code fences, no explanations. Start with <!DOCTYPE html>.`
+      : `Create a professional marketing email based on this brief: ${brief}
 
 ${subject ? `Subject line suggestion: ${subject}` : ""}
 ${tone ? `Tone: ${tone}` : "Tone: professional"}
@@ -36,13 +44,25 @@ Return a JSON object with these keys:
 - "htmlBody": the full HTML email body with inline styles. Use a clean, modern design with a max-width of 600px. Include a header, body content, and footer. Use professional colors.
 - "plainText": plain text version of the email
 
-Return ONLY the JSON, no explanations.`,
-        },
-      ],
+Return ONLY the JSON, no explanations.`;
+
+    const response = await getClient().messages.create({
+      model: "claude-sonnet-4-6",
+      max_tokens: isLandingPage ? 16384 : 4096,
+      messages: [{ role: "user", content: prompt }],
     });
 
     const text = response.content[0];
     if (text?.type !== "text") throw new Error("No text in AI response");
+
+    if (isLandingPage) {
+      // Return raw HTML directly — strip any markdown fences if present
+      let html = text.text.trim();
+      if (html.startsWith("```")) {
+        html = html.replace(/^```(?:html)?\n?/, "").replace(/\n?```$/, "");
+      }
+      return NextResponse.json({ htmlBody: html });
+    }
 
     let emailData;
     try {

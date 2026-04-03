@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
+import { CacheStatus } from "@/components/cache-status";
 
 interface TrendingTopic {
   title: string;
@@ -12,14 +13,22 @@ interface TrendingTopic {
   hashtags: string[];
 }
 
+interface TrendingResult {
+  topics: TrendingTopic[];
+  _cached?: boolean;
+  _generatedAt?: string;
+  _rateLimited?: boolean;
+}
+
 export default function TrendingTopicsPage() {
   const router = useRouter();
   const [niche, setNiche] = useState("");
   const [topics, setTopics] = useState<TrendingTopic[]>([]);
+  const [result, setResult] = useState<TrendingResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  async function fetchTrends() {
+  async function fetchTrends(regenerate = false) {
     if (!niche.trim()) return;
 
     setLoading(true);
@@ -28,13 +37,14 @@ export default function TrendingTopicsPage() {
       const res = await fetch("/api/ai/trending", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ niche: niche.trim() }),
+        body: JSON.stringify({ niche: niche.trim(), ...(regenerate && { regenerate: true }) }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.error || "Failed to fetch trends");
       }
-      const data = await res.json();
+      const data: TrendingResult = await res.json();
+      setResult(data);
       setTopics(data.topics || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed");
@@ -63,6 +73,14 @@ export default function TrendingTopicsPage() {
         ]}
       />
 
+      <CacheStatus
+        cached={result?._cached}
+        generatedAt={result?._generatedAt}
+        rateLimited={result?._rateLimited}
+        onRegenerate={() => fetchTrends(true)}
+        loading={loading}
+      />
+
       {/* Input */}
       <div className="card mb-8">
         <label className="section-label block mb-2">Your Industry / Niche</label>
@@ -76,14 +94,14 @@ export default function TrendingTopicsPage() {
             className="flex-1"
           />
           <button
-            onClick={fetchTrends}
+            onClick={() => fetchTrends()}
             disabled={loading || !niche.trim()}
             className="btn-primary"
           >
             {loading ? "Finding Trends..." : "Find Trends"}
           </button>
           {topics.length > 0 && (
-            <button onClick={fetchTrends} className="btn-secondary" disabled={loading}>
+            <button onClick={() => fetchTrends(true)} className="btn-secondary" disabled={loading}>
               Refresh
             </button>
           )}

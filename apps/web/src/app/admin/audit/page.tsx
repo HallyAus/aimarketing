@@ -169,8 +169,8 @@ export default async function AuditPage({ searchParams }: Props) {
         {total} log entr{total !== 1 ? "ies" : "y"} found
       </div>
 
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+      <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14, minWidth: 600 }}>
           <thead>
             <tr style={{ borderBottom: "1px solid var(--border-primary, #2a2a2a)" }}>
               {["Timestamp", "User", "Action", "Entity Type", "Entity ID", "Organization", "IP"].map((h) => (
