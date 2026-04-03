@@ -18,6 +18,26 @@ const VALID_PLATFORMS = new Set([
   "SNAPCHAT",
 ]);
 
+/** Map common platform name variants to the Prisma enum value */
+function normalizePlatform(platform: string): string {
+  const upper = platform.toUpperCase().replace(/[\s/-]/g, "_");
+  const aliases: Record<string, string> = {
+    "FACEBOOK": "FACEBOOK",
+    "INSTAGRAM": "INSTAGRAM",
+    "TIKTOK": "TIKTOK",
+    "LINKEDIN": "LINKEDIN",
+    "TWITTER": "TWITTER_X",
+    "TWITTER_X": "TWITTER_X",
+    "X": "TWITTER_X",
+    "GOOGLE_ADS": "GOOGLE_ADS",
+    "GOOGLEADS": "GOOGLE_ADS",
+    "YOUTUBE": "YOUTUBE",
+    "PINTEREST": "PINTEREST",
+    "SNAPCHAT": "SNAPCHAT",
+  };
+  return aliases[upper] ?? upper;
+}
+
 interface AutoScheduleBody {
   /** Schedule an existing post by ID */
   postId?: string;
@@ -211,7 +231,10 @@ export const POST = withErrorHandler(
     // Validate and create new posts from drafts if provided
     const newPostIds: string[] = [];
     if (body.drafts && body.drafts.length > 0) {
-      // Validate all platforms before creating any posts
+      // Normalize and validate all platforms before creating any posts
+      for (const d of body.drafts) {
+        d.platform = normalizePlatform(d.platform);
+      }
       const invalidPlatforms = body.drafts
         .map((d, i) => ({ platform: d.platform, index: i }))
         .filter((d) => !VALID_PLATFORMS.has(d.platform));
