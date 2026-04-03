@@ -85,7 +85,7 @@ export function GbpConnect() {
         <div className="space-y-4">
           <div>
             <label className="block text-xs text-[var(--text-secondary)] mb-2">Post Type</label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {GBP_POST_TYPES.map(type => (
                 <button
                   key={type.value}

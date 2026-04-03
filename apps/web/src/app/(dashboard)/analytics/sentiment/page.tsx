@@ -173,7 +173,7 @@ export default function SentimentPage() {
               <h3 className="font-semibold mb-4" style={{ color: "var(--text-primary)" }}>
                 Sentiment Metrics
               </h3>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {[
                   { label: "Positive", value: data.positive, color: "emerald" },
                   { label: "Neutral", value: data.neutral, color: "amber" },

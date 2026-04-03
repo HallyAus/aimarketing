@@ -89,7 +89,7 @@ export default function CompetitorSpyPage() {
       {/* Input */}
       <div className="card mb-6">
         <div className="flex gap-3 items-end flex-wrap">
-          <div className="flex-1 min-w-[300px]">
+          <div className="flex-1 min-w-0">
             <label
               className="block text-sm font-medium mb-1"
               style={{ color: "var(--text-secondary)" }}
