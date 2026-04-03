@@ -66,14 +66,14 @@ export default function HashtagsPage() {
           try {
             const stored = localStorage.getItem(SAVED_KEY);
             if (stored) setSavedSets(JSON.parse(stored));
-          } catch {}
+          } catch { /* non-critical */ }
         }
       })
       .catch(() => {
         try {
           const stored = localStorage.getItem(SAVED_KEY);
           if (stored) setSavedSets(JSON.parse(stored));
-        } catch {}
+        } catch { /* non-critical */ }
       });
   }, []);
 
@@ -83,7 +83,7 @@ export default function HashtagsPage() {
     setSavedSets(newSets);
     try {
       localStorage.setItem(SAVED_KEY, JSON.stringify(newSets));
-    } catch {}
+    } catch { /* non-critical */ }
 
     // Also save to DB
     try {
@@ -106,7 +106,7 @@ export default function HashtagsPage() {
           });
         }
       }
-    } catch {}
+    } catch { /* non-critical */ }
   }
 
   async function removeSet(index: number) {
@@ -115,13 +115,13 @@ export default function HashtagsPage() {
     setSavedSets(newSets);
     try {
       localStorage.setItem(SAVED_KEY, JSON.stringify(newSets));
-    } catch {}
+    } catch { /* non-critical */ }
 
     // Also delete from DB
     if (set?.id) {
       try {
         await fetch(`/api/ai/hashtags/save?id=${set.id}`, { method: "DELETE" });
-      } catch {}
+      } catch { /* non-critical */ }
     }
   }
 

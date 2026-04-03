@@ -48,7 +48,7 @@ export default function BrandVoicePage() {
             try {
               const profile = JSON.parse(defaultVoice.aiPrompt);
               setSavedProfile(profile);
-            } catch {}
+            } catch { /* non-critical */ }
           }
         }
       })
@@ -63,7 +63,7 @@ export default function BrandVoicePage() {
         if (stored) {
           setSavedProfile(JSON.parse(stored));
         }
-      } catch {}
+      } catch { /* non-critical */ }
     }
   }, [dbVoices]);
 
@@ -164,7 +164,7 @@ export default function BrandVoicePage() {
     try {
       await fetch(`/api/ai/brand-voice/save?id=${id}`, { method: "DELETE" });
       setDbVoices((prev) => prev.filter((v) => v.id !== id));
-    } catch {}
+    } catch { /* non-critical */ }
   }
 
   function clearSaved() {

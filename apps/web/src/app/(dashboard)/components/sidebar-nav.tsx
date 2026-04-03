@@ -189,7 +189,7 @@ export function SidebarNav() {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored === "true") setCollapsed(true);
-    } catch {}
+    } catch { /* non-critical */ }
     setMounted(true);
   }, []);
 
@@ -199,7 +199,7 @@ export function SidebarNav() {
       try {
         localStorage.setItem(STORAGE_KEY, String(next));
         window.dispatchEvent(new Event("sidebar-toggle"));
-      } catch {}
+      } catch { /* non-critical */ }
       return next;
     });
   }, []);

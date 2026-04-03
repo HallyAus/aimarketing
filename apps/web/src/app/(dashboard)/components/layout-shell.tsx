@@ -12,7 +12,7 @@ export function LayoutShell({ children }: { children: React.ReactNode }) {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored === "true") setCollapsed(true);
-    } catch {}
+    } catch { /* non-critical */ }
     setMounted(true);
 
     // Listen for storage changes (sidebar toggle updates localStorage)
@@ -20,7 +20,7 @@ export function LayoutShell({ children }: { children: React.ReactNode }) {
       try {
         const stored = localStorage.getItem(STORAGE_KEY);
         setCollapsed(stored === "true");
-      } catch {}
+      } catch { /* non-critical */ }
     };
 
     // Custom event for same-tab updates

@@ -246,7 +246,7 @@ export default function ImageGenPage() {
                       // Store the image URL in sessionStorage for the post composer to pick up
                       try {
                         sessionStorage.setItem("adpilot-pending-image", imageUrl);
-                      } catch {}
+                      } catch { /* non-critical */ }
                       router.push("/ai/url-to-posts");
                     }}
                     className="btn-secondary text-xs"

@@ -126,7 +126,7 @@ export default function AutoReplyPage() {
     setRules((prev) => prev.filter((r) => r.id !== id));
     try {
       await fetch(`/api/webhooks/rules?ruleId=${id}`, { method: "DELETE" });
-    } catch {}
+    } catch { /* non-critical */ }
   }
 
   async function toggleRule(id: string) {
@@ -142,7 +142,7 @@ export default function AutoReplyPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ruleId: id, isActive: newEnabled }),
       });
-    } catch {}
+    } catch { /* non-critical */ }
   }
 
   async function addFromTemplate(template: (typeof TEMPLATES)[0]) {

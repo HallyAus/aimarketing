@@ -56,7 +56,7 @@ export default function VideoScriptsPage() {
     try {
       const stored = localStorage.getItem(DRAFTS_KEY);
       if (stored) setDrafts(JSON.parse(stored));
-    } catch {}
+    } catch { /* non-critical */ }
   }, []);
 
   function copyText(text: string, id: string) {
@@ -80,7 +80,7 @@ export default function VideoScriptsPage() {
     setDrafts(newDrafts);
     try {
       localStorage.setItem(DRAFTS_KEY, JSON.stringify(newDrafts));
-    } catch {}
+    } catch { /* non-critical */ }
   }
 
   function removeDraft(index: number) {
@@ -88,7 +88,7 @@ export default function VideoScriptsPage() {
     setDrafts(newDrafts);
     try {
       localStorage.setItem(DRAFTS_KEY, JSON.stringify(newDrafts));
-    } catch {}
+    } catch { /* non-critical */ }
   }
 
   function loadDraft(index: number) {
