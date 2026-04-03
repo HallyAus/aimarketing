@@ -89,6 +89,10 @@ export default function CampaignPostsManager({
   const [editCampaignStatus, setEditCampaignStatus] = useState(campaign.status);
   const [campaignData, setCampaignData] = useState(initialCampaign);
 
+  // Sentiment check state
+  const [sentimentScores, setSentimentScores] = useState<Record<string, { sentiment: string; score: number; suggestions: string[] }>>({});
+  const [sentimentLoading, setSentimentLoading] = useState<Set<string>>(new Set());
+
   // FIX 12: Batch schedule modal state
   const [showBatchScheduleModal, setShowBatchScheduleModal] = useState(false);
   const [batchScheduleDate, setBatchScheduleDate] = useState("");
@@ -529,6 +533,25 @@ export default function CampaignPostsManager({
     });
   };
 
+  /* ---- Sentiment check ---- */
+
+  const checkSentiment = async (postId: string, content: string) => {
+    setSentimentLoading((prev) => new Set(prev).add(postId));
+    try {
+      const res = await fetch("/api/ai/sentiment-check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content }),
+      });
+      if (res.ok) {
+        const result = await res.json();
+        setSentimentScores((prev) => ({ ...prev, [postId]: result }));
+      }
+    } catch { /* ignore */ } finally {
+      setSentimentLoading((prev) => { const s = new Set(prev); s.delete(postId); return s; });
+    }
+  };
+
   /* ---- Helpers ---- */
 
   const formatDate = (d: string | null) => {
@@ -538,7 +561,7 @@ export default function CampaignPostsManager({
 
   const isLoading = (action: string) => loadingAction === action;
 
-  const canEdit = (status: string) => ["DRAFT", "REJECTED"].includes(status);
+  const canEdit = (status: string) => ["DRAFT", "REJECTED", "SCHEDULED"].includes(status);
   const canSchedule = (status: string) => ["DRAFT", "APPROVED", "FAILED"].includes(status);
   const canPublish = (status: string) => ["DRAFT", "APPROVED", "SCHEDULED", "FAILED"].includes(status);
   const canDelete = (status: string) => status !== "DELETED";
@@ -783,6 +806,26 @@ export default function CampaignPostsManager({
                       </span>
                     )}
                     <StatusBadge status={post.status} />
+                    {sentimentScores[post.id] ? (
+                      <span
+                        className="text-[10px] px-1.5 py-0.5 rounded font-semibold"
+                        style={{
+                          background: sentimentScores[post.id]!.sentiment === "positive" ? "var(--accent-emerald)" : sentimentScores[post.id]!.sentiment === "negative" ? "var(--accent-red)" : "var(--accent-amber)",
+                          color: "#fff",
+                        }}
+                      >
+                        {sentimentScores[post.id]!.score}/100
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => checkSentiment(post.id, post.content)}
+                        disabled={sentimentLoading.has(post.id)}
+                        className="text-[10px] font-medium"
+                        style={{ color: "var(--accent-blue)", background: "none", border: "none", cursor: "pointer", padding: "2px 4px" }}
+                      >
+                        {sentimentLoading.has(post.id) ? "..." : "Score"}
+                      </button>
+                    )}
                   </div>
                   <div className="flex gap-1.5 flex-wrap">
                     {/* Edit */}
@@ -904,6 +947,29 @@ export default function CampaignPostsManager({
                         {isExpanded ? "Show less" : "Show more"}
                       </button>
                     )}
+                  </div>
+                )}
+
+                {/* ---- Sentiment suggestions ---- */}
+                {(sentimentScores[post.id]?.suggestions?.length ?? 0) > 0 && (
+                  <div className="mb-3 rounded-md p-2" style={{ background: "var(--bg-tertiary)", border: "1px solid var(--border-primary)" }}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-semibold" style={{ color: "var(--text-secondary)" }}>Sentiment suggestions</span>
+                      <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "var(--bg-primary)" }}>
+                        <div
+                          className="h-full rounded-full"
+                          style={{
+                            width: `${sentimentScores[post.id]!.score}%`,
+                            background: sentimentScores[post.id]!.sentiment === "positive" ? "var(--accent-emerald)" : sentimentScores[post.id]!.sentiment === "negative" ? "var(--accent-red)" : "var(--accent-amber)",
+                          }}
+                        />
+                      </div>
+                    </div>
+                    {sentimentScores[post.id]!.suggestions.map((s, i) => (
+                      <p key={i} className="text-xs m-0 mt-1" style={{ color: "var(--text-secondary)" }}>
+                        <span style={{ color: "var(--accent-blue)" }}>&#8226;</span> {s}
+                      </p>
+                    ))}
                   </div>
                 )}
 

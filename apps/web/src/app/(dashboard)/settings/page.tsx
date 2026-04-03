@@ -51,6 +51,12 @@ const SETTINGS_CARDS = [
     icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
   },
   {
+    href: "/settings/security",
+    title: "Security",
+    description: "Set up two-factor authentication, manage passkeys, and review sign-in methods.",
+    icon: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z",
+  },
+  {
     href: "/settings/reports",
     title: "Reports",
     description: "Configure automated reporting schedules and delivery preferences.",

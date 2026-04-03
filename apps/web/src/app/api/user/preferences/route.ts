@@ -2,6 +2,23 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 
+export async function GET() {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const twoFactor = await prisma.twoFactorSecret.findUnique({
+    where: { userId: session.user.id },
+    select: { verified: true, enabledAt: true },
+  });
+
+  return NextResponse.json({
+    twoFactorEnabled: twoFactor?.verified ?? false,
+    twoFactorEnabledAt: twoFactor?.enabledAt?.toISOString() ?? null,
+  });
+}
+
 export async function POST(request: Request) {
   const session = await auth();
   if (!session?.user?.id) {
