@@ -5,6 +5,7 @@ import { SidebarNav } from "./components/sidebar-nav";
 import { TopBar } from "./components/top-bar";
 import { LayoutShell } from "./components/layout-shell";
 import { PageProvider, type PageInfo } from "@/lib/page-context";
+import { TimezoneDetector } from "@/components/timezone-detector";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -112,6 +113,7 @@ export default async function DashboardLayout({
         Skip to content
       </a>
 
+      <TimezoneDetector />
       <SidebarNav />
 
       {/* Right side: top bar + content */}
