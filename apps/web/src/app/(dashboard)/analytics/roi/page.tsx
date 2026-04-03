@@ -101,7 +101,7 @@ export default function ROIPage() {
   );
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="w-full">
       <PageHeader
         title="ROI Calculator"
         subtitle="Enter your ad spend and revenue \u2014 calculate ROAS, CPA, and ROI per platform"

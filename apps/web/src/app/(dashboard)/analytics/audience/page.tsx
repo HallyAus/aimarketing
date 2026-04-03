@@ -103,7 +103,7 @@ export default function AudiencePage() {
   }, [fetchAudience]);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="w-full">
       <PageHeader
         title="Audience Insights"
         subtitle="AI estimates your audience demographics, interests, and most active hours"

@@ -189,7 +189,7 @@ export default function AutoReplyPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="w-full">
       <PageHeader
         title="Auto-Reply Bot"
         subtitle="Configure keyword triggers \u2014 AI automatically responds to common messages"

@@ -53,7 +53,7 @@ export default function TrendingTopicsPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="w-full">
       <PageHeader
         title="Trending Topics"
         subtitle="Enter your industry \u2014 AI shows what topics are trending right now"

@@ -85,7 +85,7 @@ export default function ReportsSettingsPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="w-full">
       <PageHeader
         title="Report Settings"
         subtitle="Generate and schedule branded performance reports \u2014 send weekly to stakeholders"

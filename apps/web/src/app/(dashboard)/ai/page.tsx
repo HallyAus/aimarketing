@@ -550,7 +550,7 @@ function CampaignIdeasTab() {
   }
 
   return (
-    <div className="max-w-2xl w-full space-y-4">
+    <div className="w-full max-w-4xl space-y-4">
       <div>
         <label htmlFor="ideas-industry" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Your Industry / Business</label>
         <input

@@ -85,7 +85,7 @@ export default function BestTimesPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="w-full">
       <PageHeader
         title="Best Time to Post"
         subtitle={activeAccount ? `AI analyzes your post data to find the optimal posting times for each platform \u2014 ${activeAccount.name}` : "AI analyzes your post data to find the optimal posting times for each platform"}

@@ -192,7 +192,7 @@ document.getElementById('adpilot-form').addEventListener('submit', async functio
 </script>`;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="w-full">
       <PageHeader
         title="Lead Capture"
         subtitle={activeAccount ? `Contacts captured from your forms and social channels \u2014 export, filter, and manage \u2014 ${activeAccount.name}` : "Contacts captured from your forms and social channels \u2014 export, filter, and manage"}
