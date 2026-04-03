@@ -35,8 +35,12 @@ const requestSchema = z.object({
 async function extractUrlContent(url: string): Promise<string> {
   try {
     const res = await fetch(url, {
-      headers: { "User-Agent": "AdPilot/1.0 (content extraction)" },
-      signal: AbortSignal.timeout(10000),
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; AdPilot/1.0; +https://adpilot.co)",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      },
+      signal: AbortSignal.timeout(15000),
+      redirect: "follow",
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const html = await res.text();
@@ -243,10 +247,17 @@ export const POST = withErrorHandler(
     // ── Extract content ───────────────────────────────────────
     let content = prompt ?? "";
     let extractedContent: string | undefined;
+    let urlFetchWarning: string | undefined;
 
     if (url) {
-      extractedContent = await extractUrlContent(url);
-      content = extractedContent;
+      try {
+        extractedContent = await extractUrlContent(url);
+        content = extractedContent;
+      } catch {
+        // URL fetch failed — fall back to using the URL itself as context
+        urlFetchWarning = "Could not fetch URL content. Using URL and prompt as context.";
+        content = content || `Marketing content for: ${url}`;
+      }
     }
 
     if (regeneratePrompt) {
@@ -299,6 +310,7 @@ export const POST = withErrorHandler(
       images,
       caption,
       extractedContent,
+      warning: urlFetchWarning,
     });
   }),
 );
