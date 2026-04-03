@@ -590,7 +590,7 @@ export default function CampaignPostsManager({
 
   const isLoading = (action: string) => loadingAction === action;
 
-  const canEdit = (status: string) => ["DRAFT", "REJECTED", "SCHEDULED"].includes(status);
+  const canEdit = (status: string) => ["DRAFT", "REJECTED", "SCHEDULED", "PENDING_APPROVAL", "APPROVED"].includes(status);
   const canSchedule = (status: string) => ["DRAFT", "APPROVED", "FAILED"].includes(status);
   const canPublish = (status: string) => ["DRAFT", "APPROVED", "SCHEDULED", "FAILED"].includes(status);
   const canDelete = (status: string) => status !== "DELETED";
@@ -881,6 +881,74 @@ export default function CampaignPostsManager({
                       >
                         {isLoading(`approval-${post.id}`) ? "Submitting..." : "Submit for Approval"}
                       </button>
+                    )}
+                    {/* Approve / Revert for PENDING_APPROVAL posts */}
+                    {post.status === "PENDING_APPROVAL" && (
+                      <>
+                        <button
+                          className="btn-primary"
+                          style={{ fontSize: "0.75rem", padding: "0.375rem 0.75rem", background: "var(--accent-emerald)" }}
+                          disabled={isLoading(`approve-${post.id}`)}
+                          onClick={async () => {
+                            setLoadingAction(`approve-${post.id}`);
+                            clearError();
+                            try {
+                              // Find the approval request and approve it
+                              const listRes = await fetch(`/api/approvals?status=PENDING`);
+                              const listData = await listRes.json();
+                              const approval = (listData.data ?? []).find((a: { post: { id: string } }) => a.post.id === post.id);
+                              if (approval) {
+                                const res = await fetch("/api/approvals", {
+                                  method: "PATCH",
+                                  headers: { "Content-Type": "application/json" },
+                                  body: JSON.stringify({ approvalId: approval.id, action: "APPROVED" }),
+                                });
+                                if (res.ok) {
+                                  setPosts((prev) => prev.map((p) => p.id === post.id ? { ...p, status: "APPROVED" } : p));
+                                  setSuccessMessage("Post approved");
+                                  setTimeout(() => setSuccessMessage(null), 3000);
+                                } else {
+                                  const d = await res.json();
+                                  setError(d.error || "Failed to approve");
+                                }
+                              } else {
+                                // No approval request found — just update status directly
+                                const res = await fetch(`/api/posts/${post.id}`, {
+                                  method: "PATCH",
+                                  headers: { "Content-Type": "application/json" },
+                                  body: JSON.stringify({ version: post.version }),
+                                });
+                                if (res.ok) {
+                                  setPosts((prev) => prev.map((p) => p.id === post.id ? { ...p, status: "DRAFT" } : p));
+                                }
+                              }
+                            } catch { setError("Network error"); } finally { setLoadingAction(null); }
+                          }}
+                        >
+                          {isLoading(`approve-${post.id}`) ? "..." : "Approve"}
+                        </button>
+                        <button
+                          className="btn-secondary"
+                          style={{ fontSize: "0.75rem", padding: "0.375rem 0.75rem" }}
+                          onClick={async () => {
+                            setLoadingAction(`revert-${post.id}`);
+                            try {
+                              const res = await fetch(`/api/posts/${post.id}`, {
+                                method: "PATCH",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ version: post.version }),
+                              });
+                              if (res.ok) {
+                                setPosts((prev) => prev.map((p) => p.id === post.id ? { ...p, status: "DRAFT" } : p));
+                                setSuccessMessage("Reverted to draft");
+                                setTimeout(() => setSuccessMessage(null), 3000);
+                              }
+                            } catch { /* ignore */ } finally { setLoadingAction(null); }
+                          }}
+                        >
+                          {isLoading(`revert-${post.id}`) ? "..." : "Revert to Draft"}
+                        </button>
+                      </>
                     )}
                     {/* Schedule (auto — one click) */}
                     {canSchedule(post.status) && !isScheduling && (
