@@ -22,17 +22,28 @@ interface SendEmailResult {
 // ---------------------------------------------------------------------------
 
 let resendInstance: import("resend").Resend | null = null;
+let resendInitAttempted = false;
 
-function getResend(): import("resend").Resend | null {
+async function getResend(): Promise<import("resend").Resend | null> {
   if (resendInstance) return resendInstance;
+  if (resendInitAttempted) return null;
+  resendInitAttempted = true;
 
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return null;
+  if (!apiKey) {
+    logger.warn("RESEND_API_KEY not configured — emails will be logged only");
+    return null;
+  }
 
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { Resend } = require("resend") as typeof import("resend");
-  resendInstance = new Resend(apiKey);
-  return resendInstance;
+  try {
+    const { Resend } = await import("resend");
+    resendInstance = new Resend(apiKey);
+    logger.info("Resend client initialized", { keyPrefix: apiKey.slice(0, 8) + "..." });
+    return resendInstance;
+  } catch (err) {
+    logger.error("Failed to initialize Resend", { error: (err as Error).message });
+    return null;
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -51,13 +62,14 @@ export async function sendEmail(
   const { to, subject, html, text } = options;
   const from = process.env.EMAIL_FROM ?? DEFAULT_FROM;
 
-  const resend = getResend();
+  const resend = await getResend();
 
   if (!resend) {
-    logger.info("Email send (no Resend API key — logged only)", {
+    logger.warn("EMAIL NOT SENT (Resend not available)", {
       to,
       subject,
       from,
+      hasApiKey: !!process.env.RESEND_API_KEY,
     });
     return { success: true, id: "dev-noop" };
   }
