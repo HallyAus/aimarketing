@@ -25,6 +25,7 @@
     "@prisma/adapter-neon": "^6.19.3",
     "@simplewebauthn/browser": "^9.0.1",
     "@simplewebauthn/server": "^9.0.2",
+    "@vercel/analytics": "^2.0.1",
     "bcryptjs": "^3.0.3",
     "bullmq": "^5.30.0",
     "ioredis": "^5.4.0",
