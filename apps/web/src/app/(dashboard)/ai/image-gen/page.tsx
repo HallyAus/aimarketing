@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { PageHeader } from "@/components/page-header";
 import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
+import { DESIGN_THEMES } from "@/lib/image-gen/themes";
 
 /* ── Constants ──────────────────────────────────────────────── */
 
@@ -47,6 +48,7 @@ export default function ImageGenPage() {
   const [platform, setPlatform] = useState("instagram-square");
   const [count, setCount] = useState(3);
   const [brandName, setBrandName] = useState("");
+  const [theme, setTheme] = useState("dark-tech");
 
   // Generation
   const [loading, setLoading] = useState(false);
@@ -104,6 +106,7 @@ export default function ImageGenPage() {
           platform,
           count,
           brandName: brandName.trim() || undefined,
+          theme,
         }),
       });
 
@@ -328,6 +331,30 @@ export default function ImageGenPage() {
             </div>
 
             <div className="space-y-4">
+              {/* Theme selector */}
+              <div>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+                  Design Theme
+                </label>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {DESIGN_THEMES.map((t) => (
+                    <button
+                      key={t.id}
+                      onClick={() => setTheme(t.id)}
+                      className="text-left px-2.5 py-2 rounded-lg transition-colors"
+                      style={{
+                        background: theme === t.id ? "var(--accent-blue-muted)" : "var(--bg-tertiary)",
+                        color: theme === t.id ? "var(--accent-blue)" : "var(--text-secondary)",
+                        border: `1px solid ${theme === t.id ? "var(--accent-blue)" : "var(--border-primary)"}`,
+                      }}
+                    >
+                      <div className="text-xs font-semibold">{t.name}</div>
+                      <div className="text-[10px] mt-0.5 opacity-70">{t.description.split(",")[0]}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
                   Platform / Size

@@ -23,6 +23,7 @@ const requestSchema = z.object({
   platform: z.string().default("instagram-square"),
   count: z.number().min(1).max(5).default(3),
   brandName: z.string().max(100).optional(),
+  theme: z.string().default("dark-tech"),
   regeneratePrompt: z.string().optional(),
   regenerateHtml: z.string().optional(),
 }).refine((d) => d.url || d.prompt || d.regeneratePrompt || d.regenerateHtml, {
@@ -67,26 +68,7 @@ async function extractUrlContent(url: string): Promise<string> {
 
 /* ── Claude generates complete HTML cards ──────────────────────── */
 
-const DESIGN_SYSTEM_PROMPT = `You are an elite marketing designer who creates stunning social media graphics as HTML/CSS. Your designs match the quality of professional design agencies.
-
-DESIGN PRINCIPLES:
-- Dark, premium aesthetic: near-black backgrounds (#0B0B0F, #12121A, #1A1A26)
-- Glowing orb effects using absolute-positioned divs with border-radius:50%, filter:blur(60-100px), opacity 0.2-0.4
-- Subtle grid overlay using background-image with linear-gradient lines
-- Google Fonts: DM Sans for body, Sora for headlines (weight 700-800), JetBrains Mono for accents/labels
-- Gradient text using -webkit-background-clip:text with blue-to-cyan (#0066FF to #00D4FF) or accent gradients
-- Monospace badges with letter-spacing, subtle borders, semi-transparent backgrounds
-- CTA bars/buttons with blue (#0066FF) fills or outline style with cyan accents
-- Feature items with small colored icon boxes (18x18px, rgba background, 4px radius)
-- Color palette: blue #0066FF, cyan #00D4FF, accent #FF6B35, green #00E676, purple #8B5CF6
-- Typography: large bold headlines (font-size relative to card width), subtle gray subtext
-
-EVERY card must include:
-- Google Fonts link for DM Sans, Sora, and JetBrains Mono
-- A grid-overlay div
-- At least 2 glow orb divs with filter:blur
-- Proper z-index layering (orbs z:1, content z:2)
-- The body and root div must be exactly the specified width and height with overflow:hidden`;
+import { getThemeById } from "@/lib/image-gen/themes";
 
 async function generateCardsHtml(
   content: string,
@@ -94,6 +76,7 @@ async function generateCardsHtml(
   width: number,
   height: number,
   brandName?: string,
+  themeId?: string,
   contentMemory?: string,
 ): Promise<{ htmlCards: string[]; caption: string }> {
   if (!process.env.ANTHROPIC_API_KEY) {
@@ -101,6 +84,7 @@ async function generateCardsHtml(
   }
 
   const aspectRatio = width > height ? "landscape" : width === height ? "square" : "portrait";
+  const theme = getThemeById(themeId ?? "dark-tech");
 
   const response = await getClient().messages.create({
     model: "claude-sonnet-4-6",
@@ -108,7 +92,15 @@ async function generateCardsHtml(
     messages: [
       {
         role: "user",
-        content: `${DESIGN_SYSTEM_PROMPT}
+        content: `You are an elite marketing designer who creates stunning social media graphics as HTML/CSS. Your designs match professional agency quality.
+
+${theme.prompt}
+
+EVERY card must include:
+- Appropriate Google Fonts loaded via <link> tag in <head>
+- Visual depth through layered elements (decorative shapes, shadows, overlays)
+- Proper z-index layering
+- The body and root div must be exactly the specified width and height with overflow:hidden
 
 Create ${count} DIFFERENT marketing image cards as complete, standalone HTML documents. Each must be visually distinct — different layouts, different color emphasis, different content angles.
 
@@ -228,7 +220,7 @@ export const POST = withErrorHandler(
       throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
     }
 
-    const { url, prompt, platform, count, brandName, regeneratePrompt, regenerateHtml } = parsed.data;
+    const { url, prompt, platform, count, brandName, theme, regeneratePrompt, regenerateHtml } = parsed.data;
     const preset = SIZE_PRESETS[platform] ?? SIZE_PRESETS["instagram-square"]!;
     const { width, height } = preset;
 
@@ -267,7 +259,7 @@ export const POST = withErrorHandler(
 
     // ── Generate HTML cards via Claude ─────────────────────────
     const contentMemory = await getContentMemory(req.orgId);
-    const { htmlCards, caption } = await generateCardsHtml(content, count, width, height, brandName, contentMemory);
+    const { htmlCards, caption } = await generateCardsHtml(content, count, width, height, brandName, theme, contentMemory);
 
     // ── Render all cards to JPEG ──────────────────────────────
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
