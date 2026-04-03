@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { PageHeader } from "@/components/page-header";
 import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
-import type { CardSpec } from "@/lib/image-gen/types";
 
 /* ── Constants ──────────────────────────────────────────────── */
 
@@ -16,19 +15,6 @@ const SIZE_OPTIONS = [
   { id: "tiktok-cover", label: "TikTok Cover", size: "1080x1920" },
   { id: "youtube-thumbnail", label: "YouTube Thumbnail", size: "1280x720" },
 ];
-
-const TEMPLATE_LABELS: Record<string, string> = {
-  "product-showcase": "Product Showcase",
-  announcement: "Announcement",
-  "sale-promo": "Sale / Promo",
-  testimonial: "Testimonial",
-  stats: "Stats",
-  "tips-howto": "Tips / How-to",
-  "before-after": "Before & After",
-  "event-launch": "Event / Launch",
-  "brand-story": "Brand Story",
-  "carousel-card": "Carousel Card",
-};
 
 const SCHEDULE_PLATFORMS = [
   { id: "FACEBOOK", label: "Facebook" },
@@ -43,7 +29,7 @@ interface GeneratedImage {
   id: string;
   base64: string;
   html?: string;
-  spec: CardSpec;
+  type?: string;
   width: number;
   height: number;
 }
@@ -68,7 +54,7 @@ export default function ImageGenPage() {
 
   // Edit/regenerate
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editSpec, setEditSpec] = useState<CardSpec | null>(null);
+  const [editHtml, setEditHtml] = useState("");
   const [regenLoading, setRegenLoading] = useState(false);
 
   // Selection & scheduling
@@ -130,22 +116,22 @@ export default function ImageGenPage() {
 
   function startEdit(img: GeneratedImage) {
     setEditingId(img.id);
-    setEditSpec({ ...img.spec });
+    setEditHtml(img.html ?? "");
   }
 
   function cancelEdit() {
     setEditingId(null);
-    setEditSpec(null);
+    setEditHtml("");
   }
 
   async function regenerateCard() {
-    if (!editSpec) return;
+    if (!editHtml) return;
     setRegenLoading(true);
     try {
       const res = await fetch("/api/ai/image-gen", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ regenerateSpec: editSpec, platform }),
+        body: JSON.stringify({ regenerateHtml: editHtml, platform }),
       });
       if (!res.ok) throw new Error("Regeneration failed");
       const data = await res.json();
@@ -156,7 +142,7 @@ export default function ImageGenPage() {
         );
       }
       setEditingId(null);
-      setEditSpec(null);
+      setEditHtml("");
     } catch {
       setError("Failed to regenerate card");
     }
@@ -179,7 +165,7 @@ export default function ImageGenPage() {
   function downloadImage(img: GeneratedImage) {
     const a = document.createElement("a");
     a.href = img.base64;
-    a.download = `${img.spec.brandName || "marketing"}-${img.spec.template}.jpg`;
+    a.download = `marketing-${img.type || img.id}.jpg`;
     a.click();
   }
 
@@ -189,7 +175,7 @@ export default function ImageGenPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${img.spec.brandName || "marketing"}-${img.spec.template}.html`;
+    a.download = `marketing-${img.type || img.id}.html`;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -217,7 +203,7 @@ export default function ImageGenPage() {
 
     try {
       const drafts = selected.map((img) => ({
-        content: caption.trim() || img.spec.headline,
+        content: caption.trim() || "Marketing image post",
         platform: schedulePlatform,
         mediaUrls: [img.base64],
         pageId: activeAccount?.id ?? undefined,
@@ -430,25 +416,19 @@ export default function ImageGenPage() {
                     style={{ cursor: "pointer" }}
                     onClick={() => toggleImage(img.id)}
                   >
-                    <img src={img.base64} alt={img.spec.headline} className="w-full" />
+                    <img src={img.base64} alt={img.type || "Marketing image"} className="w-full" />
                   </div>
 
                   {/* Card info */}
                   <div className="p-3 space-y-2">
-                    <div className="flex items-center gap-2 flex-wrap">
+                    {img.type && (
                       <span
                         className="text-[10px] font-semibold px-2 py-0.5 rounded"
                         style={{ background: "var(--accent-blue-muted)", color: "var(--accent-blue)" }}
                       >
-                        {TEMPLATE_LABELS[img.spec.template] ?? img.spec.template}
+                        {img.type}
                       </span>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: "var(--bg-tertiary)", color: "var(--text-tertiary)" }}>
-                        {img.spec.mood}
-                      </span>
-                    </div>
-                    <p className="text-xs truncate" style={{ color: "var(--text-secondary)" }}>
-                      {img.spec.headline}
-                    </p>
+                    )}
                     <div className="flex gap-2">
                       <button onClick={() => downloadImage(img)} className="btn-secondary text-xs flex-1">
                         PNG
@@ -469,86 +449,25 @@ export default function ImageGenPage() {
           </div>
         )}
 
-        {/* ── EDIT PANEL ───────────────────────────────────── */}
-        {editingId && editSpec && (
+        {/* ── EDIT PANEL (HTML editor) ──────────────────── */}
+        {editingId && editHtml && (
           <div className="card" style={{ borderColor: "var(--accent-blue)" }}>
             <h3 className="text-sm font-semibold mb-3" style={{ color: "var(--accent-blue)" }}>
-              Edit & Regenerate
+              Edit HTML & Re-render
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Headline</label>
-                  <input
-                    value={editSpec.headline}
-                    onChange={(e) => setEditSpec({ ...editSpec, headline: e.target.value })}
-                    className="w-full text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Subtext</label>
-                  <input
-                    value={editSpec.subtext ?? ""}
-                    onChange={(e) => setEditSpec({ ...editSpec, subtext: e.target.value })}
-                    className="w-full text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>CTA</label>
-                  <input
-                    value={editSpec.cta ?? ""}
-                    onChange={(e) => setEditSpec({ ...editSpec, cta: e.target.value })}
-                    className="w-full text-sm"
-                  />
-                </div>
-              </div>
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Template</label>
-                  <select
-                    value={editSpec.template}
-                    onChange={(e) => setEditSpec({ ...editSpec, template: e.target.value as CardSpec["template"] })}
-                    className="w-full text-sm"
-                  >
-                    {Object.entries(TEMPLATE_LABELS).map(([id, label]) => (
-                      <option key={id} value={id}>{label}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Color 1</label>
-                    <input type="color" value={editSpec.palette[0]} onChange={(e) => setEditSpec({ ...editSpec, palette: [e.target.value, editSpec.palette[1]] })} className="w-full h-8" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Color 2</label>
-                    <input type="color" value={editSpec.palette[1]} onChange={(e) => setEditSpec({ ...editSpec, palette: [editSpec.palette[0], e.target.value] })} className="w-full h-8" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Mood</label>
-                  <div className="flex gap-1 flex-wrap">
-                    {(["bold", "elegant", "playful", "minimal", "warm"] as const).map((m) => (
-                      <button
-                        key={m}
-                        onClick={() => setEditSpec({ ...editSpec, mood: m })}
-                        className="px-2 py-1 rounded text-xs capitalize"
-                        style={{
-                          background: editSpec.mood === m ? "var(--accent-blue-muted)" : "var(--bg-tertiary)",
-                          color: editSpec.mood === m ? "var(--accent-blue)" : "var(--text-tertiary)",
-                          border: `1px solid ${editSpec.mood === m ? "var(--accent-blue)" : "var(--border-primary)"}`,
-                        }}
-                      >
-                        {m}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-2 mt-4">
+            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
+              Edit the HTML directly — change text, colors, layout — then re-render to update the image.
+            </p>
+            <textarea
+              value={editHtml}
+              onChange={(e) => setEditHtml(e.target.value)}
+              rows={12}
+              className="w-full font-mono text-xs"
+              style={{ background: "var(--bg-tertiary)", color: "var(--text-primary)", border: "1px solid var(--border-primary)", borderRadius: 6, padding: 12 }}
+            />
+            <div className="flex gap-2 mt-3">
               <button onClick={regenerateCard} disabled={regenLoading} className="btn-primary text-sm">
-                {regenLoading ? "Regenerating..." : "Regenerate"}
+                {regenLoading ? "Re-rendering..." : "Re-render"}
               </button>
               <button onClick={cancelEdit} className="btn-secondary text-sm">Cancel</button>
             </div>

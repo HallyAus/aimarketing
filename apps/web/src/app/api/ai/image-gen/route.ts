@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
-import { renderCardToPng, generateCardHtml, SIZE_PRESETS } from "@/lib/image-gen/render";
-import type { CardSpec, TemplateName } from "@/lib/image-gen/types";
+import { renderHtmlToJpeg, SIZE_PRESETS } from "@/lib/image-gen/render";
 import { z } from "zod";
 
 /* ── Anthropic client ──────────────────────────────────────────── */
@@ -16,22 +15,16 @@ function getClient(): Anthropic {
 
 /* ── Validation ────────────────────────────────────────────────── */
 
-const VALID_TEMPLATES: TemplateName[] = [
-  "product-showcase", "announcement", "sale-promo", "testimonial",
-  "stats", "tips-howto", "before-after", "event-launch",
-  "brand-story", "carousel-card",
-];
-
 const requestSchema = z.object({
   url: z.string().url().optional(),
   prompt: z.string().max(2000).optional(),
   platform: z.string().default("instagram-square"),
   count: z.number().min(1).max(5).default(3),
   brandName: z.string().max(100).optional(),
-  brandVoiceId: z.string().optional(),
-  regenerateSpec: z.any().optional(),
-}).refine((d) => d.url || d.prompt || d.regenerateSpec, {
-  message: "Provide a URL, prompt, or spec to regenerate",
+  regeneratePrompt: z.string().optional(),
+  regenerateHtml: z.string().optional(),
+}).refine((d) => d.url || d.prompt || d.regeneratePrompt || d.regenerateHtml, {
+  message: "Provide a URL, prompt, or content to regenerate",
 });
 
 /* ── URL content extraction ────────────────────────────────────── */
@@ -45,13 +38,11 @@ async function extractUrlContent(url: string): Promise<string> {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const html = await res.text();
 
-    // Extract useful text from HTML
     const title = html.match(/<title[^>]*>(.*?)<\/title>/is)?.[1]?.trim() ?? "";
     const metaDesc = html.match(/<meta[^>]*name=["']description["'][^>]*content=["'](.*?)["']/is)?.[1]?.trim() ?? "";
     const ogTitle = html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["'](.*?)["']/is)?.[1]?.trim() ?? "";
     const ogDesc = html.match(/<meta[^>]*property=["']og:description["'][^>]*content=["'](.*?)["']/is)?.[1]?.trim() ?? "";
 
-    // Strip HTML tags for body text (first ~2000 chars of visible text)
     const bodyText = html
       .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
       .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
@@ -72,15 +63,36 @@ async function extractUrlContent(url: string): Promise<string> {
   }
 }
 
-/* ── Claude creative brief generation ──────────────────────────── */
+/* ── Claude generates complete HTML cards ──────────────────────── */
 
-async function generateCardSpecs(
+const DESIGN_SYSTEM_PROMPT = `You are an elite marketing designer who creates stunning social media graphics as HTML/CSS. Your designs match the quality of professional design agencies.
+
+DESIGN PRINCIPLES:
+- Dark, premium aesthetic: near-black backgrounds (#0B0B0F, #12121A, #1A1A26)
+- Glowing orb effects using absolute-positioned divs with border-radius:50%, filter:blur(60-100px), opacity 0.2-0.4
+- Subtle grid overlay using background-image with linear-gradient lines
+- Google Fonts: DM Sans for body, Sora for headlines (weight 700-800), JetBrains Mono for accents/labels
+- Gradient text using -webkit-background-clip:text with blue-to-cyan (#0066FF to #00D4FF) or accent gradients
+- Monospace badges with letter-spacing, subtle borders, semi-transparent backgrounds
+- CTA bars/buttons with blue (#0066FF) fills or outline style with cyan accents
+- Feature items with small colored icon boxes (18x18px, rgba background, 4px radius)
+- Color palette: blue #0066FF, cyan #00D4FF, accent #FF6B35, green #00E676, purple #8B5CF6
+- Typography: large bold headlines (font-size relative to card width), subtle gray subtext
+
+EVERY card must include:
+- Google Fonts link for DM Sans, Sora, and JetBrains Mono
+- A grid-overlay div
+- At least 2 glow orb divs with filter:blur
+- Proper z-index layering (orbs z:1, content z:2)
+- The body and root div must be exactly the specified width and height with overflow:hidden`;
+
+async function generateCardsHtml(
   content: string,
   count: number,
   width: number,
   height: number,
   brandName?: string,
-): Promise<{ specs: CardSpec[]; caption: string }> {
+): Promise<{ htmlCards: string[]; caption: string }> {
   if (!process.env.ANTHROPIC_API_KEY) {
     throw new ZodValidationError("AI service not configured. Set ANTHROPIC_API_KEY.");
   }
@@ -89,54 +101,50 @@ async function generateCardSpecs(
 
   const response = await getClient().messages.create({
     model: "claude-sonnet-4-6",
-    max_tokens: 4096,
+    max_tokens: 16384,
     messages: [
       {
         role: "user",
-        content: `You are a marketing creative director. Generate ${count} diverse marketing image card specifications based on this content.
+        content: `${DESIGN_SYSTEM_PROMPT}
 
-CONTENT:
+Create ${count} DIFFERENT marketing image cards as complete, standalone HTML documents. Each must be visually distinct — different layouts, different color emphasis, different content angles.
+
+CONTENT TO MARKET:
 ${content}
 
-IMAGE DIMENSIONS: ${width}x${height} (${aspectRatio})
-${brandName ? `BRAND: ${brandName}` : ""}
+${brandName ? `BRAND NAME: ${brandName}` : ""}
+DIMENSIONS: ${width}x${height}px (${aspectRatio})
 
-Return a JSON array of ${count} card specs. Each spec MUST use a DIFFERENT template and visual style. Be creative with colors — don't repeat palettes.
+Card types to create (pick ${count} different ones, vary them):
+- Hero announcement (big headline, feature list, CTA)
+- Stats/metric card (huge number like "$0" or "10,000+", supporting text)
+- Before/after comparison (split layout)
+- Tips/how-to (numbered steps, clean layout)
+- Testimonial/social proof (quote, attribution)
+- Sale/promo (big discount, urgency)
+- Feature spotlight (one key feature explained)
+- Brand story (editorial, warm)
 
-Available templates: ${VALID_TEMPLATES.join(", ")}
-
-JSON Schema for each card:
+Return a JSON object:
 {
-  "template": "one of the templates above",
-  "headline": "max 60 chars, punchy marketing copy",
-  "subtext": "max 120 chars, supporting text",
-  "cta": "call to action text like 'Shop Now'",
-  "metric": "for stats/sale-promo: big number like '50% OFF' or '10,000+'",
-  "metricLabel": "label under the metric",
-  "steps": ["for tips-howto only: 3-5 short tips"],
-  "quote": "for testimonial: a customer quote",
-  "attribution": "for testimonial: who said it",
-  "beforeText": "for before-after: the before state",
-  "afterText": "for before-after: the after state",
-  "eventDate": "for event-launch: formatted date",
-  "palette": ["#hex1", "#hex2"],
-  "accentColor": "#hex",
-  "mood": "bold|elegant|playful|minimal|warm",
-  "brandName": "${brandName || "extract from content if possible"}",
-  "brandTagline": "short tagline if relevant"
+  "caption": "Ready-to-post social media caption with hashtags (2-3 sentences)",
+  "cards": [
+    {
+      "type": "short description of what this card is",
+      "html": "<!DOCTYPE html>...complete HTML document..."
+    }
+  ]
 }
 
-Only include fields relevant to each template. Omit null/empty fields.
-${aspectRatio === "portrait" ? "For portrait/story format, favor bold headlines and less text." : ""}
-${aspectRatio === "landscape" ? "For landscape format, use wider layouts with supporting text." : ""}
-
-Return a JSON object (not array) with this structure:
-{
-  "caption": "A ready-to-post social media caption with hashtags (2-3 sentences max)",
-  "cards": [ ...array of card specs... ]
-}
-
-The caption should be engaging, include relevant hashtags, and work for the platform. Return ONLY the JSON, no markdown, no explanations.`,
+CRITICAL RULES:
+- Each "html" value is a COMPLETE standalone HTML document starting with <!DOCTYPE html>
+- Body must be exactly ${width}px wide and ${height}px tall with overflow:hidden, margin:0
+- Use the Google Fonts link in <head>
+- Make text large enough to read on a phone — headlines at least 5% of width
+- Include the brand name visually on each card
+- Each card must look completely different from the others
+- DO NOT use placeholder images or external image URLs
+- Return ONLY the JSON. No markdown fences, no explanations.`,
       },
     ],
   });
@@ -145,28 +153,22 @@ The caption should be engaging, include relevant hashtags, and work for the plat
   if (text?.type !== "text") throw new Error("No text in AI response");
 
   const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
-  const parsed = JSON.parse(cleaned);
+  let parsed: { caption?: string; cards?: Array<{ type?: string; html: string }> };
 
-  // Handle both { caption, cards } wrapper and plain array
-  const rawSpecs: CardSpec[] = Array.isArray(parsed) ? parsed : (parsed.cards ?? parsed);
-  const caption: string = Array.isArray(parsed) ? "" : (parsed.caption ?? "");
+  try {
+    parsed = JSON.parse(cleaned);
+  } catch {
+    // Try to extract JSON from response
+    const match = cleaned.match(/\{[\s\S]*\}/);
+    if (match) parsed = JSON.parse(match[0]);
+    else throw new Error("Failed to parse AI response");
+  }
 
-  // Validate and sanitize
-  const specs = rawSpecs.slice(0, count).map((spec) => ({
-    ...spec,
-    template: VALID_TEMPLATES.includes(spec.template) ? spec.template : "announcement",
-    headline: (spec.headline ?? "").substring(0, 80),
-    subtext: spec.subtext?.substring(0, 150),
-    palette: (Array.isArray(spec.palette) && spec.palette.length >= 2
-      ? [spec.palette[0], spec.palette[1]]
-      : ["#667eea", "#764ba2"]) as [string, string],
-    accentColor: spec.accentColor ?? "#4facfe",
-    mood: (["bold", "elegant", "playful", "minimal", "warm"] as const).includes(spec.mood as any)
-      ? spec.mood
-      : "bold",
-  }));
+  const cards = parsed.cards ?? [];
+  const htmlCards = cards.slice(0, count).map((c) => c.html);
+  const caption = parsed.caption ?? "";
 
-  return { specs, caption };
+  return { htmlCards, caption };
 }
 
 /* ── Route handler ─────────────────────────────────────────────── */
@@ -179,22 +181,20 @@ export const POST = withErrorHandler(
       throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
     }
 
-    const { url, prompt, platform, count, brandName, regenerateSpec } = parsed.data;
+    const { url, prompt, platform, count, brandName, regeneratePrompt, regenerateHtml } = parsed.data;
     const preset = SIZE_PRESETS[platform] ?? SIZE_PRESETS["instagram-square"]!;
     const { width, height } = preset;
 
-    // ── Single card regeneration ──────────────────────────────
-    if (regenerateSpec) {
-      const spec = regenerateSpec as CardSpec;
-      const html = generateCardHtml(spec, width, height);
-      const buffer = await renderCardToPng(spec, width, height);
+    // ── Single card regeneration (from edited HTML) ───────────
+    if (regenerateHtml) {
+      const buffer = await renderHtmlToJpeg(regenerateHtml, width, height);
       const base64 = `data:image/jpeg;base64,${buffer.toString("base64")}`;
       return NextResponse.json({
         images: [{
           id: `regen_${Date.now()}`,
           base64,
-          html,
-          spec,
+          html: regenerateHtml,
+          type: "regenerated",
           width,
           height,
         }],
@@ -210,24 +210,27 @@ export const POST = withErrorHandler(
       content = extractedContent;
     }
 
+    if (regeneratePrompt) {
+      content = regeneratePrompt;
+    }
+
     if (!content.trim()) {
       throw new ZodValidationError("No content to generate images from.");
     }
 
-    // ── Generate creative briefs via Claude ────────────────────
-    const { specs, caption: generatedCaption } = await generateCardSpecs(content, count, width, height, brandName);
+    // ── Generate HTML cards via Claude ─────────────────────────
+    const { htmlCards, caption } = await generateCardsHtml(content, count, width, height, brandName);
 
-    // ── Render all cards to PNG + generate HTML ─────────────────
+    // ── Render all cards to JPEG ──────────────────────────────
     const images = await Promise.all(
-      specs.map(async (spec, i) => {
-        const html = generateCardHtml(spec, width, height);
-        const buffer = await renderCardToPng(spec, width, height);
+      htmlCards.map(async (html, i) => {
+        const buffer = await renderHtmlToJpeg(html, width, height);
         const base64 = `data:image/jpeg;base64,${buffer.toString("base64")}`;
         return {
           id: `img_${i + 1}_${Date.now()}`,
           base64,
           html,
-          spec,
+          type: `card-${i + 1}`,
           width,
           height,
         };
@@ -236,7 +239,7 @@ export const POST = withErrorHandler(
 
     return NextResponse.json({
       images,
-      caption: generatedCaption,
+      caption,
       extractedContent,
     });
   }),
