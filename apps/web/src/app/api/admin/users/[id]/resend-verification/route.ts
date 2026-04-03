@@ -10,7 +10,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const authResult = await requireAdmin();
-  if ("status" in authResult) return authResult;
+  if (authResult.error) return authResult.error;
 
   const { id } = await params;
 
@@ -40,7 +40,7 @@ export async function POST(
 
     await prisma.auditLog.create({
       data: {
-        userId: authResult.user?.id,
+        userId: authResult.user.id,
         action: "admin.resend_verification",
         entityType: "User",
         entityId: user.id,

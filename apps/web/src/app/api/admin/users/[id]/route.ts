@@ -109,7 +109,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const authResult = await requireAdmin();
-  if ("status" in authResult) return authResult;
+  if (authResult.error) return authResult.error;
 
   const { id } = await params;
 
@@ -136,7 +136,7 @@ export async function DELETE(
 
   await prisma.auditLog.create({
     data: {
-      userId: authResult.user?.id,
+      userId: authResult.user.id,
       action: "admin.user_deleted",
       entityType: "User",
       entityId: id,
