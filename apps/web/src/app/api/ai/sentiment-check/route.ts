@@ -38,6 +38,11 @@ export const POST = withErrorHandler(
 
 Post: "${content}"
 
+Important: Analyze this social media post's text. If the text is very short, generic, or placeholder-like (e.g. "Marketing image post", "Image post"), recognize this as an image post that needs a proper caption. In that case:
+- Score it low (under 20)
+- In suggestions, focus on writing a real caption
+- In improvedVersion, write a compelling caption as if you're writing for a brand's social media (include hashtags, emoji, CTA)
+
 Return ONLY valid JSON (no markdown, no code fences):
 {
   "sentiment": "positive" | "neutral" | "negative",

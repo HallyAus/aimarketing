@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { PageHeader } from "@/components/page-header";
 import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
 import { DESIGN_THEMES } from "@/lib/image-gen/themes";
@@ -67,6 +68,7 @@ export default function ImageGenPage() {
   const [schedulePlatform, setSchedulePlatform] = useState("FACEBOOK");
   const [scheduling, setScheduling] = useState(false);
   const [scheduleSuccess, setScheduleSuccess] = useState("");
+  const [scheduleSuccessLink, setScheduleSuccessLink] = useState(false);
 
   useEffect(() => {
     if (activeAccount?.platform) setSchedulePlatform(activeAccount.platform);
@@ -94,6 +96,7 @@ export default function ImageGenPage() {
     setImages([]);
     setSelectedImages(new Set());
     setScheduleSuccess("");
+    setScheduleSuccessLink(false);
     setExtractedContent("");
 
     try {
@@ -238,11 +241,14 @@ export default function ImageGenPage() {
     if (selected.length === 0) return;
     setScheduling(true);
     setScheduleSuccess("");
+    setScheduleSuccessLink(false);
     setError("");
 
     try {
+      const platformLabel = SIZE_OPTIONS.find((s) => s.id === platform)?.label ?? platform;
+      const fallbackCaption = `${platformLabel} post`;
       const drafts = selected.map((img) => ({
-        content: caption.trim() || "Marketing image post",
+        content: caption.trim() || (img.type ? `${img.type} — ${platformLabel}` : fallbackCaption),
         platform: schedulePlatform,
         mediaUrls: [img.base64],
         pageId: activeAccount?.id ?? undefined,
@@ -263,6 +269,7 @@ export default function ImageGenPage() {
       const data = await res.json();
       const count = (data.scheduled as unknown[])?.length ?? 0;
       setScheduleSuccess(`${count} post${count !== 1 ? "s" : ""} scheduled!`);
+      setScheduleSuccessLink(true);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to schedule");
     }
@@ -604,7 +611,14 @@ export default function ImageGenPage() {
               {scheduling ? "Scheduling..." : `Schedule ${selectedImages.size} Post${selectedImages.size !== 1 ? "s" : ""}`}
             </button>
             {scheduleSuccess && (
-              <div className="alert alert-success mt-3 text-sm">{scheduleSuccess}</div>
+              <div className="alert alert-success mt-3 text-sm flex items-center gap-3">
+                <span>{scheduleSuccess}</span>
+                {scheduleSuccessLink && (
+                  <Link href="/calendar" className="underline font-medium whitespace-nowrap" style={{ color: "inherit" }}>
+                    View in Calendar →
+                  </Link>
+                )}
+              </div>
             )}
           </div>
         )}
