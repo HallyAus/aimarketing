@@ -33,6 +33,7 @@ export default async function CampaignsPage() {
           creator: { select: { name: true } },
         },
         orderBy: { createdAt: "desc" },
+        take: 100,
       })
     : await prisma.campaign.findMany({
         where: { orgId },
@@ -41,6 +42,7 @@ export default async function CampaignsPage() {
           creator: { select: { name: true } },
         },
         orderBy: { createdAt: "desc" },
+        take: 100,
       });
 
   return (

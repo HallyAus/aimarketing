@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { cacheable, cacheInvalidate } from "@/lib/cache";
 
 export interface FeatureFlag {
   id: string;
@@ -12,6 +13,8 @@ export interface FeatureFlag {
   updatedAt: Date;
 }
 
+const FLAGS_CACHE_TTL = 60; // seconds
+
 /**
  * Check if a specific feature flag is enabled for an organization.
  * Evaluates: global enabled state, tier match, and per-org overrides.
@@ -20,9 +23,11 @@ export async function isFeatureEnabled(
   flagKey: string,
   orgId: string
 ): Promise<boolean> {
-  const flag = await prisma.featureFlag.findUnique({
-    where: { key: flagKey },
-  });
+  const flag = await cacheable(
+    `feature-flag:${flagKey}`,
+    FLAGS_CACHE_TTL,
+    () => prisma.featureFlag.findUnique({ where: { key: flagKey } }),
+  );
 
   if (!flag) return false;
 
@@ -48,10 +53,16 @@ export async function isFeatureEnabled(
 
 /**
  * Get all enabled feature flag keys for an organization.
+ * Results are cached for 60 seconds.
  */
 export async function getEnabledFeatures(orgId: string): Promise<string[]> {
   const [flags, org] = await Promise.all([
-    prisma.featureFlag.findMany({ where: { enabled: true } }),
+    cacheable("feature-flags:enabled", FLAGS_CACHE_TTL, () =>
+      prisma.featureFlag.findMany({
+        where: { enabled: true },
+        select: { key: true, enabledForTiers: true, enabledForOrgs: true },
+      }),
+    ),
     prisma.organization.findUnique({
       where: { id: orgId },
       select: { plan: true },
@@ -81,4 +92,12 @@ export async function getAllFlags(): Promise<FeatureFlag[]> {
   return prisma.featureFlag.findMany({
     orderBy: { key: "asc" },
   });
+}
+
+/**
+ * Invalidate feature flag caches after updates.
+ */
+export async function invalidateFeatureFlagCache(): Promise<void> {
+  await cacheInvalidate("feature-flag:*");
+  await cacheInvalidate("feature-flags:*");
 }

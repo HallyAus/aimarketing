@@ -26,14 +26,31 @@ export default async function AnalyticsPage() {
   const activePageId = await getActivePageId(orgId);
   const pf = pageWhere(activePageId);
 
-  // Get published posts with latest metrics
+  // Get published posts with latest metrics — select only needed fields
   const posts = await prisma.post.findMany({
     where: { orgId, status: "PUBLISHED", ...pf },
-    include: {
+    select: {
+      id: true,
+      platform: true,
+      content: true,
+      publishedAt: true,
+      pageName: true,
       campaign: { select: { name: true } },
       analytics: {
         orderBy: { snapshotAt: "desc" },
         take: 1,
+        select: {
+          impressions: true,
+          reach: true,
+          clicks: true,
+          likes: true,
+          comments: true,
+          shares: true,
+          saves: true,
+          spend: true,
+          conversions: true,
+          ctr: true,
+        },
       },
     },
     orderBy: { publishedAt: "desc" },

@@ -33,6 +33,18 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
       post: { orgId: req.orgId, status: "PUBLISHED" },
       snapshotAt: { gte: since },
     },
+    select: {
+      platform: true,
+      impressions: true,
+      reach: true,
+      clicks: true,
+      likes: true,
+      comments: true,
+      shares: true,
+      saves: true,
+      spend: true,
+      conversions: true,
+    },
     orderBy: { snapshotAt: "desc" },
     distinct: ["postId"],
   });

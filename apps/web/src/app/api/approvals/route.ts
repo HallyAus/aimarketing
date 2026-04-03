@@ -20,6 +20,7 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
       reviewer: { select: { id: true, name: true, email: true } },
     },
     orderBy: { createdAt: "desc" },
+    take: 100,
   });
 
   return NextResponse.json({ data: approvals });

@@ -82,9 +82,20 @@ export default async function UsersPage({
       orderBy: { createdAt: "desc" },
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
-      include: {
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        avatar: true,
+        status: true,
+        systemRole: true,
+        timezone: true,
+        lastLoginAt: true,
+        loginCount: true,
+        createdAt: true,
         memberships: {
-          include: {
+          select: {
+            role: true,
             organization: {
               select: { id: true, name: true, plan: true },
             },

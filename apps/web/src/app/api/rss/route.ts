@@ -15,6 +15,7 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
     },
     include: { page: { select: { id: true, name: true, platform: true } } },
     orderBy: { createdAt: "desc" },
+    take: 100,
   });
 
   return NextResponse.json({ data: feeds });

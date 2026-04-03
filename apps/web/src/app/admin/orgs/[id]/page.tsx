@@ -139,35 +139,40 @@ export default async function OrgDetailPage({ params }: PageProps) {
 
   if (!org) notFound();
 
-  const paymentMethods = await prisma.paymentMethod.findMany({
-    where: { orgId: id },
-    orderBy: { isDefault: "desc" },
-  });
-
-  const recentPosts = await prisma.post.findMany({
-    where: { orgId: id },
-    select: {
-      id: true,
-      platform: true,
-      content: true,
-      status: true,
-      scheduledAt: true,
-      publishedAt: true,
-      createdAt: true,
-      pageName: true,
-    },
-    orderBy: { createdAt: "desc" },
-    take: 50,
-  });
-
-  const auditLogs = await prisma.auditLog.findMany({
-    where: { orgId: id },
-    include: {
-      user: { select: { name: true, email: true } },
-    },
-    orderBy: { createdAt: "desc" },
-    take: 50,
-  });
+  const [paymentMethods, recentPosts, auditLogs] = await Promise.all([
+    prisma.paymentMethod.findMany({
+      where: { orgId: id },
+      orderBy: { isDefault: "desc" },
+    }),
+    prisma.post.findMany({
+      where: { orgId: id },
+      select: {
+        id: true,
+        platform: true,
+        content: true,
+        status: true,
+        scheduledAt: true,
+        publishedAt: true,
+        createdAt: true,
+        pageName: true,
+      },
+      orderBy: { createdAt: "desc" },
+      take: 50,
+    }),
+    prisma.auditLog.findMany({
+      where: { orgId: id },
+      select: {
+        id: true,
+        action: true,
+        entityType: true,
+        entityId: true,
+        createdAt: true,
+        user: { select: { name: true, email: true } },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 50,
+    }),
+  ]);
 
   const pc = planColors[org.plan] || { bg: "var(--bg-hover)", text: "var(--text-secondary)" };
   const sc = statusColors[org.subscriptionStatus] || { bg: "var(--bg-hover)", text: "var(--text-secondary)" };
