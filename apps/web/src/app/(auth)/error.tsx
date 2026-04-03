@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-export default function RootError({
+export default function AuthError({
   error,
   reset,
 }: {
@@ -10,7 +10,7 @@ export default function RootError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error("[Root Error]", error);
+    console.error("[Auth Error]", error);
   }, [error]);
 
   return (
@@ -28,17 +28,22 @@ export default function RootError({
         className="text-lg font-bold mb-2"
         style={{ color: "var(--text-primary)" }}
       >
-        Something went wrong
+        Authentication error
       </h2>
       <p
         className="text-sm mb-6 max-w-md"
         style={{ color: "var(--text-secondary)" }}
       >
-        {error.message || "An unexpected error occurred. Please try again."}
+        We ran into a problem. Please try again or return to the sign-in page.
       </p>
-      <button onClick={reset} className="btn-primary">
-        Try Again
-      </button>
+      <div className="flex gap-3">
+        <button onClick={reset} className="btn-primary">
+          Try Again
+        </button>
+        <a href="/signin" className="btn-secondary">
+          Back to Sign In
+        </a>
+      </div>
     </div>
   );
 }

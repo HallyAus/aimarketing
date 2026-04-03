@@ -4,6 +4,19 @@ import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
 import { isValidTransition, sanitizeHtml } from "@adpilot/shared";
 import { getTimezoneFromCookie } from "@/lib/timezone";
+import { logger } from "@/lib/logger";
+
+const VALID_PLATFORMS = new Set([
+  "FACEBOOK",
+  "INSTAGRAM",
+  "TIKTOK",
+  "LINKEDIN",
+  "TWITTER_X",
+  "GOOGLE_ADS",
+  "YOUTUBE",
+  "PINTEREST",
+  "SNAPCHAT",
+]);
 
 interface AutoScheduleBody {
   /** Schedule an existing post by ID */
@@ -99,17 +112,29 @@ async function getOrCreateCampaign(
   });
   if (existing) return existing.id;
 
-  const created = await prisma.campaign.create({
-    data: {
+  try {
+    const created = await prisma.campaign.create({
+      data: {
+        orgId,
+        name: "Scheduled Posts",
+        objective: "ENGAGEMENT",
+        status: "SCHEDULED",
+        createdBy: userId,
+        targetPlatforms: [],
+      },
+    });
+    return created.id;
+  } catch (err) {
+    logger.error("[autoSchedule] Failed to auto-create campaign", {
       orgId,
-      name: "Scheduled Posts",
-      objective: "ENGAGEMENT",
-      status: "SCHEDULED",
-      createdBy: userId,
-      targetPlatforms: [],
-    },
-  });
-  return created.id;
+      userId,
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+    });
+    throw new ZodValidationError(
+      "Failed to create a campaign for scheduling. Please create a campaign first or try again.",
+    );
+  }
 }
 
 async function findLastPostTime(
@@ -132,7 +157,13 @@ async function findLastPostTime(
 // POST /api/posts/auto-schedule
 export const POST = withErrorHandler(
   withRole("EDITOR", async (req) => {
-    const body: AutoScheduleBody = await req.json();
+    let body: AutoScheduleBody;
+    try {
+      body = await req.json();
+    } catch {
+      throw new ZodValidationError("Invalid JSON in request body");
+    }
+
     const intervalHours = body.intervalHours ?? DEFAULT_INTERVAL_HOURS;
 
     // Read user timezone from cookie for local time calculations
@@ -146,13 +177,28 @@ export const POST = withErrorHandler(
     const tzOffset = getTzOffsetMinutes(userTz);
 
     // Check if publishing is paused — allow scheduling but return a warning
-    const org = await prisma.organization.findUniqueOrThrow({
-      where: { id: req.orgId },
-      select: { publishingPaused: true },
-    });
-    const publishingPausedWarning = org.publishingPaused
-      ? "Publishing is currently paused. Posts are scheduled but will not be published until publishing is resumed."
-      : undefined;
+    let publishingPausedWarning: string | undefined;
+    try {
+      const org = await prisma.organization.findUnique({
+        where: { id: req.orgId },
+        select: { publishingPaused: true },
+      });
+      if (!org) {
+        logger.error("[autoSchedule] Organization not found", { orgId: req.orgId });
+        throw new ZodValidationError("Organization not found. Please re-login.");
+      }
+      publishingPausedWarning = org.publishingPaused
+        ? "Publishing is currently paused. Posts are scheduled but will not be published until publishing is resumed."
+        : undefined;
+    } catch (err) {
+      if (err instanceof ZodValidationError) throw err;
+      logger.error("[autoSchedule] Failed to fetch organization", {
+        orgId: req.orgId,
+        error: err instanceof Error ? err.message : String(err),
+        stack: err instanceof Error ? err.stack : undefined,
+      });
+      throw new ZodValidationError("Failed to verify organization. Please try again.");
+    }
 
     // Resolve campaign (auto-creates if needed)
     const campaignId = await getOrCreateCampaign(body.campaignId, req.orgId, req.userId);
@@ -162,24 +208,54 @@ export const POST = withErrorHandler(
     if (body.postId) existingIds.push(body.postId);
     if (body.postIds) existingIds.push(...body.postIds);
 
-    // Create new posts from drafts if provided
+    // Validate and create new posts from drafts if provided
     const newPostIds: string[] = [];
     if (body.drafts && body.drafts.length > 0) {
-      for (const draft of body.drafts) {
-        if (!draft.content?.trim()) continue;
-        const post = await prisma.post.create({
-          data: {
+      // Validate all platforms before creating any posts
+      const invalidPlatforms = body.drafts
+        .map((d, i) => ({ platform: d.platform, index: i }))
+        .filter((d) => !VALID_PLATFORMS.has(d.platform));
+      if (invalidPlatforms.length > 0) {
+        const names = invalidPlatforms.map((p) => `"${p.platform}"`).join(", ");
+        throw new ZodValidationError(
+          `Invalid platform(s): ${names}. Valid platforms: ${[...VALID_PLATFORMS].join(", ")}`,
+        );
+      }
+
+      // Filter out empty drafts
+      const validDrafts = body.drafts.filter((d) => d.content?.trim());
+      if (validDrafts.length === 0 && existingIds.length === 0) {
+        throw new ZodValidationError("All drafts have empty content. Please provide content for at least one post.");
+      }
+
+      for (const draft of validDrafts) {
+        try {
+          const post = await prisma.post.create({
+            data: {
+              orgId: req.orgId,
+              campaignId,
+              platform: draft.platform as "FACEBOOK",
+              content: sanitizeHtml(draft.content),
+              mediaUrls: draft.mediaUrls ?? [],
+              pageId: draft.pageId ?? body.pageId ?? null,
+              pageName: draft.pageName ?? body.pageName ?? null,
+              status: "DRAFT",
+            },
+          });
+          newPostIds.push(post.id);
+        } catch (err) {
+          logger.error("[autoSchedule] Failed to create post from draft", {
             orgId: req.orgId,
-            campaignId,
-            platform: draft.platform as never,
-            content: sanitizeHtml(draft.content),
-            mediaUrls: draft.mediaUrls ?? [],
+            platform: draft.platform,
+            contentLength: draft.content?.length ?? 0,
             pageId: draft.pageId ?? body.pageId ?? null,
-            pageName: draft.pageName ?? body.pageName ?? null,
-            status: "DRAFT",
-          },
-        });
-        newPostIds.push(post.id);
+            error: err instanceof Error ? err.message : String(err),
+            stack: err instanceof Error ? err.stack : undefined,
+          });
+          throw new ZodValidationError(
+            `Failed to create post for platform "${draft.platform}". ${err instanceof Error ? err.message : "Please try again."}`,
+          );
+        }
       }
     }
 
@@ -219,28 +295,57 @@ export const POST = withErrorHandler(
     }
 
     const scheduled: Array<{ postId: string; scheduledAt: string }> = [];
+    const skippedStatuses: string[] = [];
 
     for (const post of posts) {
       if (!isValidTransition(post.status, "SCHEDULED")) {
+        skippedStatuses.push(`${post.id} (status: ${post.status})`);
         continue;
       }
 
       cursor = nextSlot(cursor, intervalHours, tzOffset);
 
-      await prisma.post.update({
-        where: { id: post.id },
-        data: {
-          status: "SCHEDULED",
-          scheduledAt: cursor,
-          campaignId,
-          version: { increment: 1 },
-        },
-      });
+      try {
+        await prisma.post.update({
+          where: { id: post.id },
+          data: {
+            status: "SCHEDULED",
+            scheduledAt: cursor,
+            campaignId,
+            version: { increment: 1 },
+          },
+        });
 
-      scheduled.push({
-        postId: post.id,
-        scheduledAt: cursor.toISOString(),
+        scheduled.push({
+          postId: post.id,
+          scheduledAt: cursor.toISOString(),
+        });
+      } catch (err) {
+        logger.error("[autoSchedule] Failed to update post status", {
+          postId: post.id,
+          currentStatus: post.status,
+          targetScheduledAt: cursor.toISOString(),
+          error: err instanceof Error ? err.message : String(err),
+          stack: err instanceof Error ? err.stack : undefined,
+        });
+        // Continue scheduling remaining posts instead of failing the entire batch
+      }
+    }
+
+    if (scheduled.length === 0 && skippedStatuses.length > 0) {
+      logger.warn("[autoSchedule] No posts could be scheduled — all had invalid status transitions", {
+        orgId: req.orgId,
+        skipped: skippedStatuses,
       });
+      return NextResponse.json(
+        {
+          error: "No posts could be scheduled. Posts may already be scheduled or in a status that cannot transition to scheduled.",
+          code: "INVALID_STATUS",
+          statusCode: 400,
+          skipped: skippedStatuses,
+        },
+        { status: 400 },
+      );
     }
 
     await prisma.auditLog
@@ -259,11 +364,22 @@ export const POST = withErrorHandler(
           },
         },
       })
-      .catch((err) => console.error("[autoSchedule] auditLog error:", err));
+      .catch((err) => logger.error("[autoSchedule] auditLog error", {
+        error: err instanceof Error ? err.message : String(err),
+      }));
+
+    logger.info("[autoSchedule] Scheduled posts", {
+      orgId: req.orgId,
+      userId: req.userId,
+      campaignId,
+      scheduledCount: scheduled.length,
+      skippedCount: skippedStatuses.length,
+    });
 
     return NextResponse.json({
       scheduled,
       campaignId,
+      ...(skippedStatuses.length > 0 ? { skipped: skippedStatuses } : {}),
       ...(publishingPausedWarning ? { warning: publishingPausedWarning } : {}),
     }, { status: 200 });
   }),

@@ -17,6 +17,7 @@ export function withErrorHandler(
         path: req.nextUrl.pathname,
         method: req.method,
         error: error instanceof Error ? error.message : "Unknown error",
+        stack: error instanceof Error ? error.stack : undefined,
       });
 
       if (error instanceof ZodValidationError) {

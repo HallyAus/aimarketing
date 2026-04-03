@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-export default function RootError({
+export default function AdminError({
   error,
   reset,
 }: {
@@ -10,7 +10,7 @@ export default function RootError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error("[Root Error]", error);
+    console.error("[Admin Error]", error);
   }, [error]);
 
   return (
@@ -28,13 +28,33 @@ export default function RootError({
         className="text-lg font-bold mb-2"
         style={{ color: "var(--text-primary)" }}
       >
-        Something went wrong
+        Admin panel error
       </h2>
       <p
-        className="text-sm mb-6 max-w-md"
+        className="text-sm mb-2 max-w-md"
         style={{ color: "var(--text-secondary)" }}
       >
-        {error.message || "An unexpected error occurred. Please try again."}
+        An error occurred while loading this admin page.
+      </p>
+      <p
+        className="text-xs mb-1 font-mono max-w-lg break-all"
+        style={{ color: "var(--text-tertiary)" }}
+      >
+        {error.message || "Unknown error"}
+      </p>
+      {error.digest && (
+        <p
+          className="text-xs mb-4 font-mono"
+          style={{ color: "var(--text-tertiary)" }}
+        >
+          Digest: {error.digest}
+        </p>
+      )}
+      <p
+        className="text-xs mb-6"
+        style={{ color: "var(--text-tertiary)" }}
+      >
+        {new Date().toISOString()}
       </p>
       <button onClick={reset} className="btn-primary">
         Try Again

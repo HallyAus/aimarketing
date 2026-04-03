@@ -7,43 +7,58 @@ interface CheckResult {
   error?: string;
 }
 
-export async function GET() {
-  const checks: Record<string, CheckResult> = {};
-
-  // Database check
-  const dbStart = performance.now();
+async function checkDatabase(): Promise<CheckResult> {
+  const start = performance.now();
   try {
     await prisma.$queryRaw`SELECT 1`;
-    checks.database = {
+    return {
       status: "healthy",
-      latencyMs: Math.round(performance.now() - dbStart),
+      latencyMs: Math.round(performance.now() - start),
     };
   } catch (error) {
-    checks.database = {
+    return {
       status: "down",
-      latencyMs: Math.round(performance.now() - dbStart),
+      latencyMs: Math.round(performance.now() - start),
       error: error instanceof Error ? error.message : "Unknown error",
     };
   }
+}
 
-  // Redis check
-  const redisStart = performance.now();
+async function checkRedis(): Promise<CheckResult> {
+  const start = performance.now();
   try {
     const { redis } = await import("@/lib/redis");
-    await (redis as unknown as { ping(): Promise<string> }).ping();
-    checks.redis = {
+    const pong = await (redis as unknown as { ping(): Promise<string> }).ping();
+    if (pong !== "PONG") {
+      return {
+        status: "degraded",
+        latencyMs: Math.round(performance.now() - start),
+        error: `Unexpected PING response: ${pong}`,
+      };
+    }
+    return {
       status: "healthy",
-      latencyMs: Math.round(performance.now() - redisStart),
+      latencyMs: Math.round(performance.now() - start),
     };
   } catch (error) {
-    checks.redis = {
+    // Redis is optional — report degraded, not down
+    return {
       status: "degraded",
-      latencyMs: Math.round(performance.now() - redisStart),
+      latencyMs: Math.round(performance.now() - start),
       error: error instanceof Error ? error.message : "Unknown error",
     };
   }
+}
 
-  // Overall status
+export async function GET() {
+  const [database, redis] = await Promise.all([
+    checkDatabase(),
+    checkRedis(),
+  ]);
+
+  const checks: Record<string, CheckResult> = { database, redis };
+
+  // Overall status: down if DB is down, degraded if anything is degraded
   const allStatuses = Object.values(checks).map((c) => c.status);
   const overallStatus = allStatuses.includes("down")
     ? "down"
@@ -51,12 +66,13 @@ export async function GET() {
       ? "degraded"
       : "healthy";
 
-  const httpStatus = overallStatus === "down" ? 503 : overallStatus === "degraded" ? 503 : 200;
+  const httpStatus = overallStatus === "down" ? 503 : overallStatus === "degraded" ? 200 : 200;
 
   return NextResponse.json(
     {
       status: overallStatus,
       timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
       checks,
     },
     {
