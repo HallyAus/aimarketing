@@ -59,20 +59,31 @@ export async function GET(req: Request) {
       continue;
     }
 
-    // Get the right access token (page token for Facebook/Instagram)
+    // Get the right access token — prefer Page record, fall back to connection metadata
     let accessToken: string;
     let pageUserId = connection.platformUserId;
 
     try {
-      if ((post.platform === "FACEBOOK" || post.platform === "INSTAGRAM") && connection.metadata) {
+      // First, try to resolve from the Page model (first-class entity)
+      if (post.pageId) {
+        const pageRecord = await prisma.page.findUnique({
+          where: { id: post.pageId },
+          select: { accessToken: true, platformPageId: true },
+        });
+        if (pageRecord) {
+          accessToken = decrypt(pageRecord.accessToken, masterKey);
+          pageUserId = pageRecord.platformPageId;
+        } else {
+          // Fall back to connection metadata
+          accessToken = decrypt(connection.accessToken, masterKey);
+        }
+      } else if ((post.platform === "FACEBOOK" || post.platform === "INSTAGRAM") && connection.metadata) {
+        // Legacy fallback: look up from connection metadata
         const meta = connection.metadata as Record<string, unknown>;
         const selectedPages = meta.selectedPages as Array<{ id: string; accessToken: string }> | undefined;
         if (selectedPages && selectedPages.length > 0) {
-          const page = post.pageId
-            ? selectedPages.find(p => p.id === post.pageId) ?? selectedPages[0]!
-            : selectedPages[0]!;
-          accessToken = decrypt(page.accessToken, masterKey);
-          pageUserId = page.id;
+          accessToken = decrypt(selectedPages[0]!.accessToken, masterKey);
+          pageUserId = selectedPages[0]!.id;
         } else {
           accessToken = decrypt(connection.accessToken, masterKey);
         }

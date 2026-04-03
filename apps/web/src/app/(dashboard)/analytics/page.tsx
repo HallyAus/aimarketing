@@ -7,7 +7,8 @@ import { MetricCard } from "@/components/metric-card";
 import { EmptyState } from "@/components/empty-state";
 import { PlatformBadge } from "@/components/platform-badge";
 import { ActiveAccountBanner } from "@/components/active-account-banner";
-import { getActiveAccount, getPageFilter } from "@/lib/active-account";
+import { getActiveAccount } from "@/lib/active-account";
+import { getActivePageId, pageWhere } from "@/lib/active-page";
 
 export const metadata: Metadata = {
   title: "Analytics",
@@ -22,11 +23,12 @@ export default async function AnalyticsPage() {
 
   const orgId = await getSessionOrg();
   const activeAccount = await getActiveAccount();
-  const pageFilter = getPageFilter(activeAccount);
+  const activePageId = await getActivePageId(orgId);
+  const pf = pageWhere(activePageId);
 
   // Get published posts with latest metrics
   const posts = await prisma.post.findMany({
-    where: { orgId, status: "PUBLISHED", ...pageFilter },
+    where: { orgId, status: "PUBLISHED", ...pf },
     include: {
       campaign: { select: { name: true } },
       analytics: {

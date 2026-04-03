@@ -6,7 +6,8 @@ import { EmptyState } from "@/components/empty-state";
 import { PlatformBadge } from "@/components/platform-badge";
 import { StatusBadge } from "@/components/status-badge";
 import { ActiveAccountBanner } from "@/components/active-account-banner";
-import { getActiveAccount, getPageFilter } from "@/lib/active-account";
+import { getActiveAccount } from "@/lib/active-account";
+import { getActivePageId, pageWhere } from "@/lib/active-page";
 import { DashboardWidgets } from "./widgets";
 import { DashboardTabs } from "./dashboard-tabs";
 import { QuickPost } from "./quick-post";
@@ -164,7 +165,6 @@ const CORE_PLATFORMS = [
 
 export default async function DashboardPage() {
   const activeAccount = await getActiveAccount();
-  const pageFilter = getPageFilter(activeAccount);
 
   const org = await prisma.organization.findFirst({
     where: { deletedAt: null },
@@ -178,6 +178,9 @@ export default async function DashboardPage() {
       },
     },
   });
+
+  const activePageId = org ? await getActivePageId(org.id) : null;
+  const pf = pageWhere(activePageId);
 
   if (!org) {
     return (
@@ -217,29 +220,29 @@ export default async function DashboardPage() {
     recentPublishedPosts,
   ] = await Promise.all([
     prisma.post.count({
-      where: { orgId: org.id, ...pageFilter },
+      where: { orgId: org.id, ...pf },
     }),
     prisma.post.count({
-      where: { orgId: org.id, status: "SCHEDULED", ...pageFilter },
+      where: { orgId: org.id, status: "SCHEDULED", ...pf },
     }),
     prisma.post.count({
-      where: { orgId: org.id, status: "PUBLISHED", publishedAt: { gte: todayStart }, ...pageFilter },
+      where: { orgId: org.id, status: "PUBLISHED", publishedAt: { gte: todayStart }, ...pf },
     }),
     prisma.post.count({
-      where: { orgId: org.id, status: "PUBLISHED", publishedAt: { gte: yesterdayStart, lt: todayStart }, ...pageFilter },
+      where: { orgId: org.id, status: "PUBLISHED", publishedAt: { gte: yesterdayStart, lt: todayStart }, ...pf },
     }),
     prisma.post.count({
-      where: { orgId: org.id, status: "DRAFT", ...pageFilter },
+      where: { orgId: org.id, status: "DRAFT", ...pf },
     }),
     prisma.post.count({
-      where: { orgId: org.id, status: "FAILED", ...pageFilter },
+      where: { orgId: org.id, status: "FAILED", ...pf },
     }),
     prisma.post.findMany({
       where: {
         orgId: org.id,
         status: "SCHEDULED",
         scheduledAt: { gte: now, lte: in48h },
-        ...pageFilter,
+        ...pf,
       },
       include: { campaign: { select: { id: true, name: true } } },
       orderBy: { scheduledAt: "asc" },
@@ -266,7 +269,7 @@ export default async function DashboardPage() {
       select: { id: true, action: true, entityType: true, createdAt: true },
     }),
     prisma.post.findFirst({
-      where: { orgId: org.id, status: "SCHEDULED", scheduledAt: { gte: now }, ...pageFilter },
+      where: { orgId: org.id, status: "SCHEDULED", scheduledAt: { gte: now }, ...pf },
       orderBy: { scheduledAt: "asc" },
       select: { scheduledAt: true },
     }),
@@ -276,7 +279,7 @@ export default async function DashboardPage() {
         orgId: org.id,
         status: "SCHEDULED",
         scheduledAt: { gte: now, lte: in7d },
-        ...pageFilter,
+        ...pf,
       },
       include: { campaign: { select: { name: true } } },
       orderBy: { scheduledAt: "asc" },
@@ -284,7 +287,7 @@ export default async function DashboardPage() {
     }),
     // Recent published posts (for tabs section)
     prisma.post.findMany({
-      where: { orgId: org.id, status: "PUBLISHED", ...pageFilter },
+      where: { orgId: org.id, status: "PUBLISHED", ...pf },
       include: { campaign: { select: { name: true } } },
       orderBy: { publishedAt: "desc" },
       take: 10,

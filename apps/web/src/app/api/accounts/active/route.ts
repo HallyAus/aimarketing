@@ -12,64 +12,28 @@ export interface ActiveAccount {
 }
 
 // GET /api/accounts/active — returns all accounts/pages the user can post to
+// Now queries the Page model directly instead of building from connection metadata
 export const GET = withErrorHandler(
   withAuth(async (req) => {
-    const connections = await prisma.platformConnection.findMany({
-      where: {
-        orgId: req.orgId,
-        status: "ACTIVE",
-      },
+    // Query Page model records directly — these are the first-class entities
+    const pages = await prisma.page.findMany({
+      where: { orgId: req.orgId, isActive: true },
       select: {
         id: true,
         platform: true,
-        platformAccountName: true,
-        platformUserId: true,
-        metadata: true,
+        name: true,
+        platformPageId: true,
+        connectionId: true,
       },
     });
 
-    const accounts: ActiveAccount[] = [];
-
-    for (const conn of connections) {
-      const metadata = (conn.metadata as Record<string, unknown>) ?? {};
-
-      if (conn.platform === "FACEBOOK" || conn.platform === "INSTAGRAM") {
-        // For Facebook/Instagram, include saved pages from connection metadata
-        const selectedPages = metadata.selectedPages as
-          | Array<{ id: string; name: string }>
-          | undefined;
-
-        if (selectedPages && selectedPages.length > 0) {
-          for (const page of selectedPages) {
-            accounts.push({
-              id: `${conn.platform.toLowerCase()}-page-${page.id}`,
-              platform: conn.platform,
-              name: page.name,
-              type: "page",
-              connectionId: conn.id,
-            });
-          }
-        } else {
-          // Fall back to the connection-level account
-          accounts.push({
-            id: `${conn.platform.toLowerCase()}-${conn.id}`,
-            platform: conn.platform,
-            name: conn.platformAccountName ?? `${conn.platform} Account`,
-            type: "account",
-            connectionId: conn.id,
-          });
-        }
-      } else {
-        // LinkedIn, Twitter/X, etc. — one account per connection
-        accounts.push({
-          id: `${conn.platform.toLowerCase()}-${conn.id}`,
-          platform: conn.platform,
-          name: conn.platformAccountName ?? `${conn.platform} Account`,
-          type: "account",
-          connectionId: conn.id,
-        });
-      }
-    }
+    const accounts: ActiveAccount[] = pages.map((p) => ({
+      id: p.id, // Internal Page.id (cuid), NOT platformPageId
+      platform: p.platform,
+      name: p.name,
+      type: "page",
+      connectionId: p.connectionId,
+    }));
 
     return NextResponse.json({ accounts });
   }),

@@ -7,7 +7,8 @@ import { PageHeader } from "@/components/page-header";
 import { StatusBadge } from "@/components/status-badge";
 import { EmptyState } from "@/components/empty-state";
 import { ActiveAccountBanner } from "@/components/active-account-banner";
-import { getActiveAccount, getPageFilter } from "@/lib/active-account";
+import { getActiveAccount } from "@/lib/active-account";
+import { getActivePageId, pageWhere } from "@/lib/active-page";
 
 export const metadata: Metadata = {
   title: "Campaigns",
@@ -16,18 +17,19 @@ export const metadata: Metadata = {
 
 export default async function CampaignsPage() {
   const activeAccount = await getActiveAccount();
-  const pageFilter = getPageFilter(activeAccount);
   const orgId = await getSessionOrg();
+  const activePageId = await getActivePageId(orgId);
+  const pf = pageWhere(activePageId);
 
   // When a specific account is selected, only show campaigns that have posts for that page
-  const campaigns = activeAccount
+  const campaigns = activePageId
     ? await prisma.campaign.findMany({
         where: {
           orgId,
-          posts: { some: pageFilter },
+          posts: { some: pf },
         },
         include: {
-          _count: { select: { posts: { where: pageFilter } } },
+          _count: { select: { posts: { where: pf } } },
           creator: { select: { name: true } },
         },
         orderBy: { createdAt: "desc" },

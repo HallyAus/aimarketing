@@ -4,7 +4,8 @@ import { prisma } from "@/lib/db";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
 import { ActiveAccountBanner } from "@/components/active-account-banner";
-import { getActiveAccount, getPageFilter } from "@/lib/active-account";
+import { getActiveAccount } from "@/lib/active-account";
+import { getActivePageId, pageWhere } from "@/lib/active-page";
 import { CalendarHeatmapToggle } from "./calendar-heatmap";
 import { CalendarGrid } from "./calendar-grid";
 import type { CalendarPost } from "./post-detail-panel";
@@ -48,7 +49,9 @@ export default async function CalendarPage({
   const month = parseInt(params.month ?? String(now.getMonth() + 1), 10);
 
   const activeAccount = await getActiveAccount();
-  const pageFilter = getPageFilter(activeAccount);
+  const orgId = await getSessionOrg();
+  const activePageId = await getActivePageId(orgId);
+  const pf = pageWhere(activePageId);
 
   const startOfMonth = new Date(year, month - 1, 1);
   const endOfMonth = new Date(year, month, 0, 23, 59, 59);
@@ -58,9 +61,9 @@ export default async function CalendarPage({
   // Get posts for this month
   const posts = await prisma.post.findMany({
     where: {
-      orgId: await getSessionOrg(),
+      orgId,
       status: { notIn: ["DELETED"] },
-      ...pageFilter,
+      ...pf,
       OR: [
         { scheduledAt: { gte: startOfMonth, lte: endOfMonth } },
         { publishedAt: { gte: startOfMonth, lte: endOfMonth } },

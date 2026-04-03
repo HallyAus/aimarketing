@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
 export interface ActiveAccount {
-  id: string;
+  id: string; // Internal Page.id (cuid) — NOT platformPageId
   platform: string;
   name: string;
   type: string;
@@ -20,7 +20,7 @@ export async function getActiveAccount(): Promise<ActiveAccount | null> {
   }
 }
 
-/** Returns Prisma where filter for posts */
+/** Returns Prisma where filter for posts — uses internal Page.id */
 export function getPageFilter(account: ActiveAccount | null) {
   if (!account) return {}; // no filter = all
   return { pageId: account.id };

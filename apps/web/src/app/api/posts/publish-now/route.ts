@@ -11,7 +11,8 @@ interface PublishNowBody {
   connectionId: string;
   campaignId?: string;
   mediaUrls?: string[];
-  pageId?: string; // Facebook/Instagram page ID to post to
+  pageId?: string; // Internal Page.id (cuid) for the target page
+  pageName?: string;
 }
 
 const VALID_PLATFORMS = [
@@ -105,20 +106,16 @@ export const POST = withErrorHandler(
       campaignId = defaultCampaign.id;
     }
 
-    // Resolve page name from connection metadata
+    // Resolve page from Page model (first-class entity)
     let resolvedPageId = body.pageId ?? null;
     let resolvedPageName: string | null = null;
-    if ((body.platform === "FACEBOOK" || body.platform === "INSTAGRAM") && connection.metadata) {
-      const meta = connection.metadata as Record<string, unknown>;
-      const selectedPages = meta.selectedPages as Array<{ id: string; name?: string }> | undefined;
-      if (selectedPages && selectedPages.length > 0) {
-        const matchedPage = body.pageId
-          ? selectedPages.find(p => p.id === body.pageId)
-          : selectedPages[0];
-        if (matchedPage) {
-          resolvedPageId = matchedPage.id;
-          resolvedPageName = matchedPage.name ?? connection.platformAccountName ?? null;
-        }
+    if (resolvedPageId) {
+      const pageRecord = await prisma.page.findUnique({
+        where: { id: resolvedPageId },
+        select: { id: true, name: true, platformPageId: true },
+      });
+      if (pageRecord) {
+        resolvedPageName = pageRecord.name;
       }
     }
     if (!resolvedPageName && connection.platformAccountName) {
@@ -134,27 +131,35 @@ export const POST = withErrorHandler(
         content: sanitizeHtml(body.content),
         mediaUrls: body.mediaUrls ?? [],
         pageId: resolvedPageId,
-        pageName: resolvedPageName,
+        pageName: resolvedPageName ?? body.pageName ?? null,
         status: "PUBLISHING",
       },
     });
 
-    // Decrypt the access token
+    // Decrypt the access token — prefer Page model, fall back to connection
     const masterKey = process.env.MASTER_ENCRYPTION_KEY ?? "";
     let accessToken: string;
     let pageUserId = connection.platformUserId;
 
-    // For Facebook/Instagram, use page access token
-    if ((body.platform === "FACEBOOK" || body.platform === "INSTAGRAM") && connection.metadata) {
+    if (resolvedPageId) {
+      // Use Page model for token resolution (first-class entity)
+      const pageRecord = await prisma.page.findUnique({
+        where: { id: resolvedPageId },
+        select: { accessToken: true, platformPageId: true },
+      });
+      if (pageRecord) {
+        accessToken = decrypt(pageRecord.accessToken, masterKey);
+        pageUserId = pageRecord.platformPageId;
+      } else {
+        accessToken = decrypt(connection.accessToken, masterKey);
+      }
+    } else if ((body.platform === "FACEBOOK" || body.platform === "INSTAGRAM") && connection.metadata) {
+      // Legacy fallback for posts without a Page record
       const meta = connection.metadata as Record<string, unknown>;
       const selectedPages = meta.selectedPages as Array<{ id: string; accessToken: string; name?: string }> | undefined;
       if (selectedPages && selectedPages.length > 0) {
-        // If pageId specified, find that page; otherwise use first
-        const page = body.pageId
-          ? selectedPages.find(p => p.id === body.pageId) ?? selectedPages[0]!
-          : selectedPages[0]!;
-        accessToken = decrypt(page.accessToken, masterKey);
-        pageUserId = page.id;
+        accessToken = decrypt(selectedPages[0]!.accessToken, masterKey);
+        pageUserId = selectedPages[0]!.id;
       } else {
         accessToken = decrypt(connection.accessToken, masterKey);
       }

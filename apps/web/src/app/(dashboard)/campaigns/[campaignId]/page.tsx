@@ -1,7 +1,8 @@
 import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { getActiveAccount, getPageFilter } from "@/lib/active-account";
+import { getActiveAccount } from "@/lib/active-account";
+import { getActivePageId, pageWhere } from "@/lib/active-page";
 import CampaignPostsManager from "./campaign-posts-manager";
 
 export default async function CampaignDetailPage({
@@ -11,13 +12,15 @@ export default async function CampaignDetailPage({
 }) {
   const { campaignId } = await params;
   const activeAccount = await getActiveAccount();
-  const pageFilter = getPageFilter(activeAccount);
+  const orgId = await getSessionOrg();
+  const activePageId = await getActivePageId(orgId);
+  const pf = pageWhere(activePageId);
 
   const campaign = await prisma.campaign.findFirst({
-    where: { id: campaignId, orgId: await getSessionOrg() },
+    where: { id: campaignId, orgId },
     include: {
       posts: {
-        where: pageFilter,
+        where: pf,
         orderBy: { createdAt: "desc" },
         include: { approver: { select: { name: true } } },
       },

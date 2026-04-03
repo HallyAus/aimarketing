@@ -159,6 +159,46 @@ export const POST = withErrorHandler(
       },
     });
 
+    // Upsert Page records for each selected page — this populates the Page model
+    // which is the first-class entity for database-level page segregation
+    for (const page of body.selectedPages) {
+      const encryptedToken = encrypt(page.accessToken, masterKey);
+      await prisma.page.upsert({
+        where: {
+          orgId_platform_platformPageId: {
+            orgId: req.orgId,
+            platform: "FACEBOOK",
+            platformPageId: page.id,
+          },
+        },
+        update: {
+          name: page.name,
+          accessToken: encryptedToken,
+          isActive: true,
+        },
+        create: {
+          orgId: req.orgId,
+          connectionId: connection.id,
+          platform: "FACEBOOK",
+          platformPageId: page.id,
+          name: page.name,
+          accessToken: encryptedToken,
+        },
+      });
+    }
+
+    // Deactivate pages that were unselected
+    const selectedPageIds = body.selectedPages.map((p) => p.id);
+    await prisma.page.updateMany({
+      where: {
+        orgId: req.orgId,
+        connectionId: connection.id,
+        platform: "FACEBOOK",
+        platformPageId: { notIn: selectedPageIds },
+      },
+      data: { isActive: false },
+    });
+
     await prisma.auditLog.create({
       data: {
         orgId: req.orgId,
