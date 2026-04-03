@@ -19,8 +19,11 @@ export async function generatePostContent(params: {
   includeHashtags?: boolean;
   includeEmojis?: boolean;
   maxLength?: number;
+  customPrompt?: string;
+  brandVoicePrompt?: string;
+  businessContext?: string;
 }): Promise<string> {
-  const { platform, topic, tone = "professional", style = "engaging", includeHashtags = true, includeEmojis = true, maxLength } = params;
+  const { platform, topic, tone = "professional", style = "engaging", includeHashtags = true, includeEmojis = true, maxLength, customPrompt, brandVoicePrompt, businessContext } = params;
 
   const platformLimits: Record<string, number> = {
     TWITTER_X: 280,
@@ -36,13 +39,29 @@ export async function generatePostContent(params: {
 
   const charLimit = maxLength ?? platformLimits[platform] ?? 2000;
 
-  const response = await getClient().messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 1024,
-    messages: [
-      {
-        role: "user",
-        content: `Write a ${platform.replace("_", " ")} post about: ${topic}
+  // Build system prompt from brand voice
+  const systemParts: string[] = [];
+  if (brandVoicePrompt) systemParts.push(`Brand Voice Instructions: ${brandVoicePrompt}`);
+  if (businessContext) systemParts.push(`Business Context: ${businessContext}`);
+  const systemPrompt = systemParts.length ? systemParts.join("\n\n") : undefined;
+
+  // Build user prompt
+  let userContent: string;
+  if (customPrompt) {
+    userContent = `${customPrompt}
+
+Platform: ${platform.replace("_", " ")}
+${topic ? `Additional context/topic: ${topic}` : ""}
+${tone ? `Preferred tone: ${tone}` : ""}
+- Maximum ${charLimit} characters
+${includeHashtags ? "- Include 3-5 relevant hashtags" : "- No hashtags"}
+${includeEmojis ? "- Use emojis appropriately" : "- No emojis"}
+- Optimized for ${platform.replace("_", " ")} engagement
+- Ready to post as-is (no explanations, just the post content)
+
+Write ONLY the post content, nothing else.`;
+  } else {
+    userContent = `Write a ${platform.replace("_", " ")} post about: ${topic}
 
 Requirements:
 - Tone: ${tone}
@@ -53,9 +72,18 @@ ${includeEmojis ? "- Use emojis appropriately" : "- No emojis"}
 - Optimized for ${platform.replace("_", " ")} engagement
 - Ready to post as-is (no explanations, just the post content)
 
-Write ONLY the post content, nothing else.`,
-      },
-    ],
+Write ONLY the post content, nothing else.`;
+  }
+
+  const messages: Array<{ role: "user" | "assistant"; content: string }> = [
+    { role: "user", content: userContent },
+  ];
+
+  const response = await getClient().messages.create({
+    model: "claude-sonnet-4-6",
+    max_tokens: 1024,
+    ...(systemPrompt ? { system: systemPrompt } : {}),
+    messages,
   });
 
   const text = response.content[0];

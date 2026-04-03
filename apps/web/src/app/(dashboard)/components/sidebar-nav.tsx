@@ -102,6 +102,8 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       { href: "/ai", label: "AI Studio", icon: "sparkles" },
       { href: "/ai/brand-voice", label: "Brand Voice", icon: "megaphone" },
+      { href: "/ai/competitor-match", label: "Competitor Match", icon: "target" },
+      { href: "/ai/keyword-scanner", label: "Keyword Scanner", icon: "globe" },
       { href: "/ai/competitor-spy", label: "Competitor Spy", icon: "users" },
       { href: "/ai/hashtags", label: "Hashtag Research", icon: "link" },
       { href: "/ai/image-gen", label: "Image Generator", icon: "grid" },
@@ -140,6 +142,7 @@ const NAV_SECTIONS: NavSection[] = [
   {
     title: "SETTINGS",
     items: [
+      { href: "/settings/business-profile", label: "Business Profile", icon: "globe" },
       { href: "/settings/connections", label: "Connections", icon: "link" },
       { href: "/settings/rss", label: "RSS Feeds", icon: "rss" },
       { href: "/settings/webhooks", label: "Webhooks", icon: "zap" },

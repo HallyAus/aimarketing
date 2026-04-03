@@ -708,7 +708,7 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.19.3
+   * Prisma Client JS version: 6.19.2
    * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
    */
   export type PrismaVersion = {
@@ -3799,6 +3799,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     publishingPaused: number
+    metadata: number
     deletedAt: number
     _all: number
   }
@@ -3846,6 +3847,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     publishingPaused?: true
+    metadata?: true
     deletedAt?: true
     _all?: true
   }
@@ -3934,6 +3936,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     publishingPaused: boolean
+    metadata: JsonValue | null
     deletedAt: Date | null
     _count: OrganizationCountAggregateOutputType | null
     _min: OrganizationMinAggregateOutputType | null
@@ -3966,6 +3969,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     publishingPaused?: boolean
+    metadata?: boolean
     deletedAt?: boolean
     memberships?: boolean | Organization$membershipsArgs<ExtArgs>
     invitations?: boolean | Organization$invitationsArgs<ExtArgs>
@@ -3996,6 +4000,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     publishingPaused?: boolean
+    metadata?: boolean
     deletedAt?: boolean
   }, ExtArgs["result"]["organization"]>
 
@@ -4011,6 +4016,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     publishingPaused?: boolean
+    metadata?: boolean
     deletedAt?: boolean
   }, ExtArgs["result"]["organization"]>
 
@@ -4026,10 +4032,11 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     publishingPaused?: boolean
+    metadata?: boolean
     deletedAt?: boolean
   }
 
-  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "plan" | "stripeCustomerId" | "stripeSubscriptionId" | "billingEmail" | "billingCycleAnchor" | "createdAt" | "updatedAt" | "publishingPaused" | "deletedAt", ExtArgs["result"]["organization"]>
+  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "plan" | "stripeCustomerId" | "stripeSubscriptionId" | "billingEmail" | "billingCycleAnchor" | "createdAt" | "updatedAt" | "publishingPaused" | "metadata" | "deletedAt", ExtArgs["result"]["organization"]>
   export type OrganizationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberships?: boolean | Organization$membershipsArgs<ExtArgs>
     invitations?: boolean | Organization$invitationsArgs<ExtArgs>
@@ -4080,6 +4087,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       publishingPaused: boolean
+      metadata: Prisma.JsonValue | null
       deletedAt: Date | null
     }, ExtArgs["result"]["organization"]>
     composites: {}
@@ -4529,6 +4537,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Organization", 'DateTime'>
     readonly updatedAt: FieldRef<"Organization", 'DateTime'>
     readonly publishingPaused: FieldRef<"Organization", 'Boolean'>
+    readonly metadata: FieldRef<"Organization", 'Json'>
     readonly deletedAt: FieldRef<"Organization", 'DateTime'>
   }
     
@@ -34795,6 +34804,7 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     publishingPaused: 'publishingPaused',
+    metadata: 'metadata',
     deletedAt: 'deletedAt'
   };
 
@@ -35249,14 +35259,6 @@ export namespace Prisma {
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
-  export const NullsOrder: {
-    first: 'first',
-    last: 'last'
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
-
   export const JsonNullValueFilter: {
     DbNull: typeof DbNull,
     JsonNull: typeof JsonNull,
@@ -35264,6 +35266,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -35321,6 +35331,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -35373,20 +35397,6 @@ export namespace Prisma {
    * Reference to a field of type 'ConnectionStatus[]'
    */
   export type ListEnumConnectionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConnectionStatus[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
-   * Reference to a field of type 'QueryMode'
-   */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -35506,6 +35516,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Organization"> | Date | string
     updatedAt?: DateTimeFilter<"Organization"> | Date | string
     publishingPaused?: BoolFilter<"Organization"> | boolean
+    metadata?: JsonNullableFilter<"Organization">
     deletedAt?: DateTimeNullableFilter<"Organization"> | Date | string | null
     memberships?: MembershipListRelationFilter
     invitations?: InvitationListRelationFilter
@@ -35535,6 +35546,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     publishingPaused?: SortOrder
+    metadata?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     memberships?: MembershipOrderByRelationAggregateInput
     invitations?: InvitationOrderByRelationAggregateInput
@@ -35567,6 +35579,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Organization"> | Date | string
     updatedAt?: DateTimeFilter<"Organization"> | Date | string
     publishingPaused?: BoolFilter<"Organization"> | boolean
+    metadata?: JsonNullableFilter<"Organization">
     deletedAt?: DateTimeNullableFilter<"Organization"> | Date | string | null
     memberships?: MembershipListRelationFilter
     invitations?: InvitationListRelationFilter
@@ -35596,6 +35609,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     publishingPaused?: SortOrder
+    metadata?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     _count?: OrganizationCountOrderByAggregateInput
     _max?: OrganizationMaxOrderByAggregateInput
@@ -35617,6 +35631,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Organization"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Organization"> | Date | string
     publishingPaused?: BoolWithAggregatesFilter<"Organization"> | boolean
+    metadata?: JsonNullableWithAggregatesFilter<"Organization">
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Organization"> | Date | string | null
   }
 
@@ -37863,6 +37878,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -37892,6 +37908,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -37921,6 +37938,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -37950,6 +37968,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -37979,6 +37998,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
   }
 
@@ -37994,6 +38014,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -38009,6 +38030,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -40533,6 +40555,29 @@ export namespace Prisma {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type MembershipListRelationFilter = {
     every?: MembershipWhereInput
@@ -40691,6 +40736,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     publishingPaused?: SortOrder
+    metadata?: SortOrder
     deletedAt?: SortOrder
   }
 
@@ -40804,6 +40850,32 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type AuthenticatorListRelationFilter = {
@@ -41139,29 +41211,6 @@ export namespace Prisma {
     notIn?: $Enums.ConnectionStatus[] | ListEnumConnectionStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumConnectionStatusFilter<$PrismaModel> | $Enums.ConnectionStatus
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type PlatformConnectionOrgIdPlatformPlatformUserIdCompoundUniqueInput = {
     orgId: string
@@ -41234,32 +41283,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumConnectionStatusFilter<$PrismaModel>
     _max?: NestedEnumConnectionStatusFilter<$PrismaModel>
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type EnumCampaignObjectiveFilter<$PrismaModel = never> = {
@@ -45075,6 +45098,29 @@ export namespace Prisma {
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
@@ -45152,29 +45198,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumConnectionStatusFilter<$PrismaModel>
     _max?: NestedEnumConnectionStatusFilter<$PrismaModel>
-  }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedEnumCampaignObjectiveFilter<$PrismaModel = never> = {
@@ -47414,6 +47437,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
     platformConnections?: PlatformConnectionCreateNestedManyWithoutOrganizationInput
@@ -47442,6 +47466,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
     platformConnections?: PlatformConnectionUncheckedCreateNestedManyWithoutOrganizationInput
@@ -47545,6 +47570,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
     platformConnections?: PlatformConnectionUpdateManyWithoutOrganizationNestedInput
@@ -47573,6 +47599,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
     platformConnections?: PlatformConnectionUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -47601,6 +47628,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     platformConnections?: PlatformConnectionCreateNestedManyWithoutOrganizationInput
@@ -47629,6 +47657,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     platformConnections?: PlatformConnectionUncheckedCreateNestedManyWithoutOrganizationInput
@@ -47726,6 +47755,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     platformConnections?: PlatformConnectionUpdateManyWithoutOrganizationNestedInput
@@ -47754,6 +47784,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     platformConnections?: PlatformConnectionUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -47841,6 +47872,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -47869,6 +47901,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -48022,6 +48055,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -48050,6 +48084,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -48153,6 +48188,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -48181,6 +48217,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -48391,6 +48428,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -48419,6 +48457,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -48622,6 +48661,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -48650,6 +48690,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -48962,6 +49003,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -48990,6 +49032,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -49222,6 +49265,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -49250,6 +49294,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -49294,6 +49339,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -49322,6 +49368,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -49470,6 +49517,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -49498,6 +49546,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -49595,6 +49644,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -49623,6 +49673,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -49710,6 +49761,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -49738,6 +49790,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -49835,6 +49888,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -49863,6 +49917,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -50062,6 +50117,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -50090,6 +50146,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -50513,6 +50570,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -50541,6 +50599,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -51070,6 +51129,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -51098,6 +51158,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -51199,6 +51260,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -51227,6 +51289,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -51707,6 +51770,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -51735,6 +51799,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -51830,6 +51895,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -51858,6 +51924,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -51943,6 +52010,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -51971,6 +52039,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -52066,6 +52135,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -52094,6 +52164,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -52179,6 +52250,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -52207,6 +52279,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -52308,6 +52381,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -52336,6 +52410,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -52427,6 +52502,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationCreateNestedManyWithoutOrganizationInput
@@ -52455,6 +52531,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: Date | string | null
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
@@ -52550,6 +52627,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
@@ -52578,6 +52656,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput

@@ -230,6 +230,8 @@ export default function AIStudioPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
           {[
             { href: "/ai/brand-voice", label: "Brand Voice", icon: "M12 18.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM8 5.5h8M8 9h8M10 12.5h4" },
+            { href: "/ai/competitor-match", label: "Competitor Match", icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
+            { href: "/ai/keyword-scanner", label: "Keyword Scanner", icon: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" },
             { href: "/ai/competitor-spy", label: "Competitor Spy", icon: "M15 12a3 3 0 11-6 0 3 3 0 016 0zM2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" },
             { href: "/ai/hashtags", label: "Hashtags", icon: "M7 20l4-16m2 16l4-16M6 9h14M4 15h14" },
             { href: "/ai/image-gen", label: "Image Gen", icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" },
@@ -267,15 +269,46 @@ function GeneratePostTab() {
   const [includeEmojis, setIncludeEmojis] = useState(true);
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState<"auto" | "custom">("auto");
+  const [customPrompt, setCustomPrompt] = useState("");
+  const [brandVoices, setBrandVoices] = useState<Array<{ id: string; name: string; page: { name: string } }>>([]);
+  const [brandVoiceId, setBrandVoiceId] = useState("");
+
+  // Load brand voices on mount
+  useState(() => {
+    fetch("/api/ai/brand-voice/save")
+      .then((r) => r.json())
+      .then((d) => setBrandVoices(d.voices ?? []))
+      .catch(() => {});
+  });
+
+  // Check for pre-filled topic from URL params
+  useState(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const prefill = params.get("topic");
+      if (prefill) setTopic(prefill);
+    }
+  });
 
   async function generate() {
+    if (mode === "auto" && !topic) return;
+    if (mode === "custom" && !customPrompt) return;
     setLoading(true);
     setResult("");
     try {
       const res = await fetch("/api/ai/generate-post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ platform, topic, tone, includeHashtags, includeEmojis }),
+        body: JSON.stringify({
+          platform,
+          topic,
+          tone,
+          includeHashtags,
+          includeEmojis,
+          ...(mode === "custom" ? { customPrompt } : {}),
+          ...(brandVoiceId ? { brandVoiceId } : {}),
+        }),
       });
       const data = await res.json();
       setResult(data.content ?? data.error);
@@ -285,9 +318,66 @@ function GeneratePostTab() {
     setLoading(false);
   }
 
+  const canGenerate = mode === "auto" ? !!topic : !!customPrompt;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="space-y-4">
+        {/* Generation Mode Toggle */}
+        <div>
+          <label className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>Generation Mode</label>
+          <div className="flex rounded-lg overflow-hidden" style={{ border: "1px solid var(--border-primary)" }}>
+            <button
+              type="button"
+              onClick={() => setMode("auto")}
+              className="flex-1 px-4 py-2 text-sm font-medium transition-colors"
+              style={{
+                background: mode === "auto" ? "var(--accent-blue)" : "var(--bg-secondary)",
+                color: mode === "auto" ? "#fff" : "var(--text-secondary)",
+              }}
+            >
+              Auto
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("custom")}
+              className="flex-1 px-4 py-2 text-sm font-medium transition-colors"
+              style={{
+                background: mode === "custom" ? "var(--accent-blue)" : "var(--bg-secondary)",
+                color: mode === "custom" ? "#fff" : "var(--text-secondary)",
+              }}
+            >
+              Custom Prompt
+            </button>
+          </div>
+        </div>
+
+        {/* Brand Voice Selector */}
+        {brandVoices.length > 0 && (
+          <div>
+            <label htmlFor="gen-brand-voice" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Brand Voice (optional)</label>
+            <select id="gen-brand-voice" value={brandVoiceId} onChange={(e) => setBrandVoiceId(e.target.value)} className="w-full rounded-md px-3 py-2 text-sm">
+              <option value="">None - Default</option>
+              {brandVoices.map((v) => <option key={v.id} value={v.id}>{v.name} ({v.page.name})</option>)}
+            </select>
+          </div>
+        )}
+
+        {/* Custom Prompt (shown in custom mode) */}
+        {mode === "custom" && (
+          <div>
+            <label htmlFor="gen-custom-prompt" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Your Instructions</label>
+            <textarea
+              id="gen-custom-prompt"
+              value={customPrompt}
+              onChange={(e) => setCustomPrompt(e.target.value)}
+              rows={5}
+              placeholder="e.g. Write a post announcing our new feature X, mention the 30% discount, use a casual tone, include emoji"
+              className="w-full rounded-md px-3 py-2 text-sm"
+            />
+          </div>
+        )}
+
         <div>
           <label htmlFor="gen-platform" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Platform</label>
           <select id="gen-platform" value={platform} onChange={(e) => setPlatform(e.target.value)} className="w-full rounded-md px-3 py-2 text-sm">
@@ -295,12 +385,14 @@ function GeneratePostTab() {
           </select>
         </div>
         <div>
-          <label htmlFor="gen-topic" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Topic / Description</label>
+          <label htmlFor="gen-topic" className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>
+            {mode === "custom" ? "Topic / Context (optional)" : "Topic / Description"}
+          </label>
           <textarea
             id="gen-topic"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
-            rows={4}
+            rows={mode === "custom" ? 2 : 4}
             placeholder="e.g. Summer sale on all products, 30% off, limited time only"
             className="w-full rounded-md px-3 py-2 text-sm"
           />
@@ -323,7 +415,7 @@ function GeneratePostTab() {
         </div>
         <button
           onClick={generate}
-          disabled={loading || !topic}
+          disabled={loading || !canGenerate}
           className="btn-primary text-sm disabled:opacity-50 min-h-[44px] w-full sm:w-auto"
         >
           {loading ? "Generating..." : "Generate Post"}
