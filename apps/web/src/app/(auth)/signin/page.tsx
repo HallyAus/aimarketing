@@ -377,6 +377,7 @@ function SignInContent() {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
+                  aria-hidden="true"
                 >
                   <path
                     strokeLinecap="round"
@@ -402,6 +403,7 @@ function SignInContent() {
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
+                      aria-hidden="true"
                     >
                       <path
                         strokeLinecap="round"
@@ -702,7 +704,7 @@ function Spinner() {
 
 function GoogleIcon() {
   return (
-    <svg className="h-4 w-4" viewBox="0 0 24 24">
+    <svg className="h-4 w-4" viewBox="0 0 24 24" aria-hidden="true">
       <path
         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
         fill="#4285F4"
@@ -725,7 +727,7 @@ function GoogleIcon() {
 
 function MicrosoftIcon() {
   return (
-    <svg className="h-4 w-4" viewBox="0 0 23 23">
+    <svg className="h-4 w-4" viewBox="0 0 23 23" aria-hidden="true">
       <rect x="1" y="1" width="10" height="10" fill="#F25022" />
       <rect x="12" y="1" width="10" height="10" fill="#7FBA00" />
       <rect x="1" y="12" width="10" height="10" fill="#00A4EF" />

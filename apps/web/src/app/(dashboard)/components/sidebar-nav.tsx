@@ -222,6 +222,8 @@ export function SidebarNav() {
         onClick={closeMobile ? () => setMobileOpen(false) : undefined}
         onMouseEnter={() => setHoveredItem(item.href)}
         onMouseLeave={() => setHoveredItem(null)}
+        aria-current={active ? "page" : undefined}
+        aria-label={collapsed ? item.label : undefined}
         className={`
           relative flex items-center gap-3 rounded-lg transition-all duration-150
           ${collapsed ? "justify-center px-0 py-2.5 mx-auto w-10 h-10" : "px-3 py-2"}

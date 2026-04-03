@@ -30,6 +30,18 @@ export function Navbar() {
     };
   }, [mobileOpen]);
 
+  // Close mobile drawer on Escape key
+  useEffect(() => {
+    if (!mobileOpen) return;
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setMobileOpen(false);
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [mobileOpen]);
+
   const handleNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
       e.preventDefault();
@@ -61,6 +73,7 @@ export function Navbar() {
         }
       `}</style>
       <nav
+        aria-label="Main navigation"
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
           background: scrolled
@@ -141,7 +154,9 @@ export function Navbar() {
               className="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-lg transition-colors"
               style={{ background: "transparent" }}
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
+              aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav-drawer"
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "var(--bg-hover)";
               }}
@@ -181,12 +196,16 @@ export function Navbar() {
           className="mobile-overlay fixed inset-0 z-40 md:hidden"
           style={{ background: "rgba(0, 0, 0, 0.6)" }}
           onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
         />
       )}
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div
+        <nav
+          id="mobile-nav-drawer"
+          role="navigation"
+          aria-label="Mobile navigation"
           className="mobile-drawer fixed top-0 right-0 bottom-0 z-50 w-72 md:hidden flex flex-col px-6 pt-20 pb-8"
           style={{
             background: "var(--bg-secondary)",
@@ -228,7 +247,7 @@ export function Navbar() {
               Start Free
             </a>
           </div>
-        </div>
+        </nav>
       )}
     </>
   );

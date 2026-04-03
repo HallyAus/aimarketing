@@ -117,6 +117,7 @@ export function CreateUserForm({ organizations }: Props) {
     <form onSubmit={handleSubmit} style={cardStyle}>
       {error && (
         <div
+          role="alert"
           style={{
             padding: "10px 14px",
             borderRadius: 8,
@@ -133,6 +134,7 @@ export function CreateUserForm({ organizations }: Props) {
 
       {success && (
         <div
+          role="status"
           style={{
             padding: "10px 14px",
             borderRadius: 8,
@@ -149,8 +151,9 @@ export function CreateUserForm({ organizations }: Props) {
 
       {/* Email */}
       <div style={{ marginBottom: 16 }}>
-        <label style={labelStyle}>Email *</label>
+        <label htmlFor="create-user-email" style={labelStyle}>Email *</label>
         <input
+          id="create-user-email"
           type="email"
           required
           value={email}
@@ -162,8 +165,9 @@ export function CreateUserForm({ organizations }: Props) {
 
       {/* Name */}
       <div style={{ marginBottom: 16 }}>
-        <label style={labelStyle}>Name *</label>
+        <label htmlFor="create-user-name" style={labelStyle}>Name *</label>
         <input
+          id="create-user-name"
           type="text"
           required
           value={name}
@@ -175,8 +179,9 @@ export function CreateUserForm({ organizations }: Props) {
 
       {/* System Role */}
       <div style={{ marginBottom: 16 }}>
-        <label style={labelStyle}>System Role</label>
+        <label htmlFor="create-user-system-role" style={labelStyle}>System Role</label>
         <select
+          id="create-user-system-role"
           value={systemRole}
           onChange={(e) => setSystemRole(e.target.value)}
           style={inputStyle}
@@ -191,8 +196,9 @@ export function CreateUserForm({ organizations }: Props) {
 
       {/* Organization */}
       <div style={{ marginBottom: 16 }}>
-        <label style={labelStyle}>Organization (optional)</label>
+        <label htmlFor="create-user-org-search" style={labelStyle}>Organization (optional)</label>
         <input
+          id="create-user-org-search"
           type="text"
           value={orgSearch}
           onChange={(e) => setOrgSearch(e.target.value)}
@@ -200,6 +206,8 @@ export function CreateUserForm({ organizations }: Props) {
           style={{ ...inputStyle, marginBottom: 6 }}
         />
         <select
+          id="create-user-org"
+          aria-label="Organization"
           value={orgId}
           onChange={(e) => setOrgId(e.target.value)}
           style={inputStyle}
@@ -216,8 +224,9 @@ export function CreateUserForm({ organizations }: Props) {
       {/* Org Role (shown when org is selected) */}
       {orgId && (
         <div style={{ marginBottom: 16 }}>
-          <label style={labelStyle}>Organization Role</label>
+          <label htmlFor="create-user-org-role" style={labelStyle}>Organization Role</label>
           <select
+            id="create-user-org-role"
             value={orgRole}
             onChange={(e) => setOrgRole(e.target.value)}
             style={inputStyle}
@@ -232,8 +241,8 @@ export function CreateUserForm({ organizations }: Props) {
       )}
 
       {/* Password Mode */}
-      <div style={{ marginBottom: 16 }}>
-        <label style={labelStyle}>Password</label>
+      <fieldset style={{ marginBottom: 16, border: "none", padding: 0, margin: 0 }}>
+        <legend style={{ ...labelStyle, marginBottom: 8 }}>Password</legend>
         <div style={{ display: "flex", gap: 16 }}>
           <label
             style={{
@@ -272,12 +281,13 @@ export function CreateUserForm({ organizations }: Props) {
             Set manually
           </label>
         </div>
-      </div>
+      </fieldset>
 
       {passwordMode === "manual" && (
         <div style={{ marginBottom: 16 }}>
-          <label style={labelStyle}>Password *</label>
+          <label htmlFor="create-user-password" style={labelStyle}>Password *</label>
           <input
+            id="create-user-password"
             type="password"
             required
             minLength={8}
