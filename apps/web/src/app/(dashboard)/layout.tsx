@@ -120,8 +120,8 @@ export default async function DashboardLayout({
           <TopBar />
 
           {/* Main content */}
-          <main id="main-content" className="flex-1">
-            <div className="pt-[4.5rem] md:pt-4 px-4 md:px-6 py-3 md:py-5 max-w-full xl:max-w-7xl overflow-x-hidden">
+          <main id="main-content" className="flex-1 w-full">
+            <div className="pt-[4.5rem] md:pt-4 px-4 md:px-6 lg:px-8 py-3 md:py-5 w-full overflow-x-hidden">
               {children}
             </div>
           </main>
@@ -129,7 +129,7 @@ export default async function DashboardLayout({
 
         {/* Footer */}
         <footer className="px-4 md:px-8 py-4 text-[11px] text-[var(--text-tertiary)] border-t border-[var(--border-secondary)]">
-          <div className="max-w-full xl:max-w-7xl flex flex-wrap items-center gap-x-3 gap-y-1">
+          <div className="w-full flex flex-wrap items-center gap-x-3 gap-y-1">
             <span>AdPilot &copy; 2026</span>
             <span className="text-[var(--border-primary)]">&middot;</span>
             <a href="/onboarding" className="hover:text-[var(--text-secondary)] transition-colors">Help</a>
