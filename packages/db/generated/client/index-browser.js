@@ -383,6 +383,16 @@ exports.Prisma.AuthenticatorScalarFieldEnum = {
   transports: 'transports'
 };
 
+exports.Prisma.TwoFactorSecretScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  secret: 'secret',
+  backupCodes: 'backupCodes',
+  verified: 'verified',
+  enabledAt: 'enabledAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.PageScalarFieldEnum = {
   id: 'id',
   orgId: 'orgId',
@@ -892,6 +902,7 @@ exports.Prisma.ModelName = {
   WebhookEvent: 'WebhookEvent',
   PostTemplate: 'PostTemplate',
   Authenticator: 'Authenticator',
+  TwoFactorSecret: 'TwoFactorSecret',
   Page: 'Page',
   BrandVoice: 'BrandVoice',
   HashtagSet: 'HashtagSet',

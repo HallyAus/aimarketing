@@ -138,7 +138,32 @@ function SignInContent() {
     setError("");
     setLoading("passkey");
     try {
-      await signIn("passkey", { callbackUrl });
+      // Step 1: Get authentication options from server
+      const optionsRes = await fetch("/api/auth/passkey/authenticate", {
+        method: "POST",
+      });
+      if (!optionsRes.ok) throw new Error("Failed to get options");
+      const options = await optionsRes.json();
+
+      // Step 2: Start WebAuthn authentication in browser
+      const { startAuthentication } = await import("@simplewebauthn/browser");
+      const authResponse = await startAuthentication(options);
+
+      // Step 3: Verify with server
+      const verifyRes = await fetch("/api/auth/passkey/authenticate/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(authResponse),
+      });
+      if (!verifyRes.ok) throw new Error("Verification failed");
+      const { passkeyToken } = await verifyRes.json();
+
+      // Step 4: Sign in with the passkey token via credentials provider
+      await signIn("credentials", {
+        passkeyToken,
+        redirect: true,
+        redirectTo: callbackUrl,
+      });
     } catch {
       setError("Passkey authentication failed. Please try again.");
       setLoading(null);

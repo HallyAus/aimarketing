@@ -94,6 +94,11 @@ export type PostTemplate = $Result.DefaultSelection<Prisma.$PostTemplatePayload>
  */
 export type Authenticator = $Result.DefaultSelection<Prisma.$AuthenticatorPayload>
 /**
+ * Model TwoFactorSecret
+ * 
+ */
+export type TwoFactorSecret = $Result.DefaultSelection<Prisma.$TwoFactorSecretPayload>
+/**
  * Model Page
  * 
  */
@@ -763,6 +768,16 @@ export class PrismaClient<
     * ```
     */
   get authenticator(): Prisma.AuthenticatorDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.twoFactorSecret`: Exposes CRUD operations for the **TwoFactorSecret** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TwoFactorSecrets
+    * const twoFactorSecrets = await prisma.twoFactorSecret.findMany()
+    * ```
+    */
+  get twoFactorSecret(): Prisma.TwoFactorSecretDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.page`: Exposes CRUD operations for the **Page** model.
@@ -1450,6 +1465,7 @@ export namespace Prisma {
     WebhookEvent: 'WebhookEvent',
     PostTemplate: 'PostTemplate',
     Authenticator: 'Authenticator',
+    TwoFactorSecret: 'TwoFactorSecret',
     Page: 'Page',
     BrandVoice: 'BrandVoice',
     HashtagSet: 'HashtagSet',
@@ -1491,7 +1507,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "organization" | "user" | "account" | "session" | "verificationToken" | "membership" | "invitation" | "platformConnection" | "campaign" | "post" | "creative" | "analyticsSnapshot" | "auditLog" | "webhookEvent" | "postTemplate" | "authenticator" | "page" | "brandVoice" | "hashtagSet" | "contentTemplate" | "approvalRequest" | "rssFeed" | "webhookRule" | "leadCapture" | "utmLink" | "performanceReport" | "invoice" | "usageRecord" | "paymentMethod" | "apiKey" | "featureFlag" | "systemMetric" | "announcement" | "waitlistEntry" | "ingestionJob" | "historicalPost" | "historicalMetricSnapshot" | "emailVerification" | "cachedInsight"
+      modelProps: "organization" | "user" | "account" | "session" | "verificationToken" | "membership" | "invitation" | "platformConnection" | "campaign" | "post" | "creative" | "analyticsSnapshot" | "auditLog" | "webhookEvent" | "postTemplate" | "authenticator" | "twoFactorSecret" | "page" | "brandVoice" | "hashtagSet" | "contentTemplate" | "approvalRequest" | "rssFeed" | "webhookRule" | "leadCapture" | "utmLink" | "performanceReport" | "invoice" | "usageRecord" | "paymentMethod" | "apiKey" | "featureFlag" | "systemMetric" | "announcement" | "waitlistEntry" | "ingestionJob" | "historicalPost" | "historicalMetricSnapshot" | "emailVerification" | "cachedInsight"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2676,6 +2692,80 @@ export namespace Prisma {
           count: {
             args: Prisma.AuthenticatorCountArgs<ExtArgs>
             result: $Utils.Optional<AuthenticatorCountAggregateOutputType> | number
+          }
+        }
+      }
+      TwoFactorSecret: {
+        payload: Prisma.$TwoFactorSecretPayload<ExtArgs>
+        fields: Prisma.TwoFactorSecretFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TwoFactorSecretFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TwoFactorSecretPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TwoFactorSecretFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TwoFactorSecretPayload>
+          }
+          findFirst: {
+            args: Prisma.TwoFactorSecretFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TwoFactorSecretPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TwoFactorSecretFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TwoFactorSecretPayload>
+          }
+          findMany: {
+            args: Prisma.TwoFactorSecretFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TwoFactorSecretPayload>[]
+          }
+          create: {
+            args: Prisma.TwoFactorSecretCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TwoFactorSecretPayload>
+          }
+          createMany: {
+            args: Prisma.TwoFactorSecretCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TwoFactorSecretCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TwoFactorSecretPayload>[]
+          }
+          delete: {
+            args: Prisma.TwoFactorSecretDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TwoFactorSecretPayload>
+          }
+          update: {
+            args: Prisma.TwoFactorSecretUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TwoFactorSecretPayload>
+          }
+          deleteMany: {
+            args: Prisma.TwoFactorSecretDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TwoFactorSecretUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TwoFactorSecretUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TwoFactorSecretPayload>[]
+          }
+          upsert: {
+            args: Prisma.TwoFactorSecretUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TwoFactorSecretPayload>
+          }
+          aggregate: {
+            args: Prisma.TwoFactorSecretAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTwoFactorSecret>
+          }
+          groupBy: {
+            args: Prisma.TwoFactorSecretGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TwoFactorSecretGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TwoFactorSecretCountArgs<ExtArgs>
+            result: $Utils.Optional<TwoFactorSecretCountAggregateOutputType> | number
           }
         }
       }
@@ -4493,6 +4583,7 @@ export namespace Prisma {
     webhookEvent?: WebhookEventOmit
     postTemplate?: PostTemplateOmit
     authenticator?: AuthenticatorOmit
+    twoFactorSecret?: TwoFactorSecretOmit
     page?: PageOmit
     brandVoice?: BrandVoiceOmit
     hashtagSet?: HashtagSetOmit
@@ -7354,6 +7445,7 @@ export namespace Prisma {
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
     templatesCreated?: boolean | User$templatesCreatedArgs<ExtArgs>
     authenticators?: boolean | User$authenticatorsArgs<ExtArgs>
+    twoFactorSecret?: boolean | User$twoFactorSecretArgs<ExtArgs>
     approvalRequests?: boolean | User$approvalRequestsArgs<ExtArgs>
     approvalReviews?: boolean | User$approvalReviewsArgs<ExtArgs>
     apiKeys?: boolean | User$apiKeysArgs<ExtArgs>
@@ -7451,6 +7543,7 @@ export namespace Prisma {
     auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
     templatesCreated?: boolean | User$templatesCreatedArgs<ExtArgs>
     authenticators?: boolean | User$authenticatorsArgs<ExtArgs>
+    twoFactorSecret?: boolean | User$twoFactorSecretArgs<ExtArgs>
     approvalRequests?: boolean | User$approvalRequestsArgs<ExtArgs>
     approvalReviews?: boolean | User$approvalReviewsArgs<ExtArgs>
     apiKeys?: boolean | User$apiKeysArgs<ExtArgs>
@@ -7473,6 +7566,7 @@ export namespace Prisma {
       auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
       templatesCreated: Prisma.$PostTemplatePayload<ExtArgs>[]
       authenticators: Prisma.$AuthenticatorPayload<ExtArgs>[]
+      twoFactorSecret: Prisma.$TwoFactorSecretPayload<ExtArgs> | null
       approvalRequests: Prisma.$ApprovalRequestPayload<ExtArgs>[]
       approvalReviews: Prisma.$ApprovalRequestPayload<ExtArgs>[]
       apiKeys: Prisma.$ApiKeyPayload<ExtArgs>[]
@@ -7906,6 +8000,7 @@ export namespace Prisma {
     auditLogs<T extends User$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     templatesCreated<T extends User$templatesCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$templatesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     authenticators<T extends User$authenticatorsArgs<ExtArgs> = {}>(args?: Subset<T, User$authenticatorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuthenticatorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    twoFactorSecret<T extends User$twoFactorSecretArgs<ExtArgs> = {}>(args?: Subset<T, User$twoFactorSecretArgs<ExtArgs>>): Prisma__TwoFactorSecretClient<$Result.GetResult<Prisma.$TwoFactorSecretPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     approvalRequests<T extends User$approvalRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$approvalRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     approvalReviews<T extends User$approvalReviewsArgs<ExtArgs> = {}>(args?: Subset<T, User$approvalReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApprovalRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     apiKeys<T extends User$apiKeysArgs<ExtArgs> = {}>(args?: Subset<T, User$apiKeysArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -8564,6 +8659,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AuthenticatorScalarFieldEnum | AuthenticatorScalarFieldEnum[]
+  }
+
+  /**
+   * User.twoFactorSecret
+   */
+  export type User$twoFactorSecretArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TwoFactorSecret
+     */
+    select?: TwoFactorSecretSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TwoFactorSecret
+     */
+    omit?: TwoFactorSecretOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TwoFactorSecretInclude<ExtArgs> | null
+    where?: TwoFactorSecretWhereInput
   }
 
   /**
@@ -25110,6 +25224,1086 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AuthenticatorInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TwoFactorSecret
+   */
+
+  export type AggregateTwoFactorSecret = {
+    _count: TwoFactorSecretCountAggregateOutputType | null
+    _min: TwoFactorSecretMinAggregateOutputType | null
+    _max: TwoFactorSecretMaxAggregateOutputType | null
+  }
+
+  export type TwoFactorSecretMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    secret: string | null
+    verified: boolean | null
+    enabledAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type TwoFactorSecretMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    secret: string | null
+    verified: boolean | null
+    enabledAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type TwoFactorSecretCountAggregateOutputType = {
+    id: number
+    userId: number
+    secret: number
+    backupCodes: number
+    verified: number
+    enabledAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type TwoFactorSecretMinAggregateInputType = {
+    id?: true
+    userId?: true
+    secret?: true
+    verified?: true
+    enabledAt?: true
+    createdAt?: true
+  }
+
+  export type TwoFactorSecretMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    secret?: true
+    verified?: true
+    enabledAt?: true
+    createdAt?: true
+  }
+
+  export type TwoFactorSecretCountAggregateInputType = {
+    id?: true
+    userId?: true
+    secret?: true
+    backupCodes?: true
+    verified?: true
+    enabledAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type TwoFactorSecretAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TwoFactorSecret to aggregate.
+     */
+    where?: TwoFactorSecretWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TwoFactorSecrets to fetch.
+     */
+    orderBy?: TwoFactorSecretOrderByWithRelationInput | TwoFactorSecretOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TwoFactorSecretWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TwoFactorSecrets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TwoFactorSecrets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TwoFactorSecrets
+    **/
+    _count?: true | TwoFactorSecretCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TwoFactorSecretMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TwoFactorSecretMaxAggregateInputType
+  }
+
+  export type GetTwoFactorSecretAggregateType<T extends TwoFactorSecretAggregateArgs> = {
+        [P in keyof T & keyof AggregateTwoFactorSecret]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTwoFactorSecret[P]>
+      : GetScalarType<T[P], AggregateTwoFactorSecret[P]>
+  }
+
+
+
+
+  export type TwoFactorSecretGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TwoFactorSecretWhereInput
+    orderBy?: TwoFactorSecretOrderByWithAggregationInput | TwoFactorSecretOrderByWithAggregationInput[]
+    by: TwoFactorSecretScalarFieldEnum[] | TwoFactorSecretScalarFieldEnum
+    having?: TwoFactorSecretScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TwoFactorSecretCountAggregateInputType | true
+    _min?: TwoFactorSecretMinAggregateInputType
+    _max?: TwoFactorSecretMaxAggregateInputType
+  }
+
+  export type TwoFactorSecretGroupByOutputType = {
+    id: string
+    userId: string
+    secret: string
+    backupCodes: string[]
+    verified: boolean
+    enabledAt: Date | null
+    createdAt: Date
+    _count: TwoFactorSecretCountAggregateOutputType | null
+    _min: TwoFactorSecretMinAggregateOutputType | null
+    _max: TwoFactorSecretMaxAggregateOutputType | null
+  }
+
+  type GetTwoFactorSecretGroupByPayload<T extends TwoFactorSecretGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TwoFactorSecretGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TwoFactorSecretGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TwoFactorSecretGroupByOutputType[P]>
+            : GetScalarType<T[P], TwoFactorSecretGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TwoFactorSecretSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    secret?: boolean
+    backupCodes?: boolean
+    verified?: boolean
+    enabledAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["twoFactorSecret"]>
+
+  export type TwoFactorSecretSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    secret?: boolean
+    backupCodes?: boolean
+    verified?: boolean
+    enabledAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["twoFactorSecret"]>
+
+  export type TwoFactorSecretSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    secret?: boolean
+    backupCodes?: boolean
+    verified?: boolean
+    enabledAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["twoFactorSecret"]>
+
+  export type TwoFactorSecretSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    secret?: boolean
+    backupCodes?: boolean
+    verified?: boolean
+    enabledAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type TwoFactorSecretOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "secret" | "backupCodes" | "verified" | "enabledAt" | "createdAt", ExtArgs["result"]["twoFactorSecret"]>
+  export type TwoFactorSecretInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TwoFactorSecretIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type TwoFactorSecretIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $TwoFactorSecretPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TwoFactorSecret"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      secret: string
+      backupCodes: string[]
+      verified: boolean
+      enabledAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["twoFactorSecret"]>
+    composites: {}
+  }
+
+  type TwoFactorSecretGetPayload<S extends boolean | null | undefined | TwoFactorSecretDefaultArgs> = $Result.GetResult<Prisma.$TwoFactorSecretPayload, S>
+
+  type TwoFactorSecretCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TwoFactorSecretFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TwoFactorSecretCountAggregateInputType | true
+    }
+
+  export interface TwoFactorSecretDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TwoFactorSecret'], meta: { name: 'TwoFactorSecret' } }
+    /**
+     * Find zero or one TwoFactorSecret that matches the filter.
+     * @param {TwoFactorSecretFindUniqueArgs} args - Arguments to find a TwoFactorSecret
+     * @example
+     * // Get one TwoFactorSecret
+     * const twoFactorSecret = await prisma.twoFactorSecret.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TwoFactorSecretFindUniqueArgs>(args: SelectSubset<T, TwoFactorSecretFindUniqueArgs<ExtArgs>>): Prisma__TwoFactorSecretClient<$Result.GetResult<Prisma.$TwoFactorSecretPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TwoFactorSecret that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TwoFactorSecretFindUniqueOrThrowArgs} args - Arguments to find a TwoFactorSecret
+     * @example
+     * // Get one TwoFactorSecret
+     * const twoFactorSecret = await prisma.twoFactorSecret.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TwoFactorSecretFindUniqueOrThrowArgs>(args: SelectSubset<T, TwoFactorSecretFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TwoFactorSecretClient<$Result.GetResult<Prisma.$TwoFactorSecretPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TwoFactorSecret that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TwoFactorSecretFindFirstArgs} args - Arguments to find a TwoFactorSecret
+     * @example
+     * // Get one TwoFactorSecret
+     * const twoFactorSecret = await prisma.twoFactorSecret.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TwoFactorSecretFindFirstArgs>(args?: SelectSubset<T, TwoFactorSecretFindFirstArgs<ExtArgs>>): Prisma__TwoFactorSecretClient<$Result.GetResult<Prisma.$TwoFactorSecretPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TwoFactorSecret that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TwoFactorSecretFindFirstOrThrowArgs} args - Arguments to find a TwoFactorSecret
+     * @example
+     * // Get one TwoFactorSecret
+     * const twoFactorSecret = await prisma.twoFactorSecret.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TwoFactorSecretFindFirstOrThrowArgs>(args?: SelectSubset<T, TwoFactorSecretFindFirstOrThrowArgs<ExtArgs>>): Prisma__TwoFactorSecretClient<$Result.GetResult<Prisma.$TwoFactorSecretPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TwoFactorSecrets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TwoFactorSecretFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TwoFactorSecrets
+     * const twoFactorSecrets = await prisma.twoFactorSecret.findMany()
+     * 
+     * // Get first 10 TwoFactorSecrets
+     * const twoFactorSecrets = await prisma.twoFactorSecret.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const twoFactorSecretWithIdOnly = await prisma.twoFactorSecret.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TwoFactorSecretFindManyArgs>(args?: SelectSubset<T, TwoFactorSecretFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TwoFactorSecretPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TwoFactorSecret.
+     * @param {TwoFactorSecretCreateArgs} args - Arguments to create a TwoFactorSecret.
+     * @example
+     * // Create one TwoFactorSecret
+     * const TwoFactorSecret = await prisma.twoFactorSecret.create({
+     *   data: {
+     *     // ... data to create a TwoFactorSecret
+     *   }
+     * })
+     * 
+     */
+    create<T extends TwoFactorSecretCreateArgs>(args: SelectSubset<T, TwoFactorSecretCreateArgs<ExtArgs>>): Prisma__TwoFactorSecretClient<$Result.GetResult<Prisma.$TwoFactorSecretPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TwoFactorSecrets.
+     * @param {TwoFactorSecretCreateManyArgs} args - Arguments to create many TwoFactorSecrets.
+     * @example
+     * // Create many TwoFactorSecrets
+     * const twoFactorSecret = await prisma.twoFactorSecret.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TwoFactorSecretCreateManyArgs>(args?: SelectSubset<T, TwoFactorSecretCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TwoFactorSecrets and returns the data saved in the database.
+     * @param {TwoFactorSecretCreateManyAndReturnArgs} args - Arguments to create many TwoFactorSecrets.
+     * @example
+     * // Create many TwoFactorSecrets
+     * const twoFactorSecret = await prisma.twoFactorSecret.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TwoFactorSecrets and only return the `id`
+     * const twoFactorSecretWithIdOnly = await prisma.twoFactorSecret.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TwoFactorSecretCreateManyAndReturnArgs>(args?: SelectSubset<T, TwoFactorSecretCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TwoFactorSecretPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TwoFactorSecret.
+     * @param {TwoFactorSecretDeleteArgs} args - Arguments to delete one TwoFactorSecret.
+     * @example
+     * // Delete one TwoFactorSecret
+     * const TwoFactorSecret = await prisma.twoFactorSecret.delete({
+     *   where: {
+     *     // ... filter to delete one TwoFactorSecret
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TwoFactorSecretDeleteArgs>(args: SelectSubset<T, TwoFactorSecretDeleteArgs<ExtArgs>>): Prisma__TwoFactorSecretClient<$Result.GetResult<Prisma.$TwoFactorSecretPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TwoFactorSecret.
+     * @param {TwoFactorSecretUpdateArgs} args - Arguments to update one TwoFactorSecret.
+     * @example
+     * // Update one TwoFactorSecret
+     * const twoFactorSecret = await prisma.twoFactorSecret.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TwoFactorSecretUpdateArgs>(args: SelectSubset<T, TwoFactorSecretUpdateArgs<ExtArgs>>): Prisma__TwoFactorSecretClient<$Result.GetResult<Prisma.$TwoFactorSecretPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TwoFactorSecrets.
+     * @param {TwoFactorSecretDeleteManyArgs} args - Arguments to filter TwoFactorSecrets to delete.
+     * @example
+     * // Delete a few TwoFactorSecrets
+     * const { count } = await prisma.twoFactorSecret.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TwoFactorSecretDeleteManyArgs>(args?: SelectSubset<T, TwoFactorSecretDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TwoFactorSecrets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TwoFactorSecretUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TwoFactorSecrets
+     * const twoFactorSecret = await prisma.twoFactorSecret.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TwoFactorSecretUpdateManyArgs>(args: SelectSubset<T, TwoFactorSecretUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TwoFactorSecrets and returns the data updated in the database.
+     * @param {TwoFactorSecretUpdateManyAndReturnArgs} args - Arguments to update many TwoFactorSecrets.
+     * @example
+     * // Update many TwoFactorSecrets
+     * const twoFactorSecret = await prisma.twoFactorSecret.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TwoFactorSecrets and only return the `id`
+     * const twoFactorSecretWithIdOnly = await prisma.twoFactorSecret.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TwoFactorSecretUpdateManyAndReturnArgs>(args: SelectSubset<T, TwoFactorSecretUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TwoFactorSecretPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TwoFactorSecret.
+     * @param {TwoFactorSecretUpsertArgs} args - Arguments to update or create a TwoFactorSecret.
+     * @example
+     * // Update or create a TwoFactorSecret
+     * const twoFactorSecret = await prisma.twoFactorSecret.upsert({
+     *   create: {
+     *     // ... data to create a TwoFactorSecret
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TwoFactorSecret we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TwoFactorSecretUpsertArgs>(args: SelectSubset<T, TwoFactorSecretUpsertArgs<ExtArgs>>): Prisma__TwoFactorSecretClient<$Result.GetResult<Prisma.$TwoFactorSecretPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TwoFactorSecrets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TwoFactorSecretCountArgs} args - Arguments to filter TwoFactorSecrets to count.
+     * @example
+     * // Count the number of TwoFactorSecrets
+     * const count = await prisma.twoFactorSecret.count({
+     *   where: {
+     *     // ... the filter for the TwoFactorSecrets we want to count
+     *   }
+     * })
+    **/
+    count<T extends TwoFactorSecretCountArgs>(
+      args?: Subset<T, TwoFactorSecretCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TwoFactorSecretCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TwoFactorSecret.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TwoFactorSecretAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TwoFactorSecretAggregateArgs>(args: Subset<T, TwoFactorSecretAggregateArgs>): Prisma.PrismaPromise<GetTwoFactorSecretAggregateType<T>>
+
+    /**
+     * Group by TwoFactorSecret.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TwoFactorSecretGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TwoFactorSecretGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TwoFactorSecretGroupByArgs['orderBy'] }
+        : { orderBy?: TwoFactorSecretGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TwoFactorSecretGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTwoFactorSecretGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TwoFactorSecret model
+   */
+  readonly fields: TwoFactorSecretFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TwoFactorSecret.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TwoFactorSecretClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TwoFactorSecret model
+   */
+  interface TwoFactorSecretFieldRefs {
+    readonly id: FieldRef<"TwoFactorSecret", 'String'>
+    readonly userId: FieldRef<"TwoFactorSecret", 'String'>
+    readonly secret: FieldRef<"TwoFactorSecret", 'String'>
+    readonly backupCodes: FieldRef<"TwoFactorSecret", 'String[]'>
+    readonly verified: FieldRef<"TwoFactorSecret", 'Boolean'>
+    readonly enabledAt: FieldRef<"TwoFactorSecret", 'DateTime'>
+    readonly createdAt: FieldRef<"TwoFactorSecret", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TwoFactorSecret findUnique
+   */
+  export type TwoFactorSecretFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TwoFactorSecret
+     */
+    select?: TwoFactorSecretSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TwoFactorSecret
+     */
+    omit?: TwoFactorSecretOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TwoFactorSecretInclude<ExtArgs> | null
+    /**
+     * Filter, which TwoFactorSecret to fetch.
+     */
+    where: TwoFactorSecretWhereUniqueInput
+  }
+
+  /**
+   * TwoFactorSecret findUniqueOrThrow
+   */
+  export type TwoFactorSecretFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TwoFactorSecret
+     */
+    select?: TwoFactorSecretSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TwoFactorSecret
+     */
+    omit?: TwoFactorSecretOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TwoFactorSecretInclude<ExtArgs> | null
+    /**
+     * Filter, which TwoFactorSecret to fetch.
+     */
+    where: TwoFactorSecretWhereUniqueInput
+  }
+
+  /**
+   * TwoFactorSecret findFirst
+   */
+  export type TwoFactorSecretFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TwoFactorSecret
+     */
+    select?: TwoFactorSecretSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TwoFactorSecret
+     */
+    omit?: TwoFactorSecretOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TwoFactorSecretInclude<ExtArgs> | null
+    /**
+     * Filter, which TwoFactorSecret to fetch.
+     */
+    where?: TwoFactorSecretWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TwoFactorSecrets to fetch.
+     */
+    orderBy?: TwoFactorSecretOrderByWithRelationInput | TwoFactorSecretOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TwoFactorSecrets.
+     */
+    cursor?: TwoFactorSecretWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TwoFactorSecrets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TwoFactorSecrets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TwoFactorSecrets.
+     */
+    distinct?: TwoFactorSecretScalarFieldEnum | TwoFactorSecretScalarFieldEnum[]
+  }
+
+  /**
+   * TwoFactorSecret findFirstOrThrow
+   */
+  export type TwoFactorSecretFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TwoFactorSecret
+     */
+    select?: TwoFactorSecretSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TwoFactorSecret
+     */
+    omit?: TwoFactorSecretOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TwoFactorSecretInclude<ExtArgs> | null
+    /**
+     * Filter, which TwoFactorSecret to fetch.
+     */
+    where?: TwoFactorSecretWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TwoFactorSecrets to fetch.
+     */
+    orderBy?: TwoFactorSecretOrderByWithRelationInput | TwoFactorSecretOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TwoFactorSecrets.
+     */
+    cursor?: TwoFactorSecretWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TwoFactorSecrets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TwoFactorSecrets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TwoFactorSecrets.
+     */
+    distinct?: TwoFactorSecretScalarFieldEnum | TwoFactorSecretScalarFieldEnum[]
+  }
+
+  /**
+   * TwoFactorSecret findMany
+   */
+  export type TwoFactorSecretFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TwoFactorSecret
+     */
+    select?: TwoFactorSecretSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TwoFactorSecret
+     */
+    omit?: TwoFactorSecretOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TwoFactorSecretInclude<ExtArgs> | null
+    /**
+     * Filter, which TwoFactorSecrets to fetch.
+     */
+    where?: TwoFactorSecretWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TwoFactorSecrets to fetch.
+     */
+    orderBy?: TwoFactorSecretOrderByWithRelationInput | TwoFactorSecretOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TwoFactorSecrets.
+     */
+    cursor?: TwoFactorSecretWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TwoFactorSecrets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TwoFactorSecrets.
+     */
+    skip?: number
+    distinct?: TwoFactorSecretScalarFieldEnum | TwoFactorSecretScalarFieldEnum[]
+  }
+
+  /**
+   * TwoFactorSecret create
+   */
+  export type TwoFactorSecretCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TwoFactorSecret
+     */
+    select?: TwoFactorSecretSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TwoFactorSecret
+     */
+    omit?: TwoFactorSecretOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TwoFactorSecretInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TwoFactorSecret.
+     */
+    data: XOR<TwoFactorSecretCreateInput, TwoFactorSecretUncheckedCreateInput>
+  }
+
+  /**
+   * TwoFactorSecret createMany
+   */
+  export type TwoFactorSecretCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TwoFactorSecrets.
+     */
+    data: TwoFactorSecretCreateManyInput | TwoFactorSecretCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TwoFactorSecret createManyAndReturn
+   */
+  export type TwoFactorSecretCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TwoFactorSecret
+     */
+    select?: TwoFactorSecretSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TwoFactorSecret
+     */
+    omit?: TwoFactorSecretOmit<ExtArgs> | null
+    /**
+     * The data used to create many TwoFactorSecrets.
+     */
+    data: TwoFactorSecretCreateManyInput | TwoFactorSecretCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TwoFactorSecretIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TwoFactorSecret update
+   */
+  export type TwoFactorSecretUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TwoFactorSecret
+     */
+    select?: TwoFactorSecretSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TwoFactorSecret
+     */
+    omit?: TwoFactorSecretOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TwoFactorSecretInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TwoFactorSecret.
+     */
+    data: XOR<TwoFactorSecretUpdateInput, TwoFactorSecretUncheckedUpdateInput>
+    /**
+     * Choose, which TwoFactorSecret to update.
+     */
+    where: TwoFactorSecretWhereUniqueInput
+  }
+
+  /**
+   * TwoFactorSecret updateMany
+   */
+  export type TwoFactorSecretUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TwoFactorSecrets.
+     */
+    data: XOR<TwoFactorSecretUpdateManyMutationInput, TwoFactorSecretUncheckedUpdateManyInput>
+    /**
+     * Filter which TwoFactorSecrets to update
+     */
+    where?: TwoFactorSecretWhereInput
+    /**
+     * Limit how many TwoFactorSecrets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TwoFactorSecret updateManyAndReturn
+   */
+  export type TwoFactorSecretUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TwoFactorSecret
+     */
+    select?: TwoFactorSecretSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TwoFactorSecret
+     */
+    omit?: TwoFactorSecretOmit<ExtArgs> | null
+    /**
+     * The data used to update TwoFactorSecrets.
+     */
+    data: XOR<TwoFactorSecretUpdateManyMutationInput, TwoFactorSecretUncheckedUpdateManyInput>
+    /**
+     * Filter which TwoFactorSecrets to update
+     */
+    where?: TwoFactorSecretWhereInput
+    /**
+     * Limit how many TwoFactorSecrets to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TwoFactorSecretIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TwoFactorSecret upsert
+   */
+  export type TwoFactorSecretUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TwoFactorSecret
+     */
+    select?: TwoFactorSecretSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TwoFactorSecret
+     */
+    omit?: TwoFactorSecretOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TwoFactorSecretInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TwoFactorSecret to update in case it exists.
+     */
+    where: TwoFactorSecretWhereUniqueInput
+    /**
+     * In case the TwoFactorSecret found by the `where` argument doesn't exist, create a new TwoFactorSecret with this data.
+     */
+    create: XOR<TwoFactorSecretCreateInput, TwoFactorSecretUncheckedCreateInput>
+    /**
+     * In case the TwoFactorSecret was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TwoFactorSecretUpdateInput, TwoFactorSecretUncheckedUpdateInput>
+  }
+
+  /**
+   * TwoFactorSecret delete
+   */
+  export type TwoFactorSecretDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TwoFactorSecret
+     */
+    select?: TwoFactorSecretSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TwoFactorSecret
+     */
+    omit?: TwoFactorSecretOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TwoFactorSecretInclude<ExtArgs> | null
+    /**
+     * Filter which TwoFactorSecret to delete.
+     */
+    where: TwoFactorSecretWhereUniqueInput
+  }
+
+  /**
+   * TwoFactorSecret deleteMany
+   */
+  export type TwoFactorSecretDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TwoFactorSecrets to delete
+     */
+    where?: TwoFactorSecretWhereInput
+    /**
+     * Limit how many TwoFactorSecrets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TwoFactorSecret without action
+   */
+  export type TwoFactorSecretDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TwoFactorSecret
+     */
+    select?: TwoFactorSecretSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TwoFactorSecret
+     */
+    omit?: TwoFactorSecretOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TwoFactorSecretInclude<ExtArgs> | null
   }
 
 
@@ -52069,6 +53263,19 @@ export namespace Prisma {
   export type AuthenticatorScalarFieldEnum = (typeof AuthenticatorScalarFieldEnum)[keyof typeof AuthenticatorScalarFieldEnum]
 
 
+  export const TwoFactorSecretScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    secret: 'secret',
+    backupCodes: 'backupCodes',
+    verified: 'verified',
+    enabledAt: 'enabledAt',
+    createdAt: 'createdAt'
+  };
+
+  export type TwoFactorSecretScalarFieldEnum = (typeof TwoFactorSecretScalarFieldEnum)[keyof typeof TwoFactorSecretScalarFieldEnum]
+
+
   export const PageScalarFieldEnum: {
     id: 'id',
     orgId: 'orgId',
@@ -53131,6 +54338,7 @@ export namespace Prisma {
     auditLogs?: AuditLogListRelationFilter
     templatesCreated?: PostTemplateListRelationFilter
     authenticators?: AuthenticatorListRelationFilter
+    twoFactorSecret?: XOR<TwoFactorSecretNullableScalarRelationFilter, TwoFactorSecretWhereInput> | null
     approvalRequests?: ApprovalRequestListRelationFilter
     approvalReviews?: ApprovalRequestListRelationFilter
     apiKeys?: ApiKeyListRelationFilter
@@ -53171,6 +54379,7 @@ export namespace Prisma {
     auditLogs?: AuditLogOrderByRelationAggregateInput
     templatesCreated?: PostTemplateOrderByRelationAggregateInput
     authenticators?: AuthenticatorOrderByRelationAggregateInput
+    twoFactorSecret?: TwoFactorSecretOrderByWithRelationInput
     approvalRequests?: ApprovalRequestOrderByRelationAggregateInput
     approvalReviews?: ApprovalRequestOrderByRelationAggregateInput
     apiKeys?: ApiKeyOrderByRelationAggregateInput
@@ -53214,6 +54423,7 @@ export namespace Prisma {
     auditLogs?: AuditLogListRelationFilter
     templatesCreated?: PostTemplateListRelationFilter
     authenticators?: AuthenticatorListRelationFilter
+    twoFactorSecret?: XOR<TwoFactorSecretNullableScalarRelationFilter, TwoFactorSecretWhereInput> | null
     approvalRequests?: ApprovalRequestListRelationFilter
     approvalReviews?: ApprovalRequestListRelationFilter
     apiKeys?: ApiKeyListRelationFilter
@@ -54561,6 +55771,71 @@ export namespace Prisma {
     credentialDeviceType?: StringWithAggregatesFilter<"Authenticator"> | string
     credentialBackedUp?: BoolWithAggregatesFilter<"Authenticator"> | boolean
     transports?: StringNullableWithAggregatesFilter<"Authenticator"> | string | null
+  }
+
+  export type TwoFactorSecretWhereInput = {
+    AND?: TwoFactorSecretWhereInput | TwoFactorSecretWhereInput[]
+    OR?: TwoFactorSecretWhereInput[]
+    NOT?: TwoFactorSecretWhereInput | TwoFactorSecretWhereInput[]
+    id?: StringFilter<"TwoFactorSecret"> | string
+    userId?: StringFilter<"TwoFactorSecret"> | string
+    secret?: StringFilter<"TwoFactorSecret"> | string
+    backupCodes?: StringNullableListFilter<"TwoFactorSecret">
+    verified?: BoolFilter<"TwoFactorSecret"> | boolean
+    enabledAt?: DateTimeNullableFilter<"TwoFactorSecret"> | Date | string | null
+    createdAt?: DateTimeFilter<"TwoFactorSecret"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type TwoFactorSecretOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    secret?: SortOrder
+    backupCodes?: SortOrder
+    verified?: SortOrder
+    enabledAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type TwoFactorSecretWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: TwoFactorSecretWhereInput | TwoFactorSecretWhereInput[]
+    OR?: TwoFactorSecretWhereInput[]
+    NOT?: TwoFactorSecretWhereInput | TwoFactorSecretWhereInput[]
+    secret?: StringFilter<"TwoFactorSecret"> | string
+    backupCodes?: StringNullableListFilter<"TwoFactorSecret">
+    verified?: BoolFilter<"TwoFactorSecret"> | boolean
+    enabledAt?: DateTimeNullableFilter<"TwoFactorSecret"> | Date | string | null
+    createdAt?: DateTimeFilter<"TwoFactorSecret"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type TwoFactorSecretOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    secret?: SortOrder
+    backupCodes?: SortOrder
+    verified?: SortOrder
+    enabledAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: TwoFactorSecretCountOrderByAggregateInput
+    _max?: TwoFactorSecretMaxOrderByAggregateInput
+    _min?: TwoFactorSecretMinOrderByAggregateInput
+  }
+
+  export type TwoFactorSecretScalarWhereWithAggregatesInput = {
+    AND?: TwoFactorSecretScalarWhereWithAggregatesInput | TwoFactorSecretScalarWhereWithAggregatesInput[]
+    OR?: TwoFactorSecretScalarWhereWithAggregatesInput[]
+    NOT?: TwoFactorSecretScalarWhereWithAggregatesInput | TwoFactorSecretScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"TwoFactorSecret"> | string
+    userId?: StringWithAggregatesFilter<"TwoFactorSecret"> | string
+    secret?: StringWithAggregatesFilter<"TwoFactorSecret"> | string
+    backupCodes?: StringNullableListFilter<"TwoFactorSecret">
+    verified?: BoolWithAggregatesFilter<"TwoFactorSecret"> | boolean
+    enabledAt?: DateTimeNullableWithAggregatesFilter<"TwoFactorSecret"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"TwoFactorSecret"> | Date | string
   }
 
   export type PageWhereInput = {
@@ -56893,6 +58168,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
@@ -56933,6 +58209,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
@@ -56973,6 +58250,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
@@ -57013,6 +58291,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
@@ -58515,6 +59794,75 @@ export namespace Prisma {
     credentialDeviceType?: StringFieldUpdateOperationsInput | string
     credentialBackedUp?: BoolFieldUpdateOperationsInput | boolean
     transports?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TwoFactorSecretCreateInput = {
+    id?: string
+    secret: string
+    backupCodes?: TwoFactorSecretCreatebackupCodesInput | string[]
+    verified?: boolean
+    enabledAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutTwoFactorSecretInput
+  }
+
+  export type TwoFactorSecretUncheckedCreateInput = {
+    id?: string
+    userId: string
+    secret: string
+    backupCodes?: TwoFactorSecretCreatebackupCodesInput | string[]
+    verified?: boolean
+    enabledAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TwoFactorSecretUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    backupCodes?: TwoFactorSecretUpdatebackupCodesInput | string[]
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    enabledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutTwoFactorSecretNestedInput
+  }
+
+  export type TwoFactorSecretUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    backupCodes?: TwoFactorSecretUpdatebackupCodesInput | string[]
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    enabledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TwoFactorSecretCreateManyInput = {
+    id?: string
+    userId: string
+    secret: string
+    backupCodes?: TwoFactorSecretCreatebackupCodesInput | string[]
+    verified?: boolean
+    enabledAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TwoFactorSecretUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    backupCodes?: TwoFactorSecretUpdatebackupCodesInput | string[]
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    enabledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TwoFactorSecretUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    backupCodes?: TwoFactorSecretUpdatebackupCodesInput | string[]
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    enabledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PageCreateInput = {
@@ -61318,6 +62666,11 @@ export namespace Prisma {
     none?: AuthenticatorWhereInput
   }
 
+  export type TwoFactorSecretNullableScalarRelationFilter = {
+    is?: TwoFactorSecretWhereInput | null
+    isNot?: TwoFactorSecretWhereInput | null
+  }
+
   export type ApprovalRequestListRelationFilter = {
     every?: ApprovalRequestWhereInput
     some?: ApprovalRequestWhereInput
@@ -62561,6 +63914,34 @@ export namespace Prisma {
 
   export type AuthenticatorSumOrderByAggregateInput = {
     counter?: SortOrder
+  }
+
+  export type TwoFactorSecretCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    secret?: SortOrder
+    backupCodes?: SortOrder
+    verified?: SortOrder
+    enabledAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TwoFactorSecretMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    secret?: SortOrder
+    verified?: SortOrder
+    enabledAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type TwoFactorSecretMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    secret?: SortOrder
+    verified?: SortOrder
+    enabledAt?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type PlatformConnectionScalarRelationFilter = {
@@ -64585,6 +65966,12 @@ export namespace Prisma {
     connect?: AuthenticatorWhereUniqueInput | AuthenticatorWhereUniqueInput[]
   }
 
+  export type TwoFactorSecretCreateNestedOneWithoutUserInput = {
+    create?: XOR<TwoFactorSecretCreateWithoutUserInput, TwoFactorSecretUncheckedCreateWithoutUserInput>
+    connectOrCreate?: TwoFactorSecretCreateOrConnectWithoutUserInput
+    connect?: TwoFactorSecretWhereUniqueInput
+  }
+
   export type ApprovalRequestCreateNestedManyWithoutRequesterInput = {
     create?: XOR<ApprovalRequestCreateWithoutRequesterInput, ApprovalRequestUncheckedCreateWithoutRequesterInput> | ApprovalRequestCreateWithoutRequesterInput[] | ApprovalRequestUncheckedCreateWithoutRequesterInput[]
     connectOrCreate?: ApprovalRequestCreateOrConnectWithoutRequesterInput | ApprovalRequestCreateOrConnectWithoutRequesterInput[]
@@ -64681,6 +66068,12 @@ export namespace Prisma {
     connectOrCreate?: AuthenticatorCreateOrConnectWithoutUserInput | AuthenticatorCreateOrConnectWithoutUserInput[]
     createMany?: AuthenticatorCreateManyUserInputEnvelope
     connect?: AuthenticatorWhereUniqueInput | AuthenticatorWhereUniqueInput[]
+  }
+
+  export type TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<TwoFactorSecretCreateWithoutUserInput, TwoFactorSecretUncheckedCreateWithoutUserInput>
+    connectOrCreate?: TwoFactorSecretCreateOrConnectWithoutUserInput
+    connect?: TwoFactorSecretWhereUniqueInput
   }
 
   export type ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput = {
@@ -64850,6 +66243,16 @@ export namespace Prisma {
     update?: AuthenticatorUpdateWithWhereUniqueWithoutUserInput | AuthenticatorUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AuthenticatorUpdateManyWithWhereWithoutUserInput | AuthenticatorUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AuthenticatorScalarWhereInput | AuthenticatorScalarWhereInput[]
+  }
+
+  export type TwoFactorSecretUpdateOneWithoutUserNestedInput = {
+    create?: XOR<TwoFactorSecretCreateWithoutUserInput, TwoFactorSecretUncheckedCreateWithoutUserInput>
+    connectOrCreate?: TwoFactorSecretCreateOrConnectWithoutUserInput
+    upsert?: TwoFactorSecretUpsertWithoutUserInput
+    disconnect?: TwoFactorSecretWhereInput | boolean
+    delete?: TwoFactorSecretWhereInput | boolean
+    connect?: TwoFactorSecretWhereUniqueInput
+    update?: XOR<XOR<TwoFactorSecretUpdateToOneWithWhereWithoutUserInput, TwoFactorSecretUpdateWithoutUserInput>, TwoFactorSecretUncheckedUpdateWithoutUserInput>
   }
 
   export type ApprovalRequestUpdateManyWithoutRequesterNestedInput = {
@@ -65046,6 +66449,16 @@ export namespace Prisma {
     update?: AuthenticatorUpdateWithWhereUniqueWithoutUserInput | AuthenticatorUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AuthenticatorUpdateManyWithWhereWithoutUserInput | AuthenticatorUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AuthenticatorScalarWhereInput | AuthenticatorScalarWhereInput[]
+  }
+
+  export type TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<TwoFactorSecretCreateWithoutUserInput, TwoFactorSecretUncheckedCreateWithoutUserInput>
+    connectOrCreate?: TwoFactorSecretCreateOrConnectWithoutUserInput
+    upsert?: TwoFactorSecretUpsertWithoutUserInput
+    disconnect?: TwoFactorSecretWhereInput | boolean
+    delete?: TwoFactorSecretWhereInput | boolean
+    connect?: TwoFactorSecretWhereUniqueInput
+    update?: XOR<XOR<TwoFactorSecretUpdateToOneWithWhereWithoutUserInput, TwoFactorSecretUpdateWithoutUserInput>, TwoFactorSecretUncheckedUpdateWithoutUserInput>
   }
 
   export type ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput = {
@@ -65766,6 +67179,29 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAuthenticatorsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuthenticatorsInput, UserUpdateWithoutAuthenticatorsInput>, UserUncheckedUpdateWithoutAuthenticatorsInput>
+  }
+
+  export type TwoFactorSecretCreatebackupCodesInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutTwoFactorSecretInput = {
+    create?: XOR<UserCreateWithoutTwoFactorSecretInput, UserUncheckedCreateWithoutTwoFactorSecretInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTwoFactorSecretInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TwoFactorSecretUpdatebackupCodesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutTwoFactorSecretNestedInput = {
+    create?: XOR<UserCreateWithoutTwoFactorSecretInput, UserUncheckedCreateWithoutTwoFactorSecretInput>
+    connectOrCreate?: UserCreateOrConnectWithoutTwoFactorSecretInput
+    upsert?: UserUpsertWithoutTwoFactorSecretInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutTwoFactorSecretInput, UserUpdateWithoutTwoFactorSecretInput>, UserUncheckedUpdateWithoutTwoFactorSecretInput>
   }
 
   export type OrganizationCreateNestedOneWithoutPagesInput = {
@@ -69031,6 +70467,29 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TwoFactorSecretCreateWithoutUserInput = {
+    id?: string
+    secret: string
+    backupCodes?: TwoFactorSecretCreatebackupCodesInput | string[]
+    verified?: boolean
+    enabledAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TwoFactorSecretUncheckedCreateWithoutUserInput = {
+    id?: string
+    secret: string
+    backupCodes?: TwoFactorSecretCreatebackupCodesInput | string[]
+    verified?: boolean
+    enabledAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type TwoFactorSecretCreateOrConnectWithoutUserInput = {
+    where: TwoFactorSecretWhereUniqueInput
+    create: XOR<TwoFactorSecretCreateWithoutUserInput, TwoFactorSecretUncheckedCreateWithoutUserInput>
+  }
+
   export type ApprovalRequestCreateWithoutRequesterInput = {
     id?: string
     status?: string
@@ -69357,6 +70816,35 @@ export namespace Prisma {
     transports?: StringNullableFilter<"Authenticator"> | string | null
   }
 
+  export type TwoFactorSecretUpsertWithoutUserInput = {
+    update: XOR<TwoFactorSecretUpdateWithoutUserInput, TwoFactorSecretUncheckedUpdateWithoutUserInput>
+    create: XOR<TwoFactorSecretCreateWithoutUserInput, TwoFactorSecretUncheckedCreateWithoutUserInput>
+    where?: TwoFactorSecretWhereInput
+  }
+
+  export type TwoFactorSecretUpdateToOneWithWhereWithoutUserInput = {
+    where?: TwoFactorSecretWhereInput
+    data: XOR<TwoFactorSecretUpdateWithoutUserInput, TwoFactorSecretUncheckedUpdateWithoutUserInput>
+  }
+
+  export type TwoFactorSecretUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    backupCodes?: TwoFactorSecretUpdatebackupCodesInput | string[]
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    enabledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TwoFactorSecretUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    secret?: StringFieldUpdateOperationsInput | string
+    backupCodes?: TwoFactorSecretUpdatebackupCodesInput | string[]
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    enabledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ApprovalRequestUpsertWithWhereUniqueWithoutRequesterInput = {
     where: ApprovalRequestWhereUniqueInput
     update: XOR<ApprovalRequestUpdateWithoutRequesterInput, ApprovalRequestUncheckedUpdateWithoutRequesterInput>
@@ -69528,6 +71016,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
@@ -69567,6 +71056,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
@@ -69622,6 +71112,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
@@ -69661,6 +71152,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
@@ -69700,6 +71192,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
@@ -69739,6 +71232,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
@@ -69794,6 +71288,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
@@ -69833,6 +71328,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
@@ -69871,6 +71367,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
@@ -69910,6 +71407,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
@@ -70066,6 +71564,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
@@ -70105,6 +71604,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
@@ -70352,6 +71852,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
@@ -70391,6 +71892,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
@@ -70553,6 +72055,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
@@ -70592,6 +72095,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
@@ -70732,6 +72236,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
@@ -70771,6 +72276,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
@@ -71001,6 +72507,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
@@ -71040,6 +72547,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
@@ -71259,6 +72767,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
@@ -71298,6 +72807,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
@@ -71591,6 +73101,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
@@ -71630,6 +73141,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
@@ -71892,6 +73404,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
@@ -71931,6 +73444,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
@@ -72326,6 +73840,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
@@ -72365,6 +73880,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
@@ -72921,6 +74437,7 @@ export namespace Prisma {
     postsApproved?: PostCreateNestedManyWithoutApproverInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
@@ -72960,6 +74477,7 @@ export namespace Prisma {
     postsApproved?: PostUncheckedCreateNestedManyWithoutApproverInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
@@ -73122,6 +74640,7 @@ export namespace Prisma {
     postsApproved?: PostUpdateManyWithoutApproverNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
@@ -73161,6 +74680,7 @@ export namespace Prisma {
     postsApproved?: PostUncheckedUpdateManyWithoutApproverNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
@@ -73301,6 +74821,7 @@ export namespace Prisma {
     postsApproved?: PostCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
@@ -73340,6 +74861,7 @@ export namespace Prisma {
     postsApproved?: PostUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
@@ -73502,6 +75024,7 @@ export namespace Prisma {
     postsApproved?: PostUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
@@ -73541,6 +75064,7 @@ export namespace Prisma {
     postsApproved?: PostUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
@@ -73580,6 +75104,7 @@ export namespace Prisma {
     postsApproved?: PostCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
@@ -73619,6 +75144,7 @@ export namespace Prisma {
     postsApproved?: PostUncheckedCreateNestedManyWithoutApproverInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
@@ -73674,6 +75200,7 @@ export namespace Prisma {
     postsApproved?: PostUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
@@ -73713,6 +75240,183 @@ export namespace Prisma {
     postsApproved?: PostUncheckedUpdateManyWithoutApproverNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
+    approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
+    approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutTwoFactorSecretInput = {
+    id?: string
+    email: string
+    name?: string | null
+    avatar?: string | null
+    emailVerified?: Date | string | null
+    password?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    timezone?: string
+    locale?: string
+    dateFormat?: string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    loginCount?: number
+    status?: $Enums.UserStatus
+    systemRole?: $Enums.SystemRole
+    onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
+    invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
+    connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
+    campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
+    postsApproved?: PostCreateNestedManyWithoutApproverInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
+    authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
+    approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutTwoFactorSecretInput = {
+    id?: string
+    email: string
+    name?: string | null
+    avatar?: string | null
+    emailVerified?: Date | string | null
+    password?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    timezone?: string
+    locale?: string
+    dateFormat?: string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    loginCount?: number
+    status?: $Enums.UserStatus
+    systemRole?: $Enums.SystemRole
+    onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
+    invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
+    connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
+    campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
+    postsApproved?: PostUncheckedCreateNestedManyWithoutApproverInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
+    authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
+    approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutTwoFactorSecretInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutTwoFactorSecretInput, UserUncheckedCreateWithoutTwoFactorSecretInput>
+  }
+
+  export type UserUpsertWithoutTwoFactorSecretInput = {
+    update: XOR<UserUpdateWithoutTwoFactorSecretInput, UserUncheckedUpdateWithoutTwoFactorSecretInput>
+    create: XOR<UserCreateWithoutTwoFactorSecretInput, UserUncheckedCreateWithoutTwoFactorSecretInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutTwoFactorSecretInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutTwoFactorSecretInput, UserUncheckedUpdateWithoutTwoFactorSecretInput>
+  }
+
+  export type UserUpdateWithoutTwoFactorSecretInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    dateFormat?: StringFieldUpdateOperationsInput | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
+    onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
+    invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
+    connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
+    campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
+    postsApproved?: PostUpdateManyWithoutApproverNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
+    authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
+    approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutTwoFactorSecretInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    dateFormat?: StringFieldUpdateOperationsInput | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
+    onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
+    invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
+    connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
+    campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
+    postsApproved?: PostUncheckedUpdateManyWithoutApproverNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
+    authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
@@ -75565,6 +77269,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -75604,6 +77309,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -75648,6 +77354,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -75687,6 +77394,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -75805,6 +77513,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -75844,6 +77553,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -75894,6 +77604,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -75933,6 +77644,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -77868,6 +79580,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -77907,6 +79620,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -77962,6 +79676,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -78001,6 +79716,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -78435,6 +80151,7 @@ export namespace Prisma {
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
@@ -78474,6 +80191,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
     templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
     authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    twoFactorSecret?: TwoFactorSecretUncheckedCreateNestedOneWithoutUserInput
     approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
     approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
     apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
@@ -78529,6 +80247,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
@@ -78568,6 +80287,7 @@ export namespace Prisma {
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
     templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
     authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    twoFactorSecret?: TwoFactorSecretUncheckedUpdateOneWithoutUserNestedInput
     approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput

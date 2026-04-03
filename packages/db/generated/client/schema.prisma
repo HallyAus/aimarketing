@@ -240,6 +240,7 @@ model User {
   auditLogs          AuditLog[]
   templatesCreated   PostTemplate[]       @relation("TemplateCreatedBy")
   authenticators     Authenticator[]
+  twoFactorSecret    TwoFactorSecret?
   approvalRequests   ApprovalRequest[]    @relation("ApprovalRequester")
   approvalReviews    ApprovalRequest[]    @relation("ApprovalReviewer")
   apiKeys            ApiKey[]
@@ -551,6 +552,18 @@ model Authenticator {
 
   @@id([userId, credentialID])
   @@index([userId])
+}
+
+model TwoFactorSecret {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  secret      String // base32-encoded TOTP secret
+  backupCodes String[] // hashed backup codes
+  verified    Boolean   @default(false)
+  enabledAt   DateTime?
+  createdAt   DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // ── Page / Account Segregation ──────────────────────────────────────────

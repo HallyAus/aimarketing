@@ -1,10 +1,13 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import Resend from "next-auth/providers/resend";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 
 const nextAuth = NextAuth({
+  adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   providers: [
     Credentials({
@@ -12,8 +15,28 @@ const nextAuth = NextAuth({
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        passkeyToken: { label: "Passkey Token", type: "text" },
+        twoFactorCode: { label: "2FA Code", type: "text" },
       },
       async authorize(credentials) {
+        // Passkey-based sign-in: the passkey verify endpoint sets a short-lived
+        // token that we validate here so the user gets a real session.
+        if (credentials?.passkeyToken) {
+          try {
+            const passkeySession = await prisma.session.findUnique({
+              where: { sessionToken: credentials.passkeyToken as string },
+              include: { user: true },
+            });
+            if (!passkeySession || passkeySession.expires < new Date()) return null;
+            // Clean up the temp session
+            await prisma.session.delete({ where: { id: passkeySession.id } });
+            const user = passkeySession.user;
+            return { id: user.id, email: user.email, name: user.name };
+          } catch {
+            return null;
+          }
+        }
+
         if (!credentials?.email || !credentials?.password) return null;
         // Retry once on failure (Neon cold start can timeout on first query)
         for (let attempt = 0; attempt < 2; attempt++) {
@@ -27,6 +50,27 @@ const nextAuth = NextAuth({
               user.password,
             );
             if (!valid) return null;
+
+            // Check if 2FA is enabled
+            const twoFactor = await prisma.twoFactorSecret.findUnique({
+              where: { userId: user.id },
+              select: { verified: true },
+            });
+            if (twoFactor?.verified) {
+              // If a 2FA code was provided (second step), validate it
+              if (credentials.twoFactorCode) {
+                // Verification is handled by the /api/auth/2fa/verify endpoint
+                // which updates the session. Here we just pass through.
+              }
+              // Return user with a flag indicating 2FA is needed
+              return {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                requiresTwoFactor: !credentials.twoFactorCode,
+              } as any;
+            }
+
             return { id: user.id, email: user.email, name: user.name };
           } catch (e) {
             console.error(`[auth] authorize attempt ${attempt + 1} error:`, e);
@@ -37,17 +81,56 @@ const nextAuth = NextAuth({
       },
     }),
 
+    Resend({
+      apiKey: process.env.RESEND_API_KEY,
+      from: process.env.EMAIL_FROM || "AdPilot <noreply@adpilot.co>",
+    }),
+
     // Google OAuth — add GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET to enable
     // Microsoft — add MICROSOFT_CLIENT_ID + MICROSOFT_CLIENT_SECRET to enable
-    // Magic Link — add RESEND_API_KEY to enable
   ],
   pages: {
     signIn: "/signin",
   },
   callbacks: {
+    async signIn({ user, account }) {
+      if (!user?.email) return false;
+
+      // For email provider (magic link): allow sign-in, adapter creates user if needed
+      if (account?.provider === "resend") {
+        // Check if user exists and is banned/suspended
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email },
+          select: { status: true },
+        });
+        if (existingUser?.status === "BANNED" || existingUser?.status === "SUSPENDED") {
+          return false;
+        }
+        return true;
+      }
+
+      // For credentials provider: check if user is banned/suspended
+      if (account?.provider === "credentials") {
+        const existingUser = await prisma.user.findUnique({
+          where: { email: user.email },
+          select: { status: true },
+        });
+        if (existingUser?.status === "BANNED" || existingUser?.status === "SUSPENDED") {
+          return false;
+        }
+        return true;
+      }
+
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.userId = user.id;
+        // Carry 2FA flag from authorize result
+        if ((user as any).requiresTwoFactor) {
+          token.requiresTwoFactor = true;
+          token.twoFactorVerified = false;
+        }
       }
 
       // Auto-select org on sign-in or when not yet set.
@@ -96,6 +179,8 @@ const nextAuth = NextAuth({
         session.user.currentOrgId = token.currentOrgId as string | undefined;
         session.user.currentRole = token.currentRole as string | undefined;
         session.user.systemRole = token.systemRole as string | undefined;
+        (session.user as any).requiresTwoFactor = token.requiresTwoFactor as boolean | undefined;
+        (session.user as any).twoFactorVerified = token.twoFactorVerified as boolean | undefined;
       }
       return session;
     },

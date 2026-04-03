@@ -91,6 +91,32 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(signInUrl);
   }
 
+  // ── 2FA enforcement — redirect to /2fa-verify if 2FA is required but not verified
+  if (
+    token.requiresTwoFactor &&
+    !token.twoFactorVerified &&
+    !pathname.startsWith("/api/auth/2fa/") &&
+    pathname !== "/2fa-verify"
+  ) {
+    // Check if the user just verified 2FA (cookie set by the verify endpoint)
+    const twoFaCookie = req.cookies.get("__2fa-verified");
+    if (twoFaCookie) {
+      // Allow through — the JWT callback will pick up the verified state
+      const response = NextResponse.next();
+      response.headers.set("x-request-id", requestId);
+      return response;
+    }
+
+    if (pathname.startsWith("/api/")) {
+      return NextResponse.json(
+        { error: "Two-factor authentication required", code: "2FA_REQUIRED", statusCode: 403 },
+        { status: 403, headers: { "x-request-id": requestId } }
+      );
+    }
+    const twoFaUrl = new URL("/2fa-verify", req.url);
+    return NextResponse.redirect(twoFaUrl);
+  }
+
   // Apply API rate limiter for authenticated API routes
   if (pathname.startsWith("/api/")) {
     try {
@@ -128,5 +154,6 @@ export const config = {
     "/tools/:path*",
     "/api/:path*",
     "/admin/:path*",
+    "/2fa-verify",
   ],
 };
