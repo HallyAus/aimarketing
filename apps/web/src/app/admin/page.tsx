@@ -77,7 +77,14 @@ export default async function AdminDashboard() {
     prisma.auditLog.findMany({
       take: 20,
       orderBy: { createdAt: "desc" },
-      include: { user: { select: { name: true, email: true } } },
+      select: {
+        id: true,
+        action: true,
+        entityType: true,
+        entityId: true,
+        createdAt: true,
+        user: { select: { name: true, email: true } },
+      },
     }),
 
     // Posts scheduled next 24h

@@ -306,7 +306,15 @@ export default async function DashboardPage({
         scheduledAt: { gte: now, lte: in48h },
         ...pf,
       },
-      include: { campaign: { select: { id: true, name: true } } },
+      select: {
+        id: true,
+        platform: true,
+        content: true,
+        scheduledAt: true,
+        status: true,
+        pageName: true,
+        campaign: { select: { id: true, name: true } },
+      },
       orderBy: { scheduledAt: "asc" },
       take: 10,
     }),
@@ -343,14 +351,34 @@ export default async function DashboardPage({
         scheduledAt: { gte: now, lte: in7d },
         ...pf,
       },
-      include: { campaign: { select: { name: true } } },
+      select: {
+        id: true,
+        campaignId: true,
+        platform: true,
+        content: true,
+        scheduledAt: true,
+        publishedAt: true,
+        status: true,
+        pageName: true,
+        campaign: { select: { name: true } },
+      },
       orderBy: { scheduledAt: "asc" },
       take: 20,
     }),
     // Recent published posts (for tabs section)
     prisma.post.findMany({
       where: { orgId: org.id, status: "PUBLISHED", ...pf },
-      include: { campaign: { select: { name: true } } },
+      select: {
+        id: true,
+        campaignId: true,
+        platform: true,
+        content: true,
+        scheduledAt: true,
+        publishedAt: true,
+        status: true,
+        pageName: true,
+        campaign: { select: { name: true } },
+      },
       orderBy: { publishedAt: "desc" },
       take: 10,
     }),
@@ -381,14 +409,21 @@ export default async function DashboardPage({
       entry.postCount += page._count.posts;
     }
   }
-  // For connected platforms with no pages, count posts by platform directly
-  for (const [platform, entry] of platformMap) {
-    if (entry.pages.length === 0 && entry.connections.length > 0) {
-      const count = await prisma.post.count({
-        where: { orgId: org.id, platform: platform as never },
-      });
-      entry.postCount = count;
-    }
+  // For connected platforms with no pages, count posts by platform in parallel
+  const pagelessPlatforms = Array.from(platformMap.entries())
+    .filter(([, entry]) => entry.pages.length === 0 && entry.connections.length > 0);
+
+  if (pagelessPlatforms.length > 0) {
+    const counts = await Promise.all(
+      pagelessPlatforms.map(([platform]) =>
+        prisma.post.count({
+          where: { orgId: org.id, platform: platform as never },
+        }),
+      ),
+    );
+    pagelessPlatforms.forEach(([platform], i) => {
+      platformMap.get(platform)!.postCount = counts[i]!;
+    });
   }
 
   const connectedPlatformCount = platformMap.size;

@@ -15,7 +15,7 @@ export async function GET(req: Request) {
   const now = new Date();
   const masterKey = process.env.MASTER_ENCRYPTION_KEY ?? "";
 
-  // Find all scheduled posts that are due
+  // Find all scheduled posts that are due — eagerly load connections and pages to avoid N+1
   const duePosts = await prisma.post.findMany({
     where: {
       status: "SCHEDULED",
@@ -23,6 +23,7 @@ export async function GET(req: Request) {
     },
     include: {
       organization: { select: { publishingPaused: true } },
+      page: { select: { accessToken: true, platformPageId: true } },
     },
     take: 20, // Process max 20 per invocation to stay within Vercel timeout
     orderBy: { scheduledAt: "asc" },
@@ -31,6 +32,20 @@ export async function GET(req: Request) {
   if (duePosts.length === 0) {
     return NextResponse.json({ published: 0, message: "No posts due" });
   }
+
+  // Batch-fetch active connections for all unique orgId+platform pairs
+  const orgPlatformPairs = [...new Set(duePosts.map((p) => `${p.orgId}:${p.platform}`))];
+  const allConnections = await prisma.platformConnection.findMany({
+    where: {
+      OR: orgPlatformPairs.map((pair) => {
+        const [orgId, platform] = pair.split(":");
+        return { orgId: orgId!, platform: platform as never, status: "ACTIVE" as const };
+      }),
+    },
+  });
+  const connectionMap = new Map(
+    allConnections.map((c) => [`${c.orgId}:${c.platform}`, c]),
+  );
 
   const results: Array<{ postId: string; status: string; error?: string }> = [];
 
@@ -41,14 +56,8 @@ export async function GET(req: Request) {
       continue;
     }
 
-    // Find the connection for this platform + org
-    const connection = await prisma.platformConnection.findFirst({
-      where: {
-        orgId: post.orgId,
-        platform: post.platform,
-        status: "ACTIVE",
-      },
-    });
+    // Look up connection from pre-fetched map
+    const connection = connectionMap.get(`${post.orgId}:${post.platform}`);
 
     if (!connection) {
       await prisma.post.update({
@@ -64,19 +73,10 @@ export async function GET(req: Request) {
     let pageUserId = connection.platformUserId;
 
     try {
-      // First, try to resolve from the Page model (first-class entity)
-      if (post.pageId) {
-        const pageRecord = await prisma.page.findUnique({
-          where: { id: post.pageId },
-          select: { accessToken: true, platformPageId: true },
-        });
-        if (pageRecord) {
-          accessToken = decrypt(pageRecord.accessToken, masterKey);
-          pageUserId = pageRecord.platformPageId;
-        } else {
-          // Fall back to connection metadata
-          accessToken = decrypt(connection.accessToken, masterKey);
-        }
+      // First, try to resolve from the eagerly-loaded Page record
+      if (post.pageId && post.page) {
+        accessToken = decrypt(post.page.accessToken, masterKey);
+        pageUserId = post.page.platformPageId;
       } else if ((post.platform === "FACEBOOK" || post.platform === "INSTAGRAM") && connection.metadata) {
         // Legacy fallback: look up from connection metadata
         const meta = connection.metadata as Record<string, unknown>;

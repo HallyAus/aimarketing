@@ -186,6 +186,8 @@ model Organization {
   @@index([plan])
   @@index([subscriptionStatus])
   @@index([createdAt])
+  @@index([plan, subscriptionStatus, deletedAt])
+  @@index([plan, subscriptionStatus, billingCycle, deletedAt])
 }
 
 model User {
@@ -287,6 +289,7 @@ model Membership {
 
   @@unique([userId, orgId])
   @@index([orgId])
+  @@index([userId])
 }
 
 model Invitation {
@@ -400,6 +403,9 @@ model Post {
   @@index([status, scheduledAt])
   @@index([campaignId])
   @@index([approvedBy])
+  @@index([orgId, status])
+  @@index([orgId, pageId, status])
+  @@index([orgId, status, publishedAt])
 }
 
 model Creative {
@@ -521,6 +527,7 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+  @@index([userId])
 }
 
 // ── Page / Account Segregation ──────────────────────────────────────────
@@ -559,6 +566,7 @@ model Page {
   @@unique([orgId, platform, platformPageId])
   @@index([orgId])
   @@index([connectionId])
+  @@index([orgId, isActive])
 }
 
 // ── Future-proof Models ─────────────────────────────────────────────────
@@ -624,6 +632,10 @@ model ApprovalRequest {
   post      Post  @relation(fields: [postId], references: [id], onDelete: Cascade)
   requester User  @relation("ApprovalRequester", fields: [requestedBy], references: [id])
   reviewer  User? @relation("ApprovalReviewer", fields: [reviewedBy], references: [id])
+
+  @@index([requestedBy])
+  @@index([reviewedBy])
+  @@index([status])
 }
 
 model RssFeed {
@@ -643,6 +655,7 @@ model RssFeed {
   page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
 
   @@index([pageId])
+  @@index([isActive])
 }
 
 model WebhookRule {
@@ -661,6 +674,7 @@ model WebhookRule {
   page         Page?        @relation(fields: [pageId], references: [id])
 
   @@index([orgId])
+  @@index([pageId])
 }
 
 model LeadCapture {
@@ -718,6 +732,7 @@ model PerformanceReport {
   page         Page?        @relation(fields: [pageId], references: [id])
 
   @@index([orgId])
+  @@index([pageId])
 }
 
 // ── Admin & Billing Models ──────────────────────────────────────────────
@@ -745,6 +760,7 @@ model Invoice {
   @@index([orgId])
   @@index([status])
   @@index([createdAt])
+  @@index([orgId, status])
 }
 
 model UsageRecord {
@@ -793,6 +809,7 @@ model ApiKey {
 
   @@index([keyHash])
   @@index([orgId])
+  @@index([userId])
 }
 
 model FeatureFlag {
