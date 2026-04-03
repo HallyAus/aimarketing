@@ -33,6 +33,7 @@ export const GET = withErrorHandler(
         id: true,
         platform: true,
         content: true,
+        mediaUrls: true,
         sourceUrl: true,
         tone: true,
         status: true,

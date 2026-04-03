@@ -12,6 +12,7 @@ interface Draft {
   id: string;
   platform: string;
   content: string;
+  mediaUrls: string[];
   sourceUrl: string | null;
   tone: string | null;
   pageId: string | null;
@@ -50,7 +51,7 @@ export default function DraftsPage() {
   const [scheduleInterval, setScheduleInterval] = useState("360");
   const [actionLoading, setActionLoading] = useState(false);
   const [autoScheduleLoading, setAutoScheduleLoading] = useState<string | null>(null);
-  const [sentimentScores, setSentimentScores] = useState<Record<string, { sentiment: string; score: number; suggestions: string[] }>>({});
+  const [sentimentScores, setSentimentScores] = useState<Record<string, { sentiment: string; score: number; suggestions: string[]; improvedVersion: string }>>({});
   const [sentimentLoading, setSentimentLoading] = useState<Set<string>>(new Set());
   const [batchSentimentLoading, setBatchSentimentLoading] = useState(false);
 
@@ -590,12 +591,22 @@ export default function DraftsPage() {
                   </div>
                 </div>
               ) : (
-                <p
-                  className="whitespace-pre-wrap text-sm mb-3"
-                  style={{ color: "var(--text-primary)" }}
-                >
-                  {draft.content}
-                </p>
+                <>
+                  {/* Draft images */}
+                  {draft.mediaUrls?.length > 0 && (
+                    <div className="flex gap-2 mb-3 overflow-x-auto" style={{ WebkitOverflowScrolling: "touch" as const }}>
+                      {draft.mediaUrls.slice(0, 4).map((url, i) => (
+                        <img key={i} src={url} alt={`Media ${i + 1}`} className="rounded-lg flex-shrink-0" style={{ height: 100, maxWidth: 160, objectFit: "cover" }} />
+                      ))}
+                    </div>
+                  )}
+                  <p
+                    className="whitespace-pre-wrap text-sm mb-3"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    {draft.content}
+                  </p>
+                </>
               )}
 
               {/* Actions */}

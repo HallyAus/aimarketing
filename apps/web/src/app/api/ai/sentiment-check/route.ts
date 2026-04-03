@@ -9,7 +9,7 @@ function getClient(): Anthropic {
   return _client;
 }
 
-// POST /api/ai/sentiment-check — lightweight single-post sentiment analysis
+// POST /api/ai/sentiment-check — sentiment analysis + improved version
 export const POST = withErrorHandler(
   withRole("EDITOR", async (req) => {
     const { content } = await req.json();
@@ -30,11 +30,11 @@ export const POST = withErrorHandler(
 
     const response = await getClient().messages.create({
       model: "claude-sonnet-4-6",
-      max_tokens: 1024,
+      max_tokens: 2048,
       messages: [
         {
           role: "user",
-          content: `Analyze the sentiment and effectiveness of this social media post. Be concise.
+          content: `Analyze the sentiment and effectiveness of this social media post, then write an improved version.
 
 Post: "${content}"
 
@@ -42,7 +42,8 @@ Return ONLY valid JSON (no markdown, no code fences):
 {
   "sentiment": "positive" | "neutral" | "negative",
   "score": 0-100,
-  "suggestions": ["max 3 short actionable suggestions to improve the post's tone and engagement"]
+  "suggestions": ["max 3 short actionable suggestions"],
+  "improvedVersion": "A rewritten version of the post that scores higher — more engaging, better hooks, stronger CTA, improved tone. Keep the same core message but make it significantly better. Match the approximate length."
 }`,
         },
       ],
@@ -58,6 +59,7 @@ Return ONLY valid JSON (no markdown, no code fences):
       sentiment: result.sentiment ?? "neutral",
       score: typeof result.score === "number" ? result.score : 50,
       suggestions: Array.isArray(result.suggestions) ? result.suggestions.slice(0, 3) : [],
+      improvedVersion: typeof result.improvedVersion === "string" ? result.improvedVersion : "",
     });
   }),
 );

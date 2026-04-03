@@ -15,6 +15,7 @@ interface PostData {
   id: string;
   platform: string;
   content: string;
+  mediaUrls: string[];
   status: string;
   scheduledAt: string | null;
   publishedAt: string | null;
@@ -90,7 +91,7 @@ export default function CampaignPostsManager({
   const [campaignData, setCampaignData] = useState(initialCampaign);
 
   // Sentiment check state
-  const [sentimentScores, setSentimentScores] = useState<Record<string, { sentiment: string; score: number; suggestions: string[] }>>({});
+  const [sentimentScores, setSentimentScores] = useState<Record<string, { sentiment: string; score: number; suggestions: string[]; improvedVersion: string }>>({});
   const [sentimentLoading, setSentimentLoading] = useState<Set<string>>(new Set());
 
   // FIX 12: Batch schedule modal state
@@ -552,6 +553,34 @@ export default function CampaignPostsManager({
     }
   };
 
+  /* ---- Apply improved version ---- */
+
+  const applyImprovedVersion = async (post: PostData, newContent: string) => {
+    setLoadingAction(`improve-${post.id}`);
+    clearError();
+    try {
+      const res = await fetch(`/api/posts/${post.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: newContent, version: post.version }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Failed to update");
+        return;
+      }
+      const updated = await res.json();
+      setPosts((prev) => prev.map((p) => (p.id === post.id ? { ...p, ...updated, content: newContent, scheduledAt: updated.scheduledAt ?? p.scheduledAt, approver: p.approver, mediaUrls: p.mediaUrls } : p)));
+      setSentimentScores((prev) => { const next = { ...prev }; delete next[post.id]; return next; });
+      setSuccessMessage("Post updated with improved version");
+      setTimeout(() => setSuccessMessage(null), 3000);
+    } catch {
+      setError("Failed to apply improvement");
+    } finally {
+      setLoadingAction(null);
+    }
+  };
+
   /* ---- Helpers ---- */
 
   const formatDate = (d: string | null) => {
@@ -808,7 +837,7 @@ export default function CampaignPostsManager({
                     <StatusBadge status={post.status} />
                     {sentimentScores[post.id] ? (
                       <span
-                        className="text-[10px] px-1.5 py-0.5 rounded font-semibold"
+                        className="text-xs px-2.5 py-1 rounded-md font-bold"
                         style={{
                           background: sentimentScores[post.id]!.sentiment === "positive" ? "var(--accent-emerald)" : sentimentScores[post.id]!.sentiment === "negative" ? "var(--accent-red)" : "var(--accent-amber)",
                           color: "#fff",
@@ -820,10 +849,15 @@ export default function CampaignPostsManager({
                       <button
                         onClick={() => checkSentiment(post.id, post.content)}
                         disabled={sentimentLoading.has(post.id)}
-                        className="text-[10px] font-medium"
-                        style={{ color: "var(--accent-blue)", background: "none", border: "none", cursor: "pointer", padding: "2px 4px" }}
+                        className="text-xs font-semibold px-2.5 py-1 rounded-md"
+                        style={{
+                          background: sentimentLoading.has(post.id) ? "var(--bg-tertiary)" : "var(--accent-blue-muted)",
+                          color: "var(--accent-blue)",
+                          border: "1px solid var(--accent-blue)",
+                          cursor: sentimentLoading.has(post.id) ? "wait" : "pointer",
+                        }}
                       >
-                        {sentimentLoading.has(post.id) ? "..." : "Score"}
+                        {sentimentLoading.has(post.id) ? "Scoring..." : "AI Score"}
                       </button>
                     )}
                   </div>
@@ -935,6 +969,25 @@ export default function CampaignPostsManager({
                   </div>
                 ) : (
                   <div className="mb-3">
+                    {/* Post images */}
+                    {post.mediaUrls.length > 0 && (
+                      <div className="flex gap-2 mb-3 overflow-x-auto" style={{ WebkitOverflowScrolling: "touch" }}>
+                        {post.mediaUrls.slice(0, 4).map((url, i) => (
+                          <img
+                            key={i}
+                            src={url}
+                            alt={`Media ${i + 1}`}
+                            className="rounded-lg flex-shrink-0"
+                            style={{ height: 120, maxWidth: 200, objectFit: "cover" }}
+                          />
+                        ))}
+                        {post.mediaUrls.length > 4 && (
+                          <span className="text-xs self-center px-2" style={{ color: "var(--text-tertiary)" }}>
+                            +{post.mediaUrls.length - 4} more
+                          </span>
+                        )}
+                      </div>
+                    )}
                     <p className="text-sm leading-relaxed whitespace-pre-wrap m-0" style={{ color: "var(--text-primary)" }}>
                       {displayContent}
                     </p>
@@ -950,26 +1003,54 @@ export default function CampaignPostsManager({
                   </div>
                 )}
 
-                {/* ---- Sentiment suggestions ---- */}
-                {(sentimentScores[post.id]?.suggestions?.length ?? 0) > 0 && (
-                  <div className="mb-3 rounded-md p-2" style={{ background: "var(--bg-tertiary)", border: "1px solid var(--border-primary)" }}>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-semibold" style={{ color: "var(--text-secondary)" }}>Sentiment suggestions</span>
-                      <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "var(--bg-primary)" }}>
+                {/* ---- Sentiment: suggestions + improved version ---- */}
+                {sentimentScores[post.id] && (
+                  <div className="mb-3 rounded-lg overflow-hidden" style={{ border: "1px solid var(--border-primary)" }}>
+                    {/* Score bar */}
+                    <div className="flex items-center gap-2 p-2.5" style={{ background: "var(--bg-tertiary)" }}>
+                      <span className="text-xs font-semibold" style={{ color: "var(--text-secondary)" }}>AI Analysis</span>
+                      <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: "var(--bg-primary)" }}>
                         <div
-                          className="h-full rounded-full"
+                          className="h-full rounded-full transition-all"
                           style={{
                             width: `${sentimentScores[post.id]!.score}%`,
                             background: sentimentScores[post.id]!.sentiment === "positive" ? "var(--accent-emerald)" : sentimentScores[post.id]!.sentiment === "negative" ? "var(--accent-red)" : "var(--accent-amber)",
                           }}
                         />
                       </div>
+                      <span className="text-xs font-bold" style={{ color: "var(--text-primary)" }}>{sentimentScores[post.id]!.score}</span>
                     </div>
-                    {sentimentScores[post.id]!.suggestions.map((s, i) => (
-                      <p key={i} className="text-xs m-0 mt-1" style={{ color: "var(--text-secondary)" }}>
-                        <span style={{ color: "var(--accent-blue)" }}>&#8226;</span> {s}
-                      </p>
-                    ))}
+
+                    {/* Suggestions */}
+                    {sentimentScores[post.id]!.suggestions.length > 0 && (
+                      <div className="px-2.5 py-2" style={{ borderTop: "1px solid var(--border-primary)" }}>
+                        {sentimentScores[post.id]!.suggestions.map((s, i) => (
+                          <p key={i} className="text-xs m-0 mt-1" style={{ color: "var(--text-secondary)" }}>
+                            <span style={{ color: "var(--accent-blue)" }}>&#8226;</span> {s}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Improved version */}
+                    {sentimentScores[post.id]!.improvedVersion && (
+                      <div className="p-2.5" style={{ background: "var(--accent-blue-muted)", borderTop: "1px solid var(--accent-blue)" }}>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-xs font-semibold" style={{ color: "var(--accent-blue)" }}>Suggested Improvement</span>
+                          <button
+                            onClick={() => applyImprovedVersion(post, sentimentScores[post.id]!.improvedVersion)}
+                            disabled={isLoading(`improve-${post.id}`)}
+                            className="text-xs font-bold px-3 py-1 rounded-md"
+                            style={{ background: "var(--accent-blue)", color: "#fff", border: "none", cursor: "pointer" }}
+                          >
+                            {isLoading(`improve-${post.id}`) ? "Applying..." : "Use This Version"}
+                          </button>
+                        </div>
+                        <p className="text-xs leading-relaxed whitespace-pre-wrap m-0" style={{ color: "var(--text-primary)" }}>
+                          {sentimentScores[post.id]!.improvedVersion}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
 

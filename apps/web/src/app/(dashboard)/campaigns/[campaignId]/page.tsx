@@ -50,6 +50,7 @@ export default async function CampaignDetailPage({
       errorMessage: p.errorMessage ?? null,
       pageId: p.pageId ?? null,
       pageName: p.pageName ?? null,
+      mediaUrls: p.mediaUrls ?? [],
       version: p.version,
       createdAt: p.createdAt.toISOString(),
       approver: p.approver,
