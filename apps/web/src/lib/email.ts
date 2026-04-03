@@ -39,7 +39,7 @@ function getResend(): import("resend").Resend | null {
 // Public API
 // ---------------------------------------------------------------------------
 
-const DEFAULT_FROM = "AdPilot <noreply@adpilot.com>";
+const DEFAULT_FROM = "AdPilot <onboarding@resend.dev>";
 
 /**
  * Send an email via Resend. Falls back to logging the email when no
