@@ -15,49 +15,59 @@ export interface ActiveAccount {
 // Queries Page records first; falls back to PlatformConnections if no pages exist
 export const GET = withErrorHandler(
   withAuth(async (req) => {
-    // Query Page model records directly — these are the first-class entities
-    const pages = await prisma.page.findMany({
-      where: { orgId: req.orgId, isActive: true },
-      select: {
-        id: true,
-        platform: true,
-        name: true,
-        platformPageId: true,
-        connectionId: true,
-      },
-    });
+    // Query both pages and connections in parallel
+    const [pages, connections] = await Promise.all([
+      prisma.page.findMany({
+        where: { orgId: req.orgId, isActive: true },
+        select: {
+          id: true,
+          platform: true,
+          name: true,
+          platformPageId: true,
+          connectionId: true,
+        },
+      }),
+      prisma.platformConnection.findMany({
+        where: { orgId: req.orgId, status: "ACTIVE" },
+        select: {
+          id: true,
+          platform: true,
+          platformAccountName: true,
+          platformUserId: true,
+        },
+      }),
+    ]);
 
-    if (pages.length > 0) {
-      const accounts: ActiveAccount[] = pages.map((p) => ({
+    const accounts: ActiveAccount[] = [];
+
+    // Add all active pages
+    for (const p of pages) {
+      accounts.push({
         id: p.id,
         platform: p.platform,
         name: p.name,
         type: "page",
         connectionId: p.connectionId,
-      }));
-      return NextResponse.json({ accounts });
+      });
     }
 
-    // Fallback: if no Page records exist yet, show active PlatformConnections
-    // so the user can see their connected accounts and filter by them
-    const connections = await prisma.platformConnection.findMany({
-      where: { orgId: req.orgId, status: "ACTIVE" },
-      select: {
-        id: true,
-        platform: true,
-        platformAccountName: true,
-        platformUserId: true,
-      },
-    });
+    // For any connected platform that has no pages, add the connection itself
+    const platformsWithPages = new Set(pages.map((p) => p.platform));
+    for (const c of connections) {
+      if (!platformsWithPages.has(c.platform)) {
+        accounts.push({
+          id: c.id,
+          platform: c.platform,
+          name: c.platformAccountName ?? c.platform,
+          type: "account",
+          connectionId: c.id,
+        });
+      }
+    }
 
-    const accounts: ActiveAccount[] = connections.map((c) => ({
-      id: c.id,
-      platform: c.platform,
-      name: c.platformAccountName ?? c.platform,
-      type: "account",
-      connectionId: c.id,
-    }));
-
-    return NextResponse.json({ accounts });
+    return NextResponse.json(
+      { accounts },
+      { headers: { "Cache-Control": "private, max-age=60, stale-while-revalidate=120" } },
+    );
   }),
 );

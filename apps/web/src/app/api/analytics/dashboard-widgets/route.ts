@@ -77,11 +77,18 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
     }
   }
 
-  return NextResponse.json({
-    totalPosts,
-    scheduledCount,
-    publishedToday,
-    engagementRate: Math.round(engagementRate * 10) / 10,
-    dueForPublishing: dueCount,
-  });
+  return NextResponse.json(
+    {
+      totalPosts,
+      scheduledCount,
+      publishedToday,
+      engagementRate: Math.round(engagementRate * 10) / 10,
+      dueForPublishing: dueCount,
+    },
+    {
+      headers: {
+        "Cache-Control": "private, max-age=30, stale-while-revalidate=60",
+      },
+    },
+  );
 }));

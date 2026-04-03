@@ -39,7 +39,7 @@ function AnimatedCounter({ value, decimals = 0 }: { value: number; decimals?: nu
   return <span>{decimals > 0 ? display.toFixed(decimals) : Math.round(display)}</span>;
 }
 
-const POLL_INTERVAL = 30_000;
+const POLL_INTERVAL = 60_000; // Poll every 60 seconds instead of 30
 
 export function DashboardWidgets() {
   const activeAccount = useActiveAccount();

@@ -323,6 +323,15 @@ export default async function DashboardPage() {
       entry.postCount += page._count.posts;
     }
   }
+  // For connected platforms with no pages, count posts by platform directly
+  for (const [platform, entry] of platformMap) {
+    if (entry.pages.length === 0 && entry.connections.length > 0) {
+      const count = await prisma.post.count({
+        where: { orgId: org.id, platform: platform as never },
+      });
+      entry.postCount = count;
+    }
+  }
 
   const connectedPlatformCount = platformMap.size;
 
@@ -637,7 +646,7 @@ export default async function DashboardPage() {
                 {isConnected ? (
                   <div className="space-y-0.5">
                     <div className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                      {pageCount} page{pageCount !== 1 ? "s" : ""}
+                      {pageCount > 0 ? `${pageCount} page${pageCount !== 1 ? "s" : ""}` : `${data?.connections.length ?? 0} account${(data?.connections.length ?? 0) !== 1 ? "s" : ""}`}
                     </div>
                     <div className="text-xs" style={{ color: "var(--text-tertiary)" }}>
                       {postCount} post{postCount !== 1 ? "s" : ""}
