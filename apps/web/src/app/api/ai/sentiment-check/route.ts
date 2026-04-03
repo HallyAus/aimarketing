@@ -9,14 +9,14 @@ function getClient(): Anthropic {
   return _client;
 }
 
-// POST /api/ai/sentiment-check — sentiment analysis + improved version
+// POST /api/ai/sentiment-check — sentiment + image analysis + improved version
 export const POST = withErrorHandler(
   withRole("EDITOR", async (req) => {
-    const { content } = await req.json();
+    const { content, imageUrl } = await req.json();
 
-    if (!content || typeof content !== "string" || content.trim().length === 0) {
+    if ((!content || typeof content !== "string" || content.trim().length === 0) && !imageUrl) {
       return NextResponse.json(
-        { error: "content is required", code: "VALIDATION_ERROR", statusCode: 400 },
+        { error: "content or imageUrl is required", code: "VALIDATION_ERROR", statusCode: 400 },
         { status: 400 },
       );
     }
@@ -28,30 +28,55 @@ export const POST = withErrorHandler(
       );
     }
 
-    const response = await getClient().messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 2048,
-      messages: [
-        {
-          role: "user",
-          content: `Analyze the sentiment and effectiveness of this social media post, then write an improved version.
+    // Build message content — text + optional image
+    const messageContent: Anthropic.MessageCreateParams["messages"][0]["content"] = [];
 
-Post: "${content}"
+    // Add image if provided (base64 data URL)
+    if (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("data:image/")) {
+      const match = imageUrl.match(/^data:(image\/[^;]+);base64,(.+)$/);
+      if (match) {
+        messageContent.push({
+          type: "image",
+          source: {
+            type: "base64",
+            media_type: match[1] as "image/jpeg" | "image/png" | "image/gif" | "image/webp",
+            data: match[2]!,
+          },
+        });
+      }
+    }
 
-Important: Analyze this social media post's text. If the text is very short, generic, or placeholder-like (e.g. "Marketing image post", "Image post"), recognize this as an image post that needs a proper caption. In that case:
-- Score it low (under 20)
-- In suggestions, focus on writing a real caption
-- In improvedVersion, write a compelling caption as if you're writing for a brand's social media (include hashtags, emoji, CTA)
+    const hasImage = messageContent.length > 0;
+    const textContent = content?.trim() ?? "";
+
+    messageContent.push({
+      type: "text",
+      text: `Analyze this social media post and write an improved version.
+
+${hasImage ? "I've attached the image that will be posted." : ""}
+${textContent ? `Caption/text: "${textContent}"` : "No caption provided."}
+
+${hasImage ? `IMPORTANT: You can SEE the attached image. Analyze what's in the image — the design, colors, text on the image, messaging, brand elements. Use what you see to:
+- Score how effective the IMAGE + caption combination is as a social media post
+- Write suggestions that reference the actual image content
+- Write an improved caption that complements what's shown in the image` : ""}
+
+${!hasImage && textContent.length < 30 ? `The text appears to be a placeholder. Score it low and write a real caption.` : ""}
 
 Return ONLY valid JSON (no markdown, no code fences):
 {
   "sentiment": "positive" | "neutral" | "negative",
   "score": 0-100,
-  "suggestions": ["max 3 short actionable suggestions"],
-  "improvedVersion": "A rewritten version of the post that scores higher — more engaging, better hooks, stronger CTA, improved tone. Keep the same core message but make it significantly better. Match the approximate length."
+  "imageDescription": "${hasImage ? "Brief description of what you see in the image" : ""}",
+  "suggestions": ["max 3 specific actionable suggestions${hasImage ? " referencing the image content" : ""}"],
+  "improvedVersion": "An improved caption${hasImage ? " that complements the image" : ""} — engaging hooks, CTA, hashtags, emoji. ${hasImage ? "Reference what's actually in the image." : ""}"
 }`,
-        },
-      ],
+    });
+
+    const response = await getClient().messages.create({
+      model: "claude-sonnet-4-6",
+      max_tokens: 2048,
+      messages: [{ role: "user", content: messageContent }],
     });
 
     const text = response.content[0];
@@ -63,6 +88,7 @@ Return ONLY valid JSON (no markdown, no code fences):
     return NextResponse.json({
       sentiment: result.sentiment ?? "neutral",
       score: typeof result.score === "number" ? result.score : 50,
+      imageDescription: result.imageDescription ?? "",
       suggestions: Array.isArray(result.suggestions) ? result.suggestions.slice(0, 3) : [],
       improvedVersion: typeof result.improvedVersion === "string" ? result.improvedVersion : "",
     });
