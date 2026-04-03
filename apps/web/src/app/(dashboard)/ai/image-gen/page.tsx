@@ -32,6 +32,7 @@ interface GeneratedImage {
   base64: string;
   html?: string;
   type?: string;
+  caption?: string;
   expiresAt?: string;
   createdAt?: string;
   width?: number;
@@ -64,7 +65,7 @@ export default function ImageGenPage() {
 
   // Selection & scheduling
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set());
-  const [caption, setCaption] = useState("");
+  const [captions, setCaptions] = useState<Record<string, string>>({});
   const [schedulePlatform, setSchedulePlatform] = useState("FACEBOOK");
   const [scheduling, setScheduling] = useState(false);
   const [scheduleSuccess, setScheduleSuccess] = useState("");
@@ -122,7 +123,12 @@ export default function ImageGenPage() {
       const generated: GeneratedImage[] = data.images ?? [];
       setImages(generated);
       setSelectedImages(new Set(generated.map((img) => img.id)));
-      if (data.caption) setCaption(data.caption);
+      // Set per-image captions
+      const caps: Record<string, string> = {};
+      for (const img of generated) {
+        if (img.caption) caps[img.id] = img.caption;
+      }
+      setCaptions(caps);
       if (data.extractedContent) setExtractedContent(data.extractedContent);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to generate images");
@@ -245,10 +251,8 @@ export default function ImageGenPage() {
     setError("");
 
     try {
-      const platformLabel = SIZE_OPTIONS.find((s) => s.id === platform)?.label ?? platform;
-      const fallbackCaption = `${platformLabel} post`;
       const drafts = selected.map((img) => ({
-        content: caption.trim() || (img.type ? `${img.type} — ${platformLabel}` : fallbackCaption),
+        content: captions[img.id] || img.caption || img.type || "Image post",
         platform: schedulePlatform,
         mediaUrls: [img.base64],
         pageId: activeAccount?.id ?? undefined,
@@ -564,44 +568,52 @@ export default function ImageGenPage() {
         )}
 
         {/* ── SCHEDULE ─────────────────────────────────────── */}
-        {!loading && images.length > 0 && (
+        {!loading && images.length > 0 && selectedImages.size > 0 && (
           <div className="card">
-            <h3 className="text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
-              Schedule as Posts
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <div>
-                <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Caption</label>
-                <textarea
-                  value={caption}
-                  onChange={(e) => setCaption(e.target.value)}
-                  rows={3}
-                  placeholder="Write a caption for these posts..."
-                  className="w-full text-sm"
-                />
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+                Schedule {selectedImages.size} Post{selectedImages.size !== 1 ? "s" : ""}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {SCHEDULE_PLATFORMS.map((p) => (
+                  <button
+                    key={p.id}
+                    onClick={() => setSchedulePlatform(p.id)}
+                    className="px-2.5 py-1 rounded-lg text-xs font-medium"
+                    style={{
+                      background: schedulePlatform === p.id ? "var(--accent-blue-muted)" : "var(--bg-tertiary)",
+                      color: schedulePlatform === p.id ? "var(--accent-blue)" : "var(--text-secondary)",
+                      border: `1px solid ${schedulePlatform === p.id ? "var(--accent-blue)" : "var(--border-primary)"}`,
+                    }}
+                  >
+                    {p.label}
+                  </button>
+                ))}
               </div>
-              <div>
-                <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>Platform</label>
-                <div className="flex flex-wrap gap-2">
-                  {SCHEDULE_PLATFORMS.map((p) => (
-                    <button
-                      key={p.id}
-                      onClick={() => setSchedulePlatform(p.id)}
-                      className="px-3 py-1.5 rounded-lg text-xs font-medium"
-                      style={{
-                        background: schedulePlatform === p.id ? "var(--accent-blue-muted)" : "var(--bg-tertiary)",
-                        color: schedulePlatform === p.id ? "var(--accent-blue)" : "var(--text-secondary)",
-                        border: `1px solid ${schedulePlatform === p.id ? "var(--accent-blue)" : "var(--border-primary)"}`,
-                      }}
-                    >
-                      {p.label}
-                    </button>
-                  ))}
+            </div>
+
+            {/* Per-image caption editors */}
+            <div className="space-y-3 mb-4">
+              {images.filter((img) => selectedImages.has(img.id)).map((img) => (
+                <div key={img.id} className="flex gap-3 rounded-lg p-3" style={{ background: "var(--bg-tertiary)", border: "1px solid var(--border-primary)" }}>
+                  <img src={img.base64} alt={img.type || "Image"} className="rounded flex-shrink-0" style={{ width: 80, height: 80, objectFit: "cover" }} />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded" style={{ background: "var(--accent-blue-muted)", color: "var(--accent-blue)" }}>
+                        {img.type || "Image"}
+                      </span>
+                    </div>
+                    <textarea
+                      value={captions[img.id] ?? img.caption ?? ""}
+                      onChange={(e) => setCaptions((prev) => ({ ...prev, [img.id]: e.target.value }))}
+                      rows={2}
+                      className="w-full text-xs"
+                      placeholder="Caption for this image..."
+                      style={{ background: "var(--bg-secondary)", border: "1px solid var(--border-primary)", borderRadius: 6, padding: "6px 8px" }}
+                    />
+                  </div>
                 </div>
-                <p className="text-xs mt-2" style={{ color: "var(--text-tertiary)" }}>
-                  {selectedImages.size} of {images.length} images selected
-                </p>
-              </div>
+              ))}
             </div>
             <button
               onClick={scheduleSelected}

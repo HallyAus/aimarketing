@@ -82,7 +82,7 @@ async function generateCardsHtml(
   brandName?: string,
   themeId?: string,
   contentMemory?: string,
-): Promise<{ htmlCards: string[]; caption: string }> {
+): Promise<{ cards: Array<{ type: string; caption: string; html: string }> }> {
   if (!process.env.ANTHROPIC_API_KEY) {
     throw new ZodValidationError("AI service not configured. Set ANTHROPIC_API_KEY.");
   }
@@ -126,14 +126,16 @@ Card types to create (pick ${count} different ones, vary them):
 
 Return a JSON object:
 {
-  "caption": "Ready-to-post social media caption with hashtags (2-3 sentences)",
   "cards": [
     {
       "type": "short description of what this card is",
+      "caption": "A unique social media caption for THIS specific card — must reference the card's content directly. Include hashtags and emoji. 2-3 sentences max.",
       "html": "<!DOCTYPE html>...complete HTML document..."
     }
   ]
 }
+
+IMPORTANT: Each card MUST have its own unique caption that specifically describes what's on THAT card. Do NOT write one generic caption for all cards.
 
 CRITICAL RULES:
 - Each "html" value is a COMPLETE standalone HTML document starting with <!DOCTYPE html>
@@ -152,22 +154,25 @@ CRITICAL RULES:
   if (text?.type !== "text") throw new Error("No text in AI response");
 
   const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
-  let parsed: { caption?: string; cards?: Array<{ type?: string; html: string }> };
+  let parsed: { caption?: string; cards?: Array<{ type?: string; caption?: string; html: string }> };
 
   try {
     parsed = JSON.parse(cleaned);
   } catch {
-    // Try to extract JSON from response
     const match = cleaned.match(/\{[\s\S]*\}/);
     if (match) parsed = JSON.parse(match[0]);
     else throw new Error("Failed to parse AI response");
   }
 
-  const cards = parsed.cards ?? [];
-  const htmlCards = cards.slice(0, count).map((c) => c.html);
-  const caption = parsed.caption ?? "";
+  const cards = (parsed.cards ?? []).slice(0, count);
 
-  return { htmlCards, caption };
+  return {
+    cards: cards.map((c) => ({
+      type: c.type ?? "",
+      caption: c.caption ?? parsed.caption ?? "",
+      html: c.html,
+    })),
+  };
 }
 
 /* ── GET: load cached images ───────────────────────────────────── */
@@ -270,15 +275,15 @@ export const POST = withErrorHandler(
 
     // ── Generate HTML cards via Claude ─────────────────────────
     const contentMemory = await getContentMemory(req.orgId);
-    const { htmlCards, caption } = await generateCardsHtml(content, count, width, height, brandName, theme, contentMemory);
+    const { cards: generatedCards } = await generateCardsHtml(content, count, width, height, brandName, theme, contentMemory);
 
     // ── Render all cards to JPEG ──────────────────────────────
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     const promptSummary = (content ?? "").substring(0, 200);
 
     const images = await Promise.all(
-      htmlCards.map(async (html, i) => {
-        const buffer = await renderHtmlToJpeg(html, width, height);
+      generatedCards.map(async (card, i) => {
+        const buffer = await renderHtmlToJpeg(card.html, width, height);
         const base64 = `data:image/jpeg;base64,${buffer.toString("base64")}`;
 
         // Save to DB
@@ -286,7 +291,7 @@ export const POST = withErrorHandler(
           data: {
             orgId: req.orgId,
             base64,
-            html,
+            html: card.html,
             type: `card-${i + 1}`,
             prompt: promptSummary,
             expiresAt,
@@ -296,8 +301,9 @@ export const POST = withErrorHandler(
         return {
           id: saved.id,
           base64,
-          html,
-          type: `card-${i + 1}`,
+          html: card.html,
+          type: card.type || `card-${i + 1}`,
+          caption: card.caption,
           expiresAt: expiresAt.toISOString(),
           createdAt: saved.createdAt.toISOString(),
           width,
@@ -308,7 +314,6 @@ export const POST = withErrorHandler(
 
     return NextResponse.json({
       images,
-      caption,
       extractedContent,
       warning: urlFetchWarning,
     });
