@@ -47,6 +47,7 @@ const ICONS: Record<string, string> = {
   "trending-up": "M23 6l-9.5 9.5-5-5L1 18",
   "message-circle": "M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z",
   inbox: "M22 12h-6l-2 3h-4l-2-3H2M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z",
+  "at-sign": "M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm-7 8a3 3 0 110-6 3 3 0 010 6zm0 0v2a2 2 0 004 0v-2",
 };
 
 function NavIcon({ type, className }: { type: string; className?: string }) {
@@ -139,6 +140,7 @@ const NAV_SECTIONS: NavSection[] = [
       { href: "/tools/utm", label: "UTM Builder", icon: "link", description: "Create tracked links for every campaign" },
       { href: "/tools/landing-page", label: "Landing Pages", icon: "layout", description: "AI-generated landing pages for campaigns" },
       { href: "/email", label: "Email Marketing", icon: "mail", description: "Create and send email campaigns with AI" },
+      { href: "/tools/email-signature", label: "Email Signature", icon: "at-sign", description: "Generate professional email signatures" },
     ],
   },
   {
