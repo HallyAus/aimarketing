@@ -21,28 +21,37 @@ export default function TemplateCarouselCard({
   const isPlayful = mood === "playful";
   const isMinimal = mood === "minimal";
 
-  const padding = isElegant ? 56 : isMinimal ? 52 : 44;
-  const borderRadius = isPlayful ? 28 : isElegant ? 4 : 16;
-  const badgeRadius = isPlayful ? 12 : isElegant ? 4 : 8;
-  const ctaRadius = isPlayful ? 9999 : isElegant ? 4 : 8;
-  const headlineFontSize = isBold ? 46 : isElegant ? 42 : isMinimal ? 34 : 40;
+  // --- Sizing ---
+  const pad = Math.round(width * (isElegant ? 0.09 : 0.075));
+  const borderRadius = isPlayful ? Math.round(width * 0.055) : isElegant ? 4 : Math.round(width * 0.03);
+  const badgeRadius = isPlayful ? Math.round(width * 0.025) : isElegant ? 6 : Math.round(width * 0.014);
+  const ctaRadius = isPlayful ? 9999 : isElegant ? 4 : Math.round(width * 0.012);
+
+  const numberBadgeSize = Math.round(width * (isBold ? 0.16 : 0.14));
+  const numberFontSize = Math.round(width * (isBold ? 0.07 : 0.06));
+  const headlineSize = Math.round(width * (isBold ? 0.082 : isElegant ? 0.072 : isMinimal ? 0.062 : 0.075));
+  const subtextSize = Math.round(width * 0.034);
+  const ctaFontSize = Math.round(width * 0.032);
+  const brandSize = Math.round(width * 0.025);
   const dotCount = 5;
 
-  // Slide number — pull from metric field if it looks like a number, else default to "01"
+  // Slide number from metric field or default "01"
   const slideNumber =
     metric && /^\d+$/.test(metric.trim())
       ? String(Number(metric)).padStart(2, "0")
       : "01";
-
-  const useLight = isMinimal;
-  const textColor = useLight ? "#1a1a1a" : "#ffffff";
-  const mutedText = useLight ? "#888888" : "rgba(255,255,255,0.6)";
-  const bgColor = useLight
-    ? "#f7f7f7"
-    : `linear-gradient(145deg, ${palette[0]}, ${palette[1]})`;
-
-  // Which dot is "active" — tied to slide number
   const activeDot = (Number(slideNumber) - 1) % dotCount;
+
+  // --- Colors ---
+  const useLight = isMinimal;
+  const bg = useLight
+    ? "#f7f7f7"
+    : `linear-gradient(145deg, ${palette[0]} 0%, ${palette[1]} 100%)`;
+  const textColor = useLight ? "#111111" : "#ffffff";
+  const mutedText = useLight ? "#777777" : "rgba(255,255,255,0.65)";
+
+  // Decorative background circle
+  const decorSize = Math.round(width * 0.65);
 
   return (
     <div
@@ -51,47 +60,78 @@ export default function TemplateCarouselCard({
         flexDirection: "column",
         width,
         height,
-        background: bgColor,
+        background: bg,
         fontFamily: "Inter, sans-serif",
         borderRadius,
         overflow: "hidden",
-        paddingLeft: padding,
-        paddingRight: padding,
-        paddingTop: padding,
-        paddingBottom: padding,
+        paddingLeft: pad,
+        paddingRight: pad,
+        paddingTop: pad,
+        paddingBottom: pad,
         justifyContent: "space-between",
+        position: "relative",
       }}
     >
-      {/* Top row: number badge + brand */}
+      {/* ── BACKGROUND DECORATION ── */}
+      {/* Large ghost circle */}
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          bottom: -Math.round(decorSize * 0.4),
+          right: -Math.round(decorSize * 0.3),
+          width: decorSize,
+          height: decorSize,
+          borderRadius: 9999,
+          background: useLight ? accentColor : "rgba(255,255,255,0.06)",
+          opacity: useLight ? 0.05 : 1,
+        }}
+      />
+      {/* Ring */}
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          top: -Math.round(decorSize * 0.25),
+          left: -Math.round(decorSize * 0.25),
+          width: Math.round(decorSize * 0.8),
+          height: Math.round(decorSize * 0.8),
+          borderRadius: 9999,
+          border: `${Math.round(width * 0.004)}px solid ${useLight ? accentColor : "rgba(255,255,255,0.08)"}`,
+          opacity: 0.2,
+        }}
+      />
+
+      {/* ── TOP ROW: large number badge + brand ── */}
       <div
         style={{
           display: "flex",
           flexDirection: "row",
-          alignItems: "center",
+          alignItems: "flex-start",
           justifyContent: "space-between",
+          zIndex: 1,
         }}
       >
-        {/* Number badge */}
+        {/* Large number badge */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            paddingLeft: 14,
-            paddingRight: 14,
-            paddingTop: 8,
-            paddingBottom: 8,
+            width: numberBadgeSize,
+            height: numberBadgeSize,
             background: accentColor,
             borderRadius: badgeRadius,
+            flexShrink: 0,
           }}
         >
           <div
             style={{
               display: "flex",
-              fontSize: isBold ? 16 : 14,
-              fontWeight: 800,
+              fontSize: numberFontSize,
+              fontWeight: 900,
               color: "#ffffff",
-              letterSpacing: 2,
+              letterSpacing: -1,
             }}
           >
             {slideNumber}
@@ -103,10 +143,11 @@ export default function TemplateCarouselCard({
           <div
             style={{
               display: "flex",
-              fontSize: 12,
-              fontWeight: 600,
+              fontSize: brandSize,
+              fontWeight: 700,
               color: mutedText,
-              letterSpacing: 1,
+              letterSpacing: Math.round(width * 0.001),
+              paddingTop: Math.round(width * 0.01),
             }}
           >
             {brandName}
@@ -114,7 +155,7 @@ export default function TemplateCarouselCard({
         )}
       </div>
 
-      {/* Center content */}
+      {/* ── CENTER CONTENT ── */}
       <div
         style={{
           display: "flex",
@@ -122,20 +163,20 @@ export default function TemplateCarouselCard({
           alignItems: "center",
           justifyContent: "center",
           flex: 1,
-          gap: 20,
-          paddingTop: 24,
-          paddingBottom: 24,
+          gap: Math.round(height * 0.025),
+          paddingTop: Math.round(height * 0.03),
+          paddingBottom: Math.round(height * 0.03),
+          zIndex: 1,
         }}
       >
-        {/* Decorative top mark */}
+        {/* Top accent bar — centered above headline */}
         <div
           style={{
             display: "flex",
-            width: isBold ? 56 : 40,
+            width: Math.round(width * (isBold ? 0.14 : 0.1)),
             height: isBold ? 5 : 3,
             background: accentColor,
             borderRadius: 2,
-            marginBottom: 8,
           }}
         />
 
@@ -143,11 +184,11 @@ export default function TemplateCarouselCard({
         <div
           style={{
             display: "flex",
-            fontSize: headlineFontSize,
-            fontWeight: isBold ? 900 : isElegant ? 300 : 700,
+            fontSize: headlineSize,
+            fontWeight: isBold ? 900 : isElegant ? 300 : 800,
             color: textColor,
             lineHeight: 1.15,
-            letterSpacing: isElegant ? -2 : isBold ? -1 : -0.5,
+            letterSpacing: isElegant ? -2 : isBold ? -1.5 : -0.5,
             textAlign: "center",
           }}
         >
@@ -159,12 +200,12 @@ export default function TemplateCarouselCard({
           <div
             style={{
               display: "flex",
-              fontSize: isMinimal ? 15 : isElegant ? 17 : 16,
+              fontSize: subtextSize,
               fontWeight: isElegant ? 300 : 400,
               color: mutedText,
               lineHeight: 1.55,
               textAlign: "center",
-              maxWidth: "82%",
+              maxWidth: "80%",
             }}
           >
             {subtext}
@@ -173,26 +214,25 @@ export default function TemplateCarouselCard({
 
         {/* CTA */}
         {cta && (
-          <div style={{ display: "flex", marginTop: 8 }}>
+          <div style={{ display: "flex", marginTop: Math.round(height * 0.01) }}>
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                paddingLeft: isBold ? 36 : 28,
-                paddingRight: isBold ? 36 : 28,
-                paddingTop: isBold ? 16 : 12,
-                paddingBottom: isBold ? 16 : 12,
+                paddingLeft: Math.round(width * 0.065),
+                paddingRight: Math.round(width * 0.065),
+                paddingTop: Math.round(height * 0.025),
+                paddingBottom: Math.round(height * 0.025),
                 background: useLight ? accentColor : "#ffffff",
                 borderRadius: ctaRadius,
-                border: isElegant && !useLight ? `1.5px solid rgba(255,255,255,0.4)` : "none",
               }}
             >
               <div
                 style={{
                   display: "flex",
-                  fontSize: isBold ? 16 : 14,
-                  fontWeight: 700,
+                  fontSize: ctaFontSize,
+                  fontWeight: 800,
                   color: useLight ? "#ffffff" : palette[0],
                   letterSpacing: 0.5,
                 }}
@@ -204,14 +244,15 @@ export default function TemplateCarouselCard({
         )}
       </div>
 
-      {/* Bottom row: navigation dots */}
+      {/* ── BOTTOM: swipe indicator dots ── */}
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",
-          gap: isPlayful ? 10 : 8,
+          gap: Math.round(width * (isPlayful ? 0.014 : 0.01)),
+          zIndex: 1,
         }}
       >
         {Array.from({ length: dotCount }).map((_, i) => {
@@ -221,14 +262,16 @@ export default function TemplateCarouselCard({
               key={i}
               style={{
                 display: "flex",
-                width: isActive ? (isPlayful ? 28 : 22) : (isPlayful ? 8 : 6),
-                height: isPlayful ? 8 : 6,
+                width: isActive
+                  ? Math.round(width * (isPlayful ? 0.065 : 0.05))
+                  : Math.round(width * (isPlayful ? 0.016 : 0.012)),
+                height: Math.round(width * (isPlayful ? 0.016 : 0.012)),
                 borderRadius: 9999,
                 background: isActive
                   ? accentColor
                   : useLight
-                  ? "rgba(0,0,0,0.15)"
-                  : "rgba(255,255,255,0.25)",
+                  ? "rgba(0,0,0,0.18)"
+                  : "rgba(255,255,255,0.3)",
               }}
             />
           );

@@ -13,18 +13,22 @@ export default function TemplateStats({
   const isMinimal = mood === "minimal";
   const isWarm = mood === "warm";
 
-  const metricFontSize = Math.round(width * (isBold ? 0.115 : isElegant ? 0.085 : 0.1));
-  const metricLabelFontSize = Math.round(width * 0.026);
-  const headlineFontSize = Math.round(width * (isMinimal ? 0.024 : 0.03));
-  const subtextFontSize = Math.round(width * 0.021);
-  const brandFontSize = Math.round(width * 0.019);
+  const pad = Math.round(width * 0.08);
 
-  // Dot grid decoration parameters
-  const dotSize = Math.round(width * (isMinimal ? 0.006 : isPlayful ? 0.01 : 0.008));
-  const dotOpacity = isMinimal ? 0.12 : isElegant ? 0.1 : isWarm ? 0.18 : 0.15;
-  const dotsPerRow = isMinimal ? 5 : 6;
-  const dotRows = isMinimal ? 4 : 5;
-  const dotGap = Math.round(width * 0.032);
+  // Metric even bigger — the entire reason this image exists
+  const metricFontSize = Math.round(width * (isBold ? 0.145 : isElegant ? 0.11 : 0.13));
+  const metricLabelFontSize = Math.round(width * 0.036);
+  const headlineFontSize = Math.round(width * (isMinimal ? 0.034 : 0.04));
+  const subtextFontSize = Math.round(width * 0.030);
+  // Brand name more prominent
+  const brandFontSize = Math.round(width * 0.028);
+
+  // Dot grid — bigger dots, higher opacity
+  const dotSize = Math.round(width * (isMinimal ? 0.009 : isPlayful ? 0.014 : 0.011));
+  const dotOpacity = isMinimal ? 0.18 : isElegant ? 0.16 : isWarm ? 0.25 : 0.22;
+  const dotsPerRow = isMinimal ? 6 : 7;
+  const dotRows = isMinimal ? 5 : 6;
+  const dotGap = Math.round(width * 0.034);
 
   return (
     <div
@@ -40,13 +44,13 @@ export default function TemplateStats({
         overflow: "hidden",
       }}
     >
-      {/* Dot grid — top left */}
+      {/* Dot grid — top left, more visible */}
       <div
         style={{
           display: "flex",
           position: "absolute",
-          top: Math.round(height * 0.06),
-          left: Math.round(width * 0.06),
+          top: Math.round(height * 0.05),
+          left: Math.round(width * 0.05),
           flexDirection: "column",
           gap: dotGap,
           opacity: dotOpacity,
@@ -78,19 +82,19 @@ export default function TemplateStats({
         ))}
       </div>
 
-      {/* Dot grid — bottom right */}
+      {/* Dot grid — bottom right, accent colored */}
       <div
         style={{
           display: "flex",
           position: "absolute",
-          bottom: Math.round(height * 0.08),
-          right: Math.round(width * 0.06),
+          bottom: Math.round(height * 0.1),
+          right: Math.round(width * 0.05),
           flexDirection: "column",
           gap: dotGap,
-          opacity: dotOpacity * 0.7,
+          opacity: dotOpacity * 0.75,
         }}
       >
-        {Array.from({ length: Math.max(dotRows - 2, 2) }).map((_, row) => (
+        {Array.from({ length: Math.max(dotRows - 2, 3) }).map((_, row) => (
           <div
             key={row}
             style={{
@@ -99,7 +103,7 @@ export default function TemplateStats({
               gap: dotGap,
             }}
           >
-            {Array.from({ length: Math.max(dotsPerRow - 2, 3) }).map((_, col) => (
+            {Array.from({ length: Math.max(dotsPerRow - 2, 4) }).map((_, col) => (
               <div
                 key={col}
                 style={{
@@ -116,17 +120,31 @@ export default function TemplateStats({
         ))}
       </div>
 
-      {/* Large decorative ring */}
+      {/* Large decorative ring — more visible border */}
       <div
         style={{
           display: "flex",
           position: "absolute",
-          bottom: -Math.round(width * 0.18),
-          left: -Math.round(width * 0.18),
+          bottom: -Math.round(width * 0.22),
+          left: -Math.round(width * 0.22),
+          width: Math.round(width * 0.65),
+          height: Math.round(width * 0.65),
+          borderRadius: "50%",
+          border: `${Math.round(width * 0.02)}px solid rgba(255,255,255,${isMinimal ? 0.1 : 0.16})`,
+        }}
+      />
+
+      {/* Second ring — top right */}
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          top: -Math.round(width * 0.18),
+          right: -Math.round(width * 0.18),
           width: Math.round(width * 0.5),
           height: Math.round(width * 0.5),
           borderRadius: "50%",
-          border: `${Math.round(width * 0.015)}px solid rgba(255,255,255,${isMinimal ? 0.06 : 0.1})`,
+          border: `${Math.round(width * 0.015)}px solid rgba(255,255,255,${isMinimal ? 0.07 : 0.12})`,
         }}
       />
 
@@ -137,23 +155,23 @@ export default function TemplateStats({
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          width: "80%",
-          gap: Math.round(height * 0.016),
+          width: width - pad * 2,
+          gap: Math.round(height * 0.018),
           zIndex: 1,
         }}
       >
-        {/* Accent line above metric */}
+        {/* Thick accent bar above metric */}
         <div
           style={{
             display: "flex",
-            width: Math.round(width * (isPlayful ? 0.1 : isMinimal ? 0.06 : 0.08)),
-            height: Math.round(height * (isElegant ? 0.003 : 0.005)),
+            width: Math.round(width * (isPlayful ? 0.14 : isMinimal ? 0.08 : 0.12)),
+            height: Math.round(height * (isElegant ? 0.004 : 0.008)),
             background: accentColor,
             borderRadius: 999,
           }}
         />
 
-        {/* Metric number */}
+        {/* HUGE metric number */}
         {metric && (
           <div
             style={{
@@ -166,14 +184,14 @@ export default function TemplateStats({
               style={{
                 color: "#ffffff",
                 fontSize: metricFontSize,
-                fontWeight: isBold ? 900 : isElegant ? 200 : isMinimal ? 300 : 800,
-                letterSpacing: isBold ? "-0.04em" : isElegant ? "0.06em" : "-0.02em",
+                fontWeight: isBold ? 900 : isElegant ? 200 : isMinimal ? 300 : 900,
+                letterSpacing: isBold ? "-0.04em" : isElegant ? "0.06em" : "-0.03em",
                 lineHeight: 1,
                 textShadow: isBold
-                  ? "0 4px 40px rgba(0,0,0,0.25)"
+                  ? "0 6px 48px rgba(0,0,0,0.3)"
                   : isPlayful
-                    ? `0 0 60px ${accentColor}88`
-                    : "none",
+                    ? `0 0 80px ${accentColor}99`
+                    : "0 4px 32px rgba(0,0,0,0.2)",
               }}
             >
               {metric}
@@ -181,20 +199,26 @@ export default function TemplateStats({
           </div>
         )}
 
-        {/* Metric label */}
+        {/* Metric label — accent color, big and clear */}
         {metricLabel && (
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              background: isMinimal ? "rgba(255,255,255,0.15)" : accentColor,
+              borderRadius: isPlayful ? 999 : 6,
+              paddingTop: Math.round(height * 0.012),
+              paddingBottom: Math.round(height * 0.012),
+              paddingLeft: Math.round(width * 0.045),
+              paddingRight: Math.round(width * 0.045),
             }}
           >
             <span
               style={{
-                color: isMinimal ? "rgba(255,255,255,0.6)" : accentColor,
+                color: "#ffffff",
                 fontSize: metricLabelFontSize,
-                fontWeight: isElegant ? 400 : 700,
+                fontWeight: isElegant ? 500 : 800,
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
               }}
@@ -208,15 +232,16 @@ export default function TemplateStats({
         <div
           style={{
             display: "flex",
-            width: Math.round(width * (isMinimal ? 0.06 : 0.14)),
-            height: 1,
-            background: "rgba(255,255,255,0.3)",
+            width: Math.round(width * (isMinimal ? 0.08 : 0.18)),
+            height: 2,
+            background: "rgba(255,255,255,0.4)",
+            borderRadius: 999,
             marginTop: Math.round(height * 0.008),
             marginBottom: Math.round(height * 0.008),
           }}
         />
 
-        {/* Headline */}
+        {/* Headline — lighter color, well-sized */}
         {headline && (
           <div
             style={{
@@ -227,11 +252,11 @@ export default function TemplateStats({
           >
             <span
               style={{
-                color: "rgba(255,255,255,0.88)",
+                color: "rgba(255,255,255,0.95)",
                 fontSize: headlineFontSize,
-                fontWeight: isElegant ? 300 : isBold ? 700 : 500,
+                fontWeight: isElegant ? 300 : isBold ? 700 : 600,
                 textAlign: "center",
-                lineHeight: 1.4,
+                lineHeight: 1.35,
                 letterSpacing: isElegant ? "0.04em" : "0",
               }}
             >
@@ -240,7 +265,7 @@ export default function TemplateStats({
           </div>
         )}
 
-        {/* Subtext */}
+        {/* Subtext — clearly readable, lighter but bigger */}
         {subtext && (
           <div
             style={{
@@ -251,7 +276,7 @@ export default function TemplateStats({
           >
             <span
               style={{
-                color: "rgba(255,255,255,0.55)",
+                color: "rgba(255,255,255,0.7)",
                 fontSize: subtextFontSize,
                 fontWeight: 400,
                 textAlign: "center",
@@ -264,34 +289,38 @@ export default function TemplateStats({
         )}
       </div>
 
-      {/* Brand footer */}
+      {/* Brand footer — prominent pill treatment */}
       {brandName && (
         <div
           style={{
             display: "flex",
             position: "absolute",
-            bottom: Math.round(height * 0.04),
+            bottom: Math.round(height * 0.044),
             flexDirection: "row",
             alignItems: "center",
-            gap: Math.round(width * 0.012),
+            gap: Math.round(width * 0.014),
+            background: "rgba(0,0,0,0.25)",
+            borderRadius: 999,
+            paddingTop: Math.round(height * 0.009),
+            paddingBottom: Math.round(height * 0.009),
+            paddingLeft: Math.round(width * 0.03),
+            paddingRight: Math.round(width * 0.03),
           }}
         >
-          {/* Small accent dot */}
           <div
             style={{
               display: "flex",
-              width: Math.round(width * 0.008),
-              height: Math.round(width * 0.008),
+              width: Math.round(width * 0.011),
+              height: Math.round(width * 0.011),
               borderRadius: "50%",
               background: accentColor,
-              opacity: 0.7,
             }}
           />
           <span
             style={{
-              color: "rgba(255,255,255,0.45)",
+              color: "rgba(255,255,255,0.92)",
               fontSize: brandFontSize,
-              fontWeight: isElegant ? 300 : 500,
+              fontWeight: 700,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
             }}
@@ -301,11 +330,10 @@ export default function TemplateStats({
           <div
             style={{
               display: "flex",
-              width: Math.round(width * 0.008),
-              height: Math.round(width * 0.008),
+              width: Math.round(width * 0.011),
+              height: Math.round(width * 0.011),
               borderRadius: "50%",
               background: accentColor,
-              opacity: 0.7,
             }}
           />
         </div>

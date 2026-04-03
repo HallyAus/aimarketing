@@ -13,20 +13,27 @@ export default function TemplateTestimonial({
   const isMinimal = mood === "minimal";
   const isWarm = mood === "warm";
 
-  const quoteFontSize = Math.round(width * (isElegant ? 0.032 : isMinimal ? 0.028 : 0.034));
-  const quoteMarkFontSize = Math.round(width * (isBold ? 0.28 : isElegant ? 0.22 : 0.24));
-  const attributionFontSize = Math.round(width * 0.022);
-  const headlineFontSize = Math.round(width * 0.024);
-  const brandFontSize = Math.round(width * 0.019);
+  const pad = Math.round(width * 0.08);
 
-  const quoteMarkOpacity = isMinimal ? 0.08 : isElegant ? 0.12 : isWarm ? 0.18 : 0.15;
+  // Quote text — large and readable
+  const quoteFontSize = Math.round(width * (isElegant ? 0.042 : isMinimal ? 0.038 : 0.044));
+  // Giant quote marks — very visible, create immediate visual identity
+  const quoteMarkFontSize = Math.round(width * (isBold ? 0.36 : isElegant ? 0.28 : 0.32));
+  const attributionFontSize = Math.round(width * 0.030);
+  const headlineFontSize = Math.round(width * 0.032);
+  // Brand name clearly readable
+  const brandFontSize = Math.round(width * 0.028);
+
+  // High opacity quote marks — they ARE the design
+  const quoteMarkOpacity = isMinimal ? 0.18 : isElegant ? 0.22 : isWarm ? 0.28 : 0.25;
+
   const cardBg = isWarm
-    ? "rgba(255,255,255,0.12)"
+    ? "rgba(255,255,255,0.16)"
     : isMinimal
-      ? "rgba(255,255,255,0.07)"
-      : "rgba(255,255,255,0.1)";
+      ? "rgba(255,255,255,0.1)"
+      : "rgba(255,255,255,0.13)";
 
-  const cardBorderRadius = isPlayful ? Math.round(width * 0.04) : isElegant ? 2 : Math.round(width * 0.02);
+  const cardBorderRadius = isPlayful ? Math.round(width * 0.045) : isElegant ? 4 : Math.round(width * 0.025);
 
   return (
     <div
@@ -42,29 +49,30 @@ export default function TemplateTestimonial({
         overflow: "hidden",
       }}
     >
-      {/* Subtle background circle — warm/elegant feel */}
+      {/* Large background circle — top right */}
       <div
         style={{
           display: "flex",
           position: "absolute",
-          top: -Math.round(width * 0.25),
-          right: -Math.round(width * 0.2),
-          width: Math.round(width * 0.65),
-          height: Math.round(width * 0.65),
+          top: -Math.round(width * 0.3),
+          right: -Math.round(width * 0.25),
+          width: Math.round(width * 0.75),
+          height: Math.round(width * 0.75),
           borderRadius: "50%",
-          background: "rgba(255,255,255,0.06)",
+          background: "rgba(255,255,255,0.1)",
         }}
       />
+      {/* Large background circle — bottom left */}
       <div
         style={{
           display: "flex",
           position: "absolute",
-          bottom: -Math.round(width * 0.2),
-          left: -Math.round(width * 0.15),
-          width: Math.round(width * 0.5),
-          height: Math.round(width * 0.5),
+          bottom: -Math.round(width * 0.25),
+          left: -Math.round(width * 0.2),
+          width: Math.round(width * 0.6),
+          height: Math.round(width * 0.6),
           borderRadius: "50%",
-          background: "rgba(255,255,255,0.05)",
+          background: "rgba(255,255,255,0.08)",
         }}
       />
 
@@ -75,28 +83,28 @@ export default function TemplateTestimonial({
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          width: "80%",
+          width: width - pad * 2,
           background: cardBg,
           borderRadius: cardBorderRadius,
-          paddingTop: Math.round(height * 0.065),
-          paddingBottom: Math.round(height * 0.065),
-          paddingLeft: Math.round(width * 0.065),
-          paddingRight: Math.round(width * 0.065),
+          paddingTop: Math.round(height * 0.07),
+          paddingBottom: Math.round(height * 0.07),
+          paddingLeft: Math.round(width * 0.07),
+          paddingRight: Math.round(width * 0.07),
           border: isMinimal
-            ? `1px solid rgba(255,255,255,0.18)`
+            ? `2px solid rgba(255,255,255,0.25)`
             : isElegant
-              ? `1px solid rgba(255,255,255,0.15)`
+              ? `1px solid rgba(255,255,255,0.2)`
               : "none",
           position: "relative",
           overflow: "hidden",
         }}
       >
-        {/* Giant decorative quote mark — behind content */}
+        {/* GIANT opening quote mark — bold design element, very visible */}
         <div
           style={{
             display: "flex",
             position: "absolute",
-            top: -Math.round(height * 0.04),
+            top: -Math.round(height * 0.055),
             left: Math.round(width * 0.04),
             lineHeight: 1,
             pointerEvents: "none",
@@ -116,39 +124,36 @@ export default function TemplateTestimonial({
           </span>
         </div>
 
-        {/* Accent line at top of card */}
-        {!isMinimal && (
-          <div
-            style={{
-              display: "flex",
-              position: "absolute",
-              top: 0,
-              left: "10%",
-              width: "80%",
-              height: Math.round(height * 0.004),
-              background: accentColor,
-              borderRadius: "0 0 4px 4px",
-              opacity: isElegant ? 0.6 : 1,
-            }}
-          />
-        )}
+        {/* Thick accent bar at top of card — colored, punchy */}
+        <div
+          style={{
+            display: "flex",
+            position: "absolute",
+            top: 0,
+            left: "8%",
+            width: "84%",
+            height: Math.round(height * 0.007),
+            background: accentColor,
+            borderRadius: "0 0 6px 6px",
+          }}
+        />
 
-        {/* Optional headline / context above quote */}
+        {/* Optional headline — accent color, uppercase label */}
         {headline && (
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              marginBottom: Math.round(height * 0.025),
+              marginBottom: Math.round(height * 0.028),
             }}
           >
             <span
               style={{
                 color: accentColor,
                 fontSize: headlineFontSize,
-                fontWeight: isElegant ? 400 : 600,
-                letterSpacing: "0.08em",
+                fontWeight: 700,
+                letterSpacing: "0.1em",
                 textTransform: "uppercase",
                 textAlign: "center",
               }}
@@ -158,7 +163,7 @@ export default function TemplateTestimonial({
           </div>
         )}
 
-        {/* Quote text */}
+        {/* Quote text — large, readable, italic */}
         {quote && (
           <div
             style={{
@@ -175,7 +180,7 @@ export default function TemplateTestimonial({
                 fontWeight: isElegant ? 300 : isBold ? 600 : 400,
                 fontStyle: "italic",
                 textAlign: "center",
-                lineHeight: isElegant ? 1.7 : 1.55,
+                lineHeight: isElegant ? 1.65 : 1.55,
                 letterSpacing: isElegant ? "0.02em" : "0",
               }}
             >
@@ -184,20 +189,20 @@ export default function TemplateTestimonial({
           </div>
         )}
 
-        {/* Divider */}
+        {/* Accent divider — colored, wider */}
         <div
           style={{
             display: "flex",
-            width: Math.round(width * (isMinimal ? 0.06 : isElegant ? 0.1 : 0.15)),
-            height: 1,
-            background: isMinimal ? "rgba(255,255,255,0.2)" : accentColor,
-            opacity: isMinimal ? 1 : 0.6,
-            marginTop: Math.round(height * 0.028),
-            marginBottom: Math.round(height * 0.022),
+            width: Math.round(width * (isMinimal ? 0.1 : isElegant ? 0.16 : 0.22)),
+            height: isElegant ? 2 : 3,
+            background: accentColor,
+            borderRadius: 999,
+            marginTop: Math.round(height * 0.032),
+            marginBottom: Math.round(height * 0.026),
           }}
         />
 
-        {/* Attribution */}
+        {/* Attribution — clearly visible, right-aligned */}
         {attribution && (
           <div
             style={{
@@ -209,11 +214,11 @@ export default function TemplateTestimonial({
           >
             <span
               style={{
-                color: "rgba(255,255,255,0.7)",
+                color: "rgba(255,255,255,0.88)",
                 fontSize: attributionFontSize,
-                fontWeight: isElegant ? 300 : 500,
+                fontWeight: isElegant ? 400 : 600,
                 fontStyle: "normal",
-                letterSpacing: isElegant ? "0.05em" : "0",
+                letterSpacing: isElegant ? "0.05em" : "0.02em",
               }}
             >
               — {attribution}
@@ -221,21 +226,21 @@ export default function TemplateTestimonial({
           </div>
         )}
 
-        {/* Closing quote mark (right-aligned, subtle) */}
+        {/* Closing quote mark — visible, right side */}
         <div
           style={{
             display: "flex",
             position: "absolute",
-            bottom: -Math.round(height * 0.03),
+            bottom: -Math.round(height * 0.04),
             right: Math.round(width * 0.04),
-            opacity: quoteMarkOpacity * 0.6,
+            opacity: quoteMarkOpacity * 0.65,
             lineHeight: 1,
           }}
         >
           <span
             style={{
               color: isPlayful ? accentColor : "#ffffff",
-              fontSize: Math.round(quoteMarkFontSize * 0.7),
+              fontSize: Math.round(quoteMarkFontSize * 0.72),
               fontWeight: 900,
               lineHeight: 1,
               fontFamily: "serif",
@@ -246,51 +251,53 @@ export default function TemplateTestimonial({
         </div>
       </div>
 
-      {/* Brand name */}
+      {/* Brand name — prominent pill at bottom */}
       {brandName && (
         <div
           style={{
             display: "flex",
             position: "absolute",
-            bottom: Math.round(height * 0.04),
+            bottom: Math.round(height * 0.042),
             flexDirection: "row",
             alignItems: "center",
-            gap: Math.round(width * 0.01),
+            gap: Math.round(width * 0.012),
+            background: "rgba(0,0,0,0.25)",
+            borderRadius: 999,
+            paddingTop: Math.round(height * 0.009),
+            paddingBottom: Math.round(height * 0.009),
+            paddingLeft: Math.round(width * 0.028),
+            paddingRight: Math.round(width * 0.028),
           }}
         >
-          {isPlayful && (
-            <div
-              style={{
-                display: "flex",
-                width: Math.round(width * 0.007),
-                height: Math.round(width * 0.007),
-                borderRadius: "50%",
-                background: accentColor,
-              }}
-            />
-          )}
+          <div
+            style={{
+              display: "flex",
+              width: Math.round(width * 0.01),
+              height: Math.round(width * 0.01),
+              borderRadius: "50%",
+              background: accentColor,
+            }}
+          />
           <span
             style={{
-              color: "rgba(255,255,255,0.45)",
+              color: "rgba(255,255,255,0.92)",
               fontSize: brandFontSize,
-              fontWeight: isElegant ? 300 : 500,
+              fontWeight: 700,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
             }}
           >
             {brandName}
           </span>
-          {isPlayful && (
-            <div
-              style={{
-                display: "flex",
-                width: Math.round(width * 0.007),
-                height: Math.round(width * 0.007),
-                borderRadius: "50%",
-                background: accentColor,
-              }}
-            />
-          )}
+          <div
+            style={{
+              display: "flex",
+              width: Math.round(width * 0.01),
+              height: Math.round(width * 0.01),
+              borderRadius: "50%",
+              background: accentColor,
+            }}
+          />
         </div>
       )}
     </div>

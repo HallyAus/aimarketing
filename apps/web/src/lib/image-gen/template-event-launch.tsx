@@ -21,22 +21,25 @@ export default function TemplateEventLaunch({
   const isPlayful = mood === "playful";
   const isMinimal = mood === "minimal";
 
-  const padding = isElegant ? 64 : 48;
-  const borderRadius = isPlayful ? 24 : isElegant ? 4 : 16;
-  const dateBadgeRadius = isPlayful ? 20 : isElegant ? 4 : 12;
-  const ctaRadius = isPlayful ? 9999 : isElegant ? 4 : 8;
-  const headlineFontSize = isBold ? 52 : isMinimal ? 36 : isElegant ? 44 : 46;
-  const textColor = "#ffffff";
-  const mutedText = "rgba(255,255,255,0.7)";
+  // --- Sizing (all relative to width) ---
+  const pad = Math.round(width * 0.08);
+  const headlineSize = Math.round(width * (isBold ? 0.085 : isMinimal ? 0.065 : isElegant ? 0.075 : 0.078));
+  const subtextSize = Math.round(width * 0.034);
+  const dateBadgeFontSize = Math.round(width * 0.032);
+  const ctaFontSize = Math.round(width * 0.034);
+  const brandSize = Math.round(width * 0.026);
+  const borderRadius = isPlayful ? Math.round(width * 0.04) : isElegant ? 4 : Math.round(width * 0.02);
+  const dateBadgeRadius = isPlayful ? Math.round(width * 0.025) : isElegant ? 4 : Math.round(width * 0.012);
+  const ctaRadius = isPlayful ? 9999 : isElegant ? 4 : Math.round(width * 0.01);
 
-  // Decorative ray lines — simulated with narrow divs at angles using a flex row
-  // We approximate a starburst with 6 thin bars arranged around the date badge
-  const rayCount = isPlayful ? 8 : isMinimal ? 4 : 6;
-  const rayColor = isMinimal
-    ? "rgba(255,255,255,0.08)"
-    : isBold
-    ? "rgba(255,255,255,0.15)"
-    : "rgba(255,255,255,0.1)";
+  // --- Color scheme ---
+  const bg = `linear-gradient(145deg, ${palette[0]} 0%, ${palette[1]} 100%)`;
+  const textColor = "#ffffff";
+  const mutedText = "rgba(255,255,255,0.72)";
+
+  // Large decorative circles — energetic feel
+  const bigCircleSize = Math.round(width * 0.7);
+  const medCircleSize = Math.round(width * 0.35);
 
   return (
     <div
@@ -45,79 +48,117 @@ export default function TemplateEventLaunch({
         flexDirection: "column",
         width,
         height,
-        background: `linear-gradient(135deg, ${palette[0]}, ${palette[1]})`,
+        background: bg,
         fontFamily: "Inter, sans-serif",
         borderRadius,
         overflow: "hidden",
+        position: "relative",
       }}
     >
-      {/* Decorative rays layer — top-left origin radiating bars */}
+      {/* ── DECORATIVE LAYER ── */}
+      {/* Large radial burst — bottom-right */}
       <div
         style={{
           display: "flex",
-          flexDirection: "row",
-          gap: isPlayful ? 14 : 18,
-          width: "100%",
-          height: 8,
-          paddingLeft: padding,
-          paddingTop: padding - 8,
-          flexWrap: "nowrap",
-          alignItems: "flex-end",
+          position: "absolute",
+          bottom: -Math.round(bigCircleSize * 0.35),
+          right: -Math.round(bigCircleSize * 0.25),
+          width: bigCircleSize,
+          height: bigCircleSize,
+          borderRadius: 9999,
+          background: "rgba(255,255,255,0.07)",
         }}
-      >
-        {Array.from({ length: rayCount }).map((_, i) => {
-          const widths = [80, 48, 64, 36, 72, 28, 56, 40];
-          return (
-            <div
-              key={i}
-              style={{
-                display: "flex",
-                height: 3,
-                width: widths[i % widths.length],
-                background: rayColor,
-                borderRadius: 2,
-              }}
-            />
-          );
-        })}
-      </div>
+      />
+      {/* Medium circle — top-right offset */}
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          top: -Math.round(medCircleSize * 0.3),
+          right: Math.round(width * 0.05),
+          width: medCircleSize,
+          height: medCircleSize,
+          borderRadius: 9999,
+          background: "rgba(255,255,255,0.10)",
+        }}
+      />
+      {/* Accent-color glow blob — top-left */}
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          top: -Math.round(medCircleSize * 0.5),
+          left: -Math.round(medCircleSize * 0.3),
+          width: medCircleSize,
+          height: medCircleSize,
+          borderRadius: 9999,
+          background: accentColor,
+          opacity: 0.22,
+        }}
+      />
+      {/* Thin diagonal accent bar */}
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: Math.round(height * 0.006),
+          background: accentColor,
+        }}
+      />
 
-      {/* Main content */}
+      {/* ── MAIN CONTENT ── */}
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           flex: 1,
-          paddingLeft: padding,
-          paddingRight: padding,
-          paddingBottom: padding,
+          paddingLeft: pad,
+          paddingRight: pad,
+          paddingTop: pad,
+          paddingBottom: Math.round(pad * 0.5),
           justifyContent: "center",
           gap: 0,
+          zIndex: 1,
         }}
       >
-        {/* Date badge */}
+        {/* Date badge — large and punchy */}
         {eventDate && (
-          <div style={{ display: "flex", marginBottom: 24 }}>
+          <div style={{ display: "flex", marginBottom: Math.round(height * 0.04) }}>
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                paddingLeft: 20,
-                paddingRight: 20,
-                paddingTop: 10,
-                paddingBottom: 10,
+                paddingLeft: Math.round(width * 0.04),
+                paddingRight: Math.round(width * 0.04),
+                paddingTop: Math.round(height * 0.022),
+                paddingBottom: Math.round(height * 0.022),
                 background: accentColor,
                 borderRadius: dateBadgeRadius,
+                gap: Math.round(width * 0.015),
               }}
             >
+              {/* Calendar icon dot */}
               <div
                 style={{
                   display: "flex",
-                  fontSize: isBold ? 15 : 13,
-                  fontWeight: 700,
+                  width: Math.round(width * 0.018),
+                  height: Math.round(width * 0.018),
+                  borderRadius: 9999,
+                  background: "rgba(255,255,255,0.6)",
+                  flexShrink: 0,
+                }}
+              />
+              <div
+                style={{
+                  display: "flex",
+                  fontSize: dateBadgeFontSize,
+                  fontWeight: 800,
                   color: "#ffffff",
-                  letterSpacing: 2,
+                  letterSpacing: Math.round(width * 0.002),
                   textTransform: "uppercase",
                 }}
               >
@@ -127,16 +168,16 @@ export default function TemplateEventLaunch({
           </div>
         )}
 
-        {/* Headline */}
+        {/* Headline — massive */}
         <div
           style={{
             display: "flex",
-            fontSize: headlineFontSize,
-            fontWeight: isBold ? 900 : isElegant ? 300 : 700,
+            fontSize: headlineSize,
+            fontWeight: isBold ? 900 : isElegant ? 300 : 800,
             color: textColor,
             lineHeight: 1.1,
-            letterSpacing: isElegant ? -2 : isBold ? -1 : 0,
-            marginBottom: 20,
+            letterSpacing: isElegant ? -2 : isBold ? -1.5 : -0.5,
+            marginBottom: Math.round(height * 0.03),
           }}
         >
           {headline}
@@ -147,98 +188,103 @@ export default function TemplateEventLaunch({
           <div
             style={{
               display: "flex",
-              fontSize: isMinimal ? 15 : 17,
+              fontSize: subtextSize,
               fontWeight: 400,
               color: mutedText,
               lineHeight: 1.5,
-              marginBottom: 32,
-              maxWidth: "80%",
+              marginBottom: Math.round(height * 0.045),
+              maxWidth: "75%",
             }}
           >
             {subtext}
           </div>
         )}
 
-        {/* Decorative line */}
-        <div
-          style={{
-            display: "flex",
-            width: isBold ? 80 : 48,
-            height: isBold ? 4 : 2,
-            background: accentColor,
-            borderRadius: 2,
-            marginBottom: 32,
-          }}
-        />
-
-        {/* CTA button */}
-        <div style={{ display: "flex" }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              paddingLeft: isBold ? 40 : 32,
-              paddingRight: isBold ? 40 : 32,
-              paddingTop: isBold ? 18 : 14,
-              paddingBottom: isBold ? 18 : 14,
-              background: isMinimal ? "rgba(255,255,255,0.15)" : "#ffffff",
-              borderRadius: ctaRadius,
-              border: isElegant ? "1px solid rgba(255,255,255,0.4)" : "none",
-            }}
-          >
+        {/* CTA button — prominent */}
+        {cta && (
+          <div style={{ display: "flex" }}>
             <div
               style={{
                 display: "flex",
-                fontSize: isBold ? 17 : 15,
-                fontWeight: 700,
-                color: isMinimal ? "#ffffff" : palette[0],
-                letterSpacing: 0.5,
+                alignItems: "center",
+                justifyContent: "center",
+                paddingLeft: Math.round(width * 0.055),
+                paddingRight: Math.round(width * 0.055),
+                paddingTop: Math.round(height * 0.028),
+                paddingBottom: Math.round(height * 0.028),
+                background: "#ffffff",
+                borderRadius: ctaRadius,
+                gap: Math.round(width * 0.015),
               }}
             >
-              {cta ?? "Register Now"}
+              <div
+                style={{
+                  display: "flex",
+                  fontSize: ctaFontSize,
+                  fontWeight: 800,
+                  color: palette[0],
+                  letterSpacing: 0.5,
+                }}
+              >
+                {cta}
+              </div>
+              {/* Arrow indicator */}
+              <div
+                style={{
+                  display: "flex",
+                  width: Math.round(width * 0.024),
+                  height: Math.round(width * 0.024),
+                  borderRadius: 9999,
+                  background: palette[0],
+                  alignItems: "center",
+                  justifyContent: "center",
+                  opacity: 0.15,
+                }}
+              />
             </div>
           </div>
-        </div>
+        )}
       </div>
 
-      {/* Footer */}
+      {/* ── FOOTER ── */}
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          paddingLeft: padding,
-          paddingRight: padding,
-          paddingBottom: 24,
-          paddingTop: 12,
+          paddingLeft: pad,
+          paddingRight: pad,
+          paddingBottom: Math.round(pad * 0.75),
+          paddingTop: Math.round(pad * 0.3),
+          zIndex: 1,
         }}
       >
         {brandName && (
           <div
             style={{
               display: "flex",
-              fontSize: 13,
-              fontWeight: 600,
-              color: "rgba(255,255,255,0.5)",
-              letterSpacing: 1,
+              fontSize: brandSize,
+              fontWeight: 700,
+              color: "#ffffff",
+              letterSpacing: Math.round(width * 0.001),
+              opacity: 0.9,
             }}
           >
             {brandName}
           </div>
         )}
-        {/* Starburst dots row */}
-        <div style={{ display: "flex", flexDirection: "row", gap: 8, alignItems: "center" }}>
-          {Array.from({ length: isPlayful ? 5 : 4 }).map((_, i) => (
+        {/* Energy dots — playful accent row */}
+        <div style={{ display: "flex", flexDirection: "row", gap: Math.round(width * 0.008), alignItems: "center" }}>
+          {(isPlayful ? [10, 6, 10, 6, 10] : [10, 6, 10]).map((sz, i) => (
             <div
               key={i}
               style={{
                 display: "flex",
-                width: i % 2 === 0 ? 8 : 4,
-                height: i % 2 === 0 ? 8 : 4,
+                width: Math.round(width * sz / 1000),
+                height: Math.round(width * sz / 1000),
                 borderRadius: 9999,
-                background: i === 0 ? accentColor : "rgba(255,255,255,0.3)",
+                background: i % 2 === 0 ? accentColor : "rgba(255,255,255,0.35)",
               }}
             />
           ))}

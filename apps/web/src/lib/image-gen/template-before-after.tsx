@@ -1,5 +1,12 @@
 import type { TemplateProps } from "./types";
 
+/**
+ * Before/After template — landscape (1200x630 Facebook default).
+ * Layout: headline bar at top, then a clean horizontal split:
+ *   LEFT = BEFORE (darker/muted palette shade)
+ *   RIGHT = AFTER  (vibrant palette + accent highlights)
+ * A bold vertical accent-color divider separates the halves.
+ */
 export default function TemplateBeforeAfter({
   spec,
   width,
@@ -20,21 +27,35 @@ export default function TemplateBeforeAfter({
   const isPlayful = mood === "playful";
   const isMinimal = mood === "minimal";
 
-  const borderRadius = isPlayful ? 20 : isElegant ? 2 : 12;
-  const vsBorderRadius = isPlayful ? 9999 : isElegant ? 4 : 9999;
-  const headlineFontSize = isBold ? 36 : isMinimal ? 26 : 30;
-  const labelFontSize = isBold ? 13 : 11;
-  const contentFontSize = isBold ? 22 : isMinimal ? 18 : 20;
-  const headerHeight = 100;
-  const footerHeight = 56;
-  const splitHeight = height - headerHeight - footerHeight;
-  const vsSize = isBold ? 52 : 42;
+  // --- Sizing ---
+  const pad = Math.round(width * 0.05);
+  const headerH = Math.round(height * 0.22);
+  const footerH = Math.round(height * 0.12);
+  const splitH = height - headerH - footerH;
+  const dividerW = Math.round(width * 0.006);
 
-  // Derive panel colors: before uses a muted/darkened version, after uses vibrant
-  const beforeBg = isMinimal ? "#e8e8e8" : palette[0];
-  const afterBg = isMinimal ? palette[0] : palette[1];
+  const headlineSize = Math.round(width * (isBold ? 0.052 : isMinimal ? 0.038 : 0.044));
+  const labelSize = Math.round(width * 0.04);
+  const contentSize = Math.round(width * (isBold ? 0.038 : isMinimal ? 0.03 : 0.034));
+  const brandSize = Math.round(width * 0.022);
+  const borderRadius = isPlayful ? Math.round(width * 0.02) : isElegant ? 4 : Math.round(width * 0.012);
+
+  // --- Colors ---
+  // Before: muted dark version; After: vibrant with accent-tinged overlay
+  const beforeBg = isMinimal
+    ? "#e0e0e0"
+    : `linear-gradient(160deg, ${palette[0]}ee, ${palette[0]}99)`;
+  const afterBg = isMinimal
+    ? palette[0]
+    : `linear-gradient(160deg, ${palette[1]}cc, ${palette[1]}ff)`;
+  const headerBg = isMinimal ? "#ffffff" : `linear-gradient(135deg, ${palette[0]}, ${palette[1]})`;
+  const footerBg = isMinimal ? "#ffffff" : "rgba(0,0,0,0.28)";
   const beforeTextColor = isMinimal ? "#333333" : "#ffffff";
   const afterTextColor = "#ffffff";
+  const headerTextColor = isMinimal ? "#111111" : "#ffffff";
+
+  // Decorative stripe opacity
+  const stripeOpacity = isMinimal ? 0.06 : 0.15;
 
   return (
     <div
@@ -43,47 +64,81 @@ export default function TemplateBeforeAfter({
         flexDirection: "column",
         width,
         height,
-        background: isMinimal
-          ? "#f5f5f5"
-          : `linear-gradient(135deg, ${palette[0]}, ${palette[1]})`,
         fontFamily: "Inter, sans-serif",
         borderRadius,
         overflow: "hidden",
       }}
     >
-      {/* Headline bar */}
+      {/* ── HEADLINE BAR ── */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          height: headerHeight,
-          paddingLeft: 40,
-          paddingRight: 40,
-          background: isMinimal ? "#ffffff" : "rgba(0,0,0,0.25)",
+          height: headerH,
+          background: headerBg,
+          paddingLeft: pad,
+          paddingRight: pad,
+          position: "relative",
+          overflow: "hidden",
+          flexShrink: 0,
         }}
       >
+        {/* Decorative diagonal stripes behind headline */}
         <div
           style={{
             display: "flex",
-            fontSize: headlineFontSize,
-            fontWeight: isBold ? 900 : isElegant ? 300 : 700,
-            color: isMinimal ? "#1a1a1a" : "#ffffff",
-            letterSpacing: isElegant ? -1 : 0,
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: isMinimal
+              ? "none"
+              : `repeating-linear-gradient(
+                  -55deg,
+                  transparent,
+                  transparent 28px,
+                  rgba(255,255,255,${stripeOpacity}) 28px,
+                  rgba(255,255,255,${stripeOpacity}) 30px
+                )`,
+          }}
+        />
+        {/* Accent bottom border on header */}
+        <div
+          style={{
+            display: "flex",
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            width: "100%",
+            height: isBold ? 5 : 3,
+            background: accentColor,
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            fontSize: headlineSize,
+            fontWeight: isBold ? 900 : isElegant ? 300 : 800,
+            color: headerTextColor,
+            lineHeight: 1.15,
+            letterSpacing: isElegant ? -1.5 : isBold ? -1 : -0.5,
             textAlign: "center",
+            zIndex: 1,
           }}
         >
           {headline}
         </div>
       </div>
 
-      {/* Split panels row */}
+      {/* ── SPLIT PANELS ── */}
       <div
         style={{
           display: "flex",
           flexDirection: "row",
-          flex: 1,
-          height: splitHeight,
+          height: splitH,
+          flexShrink: 0,
         }}
       >
         {/* BEFORE panel */}
@@ -95,87 +150,82 @@ export default function TemplateBeforeAfter({
             alignItems: "center",
             justifyContent: "center",
             background: beforeBg,
-            paddingLeft: 32,
-            paddingRight: 20,
-            paddingTop: 24,
-            paddingBottom: 24,
-            gap: 12,
+            paddingLeft: Math.round(pad * 0.9),
+            paddingRight: Math.round(pad * 0.5),
+            paddingTop: Math.round(pad * 0.5),
+            paddingBottom: Math.round(pad * 0.5),
+            gap: Math.round(height * 0.025),
+            position: "relative",
+            overflow: "hidden",
           }}
         >
-          {/* Label */}
+          {/* Subtle decorative circle */}
           <div
             style={{
               display: "flex",
-              fontSize: labelFontSize,
-              fontWeight: 700,
-              letterSpacing: 4,
-              color: isMinimal ? accentColor : "rgba(255,255,255,0.55)",
-              textTransform: "uppercase",
-            }}
-          >
-            BEFORE
-          </div>
-          {/* Divider under label */}
-          <div
-            style={{
-              display: "flex",
-              width: 32,
-              height: 2,
-              background: isMinimal ? accentColor : "rgba(255,255,255,0.3)",
-              borderRadius: 1,
+              position: "absolute",
+              bottom: -Math.round(splitH * 0.2),
+              right: -Math.round(splitH * 0.1),
+              width: Math.round(splitH * 0.7),
+              height: Math.round(splitH * 0.7),
+              borderRadius: 9999,
+              border: `${Math.round(width * 0.004)}px solid rgba(255,255,255,0.12)`,
             }}
           />
-          {/* Content */}
-          <div
-            style={{
-              display: "flex",
-              fontSize: contentFontSize,
-              fontWeight: isBold ? 700 : 400,
-              color: beforeTextColor,
-              lineHeight: 1.4,
-              textAlign: "center",
-            }}
-          >
-            {beforeText ?? "Before state"}
-          </div>
-        </div>
 
-        {/* VS badge — centered divider */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: vsSize + 8,
-            flexShrink: 0,
-            background: isMinimal ? "#ffffff" : "rgba(0,0,0,0.18)",
-          }}
-        >
+          {/* BEFORE label pill */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              width: vsSize,
-              height: vsSize,
-              borderRadius: vsBorderRadius,
-              background: accentColor,
-              flexShrink: 0,
+              paddingLeft: Math.round(width * 0.02),
+              paddingRight: Math.round(width * 0.02),
+              paddingTop: Math.round(height * 0.014),
+              paddingBottom: Math.round(height * 0.014),
+              background: isMinimal ? "rgba(0,0,0,0.12)" : "rgba(0,0,0,0.3)",
+              borderRadius: isElegant ? 4 : 9999,
             }}
           >
             <div
               style={{
                 display: "flex",
-                fontSize: isBold ? 14 : 12,
+                fontSize: labelSize,
                 fontWeight: 900,
-                color: "#ffffff",
-                letterSpacing: 1,
+                letterSpacing: Math.round(width * 0.004),
+                color: beforeTextColor,
+                textTransform: "uppercase",
               }}
             >
-              VS
+              BEFORE
             </div>
           </div>
+
+          {/* Content */}
+          <div
+            style={{
+              display: "flex",
+              fontSize: contentSize,
+              fontWeight: isBold ? 700 : 500,
+              color: beforeTextColor,
+              lineHeight: 1.45,
+              textAlign: "center",
+              opacity: 0.92,
+            }}
+          >
+            {beforeText ?? "The old way"}
+          </div>
         </div>
+
+        {/* Vertical divider */}
+        <div
+          style={{
+            display: "flex",
+            width: dividerW,
+            background: accentColor,
+            flexShrink: 0,
+          }}
+        />
 
         {/* AFTER panel */}
         <div
@@ -186,72 +236,95 @@ export default function TemplateBeforeAfter({
             alignItems: "center",
             justifyContent: "center",
             background: afterBg,
-            paddingLeft: 20,
-            paddingRight: 32,
-            paddingTop: 24,
-            paddingBottom: 24,
-            gap: 12,
+            paddingLeft: Math.round(pad * 0.5),
+            paddingRight: Math.round(pad * 0.9),
+            paddingTop: Math.round(pad * 0.5),
+            paddingBottom: Math.round(pad * 0.5),
+            gap: Math.round(height * 0.025),
+            position: "relative",
+            overflow: "hidden",
           }}
         >
-          {/* Label */}
+          {/* Glow circle top-right */}
           <div
             style={{
               display: "flex",
-              fontSize: labelFontSize,
-              fontWeight: 700,
-              letterSpacing: 4,
-              color: "rgba(255,255,255,0.55)",
-              textTransform: "uppercase",
-            }}
-          >
-            AFTER
-          </div>
-          {/* Divider under label */}
-          <div
-            style={{
-              display: "flex",
-              width: 32,
-              height: 2,
-              background: "rgba(255,255,255,0.45)",
-              borderRadius: 1,
+              position: "absolute",
+              top: -Math.round(splitH * 0.15),
+              right: -Math.round(splitH * 0.15),
+              width: Math.round(splitH * 0.6),
+              height: Math.round(splitH * 0.6),
+              borderRadius: 9999,
+              background: "rgba(255,255,255,0.08)",
             }}
           />
+
+          {/* AFTER label pill */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              paddingLeft: Math.round(width * 0.02),
+              paddingRight: Math.round(width * 0.02),
+              paddingTop: Math.round(height * 0.014),
+              paddingBottom: Math.round(height * 0.014),
+              background: accentColor,
+              borderRadius: isElegant ? 4 : 9999,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                fontSize: labelSize,
+                fontWeight: 900,
+                letterSpacing: Math.round(width * 0.004),
+                color: "#ffffff",
+                textTransform: "uppercase",
+              }}
+            >
+              AFTER
+            </div>
+          </div>
+
           {/* Content */}
           <div
             style={{
               display: "flex",
-              fontSize: contentFontSize,
-              fontWeight: isBold ? 700 : 400,
+              fontSize: contentSize,
+              fontWeight: isBold ? 700 : 600,
               color: afterTextColor,
-              lineHeight: 1.4,
+              lineHeight: 1.45,
               textAlign: "center",
             }}
           >
-            {afterText ?? "After state"}
+            {afterText ?? "The new way"}
           </div>
         </div>
       </div>
 
-      {/* Footer */}
+      {/* ── FOOTER ── */}
       <div
         style={{
           display: "flex",
+          flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          height: footerHeight,
-          paddingLeft: 32,
-          paddingRight: 32,
-          background: isMinimal ? "#ffffff" : "rgba(0,0,0,0.2)",
+          height: footerH,
+          paddingLeft: pad,
+          paddingRight: pad,
+          background: footerBg,
+          flexShrink: 0,
         }}
       >
         {brandName && (
           <div
             style={{
               display: "flex",
-              fontSize: 13,
-              fontWeight: 600,
-              letterSpacing: 1,
-              color: isMinimal ? "#888888" : "rgba(255,255,255,0.6)",
+              fontSize: brandSize,
+              fontWeight: 700,
+              color: isMinimal ? "#222222" : "#ffffff",
+              letterSpacing: Math.round(width * 0.001),
             }}
           >
             {brandName}
@@ -261,12 +334,24 @@ export default function TemplateBeforeAfter({
         <div
           style={{
             display: "flex",
-            height: 4,
-            width: 48,
-            borderRadius: 2,
-            background: accentColor,
+            flexDirection: "row",
+            gap: Math.round(width * 0.006),
+            alignItems: "center",
           }}
-        />
+        >
+          {[1, 0, 0, 0].map((active, i) => (
+            <div
+              key={i}
+              style={{
+                display: "flex",
+                width: active ? Math.round(width * 0.05) : Math.round(width * 0.012),
+                height: Math.round(width * 0.012),
+                borderRadius: 9999,
+                background: active ? accentColor : isMinimal ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.35)",
+              }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
