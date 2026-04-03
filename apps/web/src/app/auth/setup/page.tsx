@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 const cardStyle: React.CSSProperties = {
@@ -38,7 +38,7 @@ interface SetupData {
   name: string | null;
 }
 
-export default function AccountSetupPage() {
+function AccountSetupContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get("token") ?? "";
@@ -258,3 +258,5 @@ export default function AccountSetupPage() {
     </div>
   );
 }
+
+export default function AccountSetupPage() { return <Suspense fallback={<div style={{ textAlign: "center", padding: 80, color: "var(--text-secondary)" }}>Loading...</div>}><AccountSetupContent /></Suspense>; }

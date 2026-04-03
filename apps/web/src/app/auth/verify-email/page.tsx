@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -14,7 +14,7 @@ const cardStyle: React.CSSProperties = {
   textAlign: "center",
 };
 
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token") ?? "";
 
@@ -161,3 +161,5 @@ export default function VerifyEmailPage() {
     </div>
   );
 }
+
+export default function VerifyEmailPage() { return <Suspense fallback={<div style={{ textAlign: "center", padding: 80, color: "var(--text-secondary)" }}>Loading...</div>}><VerifyEmailContent /></Suspense>; }

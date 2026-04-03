@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 const cardStyle: React.CSSProperties = {
@@ -54,7 +54,7 @@ interface InviteDetails {
   userName: string | null;
 }
 
-export default function InviteAcceptPage() {
+function InviteAcceptContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get("token") ?? "";
@@ -382,3 +382,5 @@ export default function InviteAcceptPage() {
     </div>
   );
 }
+
+export default function InviteAcceptPage() { return <Suspense fallback={<div style={{ textAlign: "center", padding: 80, color: "var(--text-secondary)" }}>Loading...</div>}><InviteAcceptContent /></Suspense>; }
