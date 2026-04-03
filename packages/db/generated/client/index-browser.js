@@ -173,6 +173,8 @@ exports.Prisma.UserScalarFieldEnum = {
   systemRole: 'systemRole',
   onboardingComplete: 'onboardingComplete',
   lastSelectedPageId: 'lastSelectedPageId',
+  setupComplete: 'setupComplete',
+  invitedBy: 'invitedBy',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -225,6 +227,8 @@ exports.Prisma.InvitationScalarFieldEnum = {
   token: 'token',
   expiresAt: 'expiresAt',
   invitedBy: 'invitedBy',
+  status: 'status',
+  message: 'message',
   acceptedAt: 'acceptedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -674,6 +678,17 @@ exports.Prisma.HistoricalMetricSnapshotScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.EmailVerificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  email: 'email',
+  token: 'token',
+  type: 'type',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -743,6 +758,14 @@ exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   EDITOR: 'EDITOR',
   VIEWER: 'VIEWER'
+};
+
+exports.InviteStatus = exports.$Enums.InviteStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED',
+  CANCELLED: 'CANCELLED',
+  EXPIRED: 'EXPIRED'
 };
 
 exports.Platform = exports.$Enums.Platform = {
@@ -833,6 +856,14 @@ exports.IngestionStatus = exports.$Enums.IngestionStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.VerificationType = exports.$Enums.VerificationType = {
+  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION',
+  PASSWORD_SETUP: 'PASSWORD_SETUP',
+  TEAM_INVITE: 'TEAM_INVITE',
+  PASSWORD_RESET: 'PASSWORD_RESET',
+  EMAIL_CHANGE: 'EMAIL_CHANGE'
+};
+
 exports.Prisma.ModelName = {
   Organization: 'Organization',
   User: 'User',
@@ -870,7 +901,8 @@ exports.Prisma.ModelName = {
   WaitlistEntry: 'WaitlistEntry',
   IngestionJob: 'IngestionJob',
   HistoricalPost: 'HistoricalPost',
-  HistoricalMetricSnapshot: 'HistoricalMetricSnapshot'
+  HistoricalMetricSnapshot: 'HistoricalMetricSnapshot',
+  EmailVerification: 'EmailVerification'
 };
 
 /**

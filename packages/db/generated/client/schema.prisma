@@ -70,6 +70,22 @@ enum BillingCycle {
   ANNUAL
 }
 
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  CANCELLED
+  EXPIRED
+}
+
+enum VerificationType {
+  EMAIL_VERIFICATION
+  PASSWORD_SETUP
+  TEAM_INVITE
+  PASSWORD_RESET
+  EMAIL_CHANGE
+}
+
 enum InvoiceStatus {
   DRAFT
   OPEN
@@ -209,21 +225,24 @@ model User {
   systemRole           SystemRole @default(USER)
   onboardingComplete   Boolean    @default(false)
   lastSelectedPageId   String?
+  setupComplete        Boolean    @default(false)
+  invitedBy            String?
   deletedAt            DateTime?
   createdAt            DateTime   @default(now())
   updatedAt            DateTime   @updatedAt
 
-  memberships      Membership[]
-  invitationsSent  Invitation[]         @relation("InvitedBy")
-  connectionsAdded PlatformConnection[] @relation("ConnectedBy")
-  campaignsCreated Campaign[]           @relation("CreatedBy")
-  postsApproved    Post[]               @relation("ApprovedBy")
-  auditLogs        AuditLog[]
-  templatesCreated PostTemplate[]       @relation("TemplateCreatedBy")
-  authenticators   Authenticator[]
-  approvalRequests ApprovalRequest[]    @relation("ApprovalRequester")
-  approvalReviews  ApprovalRequest[]    @relation("ApprovalReviewer")
-  apiKeys          ApiKey[]
+  memberships        Membership[]
+  emailVerifications EmailVerification[]
+  invitationsSent    Invitation[]         @relation("InvitedBy")
+  connectionsAdded   PlatformConnection[] @relation("ConnectedBy")
+  campaignsCreated   Campaign[]           @relation("CreatedBy")
+  postsApproved      Post[]               @relation("ApprovedBy")
+  auditLogs          AuditLog[]
+  templatesCreated   PostTemplate[]       @relation("TemplateCreatedBy")
+  authenticators     Authenticator[]
+  approvalRequests   ApprovalRequest[]    @relation("ApprovalRequester")
+  approvalReviews    ApprovalRequest[]    @relation("ApprovalReviewer")
+  apiKeys            ApiKey[]
 
   // NextAuth fields
   accounts Account[]
@@ -293,16 +312,18 @@ model Membership {
 }
 
 model Invitation {
-  id         String    @id @default(cuid())
+  id         String       @id @default(cuid())
   orgId      String
   email      String
   role       Role
-  token      String    @unique
+  token      String       @unique
   expiresAt  DateTime
   invitedBy  String
+  status     InviteStatus @default(PENDING)
+  message    String?
   acceptedAt DateTime?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
 
   organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
   inviter      User         @relation("InvitedBy", fields: [invitedBy], references: [id])
@@ -310,6 +331,8 @@ model Invitation {
   @@index([orgId])
   @@index([email])
   @@index([invitedBy])
+  @@index([token])
+  @@index([status])
 }
 
 model PlatformConnection {
@@ -956,4 +979,23 @@ model HistoricalMetricSnapshot {
   @@unique([pageId, metricDate])
   @@index([pageId, metricDate])
   @@index([orgId])
+}
+
+// ── Email Verification Tokens ───────────────────────────────────────
+
+model EmailVerification {
+  id        String           @id @default(cuid())
+  userId    String
+  email     String
+  token     String           @unique
+  type      VerificationType
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@index([email])
 }

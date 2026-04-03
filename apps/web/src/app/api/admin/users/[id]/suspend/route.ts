@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/app/admin/components/admin-auth";
+import { isPermanentSuperAdmin } from "@/lib/constants/super-admins";
 
 export async function POST(
   _req: NextRequest,
@@ -13,13 +14,20 @@ export async function POST(
 
   const user = await prisma.user.findUnique({
     where: { id },
-    select: { id: true, status: true },
+    select: { id: true, email: true, status: true },
   });
 
   if (!user) {
     return NextResponse.json(
       { error: "User not found", code: "NOT_FOUND" },
       { status: 404 },
+    );
+  }
+
+  if (isPermanentSuperAdmin(user.email)) {
+    return NextResponse.json(
+      { error: "Cannot suspend a permanent super admin", code: "PERMANENT_SUPER_ADMIN" },
+      { status: 403 },
     );
   }
 

@@ -61,8 +61,8 @@ import { GET, POST } from "@/app/api/campaigns/route";
 
 // ── Helpers ──────────────────────────────────────────────────────────
 
-function makeReq(url: string, init?: RequestInit) {
-  return new NextRequest(new URL(url, "http://localhost:3000"), init);
+function makeReq(url: string, init?: Record<string, unknown>) {
+  return new NextRequest(new URL(url, "http://localhost:3000"), init as never);
 }
 
 const defaultCtx = { params: Promise.resolve({}) };

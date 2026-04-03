@@ -199,12 +199,12 @@ describe("getOptimalPostingWindows", () => {
       "America/Los_Angeles",
     ]);
     // The top-scored hour should have score > 0
-    expect(results[0].score).toBeGreaterThan(0);
+    expect(results[0]!.score).toBeGreaterThan(0);
   });
 
   it("includes audience breakdown with local times", () => {
     const results = getOptimalPostingWindows(["Asia/Tokyo", "Europe/London"]);
-    const top = results[0];
+    const top = results[0]!;
     expect(top.audienceBreakdown).toHaveProperty("Asia/Tokyo");
     expect(top.audienceBreakdown).toHaveProperty("Europe/London");
     // Each breakdown entry should look like "3:00 PM"
@@ -220,7 +220,7 @@ describe("getOptimalPostingWindows", () => {
       { start: 9, end: 17 }
     );
     // Max possible score is 1 (one timezone)
-    const bestScore = results[0].score;
+    const bestScore = results[0]!.score;
     expect(bestScore).toBeLessThanOrEqual(1);
     expect(bestScore).toBeGreaterThanOrEqual(0);
   });

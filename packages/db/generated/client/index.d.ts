@@ -198,6 +198,11 @@ export type HistoricalPost = $Result.DefaultSelection<Prisma.$HistoricalPostPayl
  * 
  */
 export type HistoricalMetricSnapshot = $Result.DefaultSelection<Prisma.$HistoricalMetricSnapshotPayload>
+/**
+ * Model EmailVerification
+ * 
+ */
+export type EmailVerification = $Result.DefaultSelection<Prisma.$EmailVerificationPayload>
 
 /**
  * Enums
@@ -285,6 +290,28 @@ export const BillingCycle: {
 };
 
 export type BillingCycle = (typeof BillingCycle)[keyof typeof BillingCycle]
+
+
+export const InviteStatus: {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED',
+  CANCELLED: 'CANCELLED',
+  EXPIRED: 'EXPIRED'
+};
+
+export type InviteStatus = (typeof InviteStatus)[keyof typeof InviteStatus]
+
+
+export const VerificationType: {
+  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION',
+  PASSWORD_SETUP: 'PASSWORD_SETUP',
+  TEAM_INVITE: 'TEAM_INVITE',
+  PASSWORD_RESET: 'PASSWORD_RESET',
+  EMAIL_CHANGE: 'EMAIL_CHANGE'
+};
+
+export type VerificationType = (typeof VerificationType)[keyof typeof VerificationType]
 
 
 export const InvoiceStatus: {
@@ -413,6 +440,14 @@ export const SubscriptionStatus: typeof $Enums.SubscriptionStatus
 export type BillingCycle = $Enums.BillingCycle
 
 export const BillingCycle: typeof $Enums.BillingCycle
+
+export type InviteStatus = $Enums.InviteStatus
+
+export const InviteStatus: typeof $Enums.InviteStatus
+
+export type VerificationType = $Enums.VerificationType
+
+export const VerificationType: typeof $Enums.VerificationType
 
 export type InvoiceStatus = $Enums.InvoiceStatus
 
@@ -933,6 +968,16 @@ export class PrismaClient<
     * ```
     */
   get historicalMetricSnapshot(): Prisma.HistoricalMetricSnapshotDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.emailVerification`: Exposes CRUD operations for the **EmailVerification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EmailVerifications
+    * const emailVerifications = await prisma.emailVerification.findMany()
+    * ```
+    */
+  get emailVerification(): Prisma.EmailVerificationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1410,7 +1455,8 @@ export namespace Prisma {
     WaitlistEntry: 'WaitlistEntry',
     IngestionJob: 'IngestionJob',
     HistoricalPost: 'HistoricalPost',
-    HistoricalMetricSnapshot: 'HistoricalMetricSnapshot'
+    HistoricalMetricSnapshot: 'HistoricalMetricSnapshot',
+    EmailVerification: 'EmailVerification'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1429,7 +1475,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "organization" | "user" | "account" | "session" | "verificationToken" | "membership" | "invitation" | "platformConnection" | "campaign" | "post" | "creative" | "analyticsSnapshot" | "auditLog" | "webhookEvent" | "postTemplate" | "authenticator" | "page" | "brandVoice" | "hashtagSet" | "contentTemplate" | "approvalRequest" | "rssFeed" | "webhookRule" | "leadCapture" | "utmLink" | "performanceReport" | "invoice" | "usageRecord" | "paymentMethod" | "apiKey" | "featureFlag" | "systemMetric" | "announcement" | "waitlistEntry" | "ingestionJob" | "historicalPost" | "historicalMetricSnapshot"
+      modelProps: "organization" | "user" | "account" | "session" | "verificationToken" | "membership" | "invitation" | "platformConnection" | "campaign" | "post" | "creative" | "analyticsSnapshot" | "auditLog" | "webhookEvent" | "postTemplate" | "authenticator" | "page" | "brandVoice" | "hashtagSet" | "contentTemplate" | "approvalRequest" | "rssFeed" | "webhookRule" | "leadCapture" | "utmLink" | "performanceReport" | "invoice" | "usageRecord" | "paymentMethod" | "apiKey" | "featureFlag" | "systemMetric" | "announcement" | "waitlistEntry" | "ingestionJob" | "historicalPost" | "historicalMetricSnapshot" | "emailVerification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4171,6 +4217,80 @@ export namespace Prisma {
           }
         }
       }
+      EmailVerification: {
+        payload: Prisma.$EmailVerificationPayload<ExtArgs>
+        fields: Prisma.EmailVerificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EmailVerificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EmailVerificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>
+          }
+          findFirst: {
+            args: Prisma.EmailVerificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EmailVerificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>
+          }
+          findMany: {
+            args: Prisma.EmailVerificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[]
+          }
+          create: {
+            args: Prisma.EmailVerificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>
+          }
+          createMany: {
+            args: Prisma.EmailVerificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EmailVerificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[]
+          }
+          delete: {
+            args: Prisma.EmailVerificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>
+          }
+          update: {
+            args: Prisma.EmailVerificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.EmailVerificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EmailVerificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EmailVerificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.EmailVerificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationPayload>
+          }
+          aggregate: {
+            args: Prisma.EmailVerificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEmailVerification>
+          }
+          groupBy: {
+            args: Prisma.EmailVerificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EmailVerificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EmailVerificationCountArgs<ExtArgs>
+            result: $Utils.Optional<EmailVerificationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4304,6 +4424,7 @@ export namespace Prisma {
     ingestionJob?: IngestionJobOmit
     historicalPost?: HistoricalPostOmit
     historicalMetricSnapshot?: HistoricalMetricSnapshotOmit
+    emailVerification?: EmailVerificationOmit
   }
 
   /* Types for Logging */
@@ -4551,6 +4672,7 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     memberships: number
+    emailVerifications: number
     invitationsSent: number
     connectionsAdded: number
     campaignsCreated: number
@@ -4567,6 +4689,7 @@ export namespace Prisma {
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberships?: boolean | UserCountOutputTypeCountMembershipsArgs
+    emailVerifications?: boolean | UserCountOutputTypeCountEmailVerificationsArgs
     invitationsSent?: boolean | UserCountOutputTypeCountInvitationsSentArgs
     connectionsAdded?: boolean | UserCountOutputTypeCountConnectionsAddedArgs
     campaignsCreated?: boolean | UserCountOutputTypeCountCampaignsCreatedArgs
@@ -4597,6 +4720,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMembershipsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MembershipWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountEmailVerificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmailVerificationWhereInput
   }
 
   /**
@@ -6812,6 +6942,8 @@ export namespace Prisma {
     systemRole: $Enums.SystemRole | null
     onboardingComplete: boolean | null
     lastSelectedPageId: string | null
+    setupComplete: boolean | null
+    invitedBy: string | null
     deletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6836,6 +6968,8 @@ export namespace Prisma {
     systemRole: $Enums.SystemRole | null
     onboardingComplete: boolean | null
     lastSelectedPageId: string | null
+    setupComplete: boolean | null
+    invitedBy: string | null
     deletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6860,6 +6994,8 @@ export namespace Prisma {
     systemRole: number
     onboardingComplete: number
     lastSelectedPageId: number
+    setupComplete: number
+    invitedBy: number
     deletedAt: number
     createdAt: number
     updatedAt: number
@@ -6894,6 +7030,8 @@ export namespace Prisma {
     systemRole?: true
     onboardingComplete?: true
     lastSelectedPageId?: true
+    setupComplete?: true
+    invitedBy?: true
     deletedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -6918,6 +7056,8 @@ export namespace Prisma {
     systemRole?: true
     onboardingComplete?: true
     lastSelectedPageId?: true
+    setupComplete?: true
+    invitedBy?: true
     deletedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -6942,6 +7082,8 @@ export namespace Prisma {
     systemRole?: true
     onboardingComplete?: true
     lastSelectedPageId?: true
+    setupComplete?: true
+    invitedBy?: true
     deletedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -7053,6 +7195,8 @@ export namespace Prisma {
     systemRole: $Enums.SystemRole
     onboardingComplete: boolean
     lastSelectedPageId: string | null
+    setupComplete: boolean
+    invitedBy: string | null
     deletedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -7096,10 +7240,13 @@ export namespace Prisma {
     systemRole?: boolean
     onboardingComplete?: boolean
     lastSelectedPageId?: boolean
+    setupComplete?: boolean
+    invitedBy?: boolean
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     memberships?: boolean | User$membershipsArgs<ExtArgs>
+    emailVerifications?: boolean | User$emailVerificationsArgs<ExtArgs>
     invitationsSent?: boolean | User$invitationsSentArgs<ExtArgs>
     connectionsAdded?: boolean | User$connectionsAddedArgs<ExtArgs>
     campaignsCreated?: boolean | User$campaignsCreatedArgs<ExtArgs>
@@ -7134,6 +7281,8 @@ export namespace Prisma {
     systemRole?: boolean
     onboardingComplete?: boolean
     lastSelectedPageId?: boolean
+    setupComplete?: boolean
+    invitedBy?: boolean
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7158,6 +7307,8 @@ export namespace Prisma {
     systemRole?: boolean
     onboardingComplete?: boolean
     lastSelectedPageId?: boolean
+    setupComplete?: boolean
+    invitedBy?: boolean
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7182,14 +7333,17 @@ export namespace Prisma {
     systemRole?: boolean
     onboardingComplete?: boolean
     lastSelectedPageId?: boolean
+    setupComplete?: boolean
+    invitedBy?: boolean
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "avatar" | "emailVerified" | "password" | "passwordResetToken" | "passwordResetExpires" | "timezone" | "locale" | "dateFormat" | "lastLoginAt" | "lastLoginIp" | "loginCount" | "status" | "systemRole" | "onboardingComplete" | "lastSelectedPageId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "avatar" | "emailVerified" | "password" | "passwordResetToken" | "passwordResetExpires" | "timezone" | "locale" | "dateFormat" | "lastLoginAt" | "lastLoginIp" | "loginCount" | "status" | "systemRole" | "onboardingComplete" | "lastSelectedPageId" | "setupComplete" | "invitedBy" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberships?: boolean | User$membershipsArgs<ExtArgs>
+    emailVerifications?: boolean | User$emailVerificationsArgs<ExtArgs>
     invitationsSent?: boolean | User$invitationsSentArgs<ExtArgs>
     connectionsAdded?: boolean | User$connectionsAddedArgs<ExtArgs>
     campaignsCreated?: boolean | User$campaignsCreatedArgs<ExtArgs>
@@ -7211,6 +7365,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       memberships: Prisma.$MembershipPayload<ExtArgs>[]
+      emailVerifications: Prisma.$EmailVerificationPayload<ExtArgs>[]
       invitationsSent: Prisma.$InvitationPayload<ExtArgs>[]
       connectionsAdded: Prisma.$PlatformConnectionPayload<ExtArgs>[]
       campaignsCreated: Prisma.$CampaignPayload<ExtArgs>[]
@@ -7243,6 +7398,8 @@ export namespace Prisma {
       systemRole: $Enums.SystemRole
       onboardingComplete: boolean
       lastSelectedPageId: string | null
+      setupComplete: boolean
+      invitedBy: string | null
       deletedAt: Date | null
       createdAt: Date
       updatedAt: Date
@@ -7641,6 +7798,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     memberships<T extends User$membershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    emailVerifications<T extends User$emailVerificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$emailVerificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     invitationsSent<T extends User$invitationsSentArgs<ExtArgs> = {}>(args?: Subset<T, User$invitationsSentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     connectionsAdded<T extends User$connectionsAddedArgs<ExtArgs> = {}>(args?: Subset<T, User$connectionsAddedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlatformConnectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     campaignsCreated<T extends User$campaignsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, User$campaignsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CampaignPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -7700,6 +7858,8 @@ export namespace Prisma {
     readonly systemRole: FieldRef<"User", 'SystemRole'>
     readonly onboardingComplete: FieldRef<"User", 'Boolean'>
     readonly lastSelectedPageId: FieldRef<"User", 'String'>
+    readonly setupComplete: FieldRef<"User", 'Boolean'>
+    readonly invitedBy: FieldRef<"User", 'String'>
     readonly deletedAt: FieldRef<"User", 'DateTime'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
@@ -8112,6 +8272,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MembershipScalarFieldEnum | MembershipScalarFieldEnum[]
+  }
+
+  /**
+   * User.emailVerifications
+   */
+  export type User$emailVerificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    where?: EmailVerificationWhereInput
+    orderBy?: EmailVerificationOrderByWithRelationInput | EmailVerificationOrderByWithRelationInput[]
+    cursor?: EmailVerificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EmailVerificationScalarFieldEnum | EmailVerificationScalarFieldEnum[]
   }
 
   /**
@@ -12741,6 +12925,8 @@ export namespace Prisma {
     token: string | null
     expiresAt: Date | null
     invitedBy: string | null
+    status: $Enums.InviteStatus | null
+    message: string | null
     acceptedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -12754,6 +12940,8 @@ export namespace Prisma {
     token: string | null
     expiresAt: Date | null
     invitedBy: string | null
+    status: $Enums.InviteStatus | null
+    message: string | null
     acceptedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -12767,6 +12955,8 @@ export namespace Prisma {
     token: number
     expiresAt: number
     invitedBy: number
+    status: number
+    message: number
     acceptedAt: number
     createdAt: number
     updatedAt: number
@@ -12782,6 +12972,8 @@ export namespace Prisma {
     token?: true
     expiresAt?: true
     invitedBy?: true
+    status?: true
+    message?: true
     acceptedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -12795,6 +12987,8 @@ export namespace Prisma {
     token?: true
     expiresAt?: true
     invitedBy?: true
+    status?: true
+    message?: true
     acceptedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -12808,6 +13002,8 @@ export namespace Prisma {
     token?: true
     expiresAt?: true
     invitedBy?: true
+    status?: true
+    message?: true
     acceptedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -12894,6 +13090,8 @@ export namespace Prisma {
     token: string
     expiresAt: Date
     invitedBy: string
+    status: $Enums.InviteStatus
+    message: string | null
     acceptedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -12924,6 +13122,8 @@ export namespace Prisma {
     token?: boolean
     expiresAt?: boolean
     invitedBy?: boolean
+    status?: boolean
+    message?: boolean
     acceptedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -12939,6 +13139,8 @@ export namespace Prisma {
     token?: boolean
     expiresAt?: boolean
     invitedBy?: boolean
+    status?: boolean
+    message?: boolean
     acceptedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -12954,6 +13156,8 @@ export namespace Prisma {
     token?: boolean
     expiresAt?: boolean
     invitedBy?: boolean
+    status?: boolean
+    message?: boolean
     acceptedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -12969,12 +13173,14 @@ export namespace Prisma {
     token?: boolean
     expiresAt?: boolean
     invitedBy?: boolean
+    status?: boolean
+    message?: boolean
     acceptedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type InvitationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "email" | "role" | "token" | "expiresAt" | "invitedBy" | "acceptedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["invitation"]>
+  export type InvitationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "email" | "role" | "token" | "expiresAt" | "invitedBy" | "status" | "message" | "acceptedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["invitation"]>
   export type InvitationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     inviter?: boolean | UserDefaultArgs<ExtArgs>
@@ -13002,6 +13208,8 @@ export namespace Prisma {
       token: string
       expiresAt: Date
       invitedBy: string
+      status: $Enums.InviteStatus
+      message: string | null
       acceptedAt: Date | null
       createdAt: Date
       updatedAt: Date
@@ -13437,6 +13645,8 @@ export namespace Prisma {
     readonly token: FieldRef<"Invitation", 'String'>
     readonly expiresAt: FieldRef<"Invitation", 'DateTime'>
     readonly invitedBy: FieldRef<"Invitation", 'String'>
+    readonly status: FieldRef<"Invitation", 'InviteStatus'>
+    readonly message: FieldRef<"Invitation", 'String'>
     readonly acceptedAt: FieldRef<"Invitation", 'DateTime'>
     readonly createdAt: FieldRef<"Invitation", 'DateTime'>
     readonly updatedAt: FieldRef<"Invitation", 'DateTime'>
@@ -49218,6 +49428,1103 @@ export namespace Prisma {
 
 
   /**
+   * Model EmailVerification
+   */
+
+  export type AggregateEmailVerification = {
+    _count: EmailVerificationCountAggregateOutputType | null
+    _min: EmailVerificationMinAggregateOutputType | null
+    _max: EmailVerificationMaxAggregateOutputType | null
+  }
+
+  export type EmailVerificationMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    email: string | null
+    token: string | null
+    type: $Enums.VerificationType | null
+    expiresAt: Date | null
+    usedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type EmailVerificationMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    email: string | null
+    token: string | null
+    type: $Enums.VerificationType | null
+    expiresAt: Date | null
+    usedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type EmailVerificationCountAggregateOutputType = {
+    id: number
+    userId: number
+    email: number
+    token: number
+    type: number
+    expiresAt: number
+    usedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type EmailVerificationMinAggregateInputType = {
+    id?: true
+    userId?: true
+    email?: true
+    token?: true
+    type?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+  }
+
+  export type EmailVerificationMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    email?: true
+    token?: true
+    type?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+  }
+
+  export type EmailVerificationCountAggregateInputType = {
+    id?: true
+    userId?: true
+    email?: true
+    token?: true
+    type?: true
+    expiresAt?: true
+    usedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type EmailVerificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmailVerification to aggregate.
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailVerifications to fetch.
+     */
+    orderBy?: EmailVerificationOrderByWithRelationInput | EmailVerificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EmailVerificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailVerifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailVerifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EmailVerifications
+    **/
+    _count?: true | EmailVerificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EmailVerificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EmailVerificationMaxAggregateInputType
+  }
+
+  export type GetEmailVerificationAggregateType<T extends EmailVerificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateEmailVerification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEmailVerification[P]>
+      : GetScalarType<T[P], AggregateEmailVerification[P]>
+  }
+
+
+
+
+  export type EmailVerificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmailVerificationWhereInput
+    orderBy?: EmailVerificationOrderByWithAggregationInput | EmailVerificationOrderByWithAggregationInput[]
+    by: EmailVerificationScalarFieldEnum[] | EmailVerificationScalarFieldEnum
+    having?: EmailVerificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EmailVerificationCountAggregateInputType | true
+    _min?: EmailVerificationMinAggregateInputType
+    _max?: EmailVerificationMaxAggregateInputType
+  }
+
+  export type EmailVerificationGroupByOutputType = {
+    id: string
+    userId: string
+    email: string
+    token: string
+    type: $Enums.VerificationType
+    expiresAt: Date
+    usedAt: Date | null
+    createdAt: Date
+    _count: EmailVerificationCountAggregateOutputType | null
+    _min: EmailVerificationMinAggregateOutputType | null
+    _max: EmailVerificationMaxAggregateOutputType | null
+  }
+
+  type GetEmailVerificationGroupByPayload<T extends EmailVerificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EmailVerificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EmailVerificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EmailVerificationGroupByOutputType[P]>
+            : GetScalarType<T[P], EmailVerificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EmailVerificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    email?: boolean
+    token?: boolean
+    type?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["emailVerification"]>
+
+  export type EmailVerificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    email?: boolean
+    token?: boolean
+    type?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["emailVerification"]>
+
+  export type EmailVerificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    email?: boolean
+    token?: boolean
+    type?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["emailVerification"]>
+
+  export type EmailVerificationSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    email?: boolean
+    token?: boolean
+    type?: boolean
+    expiresAt?: boolean
+    usedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type EmailVerificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "email" | "token" | "type" | "expiresAt" | "usedAt" | "createdAt", ExtArgs["result"]["emailVerification"]>
+  export type EmailVerificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type EmailVerificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type EmailVerificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $EmailVerificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EmailVerification"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      email: string
+      token: string
+      type: $Enums.VerificationType
+      expiresAt: Date
+      usedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["emailVerification"]>
+    composites: {}
+  }
+
+  type EmailVerificationGetPayload<S extends boolean | null | undefined | EmailVerificationDefaultArgs> = $Result.GetResult<Prisma.$EmailVerificationPayload, S>
+
+  type EmailVerificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EmailVerificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EmailVerificationCountAggregateInputType | true
+    }
+
+  export interface EmailVerificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EmailVerification'], meta: { name: 'EmailVerification' } }
+    /**
+     * Find zero or one EmailVerification that matches the filter.
+     * @param {EmailVerificationFindUniqueArgs} args - Arguments to find a EmailVerification
+     * @example
+     * // Get one EmailVerification
+     * const emailVerification = await prisma.emailVerification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EmailVerificationFindUniqueArgs>(args: SelectSubset<T, EmailVerificationFindUniqueArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EmailVerification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EmailVerificationFindUniqueOrThrowArgs} args - Arguments to find a EmailVerification
+     * @example
+     * // Get one EmailVerification
+     * const emailVerification = await prisma.emailVerification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EmailVerificationFindUniqueOrThrowArgs>(args: SelectSubset<T, EmailVerificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmailVerification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationFindFirstArgs} args - Arguments to find a EmailVerification
+     * @example
+     * // Get one EmailVerification
+     * const emailVerification = await prisma.emailVerification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EmailVerificationFindFirstArgs>(args?: SelectSubset<T, EmailVerificationFindFirstArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmailVerification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationFindFirstOrThrowArgs} args - Arguments to find a EmailVerification
+     * @example
+     * // Get one EmailVerification
+     * const emailVerification = await prisma.emailVerification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EmailVerificationFindFirstOrThrowArgs>(args?: SelectSubset<T, EmailVerificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EmailVerifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EmailVerifications
+     * const emailVerifications = await prisma.emailVerification.findMany()
+     * 
+     * // Get first 10 EmailVerifications
+     * const emailVerifications = await prisma.emailVerification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const emailVerificationWithIdOnly = await prisma.emailVerification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EmailVerificationFindManyArgs>(args?: SelectSubset<T, EmailVerificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EmailVerification.
+     * @param {EmailVerificationCreateArgs} args - Arguments to create a EmailVerification.
+     * @example
+     * // Create one EmailVerification
+     * const EmailVerification = await prisma.emailVerification.create({
+     *   data: {
+     *     // ... data to create a EmailVerification
+     *   }
+     * })
+     * 
+     */
+    create<T extends EmailVerificationCreateArgs>(args: SelectSubset<T, EmailVerificationCreateArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EmailVerifications.
+     * @param {EmailVerificationCreateManyArgs} args - Arguments to create many EmailVerifications.
+     * @example
+     * // Create many EmailVerifications
+     * const emailVerification = await prisma.emailVerification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EmailVerificationCreateManyArgs>(args?: SelectSubset<T, EmailVerificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EmailVerifications and returns the data saved in the database.
+     * @param {EmailVerificationCreateManyAndReturnArgs} args - Arguments to create many EmailVerifications.
+     * @example
+     * // Create many EmailVerifications
+     * const emailVerification = await prisma.emailVerification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EmailVerifications and only return the `id`
+     * const emailVerificationWithIdOnly = await prisma.emailVerification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EmailVerificationCreateManyAndReturnArgs>(args?: SelectSubset<T, EmailVerificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EmailVerification.
+     * @param {EmailVerificationDeleteArgs} args - Arguments to delete one EmailVerification.
+     * @example
+     * // Delete one EmailVerification
+     * const EmailVerification = await prisma.emailVerification.delete({
+     *   where: {
+     *     // ... filter to delete one EmailVerification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EmailVerificationDeleteArgs>(args: SelectSubset<T, EmailVerificationDeleteArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EmailVerification.
+     * @param {EmailVerificationUpdateArgs} args - Arguments to update one EmailVerification.
+     * @example
+     * // Update one EmailVerification
+     * const emailVerification = await prisma.emailVerification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EmailVerificationUpdateArgs>(args: SelectSubset<T, EmailVerificationUpdateArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EmailVerifications.
+     * @param {EmailVerificationDeleteManyArgs} args - Arguments to filter EmailVerifications to delete.
+     * @example
+     * // Delete a few EmailVerifications
+     * const { count } = await prisma.emailVerification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EmailVerificationDeleteManyArgs>(args?: SelectSubset<T, EmailVerificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmailVerifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EmailVerifications
+     * const emailVerification = await prisma.emailVerification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EmailVerificationUpdateManyArgs>(args: SelectSubset<T, EmailVerificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmailVerifications and returns the data updated in the database.
+     * @param {EmailVerificationUpdateManyAndReturnArgs} args - Arguments to update many EmailVerifications.
+     * @example
+     * // Update many EmailVerifications
+     * const emailVerification = await prisma.emailVerification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EmailVerifications and only return the `id`
+     * const emailVerificationWithIdOnly = await prisma.emailVerification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EmailVerificationUpdateManyAndReturnArgs>(args: SelectSubset<T, EmailVerificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EmailVerification.
+     * @param {EmailVerificationUpsertArgs} args - Arguments to update or create a EmailVerification.
+     * @example
+     * // Update or create a EmailVerification
+     * const emailVerification = await prisma.emailVerification.upsert({
+     *   create: {
+     *     // ... data to create a EmailVerification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EmailVerification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EmailVerificationUpsertArgs>(args: SelectSubset<T, EmailVerificationUpsertArgs<ExtArgs>>): Prisma__EmailVerificationClient<$Result.GetResult<Prisma.$EmailVerificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EmailVerifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationCountArgs} args - Arguments to filter EmailVerifications to count.
+     * @example
+     * // Count the number of EmailVerifications
+     * const count = await prisma.emailVerification.count({
+     *   where: {
+     *     // ... the filter for the EmailVerifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends EmailVerificationCountArgs>(
+      args?: Subset<T, EmailVerificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EmailVerificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EmailVerification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EmailVerificationAggregateArgs>(args: Subset<T, EmailVerificationAggregateArgs>): Prisma.PrismaPromise<GetEmailVerificationAggregateType<T>>
+
+    /**
+     * Group by EmailVerification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EmailVerificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EmailVerificationGroupByArgs['orderBy'] }
+        : { orderBy?: EmailVerificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EmailVerificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEmailVerificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EmailVerification model
+   */
+  readonly fields: EmailVerificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EmailVerification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EmailVerificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EmailVerification model
+   */
+  interface EmailVerificationFieldRefs {
+    readonly id: FieldRef<"EmailVerification", 'String'>
+    readonly userId: FieldRef<"EmailVerification", 'String'>
+    readonly email: FieldRef<"EmailVerification", 'String'>
+    readonly token: FieldRef<"EmailVerification", 'String'>
+    readonly type: FieldRef<"EmailVerification", 'VerificationType'>
+    readonly expiresAt: FieldRef<"EmailVerification", 'DateTime'>
+    readonly usedAt: FieldRef<"EmailVerification", 'DateTime'>
+    readonly createdAt: FieldRef<"EmailVerification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EmailVerification findUnique
+   */
+  export type EmailVerificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerification to fetch.
+     */
+    where: EmailVerificationWhereUniqueInput
+  }
+
+  /**
+   * EmailVerification findUniqueOrThrow
+   */
+  export type EmailVerificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerification to fetch.
+     */
+    where: EmailVerificationWhereUniqueInput
+  }
+
+  /**
+   * EmailVerification findFirst
+   */
+  export type EmailVerificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerification to fetch.
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailVerifications to fetch.
+     */
+    orderBy?: EmailVerificationOrderByWithRelationInput | EmailVerificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmailVerifications.
+     */
+    cursor?: EmailVerificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailVerifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailVerifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmailVerifications.
+     */
+    distinct?: EmailVerificationScalarFieldEnum | EmailVerificationScalarFieldEnum[]
+  }
+
+  /**
+   * EmailVerification findFirstOrThrow
+   */
+  export type EmailVerificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerification to fetch.
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailVerifications to fetch.
+     */
+    orderBy?: EmailVerificationOrderByWithRelationInput | EmailVerificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmailVerifications.
+     */
+    cursor?: EmailVerificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailVerifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailVerifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmailVerifications.
+     */
+    distinct?: EmailVerificationScalarFieldEnum | EmailVerificationScalarFieldEnum[]
+  }
+
+  /**
+   * EmailVerification findMany
+   */
+  export type EmailVerificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerifications to fetch.
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailVerifications to fetch.
+     */
+    orderBy?: EmailVerificationOrderByWithRelationInput | EmailVerificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EmailVerifications.
+     */
+    cursor?: EmailVerificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailVerifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailVerifications.
+     */
+    skip?: number
+    distinct?: EmailVerificationScalarFieldEnum | EmailVerificationScalarFieldEnum[]
+  }
+
+  /**
+   * EmailVerification create
+   */
+  export type EmailVerificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EmailVerification.
+     */
+    data: XOR<EmailVerificationCreateInput, EmailVerificationUncheckedCreateInput>
+  }
+
+  /**
+   * EmailVerification createMany
+   */
+  export type EmailVerificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EmailVerifications.
+     */
+    data: EmailVerificationCreateManyInput | EmailVerificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EmailVerification createManyAndReturn
+   */
+  export type EmailVerificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many EmailVerifications.
+     */
+    data: EmailVerificationCreateManyInput | EmailVerificationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EmailVerification update
+   */
+  export type EmailVerificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EmailVerification.
+     */
+    data: XOR<EmailVerificationUpdateInput, EmailVerificationUncheckedUpdateInput>
+    /**
+     * Choose, which EmailVerification to update.
+     */
+    where: EmailVerificationWhereUniqueInput
+  }
+
+  /**
+   * EmailVerification updateMany
+   */
+  export type EmailVerificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EmailVerifications.
+     */
+    data: XOR<EmailVerificationUpdateManyMutationInput, EmailVerificationUncheckedUpdateManyInput>
+    /**
+     * Filter which EmailVerifications to update
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * Limit how many EmailVerifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmailVerification updateManyAndReturn
+   */
+  export type EmailVerificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * The data used to update EmailVerifications.
+     */
+    data: XOR<EmailVerificationUpdateManyMutationInput, EmailVerificationUncheckedUpdateManyInput>
+    /**
+     * Filter which EmailVerifications to update
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * Limit how many EmailVerifications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EmailVerification upsert
+   */
+  export type EmailVerificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EmailVerification to update in case it exists.
+     */
+    where: EmailVerificationWhereUniqueInput
+    /**
+     * In case the EmailVerification found by the `where` argument doesn't exist, create a new EmailVerification with this data.
+     */
+    create: XOR<EmailVerificationCreateInput, EmailVerificationUncheckedCreateInput>
+    /**
+     * In case the EmailVerification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EmailVerificationUpdateInput, EmailVerificationUncheckedUpdateInput>
+  }
+
+  /**
+   * EmailVerification delete
+   */
+  export type EmailVerificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+    /**
+     * Filter which EmailVerification to delete.
+     */
+    where: EmailVerificationWhereUniqueInput
+  }
+
+  /**
+   * EmailVerification deleteMany
+   */
+  export type EmailVerificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmailVerifications to delete
+     */
+    where?: EmailVerificationWhereInput
+    /**
+     * Limit how many EmailVerifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmailVerification without action
+   */
+  export type EmailVerificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerification
+     */
+    select?: EmailVerificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerification
+     */
+    omit?: EmailVerificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -49286,6 +50593,8 @@ export namespace Prisma {
     systemRole: 'systemRole',
     onboardingComplete: 'onboardingComplete',
     lastSelectedPageId: 'lastSelectedPageId',
+    setupComplete: 'setupComplete',
+    invitedBy: 'invitedBy',
     deletedAt: 'deletedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -49353,6 +50662,8 @@ export namespace Prisma {
     token: 'token',
     expiresAt: 'expiresAt',
     invitedBy: 'invitedBy',
+    status: 'status',
+    message: 'message',
     acceptedAt: 'acceptedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -49895,6 +51206,20 @@ export namespace Prisma {
   export type HistoricalMetricSnapshotScalarFieldEnum = (typeof HistoricalMetricSnapshotScalarFieldEnum)[keyof typeof HistoricalMetricSnapshotScalarFieldEnum]
 
 
+  export const EmailVerificationScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    email: 'email',
+    token: 'token',
+    type: 'type',
+    expiresAt: 'expiresAt',
+    usedAt: 'usedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type EmailVerificationScalarFieldEnum = (typeof EmailVerificationScalarFieldEnum)[keyof typeof EmailVerificationScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -50096,6 +51421,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'InviteStatus'
+   */
+  export type EnumInviteStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InviteStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'InviteStatus[]'
+   */
+  export type ListEnumInviteStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InviteStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Platform'
    */
   export type EnumPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Platform'>
@@ -50274,6 +51613,20 @@ export namespace Prisma {
    * Reference to a field of type 'IngestionStatus[]'
    */
   export type ListEnumIngestionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IngestionStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'VerificationType'
+   */
+  export type EnumVerificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationType'>
+    
+
+
+  /**
+   * Reference to a field of type 'VerificationType[]'
+   */
+  export type ListEnumVerificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationType[]'>
     
   /**
    * Deep Input Types
@@ -50529,10 +51882,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFilter<"User"> | $Enums.SystemRole
     onboardingComplete?: BoolFilter<"User"> | boolean
     lastSelectedPageId?: StringNullableFilter<"User"> | string | null
+    setupComplete?: BoolFilter<"User"> | boolean
+    invitedBy?: StringNullableFilter<"User"> | string | null
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     memberships?: MembershipListRelationFilter
+    emailVerifications?: EmailVerificationListRelationFilter
     invitationsSent?: InvitationListRelationFilter
     connectionsAdded?: PlatformConnectionListRelationFilter
     campaignsCreated?: CampaignListRelationFilter
@@ -50566,10 +51922,13 @@ export namespace Prisma {
     systemRole?: SortOrder
     onboardingComplete?: SortOrder
     lastSelectedPageId?: SortOrderInput | SortOrder
+    setupComplete?: SortOrder
+    invitedBy?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     memberships?: MembershipOrderByRelationAggregateInput
+    emailVerifications?: EmailVerificationOrderByRelationAggregateInput
     invitationsSent?: InvitationOrderByRelationAggregateInput
     connectionsAdded?: PlatformConnectionOrderByRelationAggregateInput
     campaignsCreated?: CampaignOrderByRelationAggregateInput
@@ -50606,10 +51965,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFilter<"User"> | $Enums.SystemRole
     onboardingComplete?: BoolFilter<"User"> | boolean
     lastSelectedPageId?: StringNullableFilter<"User"> | string | null
+    setupComplete?: BoolFilter<"User"> | boolean
+    invitedBy?: StringNullableFilter<"User"> | string | null
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     memberships?: MembershipListRelationFilter
+    emailVerifications?: EmailVerificationListRelationFilter
     invitationsSent?: InvitationListRelationFilter
     connectionsAdded?: PlatformConnectionListRelationFilter
     campaignsCreated?: CampaignListRelationFilter
@@ -50643,6 +52005,8 @@ export namespace Prisma {
     systemRole?: SortOrder
     onboardingComplete?: SortOrder
     lastSelectedPageId?: SortOrderInput | SortOrder
+    setupComplete?: SortOrder
+    invitedBy?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -50675,6 +52039,8 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleWithAggregatesFilter<"User"> | $Enums.SystemRole
     onboardingComplete?: BoolWithAggregatesFilter<"User"> | boolean
     lastSelectedPageId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    setupComplete?: BoolWithAggregatesFilter<"User"> | boolean
+    invitedBy?: StringNullableWithAggregatesFilter<"User"> | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -50951,6 +52317,8 @@ export namespace Prisma {
     token?: StringFilter<"Invitation"> | string
     expiresAt?: DateTimeFilter<"Invitation"> | Date | string
     invitedBy?: StringFilter<"Invitation"> | string
+    status?: EnumInviteStatusFilter<"Invitation"> | $Enums.InviteStatus
+    message?: StringNullableFilter<"Invitation"> | string | null
     acceptedAt?: DateTimeNullableFilter<"Invitation"> | Date | string | null
     createdAt?: DateTimeFilter<"Invitation"> | Date | string
     updatedAt?: DateTimeFilter<"Invitation"> | Date | string
@@ -50966,6 +52334,8 @@ export namespace Prisma {
     token?: SortOrder
     expiresAt?: SortOrder
     invitedBy?: SortOrder
+    status?: SortOrder
+    message?: SortOrderInput | SortOrder
     acceptedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -50984,6 +52354,8 @@ export namespace Prisma {
     role?: EnumRoleFilter<"Invitation"> | $Enums.Role
     expiresAt?: DateTimeFilter<"Invitation"> | Date | string
     invitedBy?: StringFilter<"Invitation"> | string
+    status?: EnumInviteStatusFilter<"Invitation"> | $Enums.InviteStatus
+    message?: StringNullableFilter<"Invitation"> | string | null
     acceptedAt?: DateTimeNullableFilter<"Invitation"> | Date | string | null
     createdAt?: DateTimeFilter<"Invitation"> | Date | string
     updatedAt?: DateTimeFilter<"Invitation"> | Date | string
@@ -50999,6 +52371,8 @@ export namespace Prisma {
     token?: SortOrder
     expiresAt?: SortOrder
     invitedBy?: SortOrder
+    status?: SortOrder
+    message?: SortOrderInput | SortOrder
     acceptedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -51018,6 +52392,8 @@ export namespace Prisma {
     token?: StringWithAggregatesFilter<"Invitation"> | string
     expiresAt?: DateTimeWithAggregatesFilter<"Invitation"> | Date | string
     invitedBy?: StringWithAggregatesFilter<"Invitation"> | string
+    status?: EnumInviteStatusWithAggregatesFilter<"Invitation"> | $Enums.InviteStatus
+    message?: StringNullableWithAggregatesFilter<"Invitation"> | string | null
     acceptedAt?: DateTimeNullableWithAggregatesFilter<"Invitation"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Invitation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Invitation"> | Date | string
@@ -53810,6 +55186,76 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"HistoricalMetricSnapshot"> | Date | string
   }
 
+  export type EmailVerificationWhereInput = {
+    AND?: EmailVerificationWhereInput | EmailVerificationWhereInput[]
+    OR?: EmailVerificationWhereInput[]
+    NOT?: EmailVerificationWhereInput | EmailVerificationWhereInput[]
+    id?: StringFilter<"EmailVerification"> | string
+    userId?: StringFilter<"EmailVerification"> | string
+    email?: StringFilter<"EmailVerification"> | string
+    token?: StringFilter<"EmailVerification"> | string
+    type?: EnumVerificationTypeFilter<"EmailVerification"> | $Enums.VerificationType
+    expiresAt?: DateTimeFilter<"EmailVerification"> | Date | string
+    usedAt?: DateTimeNullableFilter<"EmailVerification"> | Date | string | null
+    createdAt?: DateTimeFilter<"EmailVerification"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type EmailVerificationOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    type?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type EmailVerificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    token?: string
+    AND?: EmailVerificationWhereInput | EmailVerificationWhereInput[]
+    OR?: EmailVerificationWhereInput[]
+    NOT?: EmailVerificationWhereInput | EmailVerificationWhereInput[]
+    userId?: StringFilter<"EmailVerification"> | string
+    email?: StringFilter<"EmailVerification"> | string
+    type?: EnumVerificationTypeFilter<"EmailVerification"> | $Enums.VerificationType
+    expiresAt?: DateTimeFilter<"EmailVerification"> | Date | string
+    usedAt?: DateTimeNullableFilter<"EmailVerification"> | Date | string | null
+    createdAt?: DateTimeFilter<"EmailVerification"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "token">
+
+  export type EmailVerificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    type?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: EmailVerificationCountOrderByAggregateInput
+    _max?: EmailVerificationMaxOrderByAggregateInput
+    _min?: EmailVerificationMinOrderByAggregateInput
+  }
+
+  export type EmailVerificationScalarWhereWithAggregatesInput = {
+    AND?: EmailVerificationScalarWhereWithAggregatesInput | EmailVerificationScalarWhereWithAggregatesInput[]
+    OR?: EmailVerificationScalarWhereWithAggregatesInput[]
+    NOT?: EmailVerificationScalarWhereWithAggregatesInput | EmailVerificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"EmailVerification"> | string
+    userId?: StringWithAggregatesFilter<"EmailVerification"> | string
+    email?: StringWithAggregatesFilter<"EmailVerification"> | string
+    token?: StringWithAggregatesFilter<"EmailVerification"> | string
+    type?: EnumVerificationTypeWithAggregatesFilter<"EmailVerification"> | $Enums.VerificationType
+    expiresAt?: DateTimeWithAggregatesFilter<"EmailVerification"> | Date | string
+    usedAt?: DateTimeNullableWithAggregatesFilter<"EmailVerification"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"EmailVerification"> | Date | string
+  }
+
   export type OrganizationCreateInput = {
     id?: string
     name: string
@@ -54124,10 +55570,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
@@ -54161,10 +55610,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
@@ -54198,10 +55650,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
@@ -54235,10 +55690,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
@@ -54272,6 +55730,8 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -54296,6 +55756,8 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54320,6 +55782,8 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54600,6 +56064,8 @@ export namespace Prisma {
     role: $Enums.Role
     token: string
     expiresAt: Date | string
+    status?: $Enums.InviteStatus
+    message?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -54615,6 +56081,8 @@ export namespace Prisma {
     token: string
     expiresAt: Date | string
     invitedBy: string
+    status?: $Enums.InviteStatus
+    message?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -54626,6 +56094,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInviteStatusFieldUpdateOperationsInput | $Enums.InviteStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54641,6 +56111,8 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invitedBy?: StringFieldUpdateOperationsInput | string
+    status?: EnumInviteStatusFieldUpdateOperationsInput | $Enums.InviteStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54654,6 +56126,8 @@ export namespace Prisma {
     token: string
     expiresAt: Date | string
     invitedBy: string
+    status?: $Enums.InviteStatus
+    message?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -54665,6 +56139,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInviteStatusFieldUpdateOperationsInput | $Enums.InviteStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54678,6 +56154,8 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invitedBy?: StringFieldUpdateOperationsInput | string
+    status?: EnumInviteStatusFieldUpdateOperationsInput | $Enums.InviteStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -57819,6 +59297,82 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type EmailVerificationCreateInput = {
+    id?: string
+    email: string
+    token: string
+    type: $Enums.VerificationType
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutEmailVerificationsInput
+  }
+
+  export type EmailVerificationUncheckedCreateInput = {
+    id?: string
+    userId: string
+    email: string
+    token: string
+    type: $Enums.VerificationType
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type EmailVerificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    type?: EnumVerificationTypeFieldUpdateOperationsInput | $Enums.VerificationType
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutEmailVerificationsNestedInput
+  }
+
+  export type EmailVerificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    type?: EnumVerificationTypeFieldUpdateOperationsInput | $Enums.VerificationType
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailVerificationCreateManyInput = {
+    id?: string
+    userId: string
+    email: string
+    token: string
+    type: $Enums.VerificationType
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type EmailVerificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    type?: EnumVerificationTypeFieldUpdateOperationsInput | $Enums.VerificationType
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailVerificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    type?: EnumVerificationTypeFieldUpdateOperationsInput | $Enums.VerificationType
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -58363,6 +59917,12 @@ export namespace Prisma {
     not?: NestedEnumSystemRoleFilter<$PrismaModel> | $Enums.SystemRole
   }
 
+  export type EmailVerificationListRelationFilter = {
+    every?: EmailVerificationWhereInput
+    some?: EmailVerificationWhereInput
+    none?: EmailVerificationWhereInput
+  }
+
   export type AuthenticatorListRelationFilter = {
     every?: AuthenticatorWhereInput
     some?: AuthenticatorWhereInput
@@ -58391,6 +59951,10 @@ export namespace Prisma {
     every?: SessionWhereInput
     some?: SessionWhereInput
     none?: SessionWhereInput
+  }
+
+  export type EmailVerificationOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type AuthenticatorOrderByRelationAggregateInput = {
@@ -58432,6 +59996,8 @@ export namespace Prisma {
     systemRole?: SortOrder
     onboardingComplete?: SortOrder
     lastSelectedPageId?: SortOrder
+    setupComplete?: SortOrder
+    invitedBy?: SortOrder
     deletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -58460,6 +60026,8 @@ export namespace Prisma {
     systemRole?: SortOrder
     onboardingComplete?: SortOrder
     lastSelectedPageId?: SortOrder
+    setupComplete?: SortOrder
+    invitedBy?: SortOrder
     deletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -58484,6 +60052,8 @@ export namespace Prisma {
     systemRole?: SortOrder
     onboardingComplete?: SortOrder
     lastSelectedPageId?: SortOrder
+    setupComplete?: SortOrder
+    invitedBy?: SortOrder
     deletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -58707,6 +60277,13 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type EnumInviteStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InviteStatus | EnumInviteStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InviteStatus[] | ListEnumInviteStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InviteStatus[] | ListEnumInviteStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInviteStatusFilter<$PrismaModel> | $Enums.InviteStatus
+  }
+
   export type InvitationCountOrderByAggregateInput = {
     id?: SortOrder
     orgId?: SortOrder
@@ -58715,6 +60292,8 @@ export namespace Prisma {
     token?: SortOrder
     expiresAt?: SortOrder
     invitedBy?: SortOrder
+    status?: SortOrder
+    message?: SortOrder
     acceptedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -58728,6 +60307,8 @@ export namespace Prisma {
     token?: SortOrder
     expiresAt?: SortOrder
     invitedBy?: SortOrder
+    status?: SortOrder
+    message?: SortOrder
     acceptedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -58741,9 +60322,21 @@ export namespace Prisma {
     token?: SortOrder
     expiresAt?: SortOrder
     invitedBy?: SortOrder
+    status?: SortOrder
+    message?: SortOrder
     acceptedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumInviteStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InviteStatus | EnumInviteStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InviteStatus[] | ListEnumInviteStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InviteStatus[] | ListEnumInviteStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInviteStatusWithAggregatesFilter<$PrismaModel> | $Enums.InviteStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInviteStatusFilter<$PrismaModel>
+    _max?: NestedEnumInviteStatusFilter<$PrismaModel>
   }
 
   export type EnumPlatformFilter<$PrismaModel = never> = {
@@ -60732,6 +62325,56 @@ export namespace Prisma {
     pageEngagement?: SortOrder
   }
 
+  export type EnumVerificationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationType | EnumVerificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationType[] | ListEnumVerificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationType[] | ListEnumVerificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationTypeFilter<$PrismaModel> | $Enums.VerificationType
+  }
+
+  export type EmailVerificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    type?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EmailVerificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    type?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EmailVerificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    email?: SortOrder
+    token?: SortOrder
+    type?: SortOrder
+    expiresAt?: SortOrder
+    usedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumVerificationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationType | EnumVerificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationType[] | ListEnumVerificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationType[] | ListEnumVerificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationTypeWithAggregatesFilter<$PrismaModel> | $Enums.VerificationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVerificationTypeFilter<$PrismaModel>
+    _max?: NestedEnumVerificationTypeFilter<$PrismaModel>
+  }
+
   export type MembershipCreateNestedManyWithoutOrganizationInput = {
     create?: XOR<MembershipCreateWithoutOrganizationInput, MembershipUncheckedCreateWithoutOrganizationInput> | MembershipCreateWithoutOrganizationInput[] | MembershipUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutOrganizationInput | MembershipCreateOrConnectWithoutOrganizationInput[]
@@ -61451,6 +63094,13 @@ export namespace Prisma {
     connect?: MembershipWhereUniqueInput | MembershipWhereUniqueInput[]
   }
 
+  export type EmailVerificationCreateNestedManyWithoutUserInput = {
+    create?: XOR<EmailVerificationCreateWithoutUserInput, EmailVerificationUncheckedCreateWithoutUserInput> | EmailVerificationCreateWithoutUserInput[] | EmailVerificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EmailVerificationCreateOrConnectWithoutUserInput | EmailVerificationCreateOrConnectWithoutUserInput[]
+    createMany?: EmailVerificationCreateManyUserInputEnvelope
+    connect?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+  }
+
   export type InvitationCreateNestedManyWithoutInviterInput = {
     create?: XOR<InvitationCreateWithoutInviterInput, InvitationUncheckedCreateWithoutInviterInput> | InvitationCreateWithoutInviterInput[] | InvitationUncheckedCreateWithoutInviterInput[]
     connectOrCreate?: InvitationCreateOrConnectWithoutInviterInput | InvitationCreateOrConnectWithoutInviterInput[]
@@ -61540,6 +63190,13 @@ export namespace Prisma {
     connectOrCreate?: MembershipCreateOrConnectWithoutUserInput | MembershipCreateOrConnectWithoutUserInput[]
     createMany?: MembershipCreateManyUserInputEnvelope
     connect?: MembershipWhereUniqueInput | MembershipWhereUniqueInput[]
+  }
+
+  export type EmailVerificationUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<EmailVerificationCreateWithoutUserInput, EmailVerificationUncheckedCreateWithoutUserInput> | EmailVerificationCreateWithoutUserInput[] | EmailVerificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EmailVerificationCreateOrConnectWithoutUserInput | EmailVerificationCreateOrConnectWithoutUserInput[]
+    createMany?: EmailVerificationCreateManyUserInputEnvelope
+    connect?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
   }
 
   export type InvitationUncheckedCreateNestedManyWithoutInviterInput = {
@@ -61646,6 +63303,20 @@ export namespace Prisma {
     update?: MembershipUpdateWithWhereUniqueWithoutUserInput | MembershipUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: MembershipUpdateManyWithWhereWithoutUserInput | MembershipUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: MembershipScalarWhereInput | MembershipScalarWhereInput[]
+  }
+
+  export type EmailVerificationUpdateManyWithoutUserNestedInput = {
+    create?: XOR<EmailVerificationCreateWithoutUserInput, EmailVerificationUncheckedCreateWithoutUserInput> | EmailVerificationCreateWithoutUserInput[] | EmailVerificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EmailVerificationCreateOrConnectWithoutUserInput | EmailVerificationCreateOrConnectWithoutUserInput[]
+    upsert?: EmailVerificationUpsertWithWhereUniqueWithoutUserInput | EmailVerificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: EmailVerificationCreateManyUserInputEnvelope
+    set?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    disconnect?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    delete?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    connect?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    update?: EmailVerificationUpdateWithWhereUniqueWithoutUserInput | EmailVerificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: EmailVerificationUpdateManyWithWhereWithoutUserInput | EmailVerificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: EmailVerificationScalarWhereInput | EmailVerificationScalarWhereInput[]
   }
 
   export type InvitationUpdateManyWithoutInviterNestedInput = {
@@ -61828,6 +63499,20 @@ export namespace Prisma {
     update?: MembershipUpdateWithWhereUniqueWithoutUserInput | MembershipUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: MembershipUpdateManyWithWhereWithoutUserInput | MembershipUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: MembershipScalarWhereInput | MembershipScalarWhereInput[]
+  }
+
+  export type EmailVerificationUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<EmailVerificationCreateWithoutUserInput, EmailVerificationUncheckedCreateWithoutUserInput> | EmailVerificationCreateWithoutUserInput[] | EmailVerificationUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EmailVerificationCreateOrConnectWithoutUserInput | EmailVerificationCreateOrConnectWithoutUserInput[]
+    upsert?: EmailVerificationUpsertWithWhereUniqueWithoutUserInput | EmailVerificationUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: EmailVerificationCreateManyUserInputEnvelope
+    set?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    disconnect?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    delete?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    connect?: EmailVerificationWhereUniqueInput | EmailVerificationWhereUniqueInput[]
+    update?: EmailVerificationUpdateWithWhereUniqueWithoutUserInput | EmailVerificationUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: EmailVerificationUpdateManyWithWhereWithoutUserInput | EmailVerificationUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: EmailVerificationScalarWhereInput | EmailVerificationScalarWhereInput[]
   }
 
   export type InvitationUncheckedUpdateManyWithoutInviterNestedInput = {
@@ -62076,6 +63761,10 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutInvitationsSentInput, UserUncheckedCreateWithoutInvitationsSentInput>
     connectOrCreate?: UserCreateOrConnectWithoutInvitationsSentInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type EnumInviteStatusFieldUpdateOperationsInput = {
+    set?: $Enums.InviteStatus
   }
 
   export type OrganizationUpdateOneRequiredWithoutInvitationsNestedInput = {
@@ -63606,6 +65295,24 @@ export namespace Prisma {
     update?: XOR<XOR<PageUpdateToOneWithWhereWithoutHistoricalMetricsInput, PageUpdateWithoutHistoricalMetricsInput>, PageUncheckedUpdateWithoutHistoricalMetricsInput>
   }
 
+  export type UserCreateNestedOneWithoutEmailVerificationsInput = {
+    create?: XOR<UserCreateWithoutEmailVerificationsInput, UserUncheckedCreateWithoutEmailVerificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEmailVerificationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumVerificationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.VerificationType
+  }
+
+  export type UserUpdateOneRequiredWithoutEmailVerificationsNestedInput = {
+    create?: XOR<UserCreateWithoutEmailVerificationsInput, UserUncheckedCreateWithoutEmailVerificationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEmailVerificationsInput
+    upsert?: UserUpsertWithoutEmailVerificationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutEmailVerificationsInput, UserUpdateWithoutEmailVerificationsInput>, UserUncheckedUpdateWithoutEmailVerificationsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -63932,6 +65639,23 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type NestedEnumInviteStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InviteStatus | EnumInviteStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InviteStatus[] | ListEnumInviteStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InviteStatus[] | ListEnumInviteStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInviteStatusFilter<$PrismaModel> | $Enums.InviteStatus
+  }
+
+  export type NestedEnumInviteStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InviteStatus | EnumInviteStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InviteStatus[] | ListEnumInviteStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InviteStatus[] | ListEnumInviteStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInviteStatusWithAggregatesFilter<$PrismaModel> | $Enums.InviteStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInviteStatusFilter<$PrismaModel>
+    _max?: NestedEnumInviteStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumPlatformFilter<$PrismaModel = never> = {
     equals?: $Enums.Platform | EnumPlatformFieldRefInput<$PrismaModel>
     in?: $Enums.Platform[] | ListEnumPlatformFieldRefInput<$PrismaModel>
@@ -64256,6 +65980,23 @@ export namespace Prisma {
     _max?: NestedEnumIngestionStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumVerificationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationType | EnumVerificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationType[] | ListEnumVerificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationType[] | ListEnumVerificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationTypeFilter<$PrismaModel> | $Enums.VerificationType
+  }
+
+  export type NestedEnumVerificationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationType | EnumVerificationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationType[] | ListEnumVerificationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationType[] | ListEnumVerificationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationTypeWithAggregatesFilter<$PrismaModel> | $Enums.VerificationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVerificationTypeFilter<$PrismaModel>
+    _max?: NestedEnumVerificationTypeFilter<$PrismaModel>
+  }
+
   export type MembershipCreateWithoutOrganizationInput = {
     id?: string
     role: $Enums.Role
@@ -64292,6 +66033,8 @@ export namespace Prisma {
     role: $Enums.Role
     token: string
     expiresAt: Date | string
+    status?: $Enums.InviteStatus
+    message?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -64305,6 +66048,8 @@ export namespace Prisma {
     token: string
     expiresAt: Date | string
     invitedBy: string
+    status?: $Enums.InviteStatus
+    message?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -64953,6 +66698,8 @@ export namespace Prisma {
     token?: StringFilter<"Invitation"> | string
     expiresAt?: DateTimeFilter<"Invitation"> | Date | string
     invitedBy?: StringFilter<"Invitation"> | string
+    status?: EnumInviteStatusFilter<"Invitation"> | $Enums.InviteStatus
+    message?: StringNullableFilter<"Invitation"> | string | null
     acceptedAt?: DateTimeNullableFilter<"Invitation"> | Date | string | null
     createdAt?: DateTimeFilter<"Invitation"> | Date | string
     updatedAt?: DateTimeFilter<"Invitation"> | Date | string
@@ -65469,12 +67216,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type EmailVerificationCreateWithoutUserInput = {
+    id?: string
+    email: string
+    token: string
+    type: $Enums.VerificationType
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type EmailVerificationUncheckedCreateWithoutUserInput = {
+    id?: string
+    email: string
+    token: string
+    type: $Enums.VerificationType
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type EmailVerificationCreateOrConnectWithoutUserInput = {
+    where: EmailVerificationWhereUniqueInput
+    create: XOR<EmailVerificationCreateWithoutUserInput, EmailVerificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type EmailVerificationCreateManyUserInputEnvelope = {
+    data: EmailVerificationCreateManyUserInput | EmailVerificationCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type InvitationCreateWithoutInviterInput = {
     id?: string
     email: string
     role: $Enums.Role
     token: string
     expiresAt: Date | string
+    status?: $Enums.InviteStatus
+    message?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -65488,6 +67267,8 @@ export namespace Prisma {
     role: $Enums.Role
     token: string
     expiresAt: Date | string
+    status?: $Enums.InviteStatus
+    message?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -65927,6 +67708,36 @@ export namespace Prisma {
     data: XOR<MembershipUpdateManyMutationInput, MembershipUncheckedUpdateManyWithoutUserInput>
   }
 
+  export type EmailVerificationUpsertWithWhereUniqueWithoutUserInput = {
+    where: EmailVerificationWhereUniqueInput
+    update: XOR<EmailVerificationUpdateWithoutUserInput, EmailVerificationUncheckedUpdateWithoutUserInput>
+    create: XOR<EmailVerificationCreateWithoutUserInput, EmailVerificationUncheckedCreateWithoutUserInput>
+  }
+
+  export type EmailVerificationUpdateWithWhereUniqueWithoutUserInput = {
+    where: EmailVerificationWhereUniqueInput
+    data: XOR<EmailVerificationUpdateWithoutUserInput, EmailVerificationUncheckedUpdateWithoutUserInput>
+  }
+
+  export type EmailVerificationUpdateManyWithWhereWithoutUserInput = {
+    where: EmailVerificationScalarWhereInput
+    data: XOR<EmailVerificationUpdateManyMutationInput, EmailVerificationUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type EmailVerificationScalarWhereInput = {
+    AND?: EmailVerificationScalarWhereInput | EmailVerificationScalarWhereInput[]
+    OR?: EmailVerificationScalarWhereInput[]
+    NOT?: EmailVerificationScalarWhereInput | EmailVerificationScalarWhereInput[]
+    id?: StringFilter<"EmailVerification"> | string
+    userId?: StringFilter<"EmailVerification"> | string
+    email?: StringFilter<"EmailVerification"> | string
+    token?: StringFilter<"EmailVerification"> | string
+    type?: EnumVerificationTypeFilter<"EmailVerification"> | $Enums.VerificationType
+    expiresAt?: DateTimeFilter<"EmailVerification"> | Date | string
+    usedAt?: DateTimeNullableFilter<"EmailVerification"> | Date | string | null
+    createdAt?: DateTimeFilter<"EmailVerification"> | Date | string
+  }
+
   export type InvitationUpsertWithWhereUniqueWithoutInviterInput = {
     where: InvitationWhereUniqueInput
     update: XOR<InvitationUpdateWithoutInviterInput, InvitationUncheckedUpdateWithoutInviterInput>
@@ -66210,10 +68021,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
@@ -66246,10 +68060,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
@@ -66298,10 +68115,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
@@ -66334,10 +68154,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
@@ -66370,10 +68193,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
@@ -66406,10 +68232,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
@@ -66458,10 +68287,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
@@ -66494,10 +68326,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
@@ -66530,9 +68365,12 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
@@ -66566,9 +68404,12 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
@@ -66719,9 +68560,12 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
@@ -66755,9 +68599,12 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
@@ -66999,10 +68846,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
     postsApproved?: PostCreateNestedManyWithoutApproverInput
@@ -67035,10 +68885,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
     postsApproved?: PostUncheckedCreateNestedManyWithoutApproverInput
@@ -67194,10 +69047,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
     postsApproved?: PostUpdateManyWithoutApproverNestedInput
@@ -67230,10 +69086,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
     postsApproved?: PostUncheckedUpdateManyWithoutApproverNestedInput
@@ -67367,10 +69226,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
     campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
     postsApproved?: PostCreateNestedManyWithoutApproverInput
@@ -67403,10 +69265,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
     campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
     postsApproved?: PostUncheckedCreateNestedManyWithoutApproverInput
@@ -67628,10 +69493,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
     campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
     postsApproved?: PostUpdateManyWithoutApproverNestedInput
@@ -67664,10 +69532,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
     campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
     postsApproved?: PostUncheckedUpdateManyWithoutApproverNestedInput
@@ -67878,10 +69749,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
     postsApproved?: PostCreateNestedManyWithoutApproverInput
@@ -67914,10 +69788,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
     postsApproved?: PostUncheckedCreateNestedManyWithoutApproverInput
@@ -68202,10 +70079,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
     postsApproved?: PostUpdateManyWithoutApproverNestedInput
@@ -68238,10 +70118,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
     postsApproved?: PostUncheckedUpdateManyWithoutApproverNestedInput
@@ -68495,10 +70378,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
@@ -68531,10 +70417,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
@@ -68921,10 +70810,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
@@ -68957,10 +70849,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
@@ -69510,10 +71405,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
@@ -69546,10 +71444,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
@@ -69705,10 +71606,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
@@ -69741,10 +71645,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
@@ -69878,10 +71785,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
@@ -69914,10 +71824,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
@@ -70073,10 +71986,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
@@ -70109,10 +72025,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
@@ -70145,10 +72064,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
@@ -70181,10 +72103,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
@@ -70233,10 +72158,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
@@ -70269,10 +72197,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
@@ -72045,10 +73976,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
@@ -72081,10 +74015,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
@@ -72122,10 +74059,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
@@ -72158,10 +74098,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
@@ -72273,10 +74216,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
@@ -72309,10 +74255,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
@@ -72356,10 +74305,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
@@ -72392,10 +74344,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
@@ -74308,10 +76263,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
@@ -74344,10 +76302,13 @@ export namespace Prisma {
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
     lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    emailVerifications?: EmailVerificationUncheckedCreateNestedManyWithoutUserInput
     invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
     connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
     campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
@@ -74396,10 +76357,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
@@ -74432,10 +76396,13 @@ export namespace Prisma {
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    emailVerifications?: EmailVerificationUncheckedUpdateManyWithoutUserNestedInput
     invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
     connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
     campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
@@ -74833,6 +76800,178 @@ export namespace Prisma {
     historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
   }
 
+  export type UserCreateWithoutEmailVerificationsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    avatar?: string | null
+    emailVerified?: Date | string | null
+    password?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    timezone?: string
+    locale?: string
+    dateFormat?: string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    loginCount?: number
+    status?: $Enums.UserStatus
+    systemRole?: $Enums.SystemRole
+    onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: MembershipCreateNestedManyWithoutUserInput
+    invitationsSent?: InvitationCreateNestedManyWithoutInviterInput
+    connectionsAdded?: PlatformConnectionCreateNestedManyWithoutConnectorInput
+    campaignsCreated?: CampaignCreateNestedManyWithoutCreatorInput
+    postsApproved?: PostCreateNestedManyWithoutApproverInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    templatesCreated?: PostTemplateCreateNestedManyWithoutCreatorInput
+    authenticators?: AuthenticatorCreateNestedManyWithoutUserInput
+    approvalRequests?: ApprovalRequestCreateNestedManyWithoutRequesterInput
+    approvalReviews?: ApprovalRequestCreateNestedManyWithoutReviewerInput
+    apiKeys?: ApiKeyCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutEmailVerificationsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    avatar?: string | null
+    emailVerified?: Date | string | null
+    password?: string | null
+    passwordResetToken?: string | null
+    passwordResetExpires?: Date | string | null
+    timezone?: string
+    locale?: string
+    dateFormat?: string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    loginCount?: number
+    status?: $Enums.UserStatus
+    systemRole?: $Enums.SystemRole
+    onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
+    setupComplete?: boolean
+    invitedBy?: string | null
+    deletedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
+    invitationsSent?: InvitationUncheckedCreateNestedManyWithoutInviterInput
+    connectionsAdded?: PlatformConnectionUncheckedCreateNestedManyWithoutConnectorInput
+    campaignsCreated?: CampaignUncheckedCreateNestedManyWithoutCreatorInput
+    postsApproved?: PostUncheckedCreateNestedManyWithoutApproverInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    templatesCreated?: PostTemplateUncheckedCreateNestedManyWithoutCreatorInput
+    authenticators?: AuthenticatorUncheckedCreateNestedManyWithoutUserInput
+    approvalRequests?: ApprovalRequestUncheckedCreateNestedManyWithoutRequesterInput
+    approvalReviews?: ApprovalRequestUncheckedCreateNestedManyWithoutReviewerInput
+    apiKeys?: ApiKeyUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutEmailVerificationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutEmailVerificationsInput, UserUncheckedCreateWithoutEmailVerificationsInput>
+  }
+
+  export type UserUpsertWithoutEmailVerificationsInput = {
+    update: XOR<UserUpdateWithoutEmailVerificationsInput, UserUncheckedUpdateWithoutEmailVerificationsInput>
+    create: XOR<UserCreateWithoutEmailVerificationsInput, UserUncheckedCreateWithoutEmailVerificationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutEmailVerificationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutEmailVerificationsInput, UserUncheckedUpdateWithoutEmailVerificationsInput>
+  }
+
+  export type UserUpdateWithoutEmailVerificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    dateFormat?: StringFieldUpdateOperationsInput | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
+    onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: MembershipUpdateManyWithoutUserNestedInput
+    invitationsSent?: InvitationUpdateManyWithoutInviterNestedInput
+    connectionsAdded?: PlatformConnectionUpdateManyWithoutConnectorNestedInput
+    campaignsCreated?: CampaignUpdateManyWithoutCreatorNestedInput
+    postsApproved?: PostUpdateManyWithoutApproverNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    templatesCreated?: PostTemplateUpdateManyWithoutCreatorNestedInput
+    authenticators?: AuthenticatorUpdateManyWithoutUserNestedInput
+    approvalRequests?: ApprovalRequestUpdateManyWithoutRequesterNestedInput
+    approvalReviews?: ApprovalRequestUpdateManyWithoutReviewerNestedInput
+    apiKeys?: ApiKeyUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutEmailVerificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordResetExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    timezone?: StringFieldUpdateOperationsInput | string
+    locale?: StringFieldUpdateOperationsInput | string
+    dateFormat?: StringFieldUpdateOperationsInput | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
+    loginCount?: IntFieldUpdateOperationsInput | number
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
+    onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
+    setupComplete?: BoolFieldUpdateOperationsInput | boolean
+    invitedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
+    invitationsSent?: InvitationUncheckedUpdateManyWithoutInviterNestedInput
+    connectionsAdded?: PlatformConnectionUncheckedUpdateManyWithoutConnectorNestedInput
+    campaignsCreated?: CampaignUncheckedUpdateManyWithoutCreatorNestedInput
+    postsApproved?: PostUncheckedUpdateManyWithoutApproverNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    templatesCreated?: PostTemplateUncheckedUpdateManyWithoutCreatorNestedInput
+    authenticators?: AuthenticatorUncheckedUpdateManyWithoutUserNestedInput
+    approvalRequests?: ApprovalRequestUncheckedUpdateManyWithoutRequesterNestedInput
+    approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
+    apiKeys?: ApiKeyUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type MembershipCreateManyOrganizationInput = {
     id?: string
     userId: string
@@ -74850,6 +76989,8 @@ export namespace Prisma {
     token: string
     expiresAt: Date | string
     invitedBy: string
+    status?: $Enums.InviteStatus
+    message?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -75092,6 +77233,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInviteStatusFieldUpdateOperationsInput | $Enums.InviteStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -75105,6 +77248,8 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invitedBy?: StringFieldUpdateOperationsInput | string
+    status?: EnumInviteStatusFieldUpdateOperationsInput | $Enums.InviteStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -75117,6 +77262,8 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invitedBy?: StringFieldUpdateOperationsInput | string
+    status?: EnumInviteStatusFieldUpdateOperationsInput | $Enums.InviteStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -75769,6 +77916,16 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type EmailVerificationCreateManyUserInput = {
+    id?: string
+    email: string
+    token: string
+    type: $Enums.VerificationType
+    expiresAt: Date | string
+    usedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
   export type InvitationCreateManyInviterInput = {
     id?: string
     orgId: string
@@ -75776,6 +77933,8 @@ export namespace Prisma {
     role: $Enums.Role
     token: string
     expiresAt: Date | string
+    status?: $Enums.InviteStatus
+    message?: string | null
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -75955,12 +78114,44 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type EmailVerificationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    type?: EnumVerificationTypeFieldUpdateOperationsInput | $Enums.VerificationType
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailVerificationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    type?: EnumVerificationTypeFieldUpdateOperationsInput | $Enums.VerificationType
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailVerificationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    type?: EnumVerificationTypeFieldUpdateOperationsInput | $Enums.VerificationType
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type InvitationUpdateWithoutInviterInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInviteStatusFieldUpdateOperationsInput | $Enums.InviteStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -75974,6 +78165,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInviteStatusFieldUpdateOperationsInput | $Enums.InviteStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -75986,6 +78179,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumInviteStatusFieldUpdateOperationsInput | $Enums.InviteStatus
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

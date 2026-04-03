@@ -140,9 +140,25 @@ export default async function UsersPage({
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
         <h1 style={{ fontSize: 24, fontWeight: 700, color: "var(--text-primary)" }}>Users</h1>
-        <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>
-          {total} user{total !== 1 ? "s" : ""}
-        </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>
+            {total} user{total !== 1 ? "s" : ""}
+          </span>
+          <Link
+            href="/admin/users/create"
+            style={{
+              padding: "8px 16px",
+              borderRadius: 8,
+              background: "var(--accent-blue)",
+              color: "#fff",
+              fontSize: 13,
+              fontWeight: 600,
+              textDecoration: "none",
+            }}
+          >
+            Create User
+          </Link>
+        </div>
       </div>
 
       <UserFilters />

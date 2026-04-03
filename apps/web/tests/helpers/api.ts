@@ -40,7 +40,7 @@ export function createTestRequest(
     init.body = typeof body === "string" ? body : JSON.stringify(body);
   }
 
-  const request = new NextRequest(url, init);
+  const request = new NextRequest(url, init as never);
 
   // Set cookies on the request
   for (const [name, value] of Object.entries(cookies)) {
