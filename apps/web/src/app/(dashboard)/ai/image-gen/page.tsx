@@ -30,8 +30,10 @@ interface GeneratedImage {
   base64: string;
   html?: string;
   type?: string;
-  width: number;
-  height: number;
+  expiresAt?: string;
+  createdAt?: string;
+  width?: number;
+  height?: number;
 }
 
 /* ── Page ───────────────────────────────────────────────────── */
@@ -67,6 +69,16 @@ export default function ImageGenPage() {
   useEffect(() => {
     if (activeAccount?.platform) setSchedulePlatform(activeAccount.platform);
   }, [activeAccount]);
+
+  // Load cached images on mount
+  useEffect(() => {
+    fetch("/api/ai/image-gen")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.images?.length > 0) setImages(data.images);
+      })
+      .catch(() => {});
+  }, []);
 
   /* ── Generate ────────────────────────────────────────────── */
 
@@ -147,6 +159,18 @@ export default function ImageGenPage() {
       setError("Failed to regenerate card");
     }
     setRegenLoading(false);
+  }
+
+  /* ── Delete cached image ──────────────────────────────────── */
+
+  async function deleteImage(id: string) {
+    setImages((prev) => prev.filter((img) => img.id !== id));
+    setSelectedImages((prev) => { const s = new Set(prev); s.delete(id); return s; });
+    fetch("/api/ai/image-gen", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    }).catch(() => {});
   }
 
   /* ── Selection ───────────────────────────────────────────── */
@@ -421,14 +445,30 @@ export default function ImageGenPage() {
 
                   {/* Card info */}
                   <div className="p-3 space-y-2">
-                    {img.type && (
-                      <span
-                        className="text-[10px] font-semibold px-2 py-0.5 rounded"
-                        style={{ background: "var(--accent-blue-muted)", color: "var(--accent-blue)" }}
-                      >
-                        {img.type}
-                      </span>
-                    )}
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {img.type && (
+                        <span
+                          className="text-[10px] font-semibold px-2 py-0.5 rounded"
+                          style={{ background: "var(--accent-blue-muted)", color: "var(--accent-blue)" }}
+                        >
+                          {img.type}
+                        </span>
+                      )}
+                      {img.expiresAt && (() => {
+                        const days = Math.max(0, Math.ceil((new Date(img.expiresAt).getTime() - Date.now()) / 86400000));
+                        return (
+                          <span
+                            className="text-[10px] px-1.5 py-0.5 rounded"
+                            style={{
+                              background: days <= 2 ? "var(--accent-red-muted)" : "var(--bg-tertiary)",
+                              color: days <= 2 ? "var(--accent-red)" : "var(--text-tertiary)",
+                            }}
+                          >
+                            {days === 0 ? "Expires today" : `${days}d left`}
+                          </span>
+                        );
+                      })()}
+                    </div>
                     <div className="flex gap-2">
                       <button onClick={() => downloadImage(img)} className="btn-secondary text-xs flex-1">
                         PNG
@@ -440,6 +480,9 @@ export default function ImageGenPage() {
                       )}
                       <button onClick={() => startEdit(img)} className="btn-ghost text-xs flex-1" style={{ color: "var(--accent-blue)" }}>
                         Edit
+                      </button>
+                      <button onClick={() => deleteImage(img.id)} className="btn-ghost text-xs" style={{ color: "var(--accent-red)" }}>
+                        x
                       </button>
                     </div>
                   </div>

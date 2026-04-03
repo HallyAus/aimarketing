@@ -717,6 +717,17 @@ exports.Prisma.CommunityTopicScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.GeneratedImageScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  base64: 'base64',
+  html: 'html',
+  type: 'type',
+  prompt: 'prompt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -933,7 +944,8 @@ exports.Prisma.ModelName = {
   HistoricalMetricSnapshot: 'HistoricalMetricSnapshot',
   EmailVerification: 'EmailVerification',
   CachedInsight: 'CachedInsight',
-  CommunityTopic: 'CommunityTopic'
+  CommunityTopic: 'CommunityTopic',
+  GeneratedImage: 'GeneratedImage'
 };
 
 /**

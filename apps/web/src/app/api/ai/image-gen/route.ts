@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
+import { prisma } from "@/lib/db";
 import { renderHtmlToJpeg, SIZE_PRESETS } from "@/lib/image-gen/render";
 import { z } from "zod";
 
@@ -171,7 +172,51 @@ CRITICAL RULES:
   return { htmlCards, caption };
 }
 
-/* ── Route handler ─────────────────────────────────────────────── */
+/* ── GET: load cached images ───────────────────────────────────── */
+
+export const GET = withErrorHandler(
+  withRole("VIEWER", async (req) => {
+    // Purge expired images first
+    await prisma.generatedImage.deleteMany({
+      where: { expiresAt: { lt: new Date() } },
+    });
+
+    const cached = await prisma.generatedImage.findMany({
+      where: { orgId: req.orgId },
+      orderBy: { createdAt: "desc" },
+      take: 30,
+    });
+
+    return NextResponse.json({
+      images: cached.map((img) => ({
+        id: img.id,
+        base64: img.base64,
+        html: img.html,
+        type: img.type,
+        prompt: img.prompt,
+        expiresAt: img.expiresAt.toISOString(),
+        createdAt: img.createdAt.toISOString(),
+      })),
+    });
+  }),
+);
+
+/* ── DELETE: remove a cached image ─────────────────────────────── */
+
+export const DELETE = withErrorHandler(
+  withRole("EDITOR", async (req) => {
+    const { id } = await req.json();
+    if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
+
+    await prisma.generatedImage.deleteMany({
+      where: { id, orgId: req.orgId },
+    });
+
+    return NextResponse.json({ success: true });
+  }),
+);
+
+/* ── POST: generate new images ─────────────────────────────────── */
 
 export const POST = withErrorHandler(
   withRole("EDITOR", async (req) => {
@@ -222,15 +267,33 @@ export const POST = withErrorHandler(
     const { htmlCards, caption } = await generateCardsHtml(content, count, width, height, brandName);
 
     // ── Render all cards to JPEG ──────────────────────────────
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    const promptSummary = (content ?? "").substring(0, 200);
+
     const images = await Promise.all(
       htmlCards.map(async (html, i) => {
         const buffer = await renderHtmlToJpeg(html, width, height);
         const base64 = `data:image/jpeg;base64,${buffer.toString("base64")}`;
+
+        // Save to DB
+        const saved = await prisma.generatedImage.create({
+          data: {
+            orgId: req.orgId,
+            base64,
+            html,
+            type: `card-${i + 1}`,
+            prompt: promptSummary,
+            expiresAt,
+          },
+        });
+
         return {
-          id: `img_${i + 1}_${Date.now()}`,
+          id: saved.id,
           base64,
           html,
           type: `card-${i + 1}`,
+          expiresAt: expiresAt.toISOString(),
+          createdAt: saved.createdAt.toISOString(),
           width,
           height,
         };

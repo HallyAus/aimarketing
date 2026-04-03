@@ -198,6 +198,7 @@ model Organization {
   invoices            Invoice[]
   usageRecords        UsageRecord[]
   communityTopics     CommunityTopic[]
+  generatedImages     GeneratedImage[]
 
   @@index([deletedAt])
   @@index([plan])
@@ -1046,4 +1047,22 @@ model CommunityTopic {
 
   @@unique([orgId, topic])
   @@index([orgId])
+}
+
+// ── Generated Image Cache ─────────────────────────────────────────────
+
+model GeneratedImage {
+  id        String   @id @default(cuid())
+  orgId     String
+  base64    String   // data:image/jpeg;base64,...
+  html      String?  // raw HTML source
+  type      String?  // card type description
+  prompt    String?  // what was used to generate
+  expiresAt DateTime // auto-purge date
+  createdAt DateTime @default(now())
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId, createdAt])
+  @@index([expiresAt])
 }

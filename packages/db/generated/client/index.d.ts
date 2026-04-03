@@ -218,6 +218,11 @@ export type CachedInsight = $Result.DefaultSelection<Prisma.$CachedInsightPayloa
  * 
  */
 export type CommunityTopic = $Result.DefaultSelection<Prisma.$CommunityTopicPayload>
+/**
+ * Model GeneratedImage
+ * 
+ */
+export type GeneratedImage = $Result.DefaultSelection<Prisma.$GeneratedImagePayload>
 
 /**
  * Enums
@@ -1023,6 +1028,16 @@ export class PrismaClient<
     * ```
     */
   get communityTopic(): Prisma.CommunityTopicDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.generatedImage`: Exposes CRUD operations for the **GeneratedImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GeneratedImages
+    * const generatedImages = await prisma.generatedImage.findMany()
+    * ```
+    */
+  get generatedImage(): Prisma.GeneratedImageDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1504,7 +1519,8 @@ export namespace Prisma {
     HistoricalMetricSnapshot: 'HistoricalMetricSnapshot',
     EmailVerification: 'EmailVerification',
     CachedInsight: 'CachedInsight',
-    CommunityTopic: 'CommunityTopic'
+    CommunityTopic: 'CommunityTopic',
+    GeneratedImage: 'GeneratedImage'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1523,7 +1539,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "organization" | "user" | "account" | "session" | "verificationToken" | "membership" | "invitation" | "platformConnection" | "campaign" | "post" | "creative" | "analyticsSnapshot" | "auditLog" | "webhookEvent" | "postTemplate" | "authenticator" | "twoFactorSecret" | "page" | "brandVoice" | "hashtagSet" | "contentTemplate" | "approvalRequest" | "rssFeed" | "webhookRule" | "leadCapture" | "utmLink" | "performanceReport" | "invoice" | "usageRecord" | "paymentMethod" | "apiKey" | "featureFlag" | "systemMetric" | "announcement" | "waitlistEntry" | "ingestionJob" | "historicalPost" | "historicalMetricSnapshot" | "emailVerification" | "cachedInsight" | "communityTopic"
+      modelProps: "organization" | "user" | "account" | "session" | "verificationToken" | "membership" | "invitation" | "platformConnection" | "campaign" | "post" | "creative" | "analyticsSnapshot" | "auditLog" | "webhookEvent" | "postTemplate" | "authenticator" | "twoFactorSecret" | "page" | "brandVoice" | "hashtagSet" | "contentTemplate" | "approvalRequest" | "rssFeed" | "webhookRule" | "leadCapture" | "utmLink" | "performanceReport" | "invoice" | "usageRecord" | "paymentMethod" | "apiKey" | "featureFlag" | "systemMetric" | "announcement" | "waitlistEntry" | "ingestionJob" | "historicalPost" | "historicalMetricSnapshot" | "emailVerification" | "cachedInsight" | "communityTopic" | "generatedImage"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4561,6 +4577,80 @@ export namespace Prisma {
           }
         }
       }
+      GeneratedImage: {
+        payload: Prisma.$GeneratedImagePayload<ExtArgs>
+        fields: Prisma.GeneratedImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GeneratedImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneratedImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GeneratedImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneratedImagePayload>
+          }
+          findFirst: {
+            args: Prisma.GeneratedImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneratedImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GeneratedImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneratedImagePayload>
+          }
+          findMany: {
+            args: Prisma.GeneratedImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneratedImagePayload>[]
+          }
+          create: {
+            args: Prisma.GeneratedImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneratedImagePayload>
+          }
+          createMany: {
+            args: Prisma.GeneratedImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GeneratedImageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneratedImagePayload>[]
+          }
+          delete: {
+            args: Prisma.GeneratedImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneratedImagePayload>
+          }
+          update: {
+            args: Prisma.GeneratedImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneratedImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.GeneratedImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GeneratedImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GeneratedImageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneratedImagePayload>[]
+          }
+          upsert: {
+            args: Prisma.GeneratedImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GeneratedImagePayload>
+          }
+          aggregate: {
+            args: Prisma.GeneratedImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGeneratedImage>
+          }
+          groupBy: {
+            args: Prisma.GeneratedImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GeneratedImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GeneratedImageCountArgs<ExtArgs>
+            result: $Utils.Optional<GeneratedImageCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4698,6 +4788,7 @@ export namespace Prisma {
     emailVerification?: EmailVerificationOmit
     cachedInsight?: CachedInsightOmit
     communityTopic?: CommunityTopicOmit
+    generatedImage?: GeneratedImageOmit
   }
 
   /* Types for Logging */
@@ -4795,6 +4886,7 @@ export namespace Prisma {
     invoices: number
     usageRecords: number
     communityTopics: number
+    generatedImages: number
   }
 
   export type OrganizationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4815,6 +4907,7 @@ export namespace Prisma {
     invoices?: boolean | OrganizationCountOutputTypeCountInvoicesArgs
     usageRecords?: boolean | OrganizationCountOutputTypeCountUsageRecordsArgs
     communityTopics?: boolean | OrganizationCountOutputTypeCountCommunityTopicsArgs
+    generatedImages?: boolean | OrganizationCountOutputTypeCountGeneratedImagesArgs
   }
 
   // Custom InputTypes
@@ -4945,6 +5038,13 @@ export namespace Prisma {
    */
   export type OrganizationCountOutputTypeCountCommunityTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CommunityTopicWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountGeneratedImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GeneratedImageWhereInput
   }
 
 
@@ -5760,6 +5860,7 @@ export namespace Prisma {
     invoices?: boolean | Organization$invoicesArgs<ExtArgs>
     usageRecords?: boolean | Organization$usageRecordsArgs<ExtArgs>
     communityTopics?: boolean | Organization$communityTopicsArgs<ExtArgs>
+    generatedImages?: boolean | Organization$generatedImagesArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["organization"]>
 
@@ -5881,6 +5982,7 @@ export namespace Prisma {
     invoices?: boolean | Organization$invoicesArgs<ExtArgs>
     usageRecords?: boolean | Organization$usageRecordsArgs<ExtArgs>
     communityTopics?: boolean | Organization$communityTopicsArgs<ExtArgs>
+    generatedImages?: boolean | Organization$generatedImagesArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrganizationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5906,6 +6008,7 @@ export namespace Prisma {
       invoices: Prisma.$InvoicePayload<ExtArgs>[]
       usageRecords: Prisma.$UsageRecordPayload<ExtArgs>[]
       communityTopics: Prisma.$CommunityTopicPayload<ExtArgs>[]
+      generatedImages: Prisma.$GeneratedImagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6349,6 +6452,7 @@ export namespace Prisma {
     invoices<T extends Organization$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Organization$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     usageRecords<T extends Organization$usageRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$usageRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsageRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     communityTopics<T extends Organization$communityTopicsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$communityTopicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityTopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    generatedImages<T extends Organization$generatedImagesArgs<ExtArgs> = {}>(args?: Subset<T, Organization$generatedImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeneratedImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7201,6 +7305,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CommunityTopicScalarFieldEnum | CommunityTopicScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.generatedImages
+   */
+  export type Organization$generatedImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneratedImage
+     */
+    select?: GeneratedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneratedImage
+     */
+    omit?: GeneratedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeneratedImageInclude<ExtArgs> | null
+    where?: GeneratedImageWhereInput
+    orderBy?: GeneratedImageOrderByWithRelationInput | GeneratedImageOrderByWithRelationInput[]
+    cursor?: GeneratedImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GeneratedImageScalarFieldEnum | GeneratedImageScalarFieldEnum[]
   }
 
   /**
@@ -54113,6 +54241,1103 @@ export namespace Prisma {
 
 
   /**
+   * Model GeneratedImage
+   */
+
+  export type AggregateGeneratedImage = {
+    _count: GeneratedImageCountAggregateOutputType | null
+    _min: GeneratedImageMinAggregateOutputType | null
+    _max: GeneratedImageMaxAggregateOutputType | null
+  }
+
+  export type GeneratedImageMinAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    base64: string | null
+    html: string | null
+    type: string | null
+    prompt: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type GeneratedImageMaxAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    base64: string | null
+    html: string | null
+    type: string | null
+    prompt: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type GeneratedImageCountAggregateOutputType = {
+    id: number
+    orgId: number
+    base64: number
+    html: number
+    type: number
+    prompt: number
+    expiresAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type GeneratedImageMinAggregateInputType = {
+    id?: true
+    orgId?: true
+    base64?: true
+    html?: true
+    type?: true
+    prompt?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type GeneratedImageMaxAggregateInputType = {
+    id?: true
+    orgId?: true
+    base64?: true
+    html?: true
+    type?: true
+    prompt?: true
+    expiresAt?: true
+    createdAt?: true
+  }
+
+  export type GeneratedImageCountAggregateInputType = {
+    id?: true
+    orgId?: true
+    base64?: true
+    html?: true
+    type?: true
+    prompt?: true
+    expiresAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type GeneratedImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GeneratedImage to aggregate.
+     */
+    where?: GeneratedImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeneratedImages to fetch.
+     */
+    orderBy?: GeneratedImageOrderByWithRelationInput | GeneratedImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GeneratedImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeneratedImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeneratedImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GeneratedImages
+    **/
+    _count?: true | GeneratedImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GeneratedImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GeneratedImageMaxAggregateInputType
+  }
+
+  export type GetGeneratedImageAggregateType<T extends GeneratedImageAggregateArgs> = {
+        [P in keyof T & keyof AggregateGeneratedImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGeneratedImage[P]>
+      : GetScalarType<T[P], AggregateGeneratedImage[P]>
+  }
+
+
+
+
+  export type GeneratedImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GeneratedImageWhereInput
+    orderBy?: GeneratedImageOrderByWithAggregationInput | GeneratedImageOrderByWithAggregationInput[]
+    by: GeneratedImageScalarFieldEnum[] | GeneratedImageScalarFieldEnum
+    having?: GeneratedImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GeneratedImageCountAggregateInputType | true
+    _min?: GeneratedImageMinAggregateInputType
+    _max?: GeneratedImageMaxAggregateInputType
+  }
+
+  export type GeneratedImageGroupByOutputType = {
+    id: string
+    orgId: string
+    base64: string
+    html: string | null
+    type: string | null
+    prompt: string | null
+    expiresAt: Date
+    createdAt: Date
+    _count: GeneratedImageCountAggregateOutputType | null
+    _min: GeneratedImageMinAggregateOutputType | null
+    _max: GeneratedImageMaxAggregateOutputType | null
+  }
+
+  type GetGeneratedImageGroupByPayload<T extends GeneratedImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GeneratedImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GeneratedImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GeneratedImageGroupByOutputType[P]>
+            : GetScalarType<T[P], GeneratedImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GeneratedImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    base64?: boolean
+    html?: boolean
+    type?: boolean
+    prompt?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["generatedImage"]>
+
+  export type GeneratedImageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    base64?: boolean
+    html?: boolean
+    type?: boolean
+    prompt?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["generatedImage"]>
+
+  export type GeneratedImageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    base64?: boolean
+    html?: boolean
+    type?: boolean
+    prompt?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["generatedImage"]>
+
+  export type GeneratedImageSelectScalar = {
+    id?: boolean
+    orgId?: boolean
+    base64?: boolean
+    html?: boolean
+    type?: boolean
+    prompt?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type GeneratedImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "base64" | "html" | "type" | "prompt" | "expiresAt" | "createdAt", ExtArgs["result"]["generatedImage"]>
+  export type GeneratedImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+  export type GeneratedImageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+  export type GeneratedImageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+
+  export type $GeneratedImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GeneratedImage"
+    objects: {
+      organization: Prisma.$OrganizationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      orgId: string
+      base64: string
+      html: string | null
+      type: string | null
+      prompt: string | null
+      expiresAt: Date
+      createdAt: Date
+    }, ExtArgs["result"]["generatedImage"]>
+    composites: {}
+  }
+
+  type GeneratedImageGetPayload<S extends boolean | null | undefined | GeneratedImageDefaultArgs> = $Result.GetResult<Prisma.$GeneratedImagePayload, S>
+
+  type GeneratedImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GeneratedImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GeneratedImageCountAggregateInputType | true
+    }
+
+  export interface GeneratedImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GeneratedImage'], meta: { name: 'GeneratedImage' } }
+    /**
+     * Find zero or one GeneratedImage that matches the filter.
+     * @param {GeneratedImageFindUniqueArgs} args - Arguments to find a GeneratedImage
+     * @example
+     * // Get one GeneratedImage
+     * const generatedImage = await prisma.generatedImage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GeneratedImageFindUniqueArgs>(args: SelectSubset<T, GeneratedImageFindUniqueArgs<ExtArgs>>): Prisma__GeneratedImageClient<$Result.GetResult<Prisma.$GeneratedImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GeneratedImage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GeneratedImageFindUniqueOrThrowArgs} args - Arguments to find a GeneratedImage
+     * @example
+     * // Get one GeneratedImage
+     * const generatedImage = await prisma.generatedImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GeneratedImageFindUniqueOrThrowArgs>(args: SelectSubset<T, GeneratedImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GeneratedImageClient<$Result.GetResult<Prisma.$GeneratedImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GeneratedImage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneratedImageFindFirstArgs} args - Arguments to find a GeneratedImage
+     * @example
+     * // Get one GeneratedImage
+     * const generatedImage = await prisma.generatedImage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GeneratedImageFindFirstArgs>(args?: SelectSubset<T, GeneratedImageFindFirstArgs<ExtArgs>>): Prisma__GeneratedImageClient<$Result.GetResult<Prisma.$GeneratedImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GeneratedImage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneratedImageFindFirstOrThrowArgs} args - Arguments to find a GeneratedImage
+     * @example
+     * // Get one GeneratedImage
+     * const generatedImage = await prisma.generatedImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GeneratedImageFindFirstOrThrowArgs>(args?: SelectSubset<T, GeneratedImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__GeneratedImageClient<$Result.GetResult<Prisma.$GeneratedImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GeneratedImages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneratedImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GeneratedImages
+     * const generatedImages = await prisma.generatedImage.findMany()
+     * 
+     * // Get first 10 GeneratedImages
+     * const generatedImages = await prisma.generatedImage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const generatedImageWithIdOnly = await prisma.generatedImage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GeneratedImageFindManyArgs>(args?: SelectSubset<T, GeneratedImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeneratedImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GeneratedImage.
+     * @param {GeneratedImageCreateArgs} args - Arguments to create a GeneratedImage.
+     * @example
+     * // Create one GeneratedImage
+     * const GeneratedImage = await prisma.generatedImage.create({
+     *   data: {
+     *     // ... data to create a GeneratedImage
+     *   }
+     * })
+     * 
+     */
+    create<T extends GeneratedImageCreateArgs>(args: SelectSubset<T, GeneratedImageCreateArgs<ExtArgs>>): Prisma__GeneratedImageClient<$Result.GetResult<Prisma.$GeneratedImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GeneratedImages.
+     * @param {GeneratedImageCreateManyArgs} args - Arguments to create many GeneratedImages.
+     * @example
+     * // Create many GeneratedImages
+     * const generatedImage = await prisma.generatedImage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GeneratedImageCreateManyArgs>(args?: SelectSubset<T, GeneratedImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GeneratedImages and returns the data saved in the database.
+     * @param {GeneratedImageCreateManyAndReturnArgs} args - Arguments to create many GeneratedImages.
+     * @example
+     * // Create many GeneratedImages
+     * const generatedImage = await prisma.generatedImage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GeneratedImages and only return the `id`
+     * const generatedImageWithIdOnly = await prisma.generatedImage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GeneratedImageCreateManyAndReturnArgs>(args?: SelectSubset<T, GeneratedImageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeneratedImagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GeneratedImage.
+     * @param {GeneratedImageDeleteArgs} args - Arguments to delete one GeneratedImage.
+     * @example
+     * // Delete one GeneratedImage
+     * const GeneratedImage = await prisma.generatedImage.delete({
+     *   where: {
+     *     // ... filter to delete one GeneratedImage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GeneratedImageDeleteArgs>(args: SelectSubset<T, GeneratedImageDeleteArgs<ExtArgs>>): Prisma__GeneratedImageClient<$Result.GetResult<Prisma.$GeneratedImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GeneratedImage.
+     * @param {GeneratedImageUpdateArgs} args - Arguments to update one GeneratedImage.
+     * @example
+     * // Update one GeneratedImage
+     * const generatedImage = await prisma.generatedImage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GeneratedImageUpdateArgs>(args: SelectSubset<T, GeneratedImageUpdateArgs<ExtArgs>>): Prisma__GeneratedImageClient<$Result.GetResult<Prisma.$GeneratedImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GeneratedImages.
+     * @param {GeneratedImageDeleteManyArgs} args - Arguments to filter GeneratedImages to delete.
+     * @example
+     * // Delete a few GeneratedImages
+     * const { count } = await prisma.generatedImage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GeneratedImageDeleteManyArgs>(args?: SelectSubset<T, GeneratedImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GeneratedImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneratedImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GeneratedImages
+     * const generatedImage = await prisma.generatedImage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GeneratedImageUpdateManyArgs>(args: SelectSubset<T, GeneratedImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GeneratedImages and returns the data updated in the database.
+     * @param {GeneratedImageUpdateManyAndReturnArgs} args - Arguments to update many GeneratedImages.
+     * @example
+     * // Update many GeneratedImages
+     * const generatedImage = await prisma.generatedImage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GeneratedImages and only return the `id`
+     * const generatedImageWithIdOnly = await prisma.generatedImage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GeneratedImageUpdateManyAndReturnArgs>(args: SelectSubset<T, GeneratedImageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GeneratedImagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GeneratedImage.
+     * @param {GeneratedImageUpsertArgs} args - Arguments to update or create a GeneratedImage.
+     * @example
+     * // Update or create a GeneratedImage
+     * const generatedImage = await prisma.generatedImage.upsert({
+     *   create: {
+     *     // ... data to create a GeneratedImage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GeneratedImage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GeneratedImageUpsertArgs>(args: SelectSubset<T, GeneratedImageUpsertArgs<ExtArgs>>): Prisma__GeneratedImageClient<$Result.GetResult<Prisma.$GeneratedImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GeneratedImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneratedImageCountArgs} args - Arguments to filter GeneratedImages to count.
+     * @example
+     * // Count the number of GeneratedImages
+     * const count = await prisma.generatedImage.count({
+     *   where: {
+     *     // ... the filter for the GeneratedImages we want to count
+     *   }
+     * })
+    **/
+    count<T extends GeneratedImageCountArgs>(
+      args?: Subset<T, GeneratedImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GeneratedImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GeneratedImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneratedImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GeneratedImageAggregateArgs>(args: Subset<T, GeneratedImageAggregateArgs>): Prisma.PrismaPromise<GetGeneratedImageAggregateType<T>>
+
+    /**
+     * Group by GeneratedImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GeneratedImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GeneratedImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GeneratedImageGroupByArgs['orderBy'] }
+        : { orderBy?: GeneratedImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GeneratedImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGeneratedImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GeneratedImage model
+   */
+  readonly fields: GeneratedImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GeneratedImage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GeneratedImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GeneratedImage model
+   */
+  interface GeneratedImageFieldRefs {
+    readonly id: FieldRef<"GeneratedImage", 'String'>
+    readonly orgId: FieldRef<"GeneratedImage", 'String'>
+    readonly base64: FieldRef<"GeneratedImage", 'String'>
+    readonly html: FieldRef<"GeneratedImage", 'String'>
+    readonly type: FieldRef<"GeneratedImage", 'String'>
+    readonly prompt: FieldRef<"GeneratedImage", 'String'>
+    readonly expiresAt: FieldRef<"GeneratedImage", 'DateTime'>
+    readonly createdAt: FieldRef<"GeneratedImage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GeneratedImage findUnique
+   */
+  export type GeneratedImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneratedImage
+     */
+    select?: GeneratedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneratedImage
+     */
+    omit?: GeneratedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeneratedImageInclude<ExtArgs> | null
+    /**
+     * Filter, which GeneratedImage to fetch.
+     */
+    where: GeneratedImageWhereUniqueInput
+  }
+
+  /**
+   * GeneratedImage findUniqueOrThrow
+   */
+  export type GeneratedImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneratedImage
+     */
+    select?: GeneratedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneratedImage
+     */
+    omit?: GeneratedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeneratedImageInclude<ExtArgs> | null
+    /**
+     * Filter, which GeneratedImage to fetch.
+     */
+    where: GeneratedImageWhereUniqueInput
+  }
+
+  /**
+   * GeneratedImage findFirst
+   */
+  export type GeneratedImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneratedImage
+     */
+    select?: GeneratedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneratedImage
+     */
+    omit?: GeneratedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeneratedImageInclude<ExtArgs> | null
+    /**
+     * Filter, which GeneratedImage to fetch.
+     */
+    where?: GeneratedImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeneratedImages to fetch.
+     */
+    orderBy?: GeneratedImageOrderByWithRelationInput | GeneratedImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GeneratedImages.
+     */
+    cursor?: GeneratedImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeneratedImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeneratedImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GeneratedImages.
+     */
+    distinct?: GeneratedImageScalarFieldEnum | GeneratedImageScalarFieldEnum[]
+  }
+
+  /**
+   * GeneratedImage findFirstOrThrow
+   */
+  export type GeneratedImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneratedImage
+     */
+    select?: GeneratedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneratedImage
+     */
+    omit?: GeneratedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeneratedImageInclude<ExtArgs> | null
+    /**
+     * Filter, which GeneratedImage to fetch.
+     */
+    where?: GeneratedImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeneratedImages to fetch.
+     */
+    orderBy?: GeneratedImageOrderByWithRelationInput | GeneratedImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GeneratedImages.
+     */
+    cursor?: GeneratedImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeneratedImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeneratedImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GeneratedImages.
+     */
+    distinct?: GeneratedImageScalarFieldEnum | GeneratedImageScalarFieldEnum[]
+  }
+
+  /**
+   * GeneratedImage findMany
+   */
+  export type GeneratedImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneratedImage
+     */
+    select?: GeneratedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneratedImage
+     */
+    omit?: GeneratedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeneratedImageInclude<ExtArgs> | null
+    /**
+     * Filter, which GeneratedImages to fetch.
+     */
+    where?: GeneratedImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GeneratedImages to fetch.
+     */
+    orderBy?: GeneratedImageOrderByWithRelationInput | GeneratedImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GeneratedImages.
+     */
+    cursor?: GeneratedImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GeneratedImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GeneratedImages.
+     */
+    skip?: number
+    distinct?: GeneratedImageScalarFieldEnum | GeneratedImageScalarFieldEnum[]
+  }
+
+  /**
+   * GeneratedImage create
+   */
+  export type GeneratedImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneratedImage
+     */
+    select?: GeneratedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneratedImage
+     */
+    omit?: GeneratedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeneratedImageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GeneratedImage.
+     */
+    data: XOR<GeneratedImageCreateInput, GeneratedImageUncheckedCreateInput>
+  }
+
+  /**
+   * GeneratedImage createMany
+   */
+  export type GeneratedImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GeneratedImages.
+     */
+    data: GeneratedImageCreateManyInput | GeneratedImageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GeneratedImage createManyAndReturn
+   */
+  export type GeneratedImageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneratedImage
+     */
+    select?: GeneratedImageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneratedImage
+     */
+    omit?: GeneratedImageOmit<ExtArgs> | null
+    /**
+     * The data used to create many GeneratedImages.
+     */
+    data: GeneratedImageCreateManyInput | GeneratedImageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeneratedImageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GeneratedImage update
+   */
+  export type GeneratedImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneratedImage
+     */
+    select?: GeneratedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneratedImage
+     */
+    omit?: GeneratedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeneratedImageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GeneratedImage.
+     */
+    data: XOR<GeneratedImageUpdateInput, GeneratedImageUncheckedUpdateInput>
+    /**
+     * Choose, which GeneratedImage to update.
+     */
+    where: GeneratedImageWhereUniqueInput
+  }
+
+  /**
+   * GeneratedImage updateMany
+   */
+  export type GeneratedImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GeneratedImages.
+     */
+    data: XOR<GeneratedImageUpdateManyMutationInput, GeneratedImageUncheckedUpdateManyInput>
+    /**
+     * Filter which GeneratedImages to update
+     */
+    where?: GeneratedImageWhereInput
+    /**
+     * Limit how many GeneratedImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GeneratedImage updateManyAndReturn
+   */
+  export type GeneratedImageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneratedImage
+     */
+    select?: GeneratedImageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneratedImage
+     */
+    omit?: GeneratedImageOmit<ExtArgs> | null
+    /**
+     * The data used to update GeneratedImages.
+     */
+    data: XOR<GeneratedImageUpdateManyMutationInput, GeneratedImageUncheckedUpdateManyInput>
+    /**
+     * Filter which GeneratedImages to update
+     */
+    where?: GeneratedImageWhereInput
+    /**
+     * Limit how many GeneratedImages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeneratedImageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GeneratedImage upsert
+   */
+  export type GeneratedImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneratedImage
+     */
+    select?: GeneratedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneratedImage
+     */
+    omit?: GeneratedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeneratedImageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GeneratedImage to update in case it exists.
+     */
+    where: GeneratedImageWhereUniqueInput
+    /**
+     * In case the GeneratedImage found by the `where` argument doesn't exist, create a new GeneratedImage with this data.
+     */
+    create: XOR<GeneratedImageCreateInput, GeneratedImageUncheckedCreateInput>
+    /**
+     * In case the GeneratedImage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GeneratedImageUpdateInput, GeneratedImageUncheckedUpdateInput>
+  }
+
+  /**
+   * GeneratedImage delete
+   */
+  export type GeneratedImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneratedImage
+     */
+    select?: GeneratedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneratedImage
+     */
+    omit?: GeneratedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeneratedImageInclude<ExtArgs> | null
+    /**
+     * Filter which GeneratedImage to delete.
+     */
+    where: GeneratedImageWhereUniqueInput
+  }
+
+  /**
+   * GeneratedImage deleteMany
+   */
+  export type GeneratedImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GeneratedImages to delete
+     */
+    where?: GeneratedImageWhereInput
+    /**
+     * Limit how many GeneratedImages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GeneratedImage without action
+   */
+  export type GeneratedImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GeneratedImage
+     */
+    select?: GeneratedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GeneratedImage
+     */
+    omit?: GeneratedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GeneratedImageInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -54845,6 +56070,20 @@ export namespace Prisma {
   export type CommunityTopicScalarFieldEnum = (typeof CommunityTopicScalarFieldEnum)[keyof typeof CommunityTopicScalarFieldEnum]
 
 
+  export const GeneratedImageScalarFieldEnum: {
+    id: 'id',
+    orgId: 'orgId',
+    base64: 'base64',
+    html: 'html',
+    type: 'type',
+    prompt: 'prompt',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt'
+  };
+
+  export type GeneratedImageScalarFieldEnum = (typeof GeneratedImageScalarFieldEnum)[keyof typeof GeneratedImageScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -55309,6 +56548,7 @@ export namespace Prisma {
     invoices?: InvoiceListRelationFilter
     usageRecords?: UsageRecordListRelationFilter
     communityTopics?: CommunityTopicListRelationFilter
+    generatedImages?: GeneratedImageListRelationFilter
   }
 
   export type OrganizationOrderByWithRelationInput = {
@@ -55359,6 +56599,7 @@ export namespace Prisma {
     invoices?: InvoiceOrderByRelationAggregateInput
     usageRecords?: UsageRecordOrderByRelationAggregateInput
     communityTopics?: CommunityTopicOrderByRelationAggregateInput
+    generatedImages?: GeneratedImageOrderByRelationAggregateInput
   }
 
   export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
@@ -55412,6 +56653,7 @@ export namespace Prisma {
     invoices?: InvoiceListRelationFilter
     usageRecords?: UsageRecordListRelationFilter
     communityTopics?: CommunityTopicListRelationFilter
+    generatedImages?: GeneratedImageListRelationFilter
   }, "id" | "slug" | "stripeCustomerId" | "stripeSubscriptionId">
 
   export type OrganizationOrderByWithAggregationInput = {
@@ -59077,6 +60319,76 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"CommunityTopic"> | Date | string
   }
 
+  export type GeneratedImageWhereInput = {
+    AND?: GeneratedImageWhereInput | GeneratedImageWhereInput[]
+    OR?: GeneratedImageWhereInput[]
+    NOT?: GeneratedImageWhereInput | GeneratedImageWhereInput[]
+    id?: StringFilter<"GeneratedImage"> | string
+    orgId?: StringFilter<"GeneratedImage"> | string
+    base64?: StringFilter<"GeneratedImage"> | string
+    html?: StringNullableFilter<"GeneratedImage"> | string | null
+    type?: StringNullableFilter<"GeneratedImage"> | string | null
+    prompt?: StringNullableFilter<"GeneratedImage"> | string | null
+    expiresAt?: DateTimeFilter<"GeneratedImage"> | Date | string
+    createdAt?: DateTimeFilter<"GeneratedImage"> | Date | string
+    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+  }
+
+  export type GeneratedImageOrderByWithRelationInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    base64?: SortOrder
+    html?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    prompt?: SortOrderInput | SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    organization?: OrganizationOrderByWithRelationInput
+  }
+
+  export type GeneratedImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GeneratedImageWhereInput | GeneratedImageWhereInput[]
+    OR?: GeneratedImageWhereInput[]
+    NOT?: GeneratedImageWhereInput | GeneratedImageWhereInput[]
+    orgId?: StringFilter<"GeneratedImage"> | string
+    base64?: StringFilter<"GeneratedImage"> | string
+    html?: StringNullableFilter<"GeneratedImage"> | string | null
+    type?: StringNullableFilter<"GeneratedImage"> | string | null
+    prompt?: StringNullableFilter<"GeneratedImage"> | string | null
+    expiresAt?: DateTimeFilter<"GeneratedImage"> | Date | string
+    createdAt?: DateTimeFilter<"GeneratedImage"> | Date | string
+    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+  }, "id">
+
+  export type GeneratedImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    base64?: SortOrder
+    html?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    prompt?: SortOrderInput | SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    _count?: GeneratedImageCountOrderByAggregateInput
+    _max?: GeneratedImageMaxOrderByAggregateInput
+    _min?: GeneratedImageMinOrderByAggregateInput
+  }
+
+  export type GeneratedImageScalarWhereWithAggregatesInput = {
+    AND?: GeneratedImageScalarWhereWithAggregatesInput | GeneratedImageScalarWhereWithAggregatesInput[]
+    OR?: GeneratedImageScalarWhereWithAggregatesInput[]
+    NOT?: GeneratedImageScalarWhereWithAggregatesInput | GeneratedImageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GeneratedImage"> | string
+    orgId?: StringWithAggregatesFilter<"GeneratedImage"> | string
+    base64?: StringWithAggregatesFilter<"GeneratedImage"> | string
+    html?: StringNullableWithAggregatesFilter<"GeneratedImage"> | string | null
+    type?: StringNullableWithAggregatesFilter<"GeneratedImage"> | string | null
+    prompt?: StringNullableWithAggregatesFilter<"GeneratedImage"> | string | null
+    expiresAt?: DateTimeWithAggregatesFilter<"GeneratedImage"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"GeneratedImage"> | Date | string
+  }
+
   export type OrganizationCreateInput = {
     id?: string
     name: string
@@ -59125,6 +60437,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateInput = {
@@ -59175,6 +60488,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUpdateInput = {
@@ -59225,6 +60539,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateInput = {
@@ -59275,6 +60590,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateManyInput = {
@@ -63399,6 +64715,82 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type GeneratedImageCreateInput = {
+    id?: string
+    base64: string
+    html?: string | null
+    type?: string | null
+    prompt?: string | null
+    expiresAt: Date | string
+    createdAt?: Date | string
+    organization: OrganizationCreateNestedOneWithoutGeneratedImagesInput
+  }
+
+  export type GeneratedImageUncheckedCreateInput = {
+    id?: string
+    orgId: string
+    base64: string
+    html?: string | null
+    type?: string | null
+    prompt?: string | null
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type GeneratedImageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    base64?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    prompt?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organization?: OrganizationUpdateOneRequiredWithoutGeneratedImagesNestedInput
+  }
+
+  export type GeneratedImageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    base64?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    prompt?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeneratedImageCreateManyInput = {
+    id?: string
+    orgId: string
+    base64: string
+    html?: string | null
+    type?: string | null
+    prompt?: string | null
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type GeneratedImageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    base64?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    prompt?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeneratedImageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    base64?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    prompt?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -63613,6 +65005,12 @@ export namespace Prisma {
     none?: CommunityTopicWhereInput
   }
 
+  export type GeneratedImageListRelationFilter = {
+    every?: GeneratedImageWhereInput
+    some?: GeneratedImageWhereInput
+    none?: GeneratedImageWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -63683,6 +65081,10 @@ export namespace Prisma {
   }
 
   export type CommunityTopicOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GeneratedImageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -66516,6 +67918,39 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type GeneratedImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    base64?: SortOrder
+    html?: SortOrder
+    type?: SortOrder
+    prompt?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GeneratedImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    base64?: SortOrder
+    html?: SortOrder
+    type?: SortOrder
+    prompt?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GeneratedImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    base64?: SortOrder
+    html?: SortOrder
+    type?: SortOrder
+    prompt?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type MembershipCreateNestedManyWithoutOrganizationInput = {
     create?: XOR<MembershipCreateWithoutOrganizationInput, MembershipUncheckedCreateWithoutOrganizationInput> | MembershipCreateWithoutOrganizationInput[] | MembershipUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutOrganizationInput | MembershipCreateOrConnectWithoutOrganizationInput[]
@@ -66635,6 +68070,13 @@ export namespace Prisma {
     connect?: CommunityTopicWhereUniqueInput | CommunityTopicWhereUniqueInput[]
   }
 
+  export type GeneratedImageCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<GeneratedImageCreateWithoutOrganizationInput, GeneratedImageUncheckedCreateWithoutOrganizationInput> | GeneratedImageCreateWithoutOrganizationInput[] | GeneratedImageUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: GeneratedImageCreateOrConnectWithoutOrganizationInput | GeneratedImageCreateOrConnectWithoutOrganizationInput[]
+    createMany?: GeneratedImageCreateManyOrganizationInputEnvelope
+    connect?: GeneratedImageWhereUniqueInput | GeneratedImageWhereUniqueInput[]
+  }
+
   export type MembershipUncheckedCreateNestedManyWithoutOrganizationInput = {
     create?: XOR<MembershipCreateWithoutOrganizationInput, MembershipUncheckedCreateWithoutOrganizationInput> | MembershipCreateWithoutOrganizationInput[] | MembershipUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutOrganizationInput | MembershipCreateOrConnectWithoutOrganizationInput[]
@@ -66752,6 +68194,13 @@ export namespace Prisma {
     connectOrCreate?: CommunityTopicCreateOrConnectWithoutOrganizationInput | CommunityTopicCreateOrConnectWithoutOrganizationInput[]
     createMany?: CommunityTopicCreateManyOrganizationInputEnvelope
     connect?: CommunityTopicWhereUniqueInput | CommunityTopicWhereUniqueInput[]
+  }
+
+  export type GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<GeneratedImageCreateWithoutOrganizationInput, GeneratedImageUncheckedCreateWithoutOrganizationInput> | GeneratedImageCreateWithoutOrganizationInput[] | GeneratedImageUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: GeneratedImageCreateOrConnectWithoutOrganizationInput | GeneratedImageCreateOrConnectWithoutOrganizationInput[]
+    createMany?: GeneratedImageCreateManyOrganizationInputEnvelope
+    connect?: GeneratedImageWhereUniqueInput | GeneratedImageWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -67032,6 +68481,20 @@ export namespace Prisma {
     deleteMany?: CommunityTopicScalarWhereInput | CommunityTopicScalarWhereInput[]
   }
 
+  export type GeneratedImageUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<GeneratedImageCreateWithoutOrganizationInput, GeneratedImageUncheckedCreateWithoutOrganizationInput> | GeneratedImageCreateWithoutOrganizationInput[] | GeneratedImageUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: GeneratedImageCreateOrConnectWithoutOrganizationInput | GeneratedImageCreateOrConnectWithoutOrganizationInput[]
+    upsert?: GeneratedImageUpsertWithWhereUniqueWithoutOrganizationInput | GeneratedImageUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: GeneratedImageCreateManyOrganizationInputEnvelope
+    set?: GeneratedImageWhereUniqueInput | GeneratedImageWhereUniqueInput[]
+    disconnect?: GeneratedImageWhereUniqueInput | GeneratedImageWhereUniqueInput[]
+    delete?: GeneratedImageWhereUniqueInput | GeneratedImageWhereUniqueInput[]
+    connect?: GeneratedImageWhereUniqueInput | GeneratedImageWhereUniqueInput[]
+    update?: GeneratedImageUpdateWithWhereUniqueWithoutOrganizationInput | GeneratedImageUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: GeneratedImageUpdateManyWithWhereWithoutOrganizationInput | GeneratedImageUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: GeneratedImageScalarWhereInput | GeneratedImageScalarWhereInput[]
+  }
+
   export type MembershipUncheckedUpdateManyWithoutOrganizationNestedInput = {
     create?: XOR<MembershipCreateWithoutOrganizationInput, MembershipUncheckedCreateWithoutOrganizationInput> | MembershipCreateWithoutOrganizationInput[] | MembershipUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutOrganizationInput | MembershipCreateOrConnectWithoutOrganizationInput[]
@@ -67268,6 +68731,20 @@ export namespace Prisma {
     update?: CommunityTopicUpdateWithWhereUniqueWithoutOrganizationInput | CommunityTopicUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: CommunityTopicUpdateManyWithWhereWithoutOrganizationInput | CommunityTopicUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: CommunityTopicScalarWhereInput | CommunityTopicScalarWhereInput[]
+  }
+
+  export type GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<GeneratedImageCreateWithoutOrganizationInput, GeneratedImageUncheckedCreateWithoutOrganizationInput> | GeneratedImageCreateWithoutOrganizationInput[] | GeneratedImageUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: GeneratedImageCreateOrConnectWithoutOrganizationInput | GeneratedImageCreateOrConnectWithoutOrganizationInput[]
+    upsert?: GeneratedImageUpsertWithWhereUniqueWithoutOrganizationInput | GeneratedImageUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: GeneratedImageCreateManyOrganizationInputEnvelope
+    set?: GeneratedImageWhereUniqueInput | GeneratedImageWhereUniqueInput[]
+    disconnect?: GeneratedImageWhereUniqueInput | GeneratedImageWhereUniqueInput[]
+    delete?: GeneratedImageWhereUniqueInput | GeneratedImageWhereUniqueInput[]
+    connect?: GeneratedImageWhereUniqueInput | GeneratedImageWhereUniqueInput[]
+    update?: GeneratedImageUpdateWithWhereUniqueWithoutOrganizationInput | GeneratedImageUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: GeneratedImageUpdateManyWithWhereWithoutOrganizationInput | GeneratedImageUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: GeneratedImageScalarWhereInput | GeneratedImageScalarWhereInput[]
   }
 
   export type MembershipCreateNestedManyWithoutUserInput = {
@@ -69621,6 +71098,20 @@ export namespace Prisma {
     update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutCommunityTopicsInput, OrganizationUpdateWithoutCommunityTopicsInput>, OrganizationUncheckedUpdateWithoutCommunityTopicsInput>
   }
 
+  export type OrganizationCreateNestedOneWithoutGeneratedImagesInput = {
+    create?: XOR<OrganizationCreateWithoutGeneratedImagesInput, OrganizationUncheckedCreateWithoutGeneratedImagesInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutGeneratedImagesInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutGeneratedImagesNestedInput = {
+    create?: XOR<OrganizationCreateWithoutGeneratedImagesInput, OrganizationUncheckedCreateWithoutGeneratedImagesInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutGeneratedImagesInput
+    upsert?: OrganizationUpsertWithoutGeneratedImagesInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutGeneratedImagesInput, OrganizationUpdateWithoutGeneratedImagesInput>, OrganizationUncheckedUpdateWithoutGeneratedImagesInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -70973,6 +72464,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type GeneratedImageCreateWithoutOrganizationInput = {
+    id?: string
+    base64: string
+    html?: string | null
+    type?: string | null
+    prompt?: string | null
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type GeneratedImageUncheckedCreateWithoutOrganizationInput = {
+    id?: string
+    base64: string
+    html?: string | null
+    type?: string | null
+    prompt?: string | null
+    expiresAt: Date | string
+    createdAt?: Date | string
+  }
+
+  export type GeneratedImageCreateOrConnectWithoutOrganizationInput = {
+    where: GeneratedImageWhereUniqueInput
+    create: XOR<GeneratedImageCreateWithoutOrganizationInput, GeneratedImageUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type GeneratedImageCreateManyOrganizationInputEnvelope = {
+    data: GeneratedImageCreateManyOrganizationInput | GeneratedImageCreateManyOrganizationInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MembershipUpsertWithWhereUniqueWithoutOrganizationInput = {
     where: MembershipWhereUniqueInput
     update: XOR<MembershipUpdateWithoutOrganizationInput, MembershipUncheckedUpdateWithoutOrganizationInput>
@@ -71542,6 +73063,36 @@ export namespace Prisma {
     orgId?: StringFilter<"CommunityTopic"> | string
     topic?: StringFilter<"CommunityTopic"> | string
     createdAt?: DateTimeFilter<"CommunityTopic"> | Date | string
+  }
+
+  export type GeneratedImageUpsertWithWhereUniqueWithoutOrganizationInput = {
+    where: GeneratedImageWhereUniqueInput
+    update: XOR<GeneratedImageUpdateWithoutOrganizationInput, GeneratedImageUncheckedUpdateWithoutOrganizationInput>
+    create: XOR<GeneratedImageCreateWithoutOrganizationInput, GeneratedImageUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type GeneratedImageUpdateWithWhereUniqueWithoutOrganizationInput = {
+    where: GeneratedImageWhereUniqueInput
+    data: XOR<GeneratedImageUpdateWithoutOrganizationInput, GeneratedImageUncheckedUpdateWithoutOrganizationInput>
+  }
+
+  export type GeneratedImageUpdateManyWithWhereWithoutOrganizationInput = {
+    where: GeneratedImageScalarWhereInput
+    data: XOR<GeneratedImageUpdateManyMutationInput, GeneratedImageUncheckedUpdateManyWithoutOrganizationInput>
+  }
+
+  export type GeneratedImageScalarWhereInput = {
+    AND?: GeneratedImageScalarWhereInput | GeneratedImageScalarWhereInput[]
+    OR?: GeneratedImageScalarWhereInput[]
+    NOT?: GeneratedImageScalarWhereInput | GeneratedImageScalarWhereInput[]
+    id?: StringFilter<"GeneratedImage"> | string
+    orgId?: StringFilter<"GeneratedImage"> | string
+    base64?: StringFilter<"GeneratedImage"> | string
+    html?: StringNullableFilter<"GeneratedImage"> | string | null
+    type?: StringNullableFilter<"GeneratedImage"> | string | null
+    prompt?: StringNullableFilter<"GeneratedImage"> | string | null
+    expiresAt?: DateTimeFilter<"GeneratedImage"> | Date | string
+    createdAt?: DateTimeFilter<"GeneratedImage"> | Date | string
   }
 
   export type MembershipCreateWithoutUserInput = {
@@ -72896,6 +74447,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutMembershipsInput = {
@@ -72945,6 +74497,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutMembershipsInput = {
@@ -73101,6 +74654,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutMembershipsInput = {
@@ -73150,6 +74704,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateWithoutInvitationsInput = {
@@ -73199,6 +74754,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutInvitationsInput = {
@@ -73248,6 +74804,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutInvitationsInput = {
@@ -73398,6 +74955,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutInvitationsInput = {
@@ -73447,6 +75005,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserUpsertWithoutInvitationsSentInput = {
@@ -73587,6 +75146,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutPlatformConnectionsInput = {
@@ -73636,6 +75196,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutPlatformConnectionsInput = {
@@ -73854,6 +75415,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutPlatformConnectionsInput = {
@@ -73903,6 +75465,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserUpsertWithoutConnectionsAddedInput = {
@@ -74059,6 +75622,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutCampaignsInput = {
@@ -74108,6 +75672,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutCampaignsInput = {
@@ -74383,6 +75948,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutCampaignsInput = {
@@ -74432,6 +75998,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PageUpsertWithoutCampaignsInput = {
@@ -74700,6 +76267,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutPostsInput = {
@@ -74749,6 +76317,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutPostsInput = {
@@ -75126,6 +76695,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutPostsInput = {
@@ -75175,6 +76745,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PageUpsertWithoutPostsInput = {
@@ -75472,6 +77043,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutCreativesInput = {
@@ -75521,6 +77093,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutCreativesInput = {
@@ -75586,6 +77159,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutCreativesInput = {
@@ -75635,6 +77209,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PostCreateWithoutAnalyticsInput = {
@@ -75804,6 +77379,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutAuditLogsInput = {
@@ -75853,6 +77429,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutAuditLogsInput = {
@@ -76003,6 +77580,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutAuditLogsInput = {
@@ -76052,6 +77630,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserUpsertWithoutAuditLogsInput = {
@@ -76192,6 +77771,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutPostTemplatesInput = {
@@ -76241,6 +77821,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutPostTemplatesInput = {
@@ -76391,6 +77972,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutPostTemplatesInput = {
@@ -76440,6 +78022,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserUpsertWithoutTemplatesCreatedInput = {
@@ -76932,6 +78515,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutPagesInput = {
@@ -76981,6 +78565,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutPagesInput = {
@@ -77605,6 +79190,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutPagesInput = {
@@ -77654,6 +79240,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PlatformConnectionUpsertWithoutPagesInput = {
@@ -78414,6 +80001,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutContentTemplatesInput = {
@@ -78463,6 +80051,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutContentTemplatesInput = {
@@ -78597,6 +80186,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutContentTemplatesInput = {
@@ -78646,6 +80236,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PostCreateWithoutApprovalRequestInput = {
@@ -79299,6 +80890,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutWebhookRulesInput = {
@@ -79348,6 +80940,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutWebhookRulesInput = {
@@ -79476,6 +81069,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutWebhookRulesInput = {
@@ -79525,6 +81119,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PageUpsertWithoutWebhookRulesInput = {
@@ -79643,6 +81238,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutLeadCapturesInput = {
@@ -79692,6 +81288,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutLeadCapturesInput = {
@@ -79820,6 +81417,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutLeadCapturesInput = {
@@ -79869,6 +81467,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PageUpsertWithoutLeadCapturesInput = {
@@ -79987,6 +81586,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutUtmLinksInput = {
@@ -80036,6 +81636,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutUtmLinksInput = {
@@ -80158,6 +81759,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutUtmLinksInput = {
@@ -80207,6 +81809,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PostUpsertWithoutUtmLinksInput = {
@@ -80319,6 +81922,7 @@ export namespace Prisma {
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutPerformanceReportsInput = {
@@ -80368,6 +81972,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutPerformanceReportsInput = {
@@ -80496,6 +82101,7 @@ export namespace Prisma {
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutPerformanceReportsInput = {
@@ -80545,6 +82151,7 @@ export namespace Prisma {
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PageUpsertWithoutPerformanceReportsInput = {
@@ -80663,6 +82270,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutInvoicesInput = {
@@ -80712,6 +82320,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutInvoicesInput = {
@@ -80777,6 +82386,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutInvoicesInput = {
@@ -80826,6 +82436,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateWithoutUsageRecordsInput = {
@@ -80875,6 +82486,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutUsageRecordsInput = {
@@ -80924,6 +82536,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutUsageRecordsInput = {
@@ -80989,6 +82602,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutUsageRecordsInput = {
@@ -81038,6 +82652,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserCreateWithoutApiKeysInput = {
@@ -81967,6 +83582,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutCommunityTopicsInput = {
@@ -82016,6 +83632,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    generatedImages?: GeneratedImageUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutCommunityTopicsInput = {
@@ -82081,6 +83698,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutCommunityTopicsInput = {
@@ -82130,6 +83748,223 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    generatedImages?: GeneratedImageUncheckedUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type OrganizationCreateWithoutGeneratedImagesInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: $Enums.Plan
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    billingEmail?: string | null
+    billingCycleAnchor?: Date | string | null
+    defaultTimezone?: string
+    industry?: string | null
+    companySize?: string | null
+    website?: string | null
+    country?: string | null
+    subscriptionStatus?: $Enums.SubscriptionStatus
+    billingCycle?: $Enums.BillingCycle
+    trialEndsAt?: Date | string | null
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    maxUsers?: number
+    maxPlatforms?: number
+    maxPostsPerMonth?: number
+    postsUsedThisMonth?: number
+    postsResetAt?: Date | string | null
+    features?: NullableJsonNullValueInput | InputJsonValue
+    publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    memberships?: MembershipCreateNestedManyWithoutOrganizationInput
+    invitations?: InvitationCreateNestedManyWithoutOrganizationInput
+    platformConnections?: PlatformConnectionCreateNestedManyWithoutOrganizationInput
+    pages?: PageCreateNestedManyWithoutOrganizationInput
+    campaigns?: CampaignCreateNestedManyWithoutOrganizationInput
+    posts?: PostCreateNestedManyWithoutOrganizationInput
+    creatives?: CreativeCreateNestedManyWithoutOrganizationInput
+    auditLogs?: AuditLogCreateNestedManyWithoutOrganizationInput
+    postTemplates?: PostTemplateCreateNestedManyWithoutOrganizationInput
+    contentTemplates?: ContentTemplateCreateNestedManyWithoutOrganizationInput
+    webhookRules?: WebhookRuleCreateNestedManyWithoutOrganizationInput
+    leadCaptures?: LeadCaptureCreateNestedManyWithoutOrganizationInput
+    utmLinks?: UtmLinkCreateNestedManyWithoutOrganizationInput
+    performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
+    invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
+    usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutGeneratedImagesInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: $Enums.Plan
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    billingEmail?: string | null
+    billingCycleAnchor?: Date | string | null
+    defaultTimezone?: string
+    industry?: string | null
+    companySize?: string | null
+    website?: string | null
+    country?: string | null
+    subscriptionStatus?: $Enums.SubscriptionStatus
+    billingCycle?: $Enums.BillingCycle
+    trialEndsAt?: Date | string | null
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    maxUsers?: number
+    maxPlatforms?: number
+    maxPostsPerMonth?: number
+    postsUsedThisMonth?: number
+    postsResetAt?: Date | string | null
+    features?: NullableJsonNullValueInput | InputJsonValue
+    publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
+    platformConnections?: PlatformConnectionUncheckedCreateNestedManyWithoutOrganizationInput
+    pages?: PageUncheckedCreateNestedManyWithoutOrganizationInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutOrganizationInput
+    posts?: PostUncheckedCreateNestedManyWithoutOrganizationInput
+    creatives?: CreativeUncheckedCreateNestedManyWithoutOrganizationInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
+    postTemplates?: PostTemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    contentTemplates?: ContentTemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutOrganizationInput
+    leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutOrganizationInput
+    utmLinks?: UtmLinkUncheckedCreateNestedManyWithoutOrganizationInput
+    performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
+    usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutGeneratedImagesInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutGeneratedImagesInput, OrganizationUncheckedCreateWithoutGeneratedImagesInput>
+  }
+
+  export type OrganizationUpsertWithoutGeneratedImagesInput = {
+    update: XOR<OrganizationUpdateWithoutGeneratedImagesInput, OrganizationUncheckedUpdateWithoutGeneratedImagesInput>
+    create: XOR<OrganizationCreateWithoutGeneratedImagesInput, OrganizationUncheckedCreateWithoutGeneratedImagesInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutGeneratedImagesInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutGeneratedImagesInput, OrganizationUncheckedUpdateWithoutGeneratedImagesInput>
+  }
+
+  export type OrganizationUpdateWithoutGeneratedImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    defaultTimezone?: StringFieldUpdateOperationsInput | string
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    companySize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStatus?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    billingCycle?: EnumBillingCycleFieldUpdateOperationsInput | $Enums.BillingCycle
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    maxUsers?: IntFieldUpdateOperationsInput | number
+    maxPlatforms?: IntFieldUpdateOperationsInput | number
+    maxPostsPerMonth?: IntFieldUpdateOperationsInput | number
+    postsUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    postsResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    features?: NullableJsonNullValueInput | InputJsonValue
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
+    invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
+    platformConnections?: PlatformConnectionUpdateManyWithoutOrganizationNestedInput
+    pages?: PageUpdateManyWithoutOrganizationNestedInput
+    campaigns?: CampaignUpdateManyWithoutOrganizationNestedInput
+    posts?: PostUpdateManyWithoutOrganizationNestedInput
+    creatives?: CreativeUpdateManyWithoutOrganizationNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutOrganizationNestedInput
+    postTemplates?: PostTemplateUpdateManyWithoutOrganizationNestedInput
+    contentTemplates?: ContentTemplateUpdateManyWithoutOrganizationNestedInput
+    webhookRules?: WebhookRuleUpdateManyWithoutOrganizationNestedInput
+    leadCaptures?: LeadCaptureUpdateManyWithoutOrganizationNestedInput
+    utmLinks?: UtmLinkUpdateManyWithoutOrganizationNestedInput
+    performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
+    usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutGeneratedImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    defaultTimezone?: StringFieldUpdateOperationsInput | string
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    companySize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStatus?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    billingCycle?: EnumBillingCycleFieldUpdateOperationsInput | $Enums.BillingCycle
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    maxUsers?: IntFieldUpdateOperationsInput | number
+    maxPlatforms?: IntFieldUpdateOperationsInput | number
+    maxPostsPerMonth?: IntFieldUpdateOperationsInput | number
+    postsUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    postsResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    features?: NullableJsonNullValueInput | InputJsonValue
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
+    platformConnections?: PlatformConnectionUncheckedUpdateManyWithoutOrganizationNestedInput
+    pages?: PageUncheckedUpdateManyWithoutOrganizationNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutOrganizationNestedInput
+    posts?: PostUncheckedUpdateManyWithoutOrganizationNestedInput
+    creatives?: CreativeUncheckedUpdateManyWithoutOrganizationNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
+    postTemplates?: PostTemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    contentTemplates?: ContentTemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhookRules?: WebhookRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+    leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutOrganizationNestedInput
+    utmLinks?: UtmLinkUncheckedUpdateManyWithoutOrganizationNestedInput
+    performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
+    usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type MembershipCreateManyOrganizationInput = {
@@ -82360,6 +84195,16 @@ export namespace Prisma {
   export type CommunityTopicCreateManyOrganizationInput = {
     id?: string
     topic: string
+    createdAt?: Date | string
+  }
+
+  export type GeneratedImageCreateManyOrganizationInput = {
+    id?: string
+    base64: string
+    html?: string | null
+    type?: string | null
+    prompt?: string | null
+    expiresAt: Date | string
     createdAt?: Date | string
   }
 
@@ -83089,6 +84934,36 @@ export namespace Prisma {
   export type CommunityTopicUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeneratedImageUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    base64?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    prompt?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeneratedImageUncheckedUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    base64?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    prompt?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GeneratedImageUncheckedUpdateManyWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    base64?: StringFieldUpdateOperationsInput | string
+    html?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    prompt?: NullableStringFieldUpdateOperationsInput | string | null
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
