@@ -24,6 +24,7 @@ const requestSchema = z.object({
   count: z.number().min(1).max(5).default(3),
   brandName: z.string().max(100).optional(),
   theme: z.string().default("dark-tech"),
+  pageId: z.string().optional(),
   regeneratePrompt: z.string().optional(),
   regenerateHtml: z.string().optional(),
 }).refine((d) => d.url || d.prompt || d.regeneratePrompt || d.regenerateHtml, {
@@ -153,39 +154,54 @@ CRITICAL RULES:
   const text = response.content[0];
   if (text?.type !== "text") throw new Error("No text in AI response");
 
-  const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
-  let parsed: { caption?: string; cards?: Array<{ type?: string; caption?: string; html: string }> };
+  const raw = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
 
+  // Try standard JSON parse first
   try {
-    parsed = JSON.parse(cleaned);
+    const parsed = JSON.parse(raw);
+    const cards = (parsed.cards ?? []).slice(0, count);
+    return {
+      cards: cards.map((c: { type?: string; caption?: string; html: string }) => ({
+        type: c.type ?? "",
+        caption: c.caption ?? parsed.caption ?? "",
+        html: c.html,
+      })),
+    };
   } catch {
-    const match = cleaned.match(/\{[\s\S]*\}/);
-    if (match) parsed = JSON.parse(match[0]);
-    else throw new Error("Failed to parse AI response");
+    // JSON parse failed — HTML likely contains unescaped quotes.
+    // Extract HTML blocks manually using <!DOCTYPE html> as delimiters.
+    const htmlBlocks = raw.match(/<!DOCTYPE html>[\s\S]*?<\/html>/gi) ?? [];
+    const captionMatch = raw.match(/"caption"\s*:\s*"([^"]{10,200})"/g) ?? [];
+    const typeMatch = raw.match(/"type"\s*:\s*"([^"]{3,80})"/g) ?? [];
+
+    const cards = htmlBlocks.slice(0, count).map((html, i) => {
+      const capStr = captionMatch[i]?.match(/"caption"\s*:\s*"(.+)"/)?.[1] ?? "";
+      const typeStr = typeMatch[i]?.match(/"type"\s*:\s*"(.+)"/)?.[1] ?? `card-${i + 1}`;
+      return { type: typeStr, caption: capStr, html };
+    });
+
+    if (cards.length === 0) throw new Error("Failed to parse AI response — no HTML blocks found");
+    return { cards };
   }
-
-  const cards = (parsed.cards ?? []).slice(0, count);
-
-  return {
-    cards: cards.map((c) => ({
-      type: c.type ?? "",
-      caption: c.caption ?? parsed.caption ?? "",
-      html: c.html,
-    })),
-  };
 }
 
 /* ── GET: load cached images ───────────────────────────────────── */
 
 export const GET = withErrorHandler(
   withRole("VIEWER", async (req) => {
+    const url = new URL(req.url);
+    const pageId = url.searchParams.get("pageId") || undefined;
+
     // Purge expired images first
     await prisma.generatedImage.deleteMany({
       where: { expiresAt: { lt: new Date() } },
     });
 
     const cached = await prisma.generatedImage.findMany({
-      where: { orgId: req.orgId },
+      where: {
+        orgId: req.orgId,
+        ...(pageId ? { pageId } : {}),
+      },
       orderBy: { createdAt: "desc" },
       take: 30,
     });
@@ -196,6 +212,7 @@ export const GET = withErrorHandler(
         base64: img.base64,
         html: img.html,
         type: img.type,
+        caption: img.caption,
         prompt: img.prompt,
         expiresAt: img.expiresAt.toISOString(),
         createdAt: img.createdAt.toISOString(),
@@ -229,7 +246,7 @@ export const POST = withErrorHandler(
       throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
     }
 
-    const { url, prompt, platform, count, brandName, theme, regeneratePrompt, regenerateHtml } = parsed.data;
+    const { url, prompt, platform, count, brandName, theme, pageId: reqPageId, regeneratePrompt, regenerateHtml } = parsed.data;
     const preset = SIZE_PRESETS[platform] ?? SIZE_PRESETS["instagram-square"]!;
     const { width, height } = preset;
 
@@ -290,9 +307,11 @@ export const POST = withErrorHandler(
         const saved = await prisma.generatedImage.create({
           data: {
             orgId: req.orgId,
+            pageId: reqPageId ?? null,
             base64,
             html: card.html,
-            type: `card-${i + 1}`,
+            type: card.type || `card-${i + 1}`,
+            caption: card.caption,
             prompt: promptSummary,
             expiresAt,
           },

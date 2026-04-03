@@ -1054,15 +1054,17 @@ model CommunityTopic {
 model GeneratedImage {
   id        String   @id @default(cuid())
   orgId     String
+  pageId    String? // filter by active page
   base64    String // data:image/jpeg;base64,...
   html      String? // raw HTML source
   type      String? // card type description
+  caption   String? // per-image caption
   prompt    String? // what was used to generate
   expiresAt DateTime // auto-purge date
   createdAt DateTime @default(now())
 
   organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
 
-  @@index([orgId, createdAt])
+  @@index([orgId, pageId, createdAt])
   @@index([expiresAt])
 }

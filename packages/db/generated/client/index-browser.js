@@ -720,9 +720,11 @@ exports.Prisma.CommunityTopicScalarFieldEnum = {
 exports.Prisma.GeneratedImageScalarFieldEnum = {
   id: 'id',
   orgId: 'orgId',
+  pageId: 'pageId',
   base64: 'base64',
   html: 'html',
   type: 'type',
+  caption: 'caption',
   prompt: 'prompt',
   expiresAt: 'expiresAt',
   createdAt: 'createdAt'

@@ -75,15 +75,24 @@ export default function ImageGenPage() {
     if (activeAccount?.platform) setSchedulePlatform(activeAccount.platform);
   }, [activeAccount]);
 
-  // Load cached images on mount
+  // Load cached images on mount (filtered by active page)
   useEffect(() => {
-    fetch("/api/ai/image-gen")
+    const pageId = activeAccount?.id;
+    const qs = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+    fetch(`/api/ai/image-gen${qs}`)
       .then((r) => r.json())
       .then((data) => {
-        if (data.images?.length > 0) setImages(data.images);
+        if (data.images?.length > 0) {
+          setImages(data.images);
+          const caps: Record<string, string> = {};
+          for (const img of data.images as GeneratedImage[]) {
+            if (img.caption) caps[img.id] = img.caption;
+          }
+          setCaptions(caps);
+        }
       })
       .catch(() => {});
-  }, []);
+  }, [activeAccount?.id]);
 
   /* ── Generate ────────────────────────────────────────────── */
 
@@ -111,6 +120,7 @@ export default function ImageGenPage() {
           count,
           brandName: brandName.trim() || undefined,
           theme,
+          pageId: activeAccount?.id || undefined,
         }),
       });
 

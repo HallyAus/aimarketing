@@ -54253,9 +54253,11 @@ export namespace Prisma {
   export type GeneratedImageMinAggregateOutputType = {
     id: string | null
     orgId: string | null
+    pageId: string | null
     base64: string | null
     html: string | null
     type: string | null
+    caption: string | null
     prompt: string | null
     expiresAt: Date | null
     createdAt: Date | null
@@ -54264,9 +54266,11 @@ export namespace Prisma {
   export type GeneratedImageMaxAggregateOutputType = {
     id: string | null
     orgId: string | null
+    pageId: string | null
     base64: string | null
     html: string | null
     type: string | null
+    caption: string | null
     prompt: string | null
     expiresAt: Date | null
     createdAt: Date | null
@@ -54275,9 +54279,11 @@ export namespace Prisma {
   export type GeneratedImageCountAggregateOutputType = {
     id: number
     orgId: number
+    pageId: number
     base64: number
     html: number
     type: number
+    caption: number
     prompt: number
     expiresAt: number
     createdAt: number
@@ -54288,9 +54294,11 @@ export namespace Prisma {
   export type GeneratedImageMinAggregateInputType = {
     id?: true
     orgId?: true
+    pageId?: true
     base64?: true
     html?: true
     type?: true
+    caption?: true
     prompt?: true
     expiresAt?: true
     createdAt?: true
@@ -54299,9 +54307,11 @@ export namespace Prisma {
   export type GeneratedImageMaxAggregateInputType = {
     id?: true
     orgId?: true
+    pageId?: true
     base64?: true
     html?: true
     type?: true
+    caption?: true
     prompt?: true
     expiresAt?: true
     createdAt?: true
@@ -54310,9 +54320,11 @@ export namespace Prisma {
   export type GeneratedImageCountAggregateInputType = {
     id?: true
     orgId?: true
+    pageId?: true
     base64?: true
     html?: true
     type?: true
+    caption?: true
     prompt?: true
     expiresAt?: true
     createdAt?: true
@@ -54394,9 +54406,11 @@ export namespace Prisma {
   export type GeneratedImageGroupByOutputType = {
     id: string
     orgId: string
+    pageId: string | null
     base64: string
     html: string | null
     type: string | null
+    caption: string | null
     prompt: string | null
     expiresAt: Date
     createdAt: Date
@@ -54422,9 +54436,11 @@ export namespace Prisma {
   export type GeneratedImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     orgId?: boolean
+    pageId?: boolean
     base64?: boolean
     html?: boolean
     type?: boolean
+    caption?: boolean
     prompt?: boolean
     expiresAt?: boolean
     createdAt?: boolean
@@ -54434,9 +54450,11 @@ export namespace Prisma {
   export type GeneratedImageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     orgId?: boolean
+    pageId?: boolean
     base64?: boolean
     html?: boolean
     type?: boolean
+    caption?: boolean
     prompt?: boolean
     expiresAt?: boolean
     createdAt?: boolean
@@ -54446,9 +54464,11 @@ export namespace Prisma {
   export type GeneratedImageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     orgId?: boolean
+    pageId?: boolean
     base64?: boolean
     html?: boolean
     type?: boolean
+    caption?: boolean
     prompt?: boolean
     expiresAt?: boolean
     createdAt?: boolean
@@ -54458,15 +54478,17 @@ export namespace Prisma {
   export type GeneratedImageSelectScalar = {
     id?: boolean
     orgId?: boolean
+    pageId?: boolean
     base64?: boolean
     html?: boolean
     type?: boolean
+    caption?: boolean
     prompt?: boolean
     expiresAt?: boolean
     createdAt?: boolean
   }
 
-  export type GeneratedImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "base64" | "html" | "type" | "prompt" | "expiresAt" | "createdAt", ExtArgs["result"]["generatedImage"]>
+  export type GeneratedImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "pageId" | "base64" | "html" | "type" | "caption" | "prompt" | "expiresAt" | "createdAt", ExtArgs["result"]["generatedImage"]>
   export type GeneratedImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }
@@ -54485,9 +54507,11 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       orgId: string
+      pageId: string | null
       base64: string
       html: string | null
       type: string | null
+      caption: string | null
       prompt: string | null
       expiresAt: Date
       createdAt: Date
@@ -54917,9 +54941,11 @@ export namespace Prisma {
   interface GeneratedImageFieldRefs {
     readonly id: FieldRef<"GeneratedImage", 'String'>
     readonly orgId: FieldRef<"GeneratedImage", 'String'>
+    readonly pageId: FieldRef<"GeneratedImage", 'String'>
     readonly base64: FieldRef<"GeneratedImage", 'String'>
     readonly html: FieldRef<"GeneratedImage", 'String'>
     readonly type: FieldRef<"GeneratedImage", 'String'>
+    readonly caption: FieldRef<"GeneratedImage", 'String'>
     readonly prompt: FieldRef<"GeneratedImage", 'String'>
     readonly expiresAt: FieldRef<"GeneratedImage", 'DateTime'>
     readonly createdAt: FieldRef<"GeneratedImage", 'DateTime'>
@@ -56073,9 +56099,11 @@ export namespace Prisma {
   export const GeneratedImageScalarFieldEnum: {
     id: 'id',
     orgId: 'orgId',
+    pageId: 'pageId',
     base64: 'base64',
     html: 'html',
     type: 'type',
+    caption: 'caption',
     prompt: 'prompt',
     expiresAt: 'expiresAt',
     createdAt: 'createdAt'
@@ -60325,9 +60353,11 @@ export namespace Prisma {
     NOT?: GeneratedImageWhereInput | GeneratedImageWhereInput[]
     id?: StringFilter<"GeneratedImage"> | string
     orgId?: StringFilter<"GeneratedImage"> | string
+    pageId?: StringNullableFilter<"GeneratedImage"> | string | null
     base64?: StringFilter<"GeneratedImage"> | string
     html?: StringNullableFilter<"GeneratedImage"> | string | null
     type?: StringNullableFilter<"GeneratedImage"> | string | null
+    caption?: StringNullableFilter<"GeneratedImage"> | string | null
     prompt?: StringNullableFilter<"GeneratedImage"> | string | null
     expiresAt?: DateTimeFilter<"GeneratedImage"> | Date | string
     createdAt?: DateTimeFilter<"GeneratedImage"> | Date | string
@@ -60337,9 +60367,11 @@ export namespace Prisma {
   export type GeneratedImageOrderByWithRelationInput = {
     id?: SortOrder
     orgId?: SortOrder
+    pageId?: SortOrderInput | SortOrder
     base64?: SortOrder
     html?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
+    caption?: SortOrderInput | SortOrder
     prompt?: SortOrderInput | SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
@@ -60352,9 +60384,11 @@ export namespace Prisma {
     OR?: GeneratedImageWhereInput[]
     NOT?: GeneratedImageWhereInput | GeneratedImageWhereInput[]
     orgId?: StringFilter<"GeneratedImage"> | string
+    pageId?: StringNullableFilter<"GeneratedImage"> | string | null
     base64?: StringFilter<"GeneratedImage"> | string
     html?: StringNullableFilter<"GeneratedImage"> | string | null
     type?: StringNullableFilter<"GeneratedImage"> | string | null
+    caption?: StringNullableFilter<"GeneratedImage"> | string | null
     prompt?: StringNullableFilter<"GeneratedImage"> | string | null
     expiresAt?: DateTimeFilter<"GeneratedImage"> | Date | string
     createdAt?: DateTimeFilter<"GeneratedImage"> | Date | string
@@ -60364,9 +60398,11 @@ export namespace Prisma {
   export type GeneratedImageOrderByWithAggregationInput = {
     id?: SortOrder
     orgId?: SortOrder
+    pageId?: SortOrderInput | SortOrder
     base64?: SortOrder
     html?: SortOrderInput | SortOrder
     type?: SortOrderInput | SortOrder
+    caption?: SortOrderInput | SortOrder
     prompt?: SortOrderInput | SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
@@ -60381,9 +60417,11 @@ export namespace Prisma {
     NOT?: GeneratedImageScalarWhereWithAggregatesInput | GeneratedImageScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"GeneratedImage"> | string
     orgId?: StringWithAggregatesFilter<"GeneratedImage"> | string
+    pageId?: StringNullableWithAggregatesFilter<"GeneratedImage"> | string | null
     base64?: StringWithAggregatesFilter<"GeneratedImage"> | string
     html?: StringNullableWithAggregatesFilter<"GeneratedImage"> | string | null
     type?: StringNullableWithAggregatesFilter<"GeneratedImage"> | string | null
+    caption?: StringNullableWithAggregatesFilter<"GeneratedImage"> | string | null
     prompt?: StringNullableWithAggregatesFilter<"GeneratedImage"> | string | null
     expiresAt?: DateTimeWithAggregatesFilter<"GeneratedImage"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"GeneratedImage"> | Date | string
@@ -64717,9 +64755,11 @@ export namespace Prisma {
 
   export type GeneratedImageCreateInput = {
     id?: string
+    pageId?: string | null
     base64: string
     html?: string | null
     type?: string | null
+    caption?: string | null
     prompt?: string | null
     expiresAt: Date | string
     createdAt?: Date | string
@@ -64729,9 +64769,11 @@ export namespace Prisma {
   export type GeneratedImageUncheckedCreateInput = {
     id?: string
     orgId: string
+    pageId?: string | null
     base64: string
     html?: string | null
     type?: string | null
+    caption?: string | null
     prompt?: string | null
     expiresAt: Date | string
     createdAt?: Date | string
@@ -64739,9 +64781,11 @@ export namespace Prisma {
 
   export type GeneratedImageUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     base64?: StringFieldUpdateOperationsInput | string
     html?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
     prompt?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64751,9 +64795,11 @@ export namespace Prisma {
   export type GeneratedImageUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     orgId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     base64?: StringFieldUpdateOperationsInput | string
     html?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
     prompt?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64762,9 +64808,11 @@ export namespace Prisma {
   export type GeneratedImageCreateManyInput = {
     id?: string
     orgId: string
+    pageId?: string | null
     base64: string
     html?: string | null
     type?: string | null
+    caption?: string | null
     prompt?: string | null
     expiresAt: Date | string
     createdAt?: Date | string
@@ -64772,9 +64820,11 @@ export namespace Prisma {
 
   export type GeneratedImageUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     base64?: StringFieldUpdateOperationsInput | string
     html?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
     prompt?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64783,9 +64833,11 @@ export namespace Prisma {
   export type GeneratedImageUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     orgId?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     base64?: StringFieldUpdateOperationsInput | string
     html?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
     prompt?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -67921,9 +67973,11 @@ export namespace Prisma {
   export type GeneratedImageCountOrderByAggregateInput = {
     id?: SortOrder
     orgId?: SortOrder
+    pageId?: SortOrder
     base64?: SortOrder
     html?: SortOrder
     type?: SortOrder
+    caption?: SortOrder
     prompt?: SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
@@ -67932,9 +67986,11 @@ export namespace Prisma {
   export type GeneratedImageMaxOrderByAggregateInput = {
     id?: SortOrder
     orgId?: SortOrder
+    pageId?: SortOrder
     base64?: SortOrder
     html?: SortOrder
     type?: SortOrder
+    caption?: SortOrder
     prompt?: SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
@@ -67943,9 +67999,11 @@ export namespace Prisma {
   export type GeneratedImageMinOrderByAggregateInput = {
     id?: SortOrder
     orgId?: SortOrder
+    pageId?: SortOrder
     base64?: SortOrder
     html?: SortOrder
     type?: SortOrder
+    caption?: SortOrder
     prompt?: SortOrder
     expiresAt?: SortOrder
     createdAt?: SortOrder
@@ -72466,9 +72524,11 @@ export namespace Prisma {
 
   export type GeneratedImageCreateWithoutOrganizationInput = {
     id?: string
+    pageId?: string | null
     base64: string
     html?: string | null
     type?: string | null
+    caption?: string | null
     prompt?: string | null
     expiresAt: Date | string
     createdAt?: Date | string
@@ -72476,9 +72536,11 @@ export namespace Prisma {
 
   export type GeneratedImageUncheckedCreateWithoutOrganizationInput = {
     id?: string
+    pageId?: string | null
     base64: string
     html?: string | null
     type?: string | null
+    caption?: string | null
     prompt?: string | null
     expiresAt: Date | string
     createdAt?: Date | string
@@ -73087,9 +73149,11 @@ export namespace Prisma {
     NOT?: GeneratedImageScalarWhereInput | GeneratedImageScalarWhereInput[]
     id?: StringFilter<"GeneratedImage"> | string
     orgId?: StringFilter<"GeneratedImage"> | string
+    pageId?: StringNullableFilter<"GeneratedImage"> | string | null
     base64?: StringFilter<"GeneratedImage"> | string
     html?: StringNullableFilter<"GeneratedImage"> | string | null
     type?: StringNullableFilter<"GeneratedImage"> | string | null
+    caption?: StringNullableFilter<"GeneratedImage"> | string | null
     prompt?: StringNullableFilter<"GeneratedImage"> | string | null
     expiresAt?: DateTimeFilter<"GeneratedImage"> | Date | string
     createdAt?: DateTimeFilter<"GeneratedImage"> | Date | string
@@ -84200,9 +84264,11 @@ export namespace Prisma {
 
   export type GeneratedImageCreateManyOrganizationInput = {
     id?: string
+    pageId?: string | null
     base64: string
     html?: string | null
     type?: string | null
+    caption?: string | null
     prompt?: string | null
     expiresAt: Date | string
     createdAt?: Date | string
@@ -84939,9 +85005,11 @@ export namespace Prisma {
 
   export type GeneratedImageUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     base64?: StringFieldUpdateOperationsInput | string
     html?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
     prompt?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -84949,9 +85017,11 @@ export namespace Prisma {
 
   export type GeneratedImageUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     base64?: StringFieldUpdateOperationsInput | string
     html?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
     prompt?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -84959,9 +85029,11 @@ export namespace Prisma {
 
   export type GeneratedImageUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pageId?: NullableStringFieldUpdateOperationsInput | string | null
     base64?: StringFieldUpdateOperationsInput | string
     html?: NullableStringFieldUpdateOperationsInput | string | null
     type?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
     prompt?: NullableStringFieldUpdateOperationsInput | string | null
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
