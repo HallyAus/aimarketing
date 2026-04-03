@@ -76,6 +76,7 @@ interface NavItem {
   href: string;
   label: string;
   icon: string;
+  description: string;
 }
 
 interface NavSection {
@@ -86,70 +87,70 @@ interface NavSection {
 const NAV_SECTIONS: NavSection[] = [
   {
     title: "OVERVIEW",
-    items: [{ href: "/dashboard", label: "Dashboard", icon: "grid" }],
+    items: [{ href: "/dashboard", label: "Dashboard", icon: "grid", description: "Your command centre \u2014 metrics, upcoming posts, quick actions" }],
   },
   {
     title: "CONTENT",
     items: [
-      { href: "/campaigns", label: "Campaigns", icon: "megaphone" },
-      { href: "/calendar", label: "Calendar", icon: "calendar" },
-      { href: "/drafts", label: "Drafts", icon: "file-text" },
-      { href: "/templates", label: "Templates", icon: "copy" },
+      { href: "/campaigns", label: "Campaigns", icon: "megaphone", description: "Create and manage marketing campaigns across platforms" },
+      { href: "/calendar", label: "Calendar", icon: "calendar", description: "Visual calendar of all scheduled and published posts" },
+      { href: "/drafts", label: "Drafts", icon: "file-text", description: "AI-generated posts saved for review before scheduling" },
+      { href: "/templates", label: "Templates", icon: "copy", description: "Reusable post templates for consistent content" },
     ],
   },
   {
     title: "INTELLIGENCE",
     items: [
-      { href: "/ai", label: "AI Studio", icon: "sparkles" },
-      { href: "/ai/brand-voice", label: "Brand Voice", icon: "megaphone" },
-      { href: "/ai/competitor-match", label: "Competitor Match", icon: "target" },
-      { href: "/ai/keyword-scanner", label: "Keyword Scanner", icon: "globe" },
-      { href: "/ai/competitor-spy", label: "Competitor Spy", icon: "users" },
-      { href: "/ai/hashtags", label: "Hashtag Research", icon: "link" },
-      { href: "/ai/image-gen", label: "Image Generator", icon: "grid" },
-      { href: "/ai/video-scripts", label: "Video Scripts", icon: "file-text" },
-      { href: "/ai/bulk-generate", label: "Bulk Generate", icon: "copy" },
-      { href: "/ai/repurpose", label: "Repurpose", icon: "sparkles" },
-      { href: "/ai/ab-test", label: "A/B Variants", icon: "copy" },
-      { href: "/ai/carousel", label: "Carousel Builder", icon: "file-text" },
-      { href: "/ai/templates-ai", label: "Story Templates", icon: "sparkles" },
-      { href: "/ai/trending", label: "Trending Topics", icon: "trending-up" },
-      { href: "/ai/translate", label: "Translate", icon: "translate" },
-      { href: "/analytics", label: "Analytics", icon: "bar-chart" },
-      { href: "/analytics/benchmarking", label: "Benchmarking", icon: "target" },
-      { href: "/analytics/best-times", label: "Best Times", icon: "clock" },
-      { href: "/analytics/sentiment", label: "Sentiment", icon: "smile" },
-      { href: "/analytics/audience", label: "Audience", icon: "users" },
-      { href: "/analytics/roi", label: "ROI Calculator", icon: "dollar" },
+      { href: "/ai", label: "AI Studio", icon: "sparkles", description: "Generate posts, improve content, create images with AI" },
+      { href: "/ai/brand-voice", label: "Brand Voice", icon: "megaphone", description: "Train AI to write in your brand's unique tone and style" },
+      { href: "/ai/competitor-match", label: "Competitor Match", icon: "target", description: "Create your version of a competitor's post targeting the same audience" },
+      { href: "/ai/keyword-scanner", label: "Keyword Scanner", icon: "globe", description: "Compare your website keywords vs competitors \u2014 find gaps" },
+      { href: "/ai/competitor-spy", label: "Competitor Spy", icon: "users", description: "Analyze competitor strategies and content patterns" },
+      { href: "/ai/hashtags", label: "Hashtag Research", icon: "link", description: "Find trending and niche hashtags for any topic" },
+      { href: "/ai/image-gen", label: "Image Generator", icon: "grid", description: "Create social media images from text descriptions" },
+      { href: "/ai/video-scripts", label: "Video Scripts", icon: "file-text", description: "Generate scripts for TikTok, Reels, Shorts, YouTube" },
+      { href: "/ai/bulk-generate", label: "Bulk Generate", icon: "copy", description: "Create a week or month of content in one go" },
+      { href: "/ai/repurpose", label: "Repurpose", icon: "sparkles", description: "Transform existing content into new formats for different platforms" },
+      { href: "/ai/ab-test", label: "A/B Variants", icon: "copy", description: "Generate multiple versions of a post to test what works best" },
+      { href: "/ai/carousel", label: "Carousel Builder", icon: "file-text", description: "Create multi-slide carousel posts for Instagram and LinkedIn" },
+      { href: "/ai/templates-ai", label: "Story Templates", icon: "sparkles", description: "AI-generated story templates for Instagram and Facebook" },
+      { href: "/ai/trending", label: "Trending Topics", icon: "trending-up", description: "Discover what's trending in your industry right now" },
+      { href: "/ai/translate", label: "Translate", icon: "translate", description: "Translate your posts into multiple languages with AI" },
+      { href: "/analytics", label: "Analytics", icon: "bar-chart", description: "Track post performance, engagement, and growth" },
+      { href: "/analytics/benchmarking", label: "Benchmarking", icon: "target", description: "Compare your metrics against competitors" },
+      { href: "/analytics/best-times", label: "Best Times", icon: "clock", description: "AI-predicted optimal posting times for your audience" },
+      { href: "/analytics/sentiment", label: "Sentiment", icon: "smile", description: "Analyze the emotional tone of your content" },
+      { href: "/analytics/audience", label: "Audience", icon: "users", description: "Understand your followers \u2014 demographics, interests, active hours" },
+      { href: "/analytics/roi", label: "ROI Calculator", icon: "dollar", description: "Calculate return on your marketing investment" },
     ],
   },
   {
     title: "LEADS & CRM",
     items: [
-      { href: "/leads", label: "Lead Capture", icon: "inbox" },
-      { href: "/approvals", label: "Approvals", icon: "check" },
-      { href: "/settings/crm", label: "CRM", icon: "contact-book" },
+      { href: "/leads", label: "Lead Capture", icon: "inbox", description: "Collect and manage leads from forms and social" },
+      { href: "/approvals", label: "Approvals", icon: "check", description: "Review and approve posts before they go live" },
+      { href: "/settings/crm", label: "CRM", icon: "contact-book", description: "Connect your CRM to sync leads automatically" },
     ],
   },
   {
     title: "TOOLS",
     items: [
-      { href: "/tools/utm", label: "UTM Builder", icon: "link" },
-      { href: "/tools/landing-page", label: "Landing Pages", icon: "layout" },
-      { href: "/email", label: "Email Marketing", icon: "mail" },
+      { href: "/tools/utm", label: "UTM Builder", icon: "link", description: "Create tracked links for every campaign" },
+      { href: "/tools/landing-page", label: "Landing Pages", icon: "layout", description: "AI-generated landing pages for campaigns" },
+      { href: "/email", label: "Email Marketing", icon: "mail", description: "Create and send email campaigns with AI" },
     ],
   },
   {
     title: "SETTINGS",
     items: [
-      { href: "/settings/business-profile", label: "Business Profile", icon: "globe" },
-      { href: "/settings/connections", label: "Connections", icon: "link" },
-      { href: "/settings/rss", label: "RSS Feeds", icon: "rss" },
-      { href: "/settings/webhooks", label: "Webhooks", icon: "zap" },
-      { href: "/settings/reports", label: "Reports", icon: "clip-report" },
-      { href: "/settings/auto-reply", label: "Auto-Reply", icon: "message-circle" },
-      { href: "/settings/team", label: "Team", icon: "users" },
-      { href: "/settings/billing", label: "Billing", icon: "credit-card" },
+      { href: "/settings/business-profile", label: "Business Profile", icon: "globe", description: "Your website, industry, competitors \u2014 used by AI tools" },
+      { href: "/settings/connections", label: "Connections", icon: "link", description: "Connect your social media accounts" },
+      { href: "/settings/rss", label: "RSS Feeds", icon: "rss", description: "Auto-generate posts from blog RSS feeds" },
+      { href: "/settings/webhooks", label: "Webhooks", icon: "zap", description: "Automated triggers \u2014 when X happens, do Y" },
+      { href: "/settings/reports", label: "Reports", icon: "clip-report", description: "Schedule weekly performance reports via email" },
+      { href: "/settings/auto-reply", label: "Auto-Reply", icon: "message-circle", description: "AI-powered automatic responses to messages" },
+      { href: "/settings/team", label: "Team", icon: "users", description: "Manage team members and permissions" },
+      { href: "/settings/billing", label: "Billing", icon: "credit-card", description: "Subscription plan and payment settings" },
     ],
   },
 ];
@@ -165,12 +166,13 @@ function isActive(pathname: string, href: string): boolean {
 /*  Tooltip (shown in collapsed mode)                                  */
 /* ------------------------------------------------------------------ */
 
-function Tooltip({ label, show }: { label: string; show: boolean }) {
+function Tooltip({ label, description, show }: { label: string; description: string; show: boolean }) {
   if (!show) return null;
   return (
     <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 z-50 pointer-events-none">
       <div className="px-2.5 py-1.5 text-xs font-medium rounded-md whitespace-nowrap bg-[var(--bg-elevated)] text-[var(--text-primary)] border border-[var(--border-primary)] shadow-lg">
-        {label}
+        <div>{label}</div>
+        <div className="font-normal text-[10px] text-[var(--text-tertiary)] mt-0.5 max-w-[220px] whitespace-normal">{description}</div>
       </div>
     </div>
   );
@@ -216,6 +218,7 @@ export function SidebarNav() {
       <Link
         key={item.href}
         href={item.href}
+        title={item.description}
         onClick={closeMobile ? () => setMobileOpen(false) : undefined}
         onMouseEnter={() => setHoveredItem(item.href)}
         onMouseLeave={() => setHoveredItem(null)}
@@ -233,7 +236,7 @@ export function SidebarNav() {
           <span className="text-[13px] font-medium truncate">{item.label}</span>
         )}
         {collapsed && (
-          <Tooltip label={item.label} show={hoveredItem === item.href} />
+          <Tooltip label={item.label} description={item.description} show={hoveredItem === item.href} />
         )}
       </Link>
     );

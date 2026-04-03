@@ -251,7 +251,7 @@ export function CalendarGrid({
               className="text-sm"
               style={{ color: "var(--text-tertiary)" }}
             >
-              No posts scheduled this month.
+              No posts this month. Generate content with AI Studio or Bulk Generate to fill your calendar.
             </p>
           </div>
         )}

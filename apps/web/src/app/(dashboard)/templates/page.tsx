@@ -32,7 +32,7 @@ export default async function TemplatesPage() {
     <div>
       <PageHeader
         title="Post Templates"
-        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "Showing: All Accounts"}
+        subtitle={activeAccount ? `Save and reuse your best-performing post formats \u2014 ${activeAccount.name}` : "Save and reuse your best-performing post formats"}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Templates" },

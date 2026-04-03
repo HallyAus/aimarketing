@@ -131,7 +131,7 @@ export default function BenchmarkingPage() {
     <div className="max-w-6xl mx-auto px-4 py-8">
       <PageHeader
         title="Competitor Benchmarking"
-        subtitle="Analyze competitors side-by-side and get AI-powered improvement recommendations"
+        subtitle="Compare your social media performance against competitors"
         breadcrumbs={[
           { label: "Analytics", href: "/analytics" },
           { label: "Benchmarking" },

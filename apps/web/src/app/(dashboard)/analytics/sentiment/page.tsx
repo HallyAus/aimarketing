@@ -132,7 +132,7 @@ export default function SentimentPage() {
     <div className="max-w-6xl mx-auto px-4 py-8">
       <PageHeader
         title="Sentiment Analysis"
-        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "AI-powered analysis of your post content sentiment over time"}
+        subtitle={activeAccount ? `AI scores the emotional tone of your posts \u2014 track positivity over time \u2014 ${activeAccount.name}` : "AI scores the emotional tone of your posts \u2014 track positivity over time"}
         breadcrumbs={[
           { label: "Analytics", href: "/analytics" },
           { label: "Sentiment" },

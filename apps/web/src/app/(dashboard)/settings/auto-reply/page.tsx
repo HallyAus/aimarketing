@@ -192,7 +192,7 @@ export default function AutoReplyPage() {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <PageHeader
         title="Auto-Reply Bot"
-        subtitle="Set up automated replies based on keyword triggers"
+        subtitle="Configure keyword triggers \u2014 AI automatically responds to common messages"
         breadcrumbs={[
           { label: "Settings", href: "/settings/connections" },
           { label: "Auto-Reply" },

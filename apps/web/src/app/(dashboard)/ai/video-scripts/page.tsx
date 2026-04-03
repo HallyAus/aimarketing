@@ -137,7 +137,7 @@ export default function VideoScriptsPage() {
     <div>
       <PageHeader
         title="Video Script Generator"
-        subtitle="Generate platform-optimized video scripts with hooks, CTAs, and production notes."
+        subtitle="Enter a topic \u2014 AI writes a complete video script with hooks, CTAs, and music suggestions"
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "AI Studio", href: "/ai" },

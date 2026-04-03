@@ -94,7 +94,7 @@ export default function EmailMarketingPage() {
 
   return (
     <div>
-      <PageHeader title="Email Marketing" subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "AI-powered email campaigns with template editing"} />
+      <PageHeader title="Email Marketing" subtitle={activeAccount ? `AI writes email campaigns \u2014 compose, preview, and send to your audience \u2014 ${activeAccount.name}` : "AI writes email campaigns \u2014 compose, preview, and send to your audience"} />
       <ClientAccountBanner account={activeAccount} />
 
       {success && <div className="alert alert-success mb-4 mt-4">{success}</div>}

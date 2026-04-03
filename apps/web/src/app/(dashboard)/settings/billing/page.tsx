@@ -22,7 +22,7 @@ export default async function BillingPage() {
     <div>
       <PageHeader
         title="Billing"
-        subtitle="Manage your subscription and usage"
+        subtitle="View your current plan, manage subscription, update payment method"
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Settings", href: "/settings/connections" },

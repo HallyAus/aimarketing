@@ -106,7 +106,7 @@ export default function AudiencePage() {
     <div className="max-w-6xl mx-auto px-4 py-8">
       <PageHeader
         title="Audience Insights"
-        subtitle="AI-estimated audience demographics and preferences based on your content and engagement"
+        subtitle="AI estimates your audience demographics, interests, and most active hours"
         breadcrumbs={[
           { label: "Analytics", href: "/analytics" },
           { label: "Audience" },

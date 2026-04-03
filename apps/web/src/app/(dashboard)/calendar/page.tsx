@@ -126,7 +126,7 @@ export default async function CalendarPage({
     <div>
       <PageHeader
         title="Content Calendar"
-        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "Showing: All Accounts"}
+        subtitle={activeAccount ? `See all your posts on a monthly calendar \u2014 click any post to edit, reschedule, or delete \u2014 ${activeAccount.name}` : "See all your posts on a monthly calendar \u2014 click any post to edit, reschedule, or delete"}
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Calendar" },

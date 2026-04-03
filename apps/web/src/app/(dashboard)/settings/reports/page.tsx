@@ -88,7 +88,7 @@ export default function ReportsSettingsPage() {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <PageHeader
         title="Report Settings"
-        subtitle="Configure automated performance report emails"
+        subtitle="Generate and schedule branded performance reports \u2014 send weekly to stakeholders"
         breadcrumbs={[
           { label: "Settings", href: "/settings/connections" },
           { label: "Reports" },

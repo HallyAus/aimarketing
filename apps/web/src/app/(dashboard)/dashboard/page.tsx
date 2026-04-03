@@ -320,7 +320,7 @@ export default async function DashboardPage() {
     <div>
       <PageHeader
         title={org.name}
-        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "All accounts"}
+        subtitle={activeAccount ? `Overview of your marketing activity, upcoming posts, and platform status \u2014 ${activeAccount.name}` : "Overview of your marketing activity, upcoming posts, and platform status"}
         action={<span className="badge badge-info">{org.plan}</span>}
         breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }]}
       />

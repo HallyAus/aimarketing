@@ -76,7 +76,7 @@ export default function ApprovalsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <PageHeader title="Approval Workflow" subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "Review and approve posts before publishing"} />
+        <PageHeader title="Approval Workflow" subtitle={activeAccount ? `Posts submitted by team members waiting for your review \u2014 approve or reject with comments \u2014 ${activeAccount.name}` : "Posts submitted by team members waiting for your review \u2014 approve or reject with comments"} />
         {pendingCount > 0 && (
           <span className="badge badge-warning">{pendingCount} pending</span>
         )}
@@ -106,7 +106,7 @@ export default function ApprovalsPage() {
       ) : approvals.length === 0 ? (
         <EmptyState
           title="No approval requests"
-          description={`No ${filter.toLowerCase()} approval requests found.`}
+          description={filter === "ALL" ? "No posts pending approval. When team members submit posts for review, they'll appear here." : `No ${filter.toLowerCase()} approval requests found.`}
         />
       ) : (
         <div className="space-y-3">

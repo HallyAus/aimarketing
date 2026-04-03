@@ -192,7 +192,7 @@ export default function AIStudioPage() {
     <div>
       <PageHeader
         title="AI Studio"
-        subtitle="Generate content, images, and campaign ideas with AI."
+        subtitle="Your AI content toolkit \u2014 generate posts, improve copy, create images, and more"
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "AI Studio" },

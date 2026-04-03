@@ -195,7 +195,7 @@ document.getElementById('adpilot-form').addEventListener('submit', async functio
     <div className="max-w-6xl mx-auto px-4 py-8">
       <PageHeader
         title="Lead Capture"
-        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "View, manage, and export captured leads from your forms"}
+        subtitle={activeAccount ? `Contacts captured from your forms and social channels \u2014 export, filter, and manage \u2014 ${activeAccount.name}` : "Contacts captured from your forms and social channels \u2014 export, filter, and manage"}
         breadcrumbs={[{ label: "Leads" }]}
         action={
           <div className="flex gap-2">
@@ -330,7 +330,7 @@ document.getElementById('adpilot-form').addEventListener('submit', async functio
         {!loading && filteredLeads.length === 0 && (
           <div className="text-center py-12">
             <p className="text-sm" style={{ color: "var(--text-tertiary)" }}>
-              {search ? "No leads match your search." : "No leads captured yet. Share your embed form or add leads manually."}
+              {search ? "No leads match your search." : "No leads captured yet. Create an embeddable form or connect your landing pages to start collecting contacts."}
             </p>
           </div>
         )}

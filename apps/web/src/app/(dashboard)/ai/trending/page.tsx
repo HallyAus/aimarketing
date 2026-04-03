@@ -56,7 +56,7 @@ export default function TrendingTopicsPage() {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <PageHeader
         title="Trending Topics"
-        subtitle="Discover what's trending in your industry and create content around it"
+        subtitle="Enter your industry \u2014 AI shows what topics are trending right now"
         breadcrumbs={[
           { label: "AI Studio", href: "/ai" },
           { label: "Trending Topics" },

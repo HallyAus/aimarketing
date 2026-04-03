@@ -88,7 +88,7 @@ export default function BestTimesPage() {
     <div className="max-w-6xl mx-auto px-4 py-8">
       <PageHeader
         title="Best Time to Post"
-        subtitle={activeAccount ? `Showing: ${activeAccount.name}` : "AI-powered analysis of your best posting times based on historical engagement data"}
+        subtitle={activeAccount ? `AI analyzes your post data to find the optimal posting times for each platform \u2014 ${activeAccount.name}` : "AI analyzes your post data to find the optimal posting times for each platform"}
         breadcrumbs={[
           { label: "Analytics", href: "/analytics" },
           { label: "Best Times" },

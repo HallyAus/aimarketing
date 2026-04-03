@@ -40,7 +40,7 @@ export default async function ConnectionsPage({
     <div>
       <PageHeader
         title="Platform Connections"
-        subtitle="Connect your social media accounts to manage campaigns."
+        subtitle="Connect your Facebook, Instagram, LinkedIn, and Twitter accounts"
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Settings", href: "/settings/connections" },
