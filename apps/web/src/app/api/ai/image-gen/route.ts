@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
-import { renderCardToPng, SIZE_PRESETS } from "@/lib/image-gen/render";
+import { renderCardToPng, generateCardHtml, SIZE_PRESETS } from "@/lib/image-gen/render";
 import type { CardSpec, TemplateName } from "@/lib/image-gen/types";
 import { z } from "zod";
 
@@ -174,12 +174,14 @@ export const POST = withErrorHandler(
     // ── Single card regeneration ──────────────────────────────
     if (regenerateSpec) {
       const spec = regenerateSpec as CardSpec;
+      const html = generateCardHtml(spec, width, height);
       const buffer = await renderCardToPng(spec, width, height);
       const base64 = `data:image/png;base64,${buffer.toString("base64")}`;
       return NextResponse.json({
         images: [{
           id: `regen_${Date.now()}`,
           base64,
+          html,
           spec,
           width,
           height,
@@ -203,14 +205,16 @@ export const POST = withErrorHandler(
     // ── Generate creative briefs via Claude ────────────────────
     const specs = await generateCardSpecs(content, count, width, height, brandName);
 
-    // ── Render all cards to PNG ────────────────────────────────
+    // ── Render all cards to PNG + generate HTML ─────────────────
     const images = await Promise.all(
       specs.map(async (spec, i) => {
+        const html = generateCardHtml(spec, width, height);
         const buffer = await renderCardToPng(spec, width, height);
         const base64 = `data:image/png;base64,${buffer.toString("base64")}`;
         return {
           id: `img_${i + 1}_${Date.now()}`,
           base64,
+          html,
           spec,
           width,
           height,

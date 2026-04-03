@@ -42,6 +42,7 @@ const SCHEDULE_PLATFORMS = [
 interface GeneratedImage {
   id: string;
   base64: string;
+  html?: string;
   spec: CardSpec;
   width: number;
   height: number;
@@ -177,13 +178,30 @@ export default function ImageGenPage() {
   function downloadImage(img: GeneratedImage) {
     const a = document.createElement("a");
     a.href = img.base64;
-    a.download = `adpilot-${img.spec.template}-${img.id}.png`;
+    a.download = `${img.spec.brandName || "marketing"}-${img.spec.template}.png`;
     a.click();
+  }
+
+  function downloadHtml(img: GeneratedImage) {
+    if (!img.html) return;
+    const blob = new Blob([img.html], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${img.spec.brandName || "marketing"}-${img.spec.template}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   function downloadAll() {
     images.forEach((img) => {
       if (selectedImages.has(img.id)) downloadImage(img);
+    });
+  }
+
+  function downloadAllHtml() {
+    images.forEach((img) => {
+      if (selectedImages.has(img.id) && img.html) downloadHtml(img);
     });
   }
 
@@ -386,7 +404,10 @@ export default function ImageGenPage() {
                   {selectedImages.size === images.length ? "Deselect All" : "Select All"}
                 </button>
                 <button onClick={downloadAll} disabled={selectedImages.size === 0} className="btn-secondary text-xs disabled:opacity-50">
-                  Download ({selectedImages.size})
+                  PNG ({selectedImages.size})
+                </button>
+                <button onClick={downloadAllHtml} disabled={selectedImages.size === 0} className="btn-ghost text-xs disabled:opacity-50" style={{ color: "var(--accent-blue)" }}>
+                  HTML ({selectedImages.size})
                 </button>
               </div>
             </div>
@@ -429,8 +450,13 @@ export default function ImageGenPage() {
                     </p>
                     <div className="flex gap-2">
                       <button onClick={() => downloadImage(img)} className="btn-secondary text-xs flex-1">
-                        Download
+                        PNG
                       </button>
+                      {img.html && (
+                        <button onClick={() => downloadHtml(img)} className="btn-secondary text-xs flex-1">
+                          HTML
+                        </button>
+                      )}
                       <button onClick={() => startEdit(img)} className="btn-ghost text-xs flex-1" style={{ color: "var(--accent-blue)" }}>
                         Edit
                       </button>
