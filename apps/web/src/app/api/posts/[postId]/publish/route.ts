@@ -1,3 +1,4 @@
+import { decrypt } from "@adpilot/shared";
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
@@ -60,7 +61,7 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req, context) => 
     content: post.content,
     mediaUrls: post.mediaUrls,
     platform: post.platform,
-    accessToken: connection.accessToken,
+    accessToken: decrypt(connection.accessToken, process.env.MASTER_ENCRYPTION_KEY ?? ""),
     platformUserId: connection.platformUserId,
   });
 

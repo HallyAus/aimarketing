@@ -8,7 +8,7 @@ export async function GET() {
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { status: "error", service: "postgresql", error: msg, hasDbUrl: !!process.env.DATABASE_URL, dbUrlPrefix: (process.env.DATABASE_URL || "").substring(0, 30) },
+      { status: "error", service: "postgresql" },
       { status: 503 }
     );
   }
