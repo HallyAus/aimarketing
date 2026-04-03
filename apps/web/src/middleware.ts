@@ -7,6 +7,13 @@ export default async function middleware(req: NextRequest) {
   const requestId = req.headers.get("x-request-id") ?? crypto.randomUUID();
   const { pathname } = req.nextUrl;
 
+  // ── Admin login page — always accessible (no auth required) ───────
+  if (pathname === "/admin/login") {
+    const response = NextResponse.next();
+    response.headers.set("x-request-id", requestId);
+    return response;
+  }
+
   // Auth routes — apply auth rate limiter only
   if (pathname.startsWith("/api/auth/")) {
     try {
@@ -36,6 +43,41 @@ export default async function middleware(req: NextRequest) {
     secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
     cookieName: "__Secure-authjs.session-token",
   });
+
+  // ── Admin routes — require auth + admin systemRole ────────────────
+  if (pathname.startsWith("/admin") || pathname.startsWith("/api/admin/")) {
+    if (!token) {
+      if (pathname.startsWith("/api/admin/")) {
+        return NextResponse.json(
+          { error: "Unauthorized", code: "UNAUTHORIZED", statusCode: 401 },
+          { status: 401, headers: { "x-request-id": requestId } }
+        );
+      }
+      const loginUrl = new URL("/admin/login", req.url);
+      loginUrl.searchParams.set("callbackUrl", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    // Check admin role from JWT
+    const systemRole = token.systemRole as string | undefined;
+    if (systemRole !== "ADMIN" && systemRole !== "SUPER_ADMIN") {
+      if (pathname.startsWith("/api/admin/")) {
+        return NextResponse.json(
+          { error: "Forbidden", code: "FORBIDDEN", statusCode: 403 },
+          { status: 403, headers: { "x-request-id": requestId } }
+        );
+      }
+      // Non-admin users trying to access /admin pages get a 403 redirect
+      const loginUrl = new URL("/admin/login", req.url);
+      loginUrl.searchParams.set("error", "forbidden");
+      return NextResponse.redirect(loginUrl);
+    }
+
+    const response = NextResponse.next();
+    response.headers.set("x-request-id", requestId);
+    return response;
+  }
+
   if (!token) {
     if (pathname.startsWith("/api/")) {
       return NextResponse.json(
@@ -85,5 +127,6 @@ export const config = {
     "/reports/:path*",
     "/tools/:path*",
     "/api/:path*",
+    "/admin/:path*",
   ],
 };

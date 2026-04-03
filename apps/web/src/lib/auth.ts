@@ -73,6 +73,21 @@ const nextAuth = NextAuth({
         }
       }
 
+      // Fetch systemRole on first sign-in or when not yet set.
+      if (token.userId && !token.systemRole) {
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: token.userId as string },
+            select: { systemRole: true },
+          });
+          if (dbUser) {
+            token.systemRole = dbUser.systemRole;
+          }
+        } catch {
+          // Silently ignore — defaults to no admin access.
+        }
+      }
+
       return token;
     },
     async session({ session, token }) {
@@ -80,6 +95,7 @@ const nextAuth = NextAuth({
         session.user.id = token.userId as string;
         session.user.currentOrgId = token.currentOrgId as string | undefined;
         session.user.currentRole = token.currentRole as string | undefined;
+        session.user.systemRole = token.systemRole as string | undefined;
       }
       return session;
     },

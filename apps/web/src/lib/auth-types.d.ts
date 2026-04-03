@@ -10,6 +10,7 @@ declare module "next-auth" {
       image?: string | null;
       currentOrgId?: string;
       currentRole?: string;
+      systemRole?: string;
     };
   }
 }
@@ -19,5 +20,6 @@ declare module "next-auth/jwt" {
     userId?: string;
     currentOrgId?: string;
     currentRole?: string;
+    systemRole?: string;
   }
 }
