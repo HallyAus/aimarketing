@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
+import { getContentMemory } from "@/lib/content-memory";
 import { z } from "zod";
 
 const PLATFORM_NAMES: Record<string, string> = {
@@ -81,6 +82,8 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
     .map((id) => PLATFORM_NAMES[id] ?? id)
     .join(", ");
 
+  const contentMemory = await getContentMemory(req.orgId);
+
   const response = await getClient().messages.create({
     model: "claude-sonnet-4-6",
     max_tokens: 4096,
@@ -103,7 +106,7 @@ Respond ONLY with valid JSON in this exact format, no other text:
   ]
 }
 
-Generate exactly ${postsPerPlatform} posts per platform. For suggestedTime, suggest optimal posting times in 24h format. Ensure each post is unique and tailored to the specific platform's style and audience.`,
+Generate exactly ${postsPerPlatform} posts per platform. For suggestedTime, suggest optimal posting times in 24h format. Ensure each post is unique and tailored to the specific platform's style and audience.${contentMemory}`,
       },
     ],
   });

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
+import { getContentMemory } from "@/lib/content-memory";
 import { prisma } from "@/lib/db";
 import { renderHtmlToJpeg, SIZE_PRESETS } from "@/lib/image-gen/render";
 import { z } from "zod";
@@ -93,6 +94,7 @@ async function generateCardsHtml(
   width: number,
   height: number,
   brandName?: string,
+  contentMemory?: string,
 ): Promise<{ htmlCards: string[]; caption: string }> {
   if (!process.env.ANTHROPIC_API_KEY) {
     throw new ZodValidationError("AI service not configured. Set ANTHROPIC_API_KEY.");
@@ -145,7 +147,7 @@ CRITICAL RULES:
 - Include the brand name visually on each card
 - Each card must look completely different from the others
 - DO NOT use placeholder images or external image URLs
-- Return ONLY the JSON. No markdown fences, no explanations.`,
+- Return ONLY the JSON. No markdown fences, no explanations.${contentMemory ?? ""}`,
       },
     ],
   });
@@ -264,7 +266,8 @@ export const POST = withErrorHandler(
     }
 
     // ── Generate HTML cards via Claude ─────────────────────────
-    const { htmlCards, caption } = await generateCardsHtml(content, count, width, height, brandName);
+    const contentMemory = await getContentMemory(req.orgId);
+    const { htmlCards, caption } = await generateCardsHtml(content, count, width, height, brandName, contentMemory);
 
     // ── Render all cards to JPEG ──────────────────────────────
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);

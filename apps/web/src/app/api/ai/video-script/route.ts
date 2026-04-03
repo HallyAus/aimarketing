@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
+import { getContentMemory } from "@/lib/content-memory";
 import { z } from "zod";
 
 let _client: Anthropic | null = null;
@@ -34,7 +35,7 @@ const durationGuide: Record<string, string> = {
 };
 
 export const POST = withErrorHandler(
-  withRole("EDITOR", async (req: NextRequest) => {
+  withRole("EDITOR", async (req) => {
     const body = await req.json();
     const parsed = videoScriptSchema.safeParse(body);
     if (!parsed.success) {
@@ -44,6 +45,8 @@ export const POST = withErrorHandler(
     }
 
     const { topic, platform, duration, style } = parsed.data;
+
+    const contentMemory = await getContentMemory(req.orgId);
 
     const response = await getClient().messages.create({
       model: "claude-sonnet-4-6",
@@ -73,7 +76,7 @@ Return this exact JSON structure:
   "musicMood": "Description of the ideal background music mood and tempo",
   "fullScript": "The complete script as it would be read/performed, with timing markers like [0:00-0:03] for each section",
   "tips": ["production tip 1", "production tip 2", "production tip 3"]
-}`,
+}${contentMemory}`,
         },
       ],
     });

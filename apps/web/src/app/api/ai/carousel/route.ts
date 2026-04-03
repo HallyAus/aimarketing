@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
+import { getContentMemory } from "@/lib/content-memory";
 import { z } from "zod";
 
 const carouselSchema = z.object({
@@ -32,6 +33,8 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
   const { topic, platform, numSlides, content } = parsed.data;
 
   const platformName = platform === "instagram" ? "Instagram" : "LinkedIn";
+
+  const contentMemory = await getContentMemory(req.orgId);
 
   const response = await getClient().messages.create({
     model: "claude-sonnet-4-6",
@@ -64,7 +67,7 @@ Respond ONLY with valid JSON in this exact format, no other text:
   ]
 }
 
-Make it engaging, educational, and optimized for ${platformName} carousel format.`,
+Make it engaging, educational, and optimized for ${platformName} carousel format.${contentMemory}`,
       },
     ],
   });

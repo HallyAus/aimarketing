@@ -22,8 +22,9 @@ export async function generatePostContent(params: {
   customPrompt?: string;
   brandVoicePrompt?: string;
   businessContext?: string;
+  contentMemory?: string;
 }): Promise<string> {
-  const { platform, topic, tone = "professional", style = "engaging", includeHashtags = true, includeEmojis = true, maxLength, customPrompt, brandVoicePrompt, businessContext } = params;
+  const { platform, topic, tone = "professional", style = "engaging", includeHashtags = true, includeEmojis = true, maxLength, customPrompt, brandVoicePrompt, businessContext, contentMemory } = params;
 
   const platformLimits: Record<string, number> = {
     TWITTER_X: 280,
@@ -59,7 +60,7 @@ ${includeEmojis ? "- Use emojis appropriately" : "- No emojis"}
 - Optimized for ${platform.replace("_", " ")} engagement
 - Ready to post as-is (no explanations, just the post content)
 
-Write ONLY the post content, nothing else.`;
+Write ONLY the post content, nothing else.${contentMemory}`;
   } else {
     userContent = `Write a ${platform.replace("_", " ")} post about: ${topic}
 
@@ -72,7 +73,7 @@ ${includeEmojis ? "- Use emojis appropriately" : "- No emojis"}
 - Optimized for ${platform.replace("_", " ")} engagement
 - Ready to post as-is (no explanations, just the post content)
 
-Write ONLY the post content, nothing else.`;
+Write ONLY the post content, nothing else.${contentMemory}`;
   }
 
   const messages: Array<{ role: "user" | "assistant"; content: string }> = [

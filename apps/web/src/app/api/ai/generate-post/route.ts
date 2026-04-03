@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { generatePostContent } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
+import { getContentMemory } from "@/lib/content-memory";
 import { prisma } from "@/lib/db";
 import { withAiUsageTracking } from "@/lib/usage-limits";
 import { z } from "zod";
@@ -54,6 +55,8 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
     }
   } catch { /* non-critical */ }
 
+  const contentMemory = await getContentMemory(req.orgId);
+
   const content = await withAiUsageTracking(req.orgId, () =>
     generatePostContent({
       ...rest,
@@ -61,6 +64,7 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
       customPrompt,
       brandVoicePrompt,
       businessContext,
+      contentMemory,
     })
   );
 

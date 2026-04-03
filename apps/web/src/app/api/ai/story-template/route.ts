@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
+import { getContentMemory } from "@/lib/content-memory";
 import { z } from "zod";
 
 const storyTemplateSchema = z.object({
@@ -30,6 +31,8 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
 
   const { category, topic, platform } = parsed.data;
 
+  const contentMemory = await getContentMemory(req.orgId);
+
   const response = await getClient().messages.create({
     model: "claude-sonnet-4-6",
     max_tokens: 2048,
@@ -56,7 +59,7 @@ Make the content:
 - Appropriate for the "${category}" template style
 - Optimized for ${platform}
 - Trendy and engaging for short-form content
-- Include actionable filming/editing tips`,
+- Include actionable filming/editing tips${contentMemory}`,
       },
     ],
   });
