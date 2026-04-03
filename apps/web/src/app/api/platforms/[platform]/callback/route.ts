@@ -192,6 +192,42 @@ export async function GET(
       }
     }
 
+    // Trigger historical data ingestion for all newly connected pages
+    try {
+      const connectedPages = await prisma.page.findMany({
+        where: {
+          orgId: oauthState.orgId,
+          connectionId: connection?.id,
+          isActive: true,
+        },
+        select: { id: true },
+      });
+
+      for (const connectedPage of connectedPages) {
+        // Create an IngestionJob record — the worker will pick it up
+        const existingJob = await prisma.ingestionJob.findFirst({
+          where: {
+            pageId: connectedPage.id,
+            status: { in: ["PENDING", "RUNNING", "PAUSED"] },
+          },
+        });
+
+        if (!existingJob) {
+          await prisma.ingestionJob.create({
+            data: {
+              pageId: connectedPage.id,
+              orgId: oauthState.orgId,
+              dataTypes: ["posts", "metrics"],
+              status: "PENDING",
+            },
+          });
+        }
+      }
+    } catch (e) {
+      console.error("[oauth] Failed to create ingestion jobs:", e);
+      // Non-critical — user can trigger manually from settings
+    }
+
     // Audit log
     await prisma.auditLog.create({
       data: {

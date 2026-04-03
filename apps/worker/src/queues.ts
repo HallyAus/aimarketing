@@ -16,6 +16,7 @@ export const queues = {
   "media:process": new Queue("media:process", { connection }),
   "email:send": new Queue("email:send", { connection }),
   "webhook:process": new Queue("webhook:process", { connection }),
+  "ingestion:process": new Queue("ingestion:process", { connection }),
 } as const;
 
 // ── Worker Factory ────────────────────────────────────────────────────────

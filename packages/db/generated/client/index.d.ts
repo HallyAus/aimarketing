@@ -183,6 +183,21 @@ export type Announcement = $Result.DefaultSelection<Prisma.$AnnouncementPayload>
  * 
  */
 export type WaitlistEntry = $Result.DefaultSelection<Prisma.$WaitlistEntryPayload>
+/**
+ * Model IngestionJob
+ * 
+ */
+export type IngestionJob = $Result.DefaultSelection<Prisma.$IngestionJobPayload>
+/**
+ * Model HistoricalPost
+ * 
+ */
+export type HistoricalPost = $Result.DefaultSelection<Prisma.$HistoricalPostPayload>
+/**
+ * Model HistoricalMetricSnapshot
+ * 
+ */
+export type HistoricalMetricSnapshot = $Result.DefaultSelection<Prisma.$HistoricalMetricSnapshotPayload>
 
 /**
  * Enums
@@ -353,6 +368,18 @@ export const CreativeType: {
 
 export type CreativeType = (typeof CreativeType)[keyof typeof CreativeType]
 
+
+export const IngestionStatus: {
+  PENDING: 'PENDING',
+  RUNNING: 'RUNNING',
+  PAUSED: 'PAUSED',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type IngestionStatus = (typeof IngestionStatus)[keyof typeof IngestionStatus]
+
 }
 
 export type Plan = $Enums.Plan
@@ -414,6 +441,10 @@ export const PostStatus: typeof $Enums.PostStatus
 export type CreativeType = $Enums.CreativeType
 
 export const CreativeType: typeof $Enums.CreativeType
+
+export type IngestionStatus = $Enums.IngestionStatus
+
+export const IngestionStatus: typeof $Enums.IngestionStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -872,6 +903,36 @@ export class PrismaClient<
     * ```
     */
   get waitlistEntry(): Prisma.WaitlistEntryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ingestionJob`: Exposes CRUD operations for the **IngestionJob** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more IngestionJobs
+    * const ingestionJobs = await prisma.ingestionJob.findMany()
+    * ```
+    */
+  get ingestionJob(): Prisma.IngestionJobDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.historicalPost`: Exposes CRUD operations for the **HistoricalPost** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more HistoricalPosts
+    * const historicalPosts = await prisma.historicalPost.findMany()
+    * ```
+    */
+  get historicalPost(): Prisma.HistoricalPostDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.historicalMetricSnapshot`: Exposes CRUD operations for the **HistoricalMetricSnapshot** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more HistoricalMetricSnapshots
+    * const historicalMetricSnapshots = await prisma.historicalMetricSnapshot.findMany()
+    * ```
+    */
+  get historicalMetricSnapshot(): Prisma.HistoricalMetricSnapshotDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1346,7 +1407,10 @@ export namespace Prisma {
     FeatureFlag: 'FeatureFlag',
     SystemMetric: 'SystemMetric',
     Announcement: 'Announcement',
-    WaitlistEntry: 'WaitlistEntry'
+    WaitlistEntry: 'WaitlistEntry',
+    IngestionJob: 'IngestionJob',
+    HistoricalPost: 'HistoricalPost',
+    HistoricalMetricSnapshot: 'HistoricalMetricSnapshot'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1365,7 +1429,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "organization" | "user" | "account" | "session" | "verificationToken" | "membership" | "invitation" | "platformConnection" | "campaign" | "post" | "creative" | "analyticsSnapshot" | "auditLog" | "webhookEvent" | "postTemplate" | "authenticator" | "page" | "brandVoice" | "hashtagSet" | "contentTemplate" | "approvalRequest" | "rssFeed" | "webhookRule" | "leadCapture" | "utmLink" | "performanceReport" | "invoice" | "usageRecord" | "paymentMethod" | "apiKey" | "featureFlag" | "systemMetric" | "announcement" | "waitlistEntry"
+      modelProps: "organization" | "user" | "account" | "session" | "verificationToken" | "membership" | "invitation" | "platformConnection" | "campaign" | "post" | "creative" | "analyticsSnapshot" | "auditLog" | "webhookEvent" | "postTemplate" | "authenticator" | "page" | "brandVoice" | "hashtagSet" | "contentTemplate" | "approvalRequest" | "rssFeed" | "webhookRule" | "leadCapture" | "utmLink" | "performanceReport" | "invoice" | "usageRecord" | "paymentMethod" | "apiKey" | "featureFlag" | "systemMetric" | "announcement" | "waitlistEntry" | "ingestionJob" | "historicalPost" | "historicalMetricSnapshot"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3885,6 +3949,228 @@ export namespace Prisma {
           }
         }
       }
+      IngestionJob: {
+        payload: Prisma.$IngestionJobPayload<ExtArgs>
+        fields: Prisma.IngestionJobFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.IngestionJobFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IngestionJobPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.IngestionJobFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IngestionJobPayload>
+          }
+          findFirst: {
+            args: Prisma.IngestionJobFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IngestionJobPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.IngestionJobFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IngestionJobPayload>
+          }
+          findMany: {
+            args: Prisma.IngestionJobFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IngestionJobPayload>[]
+          }
+          create: {
+            args: Prisma.IngestionJobCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IngestionJobPayload>
+          }
+          createMany: {
+            args: Prisma.IngestionJobCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.IngestionJobCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IngestionJobPayload>[]
+          }
+          delete: {
+            args: Prisma.IngestionJobDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IngestionJobPayload>
+          }
+          update: {
+            args: Prisma.IngestionJobUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IngestionJobPayload>
+          }
+          deleteMany: {
+            args: Prisma.IngestionJobDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.IngestionJobUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.IngestionJobUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IngestionJobPayload>[]
+          }
+          upsert: {
+            args: Prisma.IngestionJobUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IngestionJobPayload>
+          }
+          aggregate: {
+            args: Prisma.IngestionJobAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateIngestionJob>
+          }
+          groupBy: {
+            args: Prisma.IngestionJobGroupByArgs<ExtArgs>
+            result: $Utils.Optional<IngestionJobGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.IngestionJobCountArgs<ExtArgs>
+            result: $Utils.Optional<IngestionJobCountAggregateOutputType> | number
+          }
+        }
+      }
+      HistoricalPost: {
+        payload: Prisma.$HistoricalPostPayload<ExtArgs>
+        fields: Prisma.HistoricalPostFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.HistoricalPostFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalPostPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HistoricalPostFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalPostPayload>
+          }
+          findFirst: {
+            args: Prisma.HistoricalPostFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalPostPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HistoricalPostFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalPostPayload>
+          }
+          findMany: {
+            args: Prisma.HistoricalPostFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalPostPayload>[]
+          }
+          create: {
+            args: Prisma.HistoricalPostCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalPostPayload>
+          }
+          createMany: {
+            args: Prisma.HistoricalPostCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.HistoricalPostCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalPostPayload>[]
+          }
+          delete: {
+            args: Prisma.HistoricalPostDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalPostPayload>
+          }
+          update: {
+            args: Prisma.HistoricalPostUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalPostPayload>
+          }
+          deleteMany: {
+            args: Prisma.HistoricalPostDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HistoricalPostUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.HistoricalPostUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalPostPayload>[]
+          }
+          upsert: {
+            args: Prisma.HistoricalPostUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalPostPayload>
+          }
+          aggregate: {
+            args: Prisma.HistoricalPostAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHistoricalPost>
+          }
+          groupBy: {
+            args: Prisma.HistoricalPostGroupByArgs<ExtArgs>
+            result: $Utils.Optional<HistoricalPostGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.HistoricalPostCountArgs<ExtArgs>
+            result: $Utils.Optional<HistoricalPostCountAggregateOutputType> | number
+          }
+        }
+      }
+      HistoricalMetricSnapshot: {
+        payload: Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>
+        fields: Prisma.HistoricalMetricSnapshotFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.HistoricalMetricSnapshotFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalMetricSnapshotPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HistoricalMetricSnapshotFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalMetricSnapshotPayload>
+          }
+          findFirst: {
+            args: Prisma.HistoricalMetricSnapshotFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalMetricSnapshotPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HistoricalMetricSnapshotFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalMetricSnapshotPayload>
+          }
+          findMany: {
+            args: Prisma.HistoricalMetricSnapshotFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalMetricSnapshotPayload>[]
+          }
+          create: {
+            args: Prisma.HistoricalMetricSnapshotCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalMetricSnapshotPayload>
+          }
+          createMany: {
+            args: Prisma.HistoricalMetricSnapshotCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.HistoricalMetricSnapshotCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalMetricSnapshotPayload>[]
+          }
+          delete: {
+            args: Prisma.HistoricalMetricSnapshotDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalMetricSnapshotPayload>
+          }
+          update: {
+            args: Prisma.HistoricalMetricSnapshotUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalMetricSnapshotPayload>
+          }
+          deleteMany: {
+            args: Prisma.HistoricalMetricSnapshotDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HistoricalMetricSnapshotUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.HistoricalMetricSnapshotUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalMetricSnapshotPayload>[]
+          }
+          upsert: {
+            args: Prisma.HistoricalMetricSnapshotUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HistoricalMetricSnapshotPayload>
+          }
+          aggregate: {
+            args: Prisma.HistoricalMetricSnapshotAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHistoricalMetricSnapshot>
+          }
+          groupBy: {
+            args: Prisma.HistoricalMetricSnapshotGroupByArgs<ExtArgs>
+            result: $Utils.Optional<HistoricalMetricSnapshotGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.HistoricalMetricSnapshotCountArgs<ExtArgs>
+            result: $Utils.Optional<HistoricalMetricSnapshotCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4015,6 +4301,9 @@ export namespace Prisma {
     systemMetric?: SystemMetricOmit
     announcement?: AnnouncementOmit
     waitlistEntry?: WaitlistEntryOmit
+    ingestionJob?: IngestionJobOmit
+    historicalPost?: HistoricalPostOmit
+    historicalMetricSnapshot?: HistoricalMetricSnapshotOmit
   }
 
   /* Types for Logging */
@@ -4511,6 +4800,9 @@ export namespace Prisma {
     webhookRules: number
     leadCaptures: number
     performanceReports: number
+    ingestionJobs: number
+    historicalPosts: number
+    historicalMetrics: number
   }
 
   export type PageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4523,6 +4815,9 @@ export namespace Prisma {
     webhookRules?: boolean | PageCountOutputTypeCountWebhookRulesArgs
     leadCaptures?: boolean | PageCountOutputTypeCountLeadCapturesArgs
     performanceReports?: boolean | PageCountOutputTypeCountPerformanceReportsArgs
+    ingestionJobs?: boolean | PageCountOutputTypeCountIngestionJobsArgs
+    historicalPosts?: boolean | PageCountOutputTypeCountHistoricalPostsArgs
+    historicalMetrics?: boolean | PageCountOutputTypeCountHistoricalMetricsArgs
   }
 
   // Custom InputTypes
@@ -4597,6 +4892,27 @@ export namespace Prisma {
    */
   export type PageCountOutputTypeCountPerformanceReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PerformanceReportWhereInput
+  }
+
+  /**
+   * PageCountOutputType without action
+   */
+  export type PageCountOutputTypeCountIngestionJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IngestionJobWhereInput
+  }
+
+  /**
+   * PageCountOutputType without action
+   */
+  export type PageCountOutputTypeCountHistoricalPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HistoricalPostWhereInput
+  }
+
+  /**
+   * PageCountOutputType without action
+   */
+  export type PageCountOutputTypeCountHistoricalMetricsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HistoricalMetricSnapshotWhereInput
   }
 
 
@@ -6495,6 +6811,7 @@ export namespace Prisma {
     status: $Enums.UserStatus | null
     systemRole: $Enums.SystemRole | null
     onboardingComplete: boolean | null
+    lastSelectedPageId: string | null
     deletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6518,6 +6835,7 @@ export namespace Prisma {
     status: $Enums.UserStatus | null
     systemRole: $Enums.SystemRole | null
     onboardingComplete: boolean | null
+    lastSelectedPageId: string | null
     deletedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6541,6 +6859,7 @@ export namespace Prisma {
     status: number
     systemRole: number
     onboardingComplete: number
+    lastSelectedPageId: number
     deletedAt: number
     createdAt: number
     updatedAt: number
@@ -6574,6 +6893,7 @@ export namespace Prisma {
     status?: true
     systemRole?: true
     onboardingComplete?: true
+    lastSelectedPageId?: true
     deletedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -6597,6 +6917,7 @@ export namespace Prisma {
     status?: true
     systemRole?: true
     onboardingComplete?: true
+    lastSelectedPageId?: true
     deletedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -6620,6 +6941,7 @@ export namespace Prisma {
     status?: true
     systemRole?: true
     onboardingComplete?: true
+    lastSelectedPageId?: true
     deletedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -6730,6 +7052,7 @@ export namespace Prisma {
     status: $Enums.UserStatus
     systemRole: $Enums.SystemRole
     onboardingComplete: boolean
+    lastSelectedPageId: string | null
     deletedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -6772,6 +7095,7 @@ export namespace Prisma {
     status?: boolean
     systemRole?: boolean
     onboardingComplete?: boolean
+    lastSelectedPageId?: boolean
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6809,6 +7133,7 @@ export namespace Prisma {
     status?: boolean
     systemRole?: boolean
     onboardingComplete?: boolean
+    lastSelectedPageId?: boolean
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6832,6 +7157,7 @@ export namespace Prisma {
     status?: boolean
     systemRole?: boolean
     onboardingComplete?: boolean
+    lastSelectedPageId?: boolean
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6855,12 +7181,13 @@ export namespace Prisma {
     status?: boolean
     systemRole?: boolean
     onboardingComplete?: boolean
+    lastSelectedPageId?: boolean
     deletedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "avatar" | "emailVerified" | "password" | "passwordResetToken" | "passwordResetExpires" | "timezone" | "locale" | "dateFormat" | "lastLoginAt" | "lastLoginIp" | "loginCount" | "status" | "systemRole" | "onboardingComplete" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "avatar" | "emailVerified" | "password" | "passwordResetToken" | "passwordResetExpires" | "timezone" | "locale" | "dateFormat" | "lastLoginAt" | "lastLoginIp" | "loginCount" | "status" | "systemRole" | "onboardingComplete" | "lastSelectedPageId" | "deletedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberships?: boolean | User$membershipsArgs<ExtArgs>
     invitationsSent?: boolean | User$invitationsSentArgs<ExtArgs>
@@ -6915,6 +7242,7 @@ export namespace Prisma {
       status: $Enums.UserStatus
       systemRole: $Enums.SystemRole
       onboardingComplete: boolean
+      lastSelectedPageId: string | null
       deletedAt: Date | null
       createdAt: Date
       updatedAt: Date
@@ -7371,6 +7699,7 @@ export namespace Prisma {
     readonly status: FieldRef<"User", 'UserStatus'>
     readonly systemRole: FieldRef<"User", 'SystemRole'>
     readonly onboardingComplete: FieldRef<"User", 'Boolean'>
+    readonly lastSelectedPageId: FieldRef<"User", 'String'>
     readonly deletedAt: FieldRef<"User", 'DateTime'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
@@ -24480,8 +24809,18 @@ export namespace Prisma {
 
   export type AggregatePage = {
     _count: PageCountAggregateOutputType | null
+    _avg: PageAvgAggregateOutputType | null
+    _sum: PageSumAggregateOutputType | null
     _min: PageMinAggregateOutputType | null
     _max: PageMaxAggregateOutputType | null
+  }
+
+  export type PageAvgAggregateOutputType = {
+    followerCount: number | null
+  }
+
+  export type PageSumAggregateOutputType = {
+    followerCount: number | null
   }
 
   export type PageMinAggregateOutputType = {
@@ -24492,8 +24831,10 @@ export namespace Prisma {
     platformPageId: string | null
     name: string | null
     pictureUrl: string | null
+    avatarUrl: string | null
     accessToken: string | null
     isActive: boolean | null
+    followerCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -24506,8 +24847,10 @@ export namespace Prisma {
     platformPageId: string | null
     name: string | null
     pictureUrl: string | null
+    avatarUrl: string | null
     accessToken: string | null
     isActive: boolean | null
+    followerCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -24520,14 +24863,24 @@ export namespace Prisma {
     platformPageId: number
     name: number
     pictureUrl: number
+    avatarUrl: number
     accessToken: number
     isActive: number
+    followerCount: number
     metadata: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type PageAvgAggregateInputType = {
+    followerCount?: true
+  }
+
+  export type PageSumAggregateInputType = {
+    followerCount?: true
+  }
 
   export type PageMinAggregateInputType = {
     id?: true
@@ -24537,8 +24890,10 @@ export namespace Prisma {
     platformPageId?: true
     name?: true
     pictureUrl?: true
+    avatarUrl?: true
     accessToken?: true
     isActive?: true
+    followerCount?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -24551,8 +24906,10 @@ export namespace Prisma {
     platformPageId?: true
     name?: true
     pictureUrl?: true
+    avatarUrl?: true
     accessToken?: true
     isActive?: true
+    followerCount?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -24565,8 +24922,10 @@ export namespace Prisma {
     platformPageId?: true
     name?: true
     pictureUrl?: true
+    avatarUrl?: true
     accessToken?: true
     isActive?: true
+    followerCount?: true
     metadata?: true
     createdAt?: true
     updatedAt?: true
@@ -24611,6 +24970,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: PageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: PageMinAggregateInputType
@@ -24641,6 +25012,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: PageCountAggregateInputType | true
+    _avg?: PageAvgAggregateInputType
+    _sum?: PageSumAggregateInputType
     _min?: PageMinAggregateInputType
     _max?: PageMaxAggregateInputType
   }
@@ -24653,12 +25026,16 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl: string | null
+    avatarUrl: string | null
     accessToken: string
     isActive: boolean
+    followerCount: number | null
     metadata: JsonValue | null
     createdAt: Date
     updatedAt: Date
     _count: PageCountAggregateOutputType | null
+    _avg: PageAvgAggregateOutputType | null
+    _sum: PageSumAggregateOutputType | null
     _min: PageMinAggregateOutputType | null
     _max: PageMaxAggregateOutputType | null
   }
@@ -24685,8 +25062,10 @@ export namespace Prisma {
     platformPageId?: boolean
     name?: boolean
     pictureUrl?: boolean
+    avatarUrl?: boolean
     accessToken?: boolean
     isActive?: boolean
+    followerCount?: boolean
     metadata?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -24701,6 +25080,9 @@ export namespace Prisma {
     webhookRules?: boolean | Page$webhookRulesArgs<ExtArgs>
     leadCaptures?: boolean | Page$leadCapturesArgs<ExtArgs>
     performanceReports?: boolean | Page$performanceReportsArgs<ExtArgs>
+    ingestionJobs?: boolean | Page$ingestionJobsArgs<ExtArgs>
+    historicalPosts?: boolean | Page$historicalPostsArgs<ExtArgs>
+    historicalMetrics?: boolean | Page$historicalMetricsArgs<ExtArgs>
     _count?: boolean | PageCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["page"]>
 
@@ -24712,8 +25094,10 @@ export namespace Prisma {
     platformPageId?: boolean
     name?: boolean
     pictureUrl?: boolean
+    avatarUrl?: boolean
     accessToken?: boolean
     isActive?: boolean
+    followerCount?: boolean
     metadata?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -24729,8 +25113,10 @@ export namespace Prisma {
     platformPageId?: boolean
     name?: boolean
     pictureUrl?: boolean
+    avatarUrl?: boolean
     accessToken?: boolean
     isActive?: boolean
+    followerCount?: boolean
     metadata?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -24746,14 +25132,16 @@ export namespace Prisma {
     platformPageId?: boolean
     name?: boolean
     pictureUrl?: boolean
+    avatarUrl?: boolean
     accessToken?: boolean
     isActive?: boolean
+    followerCount?: boolean
     metadata?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "connectionId" | "platform" | "platformPageId" | "name" | "pictureUrl" | "accessToken" | "isActive" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["page"]>
+  export type PageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "connectionId" | "platform" | "platformPageId" | "name" | "pictureUrl" | "avatarUrl" | "accessToken" | "isActive" | "followerCount" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["page"]>
   export type PageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     connection?: boolean | PlatformConnectionDefaultArgs<ExtArgs>
@@ -24766,6 +25154,9 @@ export namespace Prisma {
     webhookRules?: boolean | Page$webhookRulesArgs<ExtArgs>
     leadCaptures?: boolean | Page$leadCapturesArgs<ExtArgs>
     performanceReports?: boolean | Page$performanceReportsArgs<ExtArgs>
+    ingestionJobs?: boolean | Page$ingestionJobsArgs<ExtArgs>
+    historicalPosts?: boolean | Page$historicalPostsArgs<ExtArgs>
+    historicalMetrics?: boolean | Page$historicalMetricsArgs<ExtArgs>
     _count?: boolean | PageCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -24791,6 +25182,9 @@ export namespace Prisma {
       webhookRules: Prisma.$WebhookRulePayload<ExtArgs>[]
       leadCaptures: Prisma.$LeadCapturePayload<ExtArgs>[]
       performanceReports: Prisma.$PerformanceReportPayload<ExtArgs>[]
+      ingestionJobs: Prisma.$IngestionJobPayload<ExtArgs>[]
+      historicalPosts: Prisma.$HistoricalPostPayload<ExtArgs>[]
+      historicalMetrics: Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -24800,8 +25194,10 @@ export namespace Prisma {
       platformPageId: string
       name: string
       pictureUrl: string | null
+      avatarUrl: string | null
       accessToken: string
       isActive: boolean
+      followerCount: number | null
       metadata: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
@@ -25210,6 +25606,9 @@ export namespace Prisma {
     webhookRules<T extends Page$webhookRulesArgs<ExtArgs> = {}>(args?: Subset<T, Page$webhookRulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebhookRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     leadCaptures<T extends Page$leadCapturesArgs<ExtArgs> = {}>(args?: Subset<T, Page$leadCapturesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LeadCapturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     performanceReports<T extends Page$performanceReportsArgs<ExtArgs> = {}>(args?: Subset<T, Page$performanceReportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PerformanceReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ingestionJobs<T extends Page$ingestionJobsArgs<ExtArgs> = {}>(args?: Subset<T, Page$ingestionJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IngestionJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    historicalPosts<T extends Page$historicalPostsArgs<ExtArgs> = {}>(args?: Subset<T, Page$historicalPostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricalPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    historicalMetrics<T extends Page$historicalMetricsArgs<ExtArgs> = {}>(args?: Subset<T, Page$historicalMetricsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -25246,8 +25645,10 @@ export namespace Prisma {
     readonly platformPageId: FieldRef<"Page", 'String'>
     readonly name: FieldRef<"Page", 'String'>
     readonly pictureUrl: FieldRef<"Page", 'String'>
+    readonly avatarUrl: FieldRef<"Page", 'String'>
     readonly accessToken: FieldRef<"Page", 'String'>
     readonly isActive: FieldRef<"Page", 'Boolean'>
+    readonly followerCount: FieldRef<"Page", 'Int'>
     readonly metadata: FieldRef<"Page", 'Json'>
     readonly createdAt: FieldRef<"Page", 'DateTime'>
     readonly updatedAt: FieldRef<"Page", 'DateTime'>
@@ -25860,6 +26261,78 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PerformanceReportScalarFieldEnum | PerformanceReportScalarFieldEnum[]
+  }
+
+  /**
+   * Page.ingestionJobs
+   */
+  export type Page$ingestionJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IngestionJob
+     */
+    select?: IngestionJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IngestionJob
+     */
+    omit?: IngestionJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IngestionJobInclude<ExtArgs> | null
+    where?: IngestionJobWhereInput
+    orderBy?: IngestionJobOrderByWithRelationInput | IngestionJobOrderByWithRelationInput[]
+    cursor?: IngestionJobWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: IngestionJobScalarFieldEnum | IngestionJobScalarFieldEnum[]
+  }
+
+  /**
+   * Page.historicalPosts
+   */
+  export type Page$historicalPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalPost
+     */
+    select?: HistoricalPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalPost
+     */
+    omit?: HistoricalPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalPostInclude<ExtArgs> | null
+    where?: HistoricalPostWhereInput
+    orderBy?: HistoricalPostOrderByWithRelationInput | HistoricalPostOrderByWithRelationInput[]
+    cursor?: HistoricalPostWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HistoricalPostScalarFieldEnum | HistoricalPostScalarFieldEnum[]
+  }
+
+  /**
+   * Page.historicalMetrics
+   */
+  export type Page$historicalMetricsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalMetricSnapshot
+     */
+    select?: HistoricalMetricSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalMetricSnapshot
+     */
+    omit?: HistoricalMetricSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalMetricSnapshotInclude<ExtArgs> | null
+    where?: HistoricalMetricSnapshotWhereInput
+    orderBy?: HistoricalMetricSnapshotOrderByWithRelationInput | HistoricalMetricSnapshotOrderByWithRelationInput[]
+    cursor?: HistoricalMetricSnapshotWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HistoricalMetricSnapshotScalarFieldEnum | HistoricalMetricSnapshotScalarFieldEnum[]
   }
 
   /**
@@ -44914,6 +45387,3837 @@ export namespace Prisma {
 
 
   /**
+   * Model IngestionJob
+   */
+
+  export type AggregateIngestionJob = {
+    _count: IngestionJobCountAggregateOutputType | null
+    _avg: IngestionJobAvgAggregateOutputType | null
+    _sum: IngestionJobSumAggregateOutputType | null
+    _min: IngestionJobMinAggregateOutputType | null
+    _max: IngestionJobMaxAggregateOutputType | null
+  }
+
+  export type IngestionJobAvgAggregateOutputType = {
+    totalItems: number | null
+    processedItems: number | null
+    failedItems: number | null
+    progress: number | null
+    rateLimitHits: number | null
+  }
+
+  export type IngestionJobSumAggregateOutputType = {
+    totalItems: number | null
+    processedItems: number | null
+    failedItems: number | null
+    progress: number | null
+    rateLimitHits: number | null
+  }
+
+  export type IngestionJobMinAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    orgId: string | null
+    status: $Enums.IngestionStatus | null
+    totalItems: number | null
+    processedItems: number | null
+    failedItems: number | null
+    progress: number | null
+    platformCursor: string | null
+    oldestPostDate: Date | null
+    startedAt: Date | null
+    completedAt: Date | null
+    lastActivityAt: Date | null
+    errorMessage: string | null
+    rateLimitHits: number | null
+    nextRetryAfter: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IngestionJobMaxAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    orgId: string | null
+    status: $Enums.IngestionStatus | null
+    totalItems: number | null
+    processedItems: number | null
+    failedItems: number | null
+    progress: number | null
+    platformCursor: string | null
+    oldestPostDate: Date | null
+    startedAt: Date | null
+    completedAt: Date | null
+    lastActivityAt: Date | null
+    errorMessage: string | null
+    rateLimitHits: number | null
+    nextRetryAfter: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IngestionJobCountAggregateOutputType = {
+    id: number
+    pageId: number
+    orgId: number
+    status: number
+    dataTypes: number
+    totalItems: number
+    processedItems: number
+    failedItems: number
+    progress: number
+    platformCursor: number
+    oldestPostDate: number
+    startedAt: number
+    completedAt: number
+    lastActivityAt: number
+    errorMessage: number
+    rateLimitHits: number
+    nextRetryAfter: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type IngestionJobAvgAggregateInputType = {
+    totalItems?: true
+    processedItems?: true
+    failedItems?: true
+    progress?: true
+    rateLimitHits?: true
+  }
+
+  export type IngestionJobSumAggregateInputType = {
+    totalItems?: true
+    processedItems?: true
+    failedItems?: true
+    progress?: true
+    rateLimitHits?: true
+  }
+
+  export type IngestionJobMinAggregateInputType = {
+    id?: true
+    pageId?: true
+    orgId?: true
+    status?: true
+    totalItems?: true
+    processedItems?: true
+    failedItems?: true
+    progress?: true
+    platformCursor?: true
+    oldestPostDate?: true
+    startedAt?: true
+    completedAt?: true
+    lastActivityAt?: true
+    errorMessage?: true
+    rateLimitHits?: true
+    nextRetryAfter?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IngestionJobMaxAggregateInputType = {
+    id?: true
+    pageId?: true
+    orgId?: true
+    status?: true
+    totalItems?: true
+    processedItems?: true
+    failedItems?: true
+    progress?: true
+    platformCursor?: true
+    oldestPostDate?: true
+    startedAt?: true
+    completedAt?: true
+    lastActivityAt?: true
+    errorMessage?: true
+    rateLimitHits?: true
+    nextRetryAfter?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IngestionJobCountAggregateInputType = {
+    id?: true
+    pageId?: true
+    orgId?: true
+    status?: true
+    dataTypes?: true
+    totalItems?: true
+    processedItems?: true
+    failedItems?: true
+    progress?: true
+    platformCursor?: true
+    oldestPostDate?: true
+    startedAt?: true
+    completedAt?: true
+    lastActivityAt?: true
+    errorMessage?: true
+    rateLimitHits?: true
+    nextRetryAfter?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type IngestionJobAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IngestionJob to aggregate.
+     */
+    where?: IngestionJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IngestionJobs to fetch.
+     */
+    orderBy?: IngestionJobOrderByWithRelationInput | IngestionJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: IngestionJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IngestionJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IngestionJobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned IngestionJobs
+    **/
+    _count?: true | IngestionJobCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: IngestionJobAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: IngestionJobSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: IngestionJobMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: IngestionJobMaxAggregateInputType
+  }
+
+  export type GetIngestionJobAggregateType<T extends IngestionJobAggregateArgs> = {
+        [P in keyof T & keyof AggregateIngestionJob]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateIngestionJob[P]>
+      : GetScalarType<T[P], AggregateIngestionJob[P]>
+  }
+
+
+
+
+  export type IngestionJobGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IngestionJobWhereInput
+    orderBy?: IngestionJobOrderByWithAggregationInput | IngestionJobOrderByWithAggregationInput[]
+    by: IngestionJobScalarFieldEnum[] | IngestionJobScalarFieldEnum
+    having?: IngestionJobScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: IngestionJobCountAggregateInputType | true
+    _avg?: IngestionJobAvgAggregateInputType
+    _sum?: IngestionJobSumAggregateInputType
+    _min?: IngestionJobMinAggregateInputType
+    _max?: IngestionJobMaxAggregateInputType
+  }
+
+  export type IngestionJobGroupByOutputType = {
+    id: string
+    pageId: string
+    orgId: string
+    status: $Enums.IngestionStatus
+    dataTypes: string[]
+    totalItems: number | null
+    processedItems: number
+    failedItems: number
+    progress: number
+    platformCursor: string | null
+    oldestPostDate: Date | null
+    startedAt: Date | null
+    completedAt: Date | null
+    lastActivityAt: Date | null
+    errorMessage: string | null
+    rateLimitHits: number
+    nextRetryAfter: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: IngestionJobCountAggregateOutputType | null
+    _avg: IngestionJobAvgAggregateOutputType | null
+    _sum: IngestionJobSumAggregateOutputType | null
+    _min: IngestionJobMinAggregateOutputType | null
+    _max: IngestionJobMaxAggregateOutputType | null
+  }
+
+  type GetIngestionJobGroupByPayload<T extends IngestionJobGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<IngestionJobGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof IngestionJobGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], IngestionJobGroupByOutputType[P]>
+            : GetScalarType<T[P], IngestionJobGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type IngestionJobSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    status?: boolean
+    dataTypes?: boolean
+    totalItems?: boolean
+    processedItems?: boolean
+    failedItems?: boolean
+    progress?: boolean
+    platformCursor?: boolean
+    oldestPostDate?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    lastActivityAt?: boolean
+    errorMessage?: boolean
+    rateLimitHits?: boolean
+    nextRetryAfter?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ingestionJob"]>
+
+  export type IngestionJobSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    status?: boolean
+    dataTypes?: boolean
+    totalItems?: boolean
+    processedItems?: boolean
+    failedItems?: boolean
+    progress?: boolean
+    platformCursor?: boolean
+    oldestPostDate?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    lastActivityAt?: boolean
+    errorMessage?: boolean
+    rateLimitHits?: boolean
+    nextRetryAfter?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ingestionJob"]>
+
+  export type IngestionJobSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    status?: boolean
+    dataTypes?: boolean
+    totalItems?: boolean
+    processedItems?: boolean
+    failedItems?: boolean
+    progress?: boolean
+    platformCursor?: boolean
+    oldestPostDate?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    lastActivityAt?: boolean
+    errorMessage?: boolean
+    rateLimitHits?: boolean
+    nextRetryAfter?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["ingestionJob"]>
+
+  export type IngestionJobSelectScalar = {
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    status?: boolean
+    dataTypes?: boolean
+    totalItems?: boolean
+    processedItems?: boolean
+    failedItems?: boolean
+    progress?: boolean
+    platformCursor?: boolean
+    oldestPostDate?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    lastActivityAt?: boolean
+    errorMessage?: boolean
+    rateLimitHits?: boolean
+    nextRetryAfter?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type IngestionJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pageId" | "orgId" | "status" | "dataTypes" | "totalItems" | "processedItems" | "failedItems" | "progress" | "platformCursor" | "oldestPostDate" | "startedAt" | "completedAt" | "lastActivityAt" | "errorMessage" | "rateLimitHits" | "nextRetryAfter" | "createdAt" | "updatedAt", ExtArgs["result"]["ingestionJob"]>
+  export type IngestionJobInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }
+  export type IngestionJobIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }
+  export type IngestionJobIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }
+
+  export type $IngestionJobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "IngestionJob"
+    objects: {
+      page: Prisma.$PagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pageId: string
+      orgId: string
+      status: $Enums.IngestionStatus
+      dataTypes: string[]
+      totalItems: number | null
+      processedItems: number
+      failedItems: number
+      progress: number
+      platformCursor: string | null
+      oldestPostDate: Date | null
+      startedAt: Date | null
+      completedAt: Date | null
+      lastActivityAt: Date | null
+      errorMessage: string | null
+      rateLimitHits: number
+      nextRetryAfter: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["ingestionJob"]>
+    composites: {}
+  }
+
+  type IngestionJobGetPayload<S extends boolean | null | undefined | IngestionJobDefaultArgs> = $Result.GetResult<Prisma.$IngestionJobPayload, S>
+
+  type IngestionJobCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<IngestionJobFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: IngestionJobCountAggregateInputType | true
+    }
+
+  export interface IngestionJobDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['IngestionJob'], meta: { name: 'IngestionJob' } }
+    /**
+     * Find zero or one IngestionJob that matches the filter.
+     * @param {IngestionJobFindUniqueArgs} args - Arguments to find a IngestionJob
+     * @example
+     * // Get one IngestionJob
+     * const ingestionJob = await prisma.ingestionJob.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends IngestionJobFindUniqueArgs>(args: SelectSubset<T, IngestionJobFindUniqueArgs<ExtArgs>>): Prisma__IngestionJobClient<$Result.GetResult<Prisma.$IngestionJobPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one IngestionJob that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {IngestionJobFindUniqueOrThrowArgs} args - Arguments to find a IngestionJob
+     * @example
+     * // Get one IngestionJob
+     * const ingestionJob = await prisma.ingestionJob.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends IngestionJobFindUniqueOrThrowArgs>(args: SelectSubset<T, IngestionJobFindUniqueOrThrowArgs<ExtArgs>>): Prisma__IngestionJobClient<$Result.GetResult<Prisma.$IngestionJobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first IngestionJob that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IngestionJobFindFirstArgs} args - Arguments to find a IngestionJob
+     * @example
+     * // Get one IngestionJob
+     * const ingestionJob = await prisma.ingestionJob.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends IngestionJobFindFirstArgs>(args?: SelectSubset<T, IngestionJobFindFirstArgs<ExtArgs>>): Prisma__IngestionJobClient<$Result.GetResult<Prisma.$IngestionJobPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first IngestionJob that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IngestionJobFindFirstOrThrowArgs} args - Arguments to find a IngestionJob
+     * @example
+     * // Get one IngestionJob
+     * const ingestionJob = await prisma.ingestionJob.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends IngestionJobFindFirstOrThrowArgs>(args?: SelectSubset<T, IngestionJobFindFirstOrThrowArgs<ExtArgs>>): Prisma__IngestionJobClient<$Result.GetResult<Prisma.$IngestionJobPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more IngestionJobs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IngestionJobFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all IngestionJobs
+     * const ingestionJobs = await prisma.ingestionJob.findMany()
+     * 
+     * // Get first 10 IngestionJobs
+     * const ingestionJobs = await prisma.ingestionJob.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ingestionJobWithIdOnly = await prisma.ingestionJob.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends IngestionJobFindManyArgs>(args?: SelectSubset<T, IngestionJobFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IngestionJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a IngestionJob.
+     * @param {IngestionJobCreateArgs} args - Arguments to create a IngestionJob.
+     * @example
+     * // Create one IngestionJob
+     * const IngestionJob = await prisma.ingestionJob.create({
+     *   data: {
+     *     // ... data to create a IngestionJob
+     *   }
+     * })
+     * 
+     */
+    create<T extends IngestionJobCreateArgs>(args: SelectSubset<T, IngestionJobCreateArgs<ExtArgs>>): Prisma__IngestionJobClient<$Result.GetResult<Prisma.$IngestionJobPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many IngestionJobs.
+     * @param {IngestionJobCreateManyArgs} args - Arguments to create many IngestionJobs.
+     * @example
+     * // Create many IngestionJobs
+     * const ingestionJob = await prisma.ingestionJob.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends IngestionJobCreateManyArgs>(args?: SelectSubset<T, IngestionJobCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many IngestionJobs and returns the data saved in the database.
+     * @param {IngestionJobCreateManyAndReturnArgs} args - Arguments to create many IngestionJobs.
+     * @example
+     * // Create many IngestionJobs
+     * const ingestionJob = await prisma.ingestionJob.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many IngestionJobs and only return the `id`
+     * const ingestionJobWithIdOnly = await prisma.ingestionJob.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends IngestionJobCreateManyAndReturnArgs>(args?: SelectSubset<T, IngestionJobCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IngestionJobPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a IngestionJob.
+     * @param {IngestionJobDeleteArgs} args - Arguments to delete one IngestionJob.
+     * @example
+     * // Delete one IngestionJob
+     * const IngestionJob = await prisma.ingestionJob.delete({
+     *   where: {
+     *     // ... filter to delete one IngestionJob
+     *   }
+     * })
+     * 
+     */
+    delete<T extends IngestionJobDeleteArgs>(args: SelectSubset<T, IngestionJobDeleteArgs<ExtArgs>>): Prisma__IngestionJobClient<$Result.GetResult<Prisma.$IngestionJobPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one IngestionJob.
+     * @param {IngestionJobUpdateArgs} args - Arguments to update one IngestionJob.
+     * @example
+     * // Update one IngestionJob
+     * const ingestionJob = await prisma.ingestionJob.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends IngestionJobUpdateArgs>(args: SelectSubset<T, IngestionJobUpdateArgs<ExtArgs>>): Prisma__IngestionJobClient<$Result.GetResult<Prisma.$IngestionJobPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more IngestionJobs.
+     * @param {IngestionJobDeleteManyArgs} args - Arguments to filter IngestionJobs to delete.
+     * @example
+     * // Delete a few IngestionJobs
+     * const { count } = await prisma.ingestionJob.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends IngestionJobDeleteManyArgs>(args?: SelectSubset<T, IngestionJobDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more IngestionJobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IngestionJobUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many IngestionJobs
+     * const ingestionJob = await prisma.ingestionJob.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends IngestionJobUpdateManyArgs>(args: SelectSubset<T, IngestionJobUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more IngestionJobs and returns the data updated in the database.
+     * @param {IngestionJobUpdateManyAndReturnArgs} args - Arguments to update many IngestionJobs.
+     * @example
+     * // Update many IngestionJobs
+     * const ingestionJob = await prisma.ingestionJob.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more IngestionJobs and only return the `id`
+     * const ingestionJobWithIdOnly = await prisma.ingestionJob.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends IngestionJobUpdateManyAndReturnArgs>(args: SelectSubset<T, IngestionJobUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IngestionJobPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one IngestionJob.
+     * @param {IngestionJobUpsertArgs} args - Arguments to update or create a IngestionJob.
+     * @example
+     * // Update or create a IngestionJob
+     * const ingestionJob = await prisma.ingestionJob.upsert({
+     *   create: {
+     *     // ... data to create a IngestionJob
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the IngestionJob we want to update
+     *   }
+     * })
+     */
+    upsert<T extends IngestionJobUpsertArgs>(args: SelectSubset<T, IngestionJobUpsertArgs<ExtArgs>>): Prisma__IngestionJobClient<$Result.GetResult<Prisma.$IngestionJobPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of IngestionJobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IngestionJobCountArgs} args - Arguments to filter IngestionJobs to count.
+     * @example
+     * // Count the number of IngestionJobs
+     * const count = await prisma.ingestionJob.count({
+     *   where: {
+     *     // ... the filter for the IngestionJobs we want to count
+     *   }
+     * })
+    **/
+    count<T extends IngestionJobCountArgs>(
+      args?: Subset<T, IngestionJobCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], IngestionJobCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a IngestionJob.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IngestionJobAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends IngestionJobAggregateArgs>(args: Subset<T, IngestionJobAggregateArgs>): Prisma.PrismaPromise<GetIngestionJobAggregateType<T>>
+
+    /**
+     * Group by IngestionJob.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IngestionJobGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends IngestionJobGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: IngestionJobGroupByArgs['orderBy'] }
+        : { orderBy?: IngestionJobGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, IngestionJobGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetIngestionJobGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the IngestionJob model
+   */
+  readonly fields: IngestionJobFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for IngestionJob.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__IngestionJobClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    page<T extends PageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PageDefaultArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the IngestionJob model
+   */
+  interface IngestionJobFieldRefs {
+    readonly id: FieldRef<"IngestionJob", 'String'>
+    readonly pageId: FieldRef<"IngestionJob", 'String'>
+    readonly orgId: FieldRef<"IngestionJob", 'String'>
+    readonly status: FieldRef<"IngestionJob", 'IngestionStatus'>
+    readonly dataTypes: FieldRef<"IngestionJob", 'String[]'>
+    readonly totalItems: FieldRef<"IngestionJob", 'Int'>
+    readonly processedItems: FieldRef<"IngestionJob", 'Int'>
+    readonly failedItems: FieldRef<"IngestionJob", 'Int'>
+    readonly progress: FieldRef<"IngestionJob", 'Float'>
+    readonly platformCursor: FieldRef<"IngestionJob", 'String'>
+    readonly oldestPostDate: FieldRef<"IngestionJob", 'DateTime'>
+    readonly startedAt: FieldRef<"IngestionJob", 'DateTime'>
+    readonly completedAt: FieldRef<"IngestionJob", 'DateTime'>
+    readonly lastActivityAt: FieldRef<"IngestionJob", 'DateTime'>
+    readonly errorMessage: FieldRef<"IngestionJob", 'String'>
+    readonly rateLimitHits: FieldRef<"IngestionJob", 'Int'>
+    readonly nextRetryAfter: FieldRef<"IngestionJob", 'DateTime'>
+    readonly createdAt: FieldRef<"IngestionJob", 'DateTime'>
+    readonly updatedAt: FieldRef<"IngestionJob", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * IngestionJob findUnique
+   */
+  export type IngestionJobFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IngestionJob
+     */
+    select?: IngestionJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IngestionJob
+     */
+    omit?: IngestionJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IngestionJobInclude<ExtArgs> | null
+    /**
+     * Filter, which IngestionJob to fetch.
+     */
+    where: IngestionJobWhereUniqueInput
+  }
+
+  /**
+   * IngestionJob findUniqueOrThrow
+   */
+  export type IngestionJobFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IngestionJob
+     */
+    select?: IngestionJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IngestionJob
+     */
+    omit?: IngestionJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IngestionJobInclude<ExtArgs> | null
+    /**
+     * Filter, which IngestionJob to fetch.
+     */
+    where: IngestionJobWhereUniqueInput
+  }
+
+  /**
+   * IngestionJob findFirst
+   */
+  export type IngestionJobFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IngestionJob
+     */
+    select?: IngestionJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IngestionJob
+     */
+    omit?: IngestionJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IngestionJobInclude<ExtArgs> | null
+    /**
+     * Filter, which IngestionJob to fetch.
+     */
+    where?: IngestionJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IngestionJobs to fetch.
+     */
+    orderBy?: IngestionJobOrderByWithRelationInput | IngestionJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IngestionJobs.
+     */
+    cursor?: IngestionJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IngestionJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IngestionJobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IngestionJobs.
+     */
+    distinct?: IngestionJobScalarFieldEnum | IngestionJobScalarFieldEnum[]
+  }
+
+  /**
+   * IngestionJob findFirstOrThrow
+   */
+  export type IngestionJobFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IngestionJob
+     */
+    select?: IngestionJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IngestionJob
+     */
+    omit?: IngestionJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IngestionJobInclude<ExtArgs> | null
+    /**
+     * Filter, which IngestionJob to fetch.
+     */
+    where?: IngestionJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IngestionJobs to fetch.
+     */
+    orderBy?: IngestionJobOrderByWithRelationInput | IngestionJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for IngestionJobs.
+     */
+    cursor?: IngestionJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IngestionJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IngestionJobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of IngestionJobs.
+     */
+    distinct?: IngestionJobScalarFieldEnum | IngestionJobScalarFieldEnum[]
+  }
+
+  /**
+   * IngestionJob findMany
+   */
+  export type IngestionJobFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IngestionJob
+     */
+    select?: IngestionJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IngestionJob
+     */
+    omit?: IngestionJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IngestionJobInclude<ExtArgs> | null
+    /**
+     * Filter, which IngestionJobs to fetch.
+     */
+    where?: IngestionJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of IngestionJobs to fetch.
+     */
+    orderBy?: IngestionJobOrderByWithRelationInput | IngestionJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing IngestionJobs.
+     */
+    cursor?: IngestionJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` IngestionJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` IngestionJobs.
+     */
+    skip?: number
+    distinct?: IngestionJobScalarFieldEnum | IngestionJobScalarFieldEnum[]
+  }
+
+  /**
+   * IngestionJob create
+   */
+  export type IngestionJobCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IngestionJob
+     */
+    select?: IngestionJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IngestionJob
+     */
+    omit?: IngestionJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IngestionJobInclude<ExtArgs> | null
+    /**
+     * The data needed to create a IngestionJob.
+     */
+    data: XOR<IngestionJobCreateInput, IngestionJobUncheckedCreateInput>
+  }
+
+  /**
+   * IngestionJob createMany
+   */
+  export type IngestionJobCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many IngestionJobs.
+     */
+    data: IngestionJobCreateManyInput | IngestionJobCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * IngestionJob createManyAndReturn
+   */
+  export type IngestionJobCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IngestionJob
+     */
+    select?: IngestionJobSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the IngestionJob
+     */
+    omit?: IngestionJobOmit<ExtArgs> | null
+    /**
+     * The data used to create many IngestionJobs.
+     */
+    data: IngestionJobCreateManyInput | IngestionJobCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IngestionJobIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * IngestionJob update
+   */
+  export type IngestionJobUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IngestionJob
+     */
+    select?: IngestionJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IngestionJob
+     */
+    omit?: IngestionJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IngestionJobInclude<ExtArgs> | null
+    /**
+     * The data needed to update a IngestionJob.
+     */
+    data: XOR<IngestionJobUpdateInput, IngestionJobUncheckedUpdateInput>
+    /**
+     * Choose, which IngestionJob to update.
+     */
+    where: IngestionJobWhereUniqueInput
+  }
+
+  /**
+   * IngestionJob updateMany
+   */
+  export type IngestionJobUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update IngestionJobs.
+     */
+    data: XOR<IngestionJobUpdateManyMutationInput, IngestionJobUncheckedUpdateManyInput>
+    /**
+     * Filter which IngestionJobs to update
+     */
+    where?: IngestionJobWhereInput
+    /**
+     * Limit how many IngestionJobs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * IngestionJob updateManyAndReturn
+   */
+  export type IngestionJobUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IngestionJob
+     */
+    select?: IngestionJobSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the IngestionJob
+     */
+    omit?: IngestionJobOmit<ExtArgs> | null
+    /**
+     * The data used to update IngestionJobs.
+     */
+    data: XOR<IngestionJobUpdateManyMutationInput, IngestionJobUncheckedUpdateManyInput>
+    /**
+     * Filter which IngestionJobs to update
+     */
+    where?: IngestionJobWhereInput
+    /**
+     * Limit how many IngestionJobs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IngestionJobIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * IngestionJob upsert
+   */
+  export type IngestionJobUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IngestionJob
+     */
+    select?: IngestionJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IngestionJob
+     */
+    omit?: IngestionJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IngestionJobInclude<ExtArgs> | null
+    /**
+     * The filter to search for the IngestionJob to update in case it exists.
+     */
+    where: IngestionJobWhereUniqueInput
+    /**
+     * In case the IngestionJob found by the `where` argument doesn't exist, create a new IngestionJob with this data.
+     */
+    create: XOR<IngestionJobCreateInput, IngestionJobUncheckedCreateInput>
+    /**
+     * In case the IngestionJob was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<IngestionJobUpdateInput, IngestionJobUncheckedUpdateInput>
+  }
+
+  /**
+   * IngestionJob delete
+   */
+  export type IngestionJobDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IngestionJob
+     */
+    select?: IngestionJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IngestionJob
+     */
+    omit?: IngestionJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IngestionJobInclude<ExtArgs> | null
+    /**
+     * Filter which IngestionJob to delete.
+     */
+    where: IngestionJobWhereUniqueInput
+  }
+
+  /**
+   * IngestionJob deleteMany
+   */
+  export type IngestionJobDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which IngestionJobs to delete
+     */
+    where?: IngestionJobWhereInput
+    /**
+     * Limit how many IngestionJobs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * IngestionJob without action
+   */
+  export type IngestionJobDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IngestionJob
+     */
+    select?: IngestionJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the IngestionJob
+     */
+    omit?: IngestionJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IngestionJobInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model HistoricalPost
+   */
+
+  export type AggregateHistoricalPost = {
+    _count: HistoricalPostCountAggregateOutputType | null
+    _avg: HistoricalPostAvgAggregateOutputType | null
+    _sum: HistoricalPostSumAggregateOutputType | null
+    _min: HistoricalPostMinAggregateOutputType | null
+    _max: HistoricalPostMaxAggregateOutputType | null
+  }
+
+  export type HistoricalPostAvgAggregateOutputType = {
+    impressions: number | null
+    reach: number | null
+    engagements: number | null
+    likes: number | null
+    comments: number | null
+    shares: number | null
+    saves: number | null
+    clicks: number | null
+    videoViews: number | null
+  }
+
+  export type HistoricalPostSumAggregateOutputType = {
+    impressions: number | null
+    reach: number | null
+    engagements: number | null
+    likes: number | null
+    comments: number | null
+    shares: number | null
+    saves: number | null
+    clicks: number | null
+    videoViews: number | null
+  }
+
+  export type HistoricalPostMinAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    orgId: string | null
+    platformPostId: string | null
+    platformUrl: string | null
+    content: string | null
+    postType: string | null
+    publishedAt: Date | null
+    impressions: number | null
+    reach: number | null
+    engagements: number | null
+    likes: number | null
+    comments: number | null
+    shares: number | null
+    saves: number | null
+    clicks: number | null
+    videoViews: number | null
+    isIngested: boolean | null
+    ingestedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type HistoricalPostMaxAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    orgId: string | null
+    platformPostId: string | null
+    platformUrl: string | null
+    content: string | null
+    postType: string | null
+    publishedAt: Date | null
+    impressions: number | null
+    reach: number | null
+    engagements: number | null
+    likes: number | null
+    comments: number | null
+    shares: number | null
+    saves: number | null
+    clicks: number | null
+    videoViews: number | null
+    isIngested: boolean | null
+    ingestedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type HistoricalPostCountAggregateOutputType = {
+    id: number
+    pageId: number
+    orgId: number
+    platformPostId: number
+    platformUrl: number
+    content: number
+    mediaUrls: number
+    postType: number
+    publishedAt: number
+    impressions: number
+    reach: number
+    engagements: number
+    likes: number
+    comments: number
+    shares: number
+    saves: number
+    clicks: number
+    videoViews: number
+    isIngested: number
+    ingestedAt: number
+    rawPlatformData: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type HistoricalPostAvgAggregateInputType = {
+    impressions?: true
+    reach?: true
+    engagements?: true
+    likes?: true
+    comments?: true
+    shares?: true
+    saves?: true
+    clicks?: true
+    videoViews?: true
+  }
+
+  export type HistoricalPostSumAggregateInputType = {
+    impressions?: true
+    reach?: true
+    engagements?: true
+    likes?: true
+    comments?: true
+    shares?: true
+    saves?: true
+    clicks?: true
+    videoViews?: true
+  }
+
+  export type HistoricalPostMinAggregateInputType = {
+    id?: true
+    pageId?: true
+    orgId?: true
+    platformPostId?: true
+    platformUrl?: true
+    content?: true
+    postType?: true
+    publishedAt?: true
+    impressions?: true
+    reach?: true
+    engagements?: true
+    likes?: true
+    comments?: true
+    shares?: true
+    saves?: true
+    clicks?: true
+    videoViews?: true
+    isIngested?: true
+    ingestedAt?: true
+    createdAt?: true
+  }
+
+  export type HistoricalPostMaxAggregateInputType = {
+    id?: true
+    pageId?: true
+    orgId?: true
+    platformPostId?: true
+    platformUrl?: true
+    content?: true
+    postType?: true
+    publishedAt?: true
+    impressions?: true
+    reach?: true
+    engagements?: true
+    likes?: true
+    comments?: true
+    shares?: true
+    saves?: true
+    clicks?: true
+    videoViews?: true
+    isIngested?: true
+    ingestedAt?: true
+    createdAt?: true
+  }
+
+  export type HistoricalPostCountAggregateInputType = {
+    id?: true
+    pageId?: true
+    orgId?: true
+    platformPostId?: true
+    platformUrl?: true
+    content?: true
+    mediaUrls?: true
+    postType?: true
+    publishedAt?: true
+    impressions?: true
+    reach?: true
+    engagements?: true
+    likes?: true
+    comments?: true
+    shares?: true
+    saves?: true
+    clicks?: true
+    videoViews?: true
+    isIngested?: true
+    ingestedAt?: true
+    rawPlatformData?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type HistoricalPostAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HistoricalPost to aggregate.
+     */
+    where?: HistoricalPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HistoricalPosts to fetch.
+     */
+    orderBy?: HistoricalPostOrderByWithRelationInput | HistoricalPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HistoricalPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HistoricalPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HistoricalPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned HistoricalPosts
+    **/
+    _count?: true | HistoricalPostCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: HistoricalPostAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: HistoricalPostSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HistoricalPostMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HistoricalPostMaxAggregateInputType
+  }
+
+  export type GetHistoricalPostAggregateType<T extends HistoricalPostAggregateArgs> = {
+        [P in keyof T & keyof AggregateHistoricalPost]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHistoricalPost[P]>
+      : GetScalarType<T[P], AggregateHistoricalPost[P]>
+  }
+
+
+
+
+  export type HistoricalPostGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HistoricalPostWhereInput
+    orderBy?: HistoricalPostOrderByWithAggregationInput | HistoricalPostOrderByWithAggregationInput[]
+    by: HistoricalPostScalarFieldEnum[] | HistoricalPostScalarFieldEnum
+    having?: HistoricalPostScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HistoricalPostCountAggregateInputType | true
+    _avg?: HistoricalPostAvgAggregateInputType
+    _sum?: HistoricalPostSumAggregateInputType
+    _min?: HistoricalPostMinAggregateInputType
+    _max?: HistoricalPostMaxAggregateInputType
+  }
+
+  export type HistoricalPostGroupByOutputType = {
+    id: string
+    pageId: string
+    orgId: string
+    platformPostId: string
+    platformUrl: string | null
+    content: string | null
+    mediaUrls: string[]
+    postType: string | null
+    publishedAt: Date
+    impressions: number
+    reach: number
+    engagements: number
+    likes: number
+    comments: number
+    shares: number
+    saves: number
+    clicks: number
+    videoViews: number
+    isIngested: boolean
+    ingestedAt: Date
+    rawPlatformData: JsonValue | null
+    createdAt: Date
+    _count: HistoricalPostCountAggregateOutputType | null
+    _avg: HistoricalPostAvgAggregateOutputType | null
+    _sum: HistoricalPostSumAggregateOutputType | null
+    _min: HistoricalPostMinAggregateOutputType | null
+    _max: HistoricalPostMaxAggregateOutputType | null
+  }
+
+  type GetHistoricalPostGroupByPayload<T extends HistoricalPostGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<HistoricalPostGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HistoricalPostGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HistoricalPostGroupByOutputType[P]>
+            : GetScalarType<T[P], HistoricalPostGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HistoricalPostSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    platformPostId?: boolean
+    platformUrl?: boolean
+    content?: boolean
+    mediaUrls?: boolean
+    postType?: boolean
+    publishedAt?: boolean
+    impressions?: boolean
+    reach?: boolean
+    engagements?: boolean
+    likes?: boolean
+    comments?: boolean
+    shares?: boolean
+    saves?: boolean
+    clicks?: boolean
+    videoViews?: boolean
+    isIngested?: boolean
+    ingestedAt?: boolean
+    rawPlatformData?: boolean
+    createdAt?: boolean
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["historicalPost"]>
+
+  export type HistoricalPostSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    platformPostId?: boolean
+    platformUrl?: boolean
+    content?: boolean
+    mediaUrls?: boolean
+    postType?: boolean
+    publishedAt?: boolean
+    impressions?: boolean
+    reach?: boolean
+    engagements?: boolean
+    likes?: boolean
+    comments?: boolean
+    shares?: boolean
+    saves?: boolean
+    clicks?: boolean
+    videoViews?: boolean
+    isIngested?: boolean
+    ingestedAt?: boolean
+    rawPlatformData?: boolean
+    createdAt?: boolean
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["historicalPost"]>
+
+  export type HistoricalPostSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    platformPostId?: boolean
+    platformUrl?: boolean
+    content?: boolean
+    mediaUrls?: boolean
+    postType?: boolean
+    publishedAt?: boolean
+    impressions?: boolean
+    reach?: boolean
+    engagements?: boolean
+    likes?: boolean
+    comments?: boolean
+    shares?: boolean
+    saves?: boolean
+    clicks?: boolean
+    videoViews?: boolean
+    isIngested?: boolean
+    ingestedAt?: boolean
+    rawPlatformData?: boolean
+    createdAt?: boolean
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["historicalPost"]>
+
+  export type HistoricalPostSelectScalar = {
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    platformPostId?: boolean
+    platformUrl?: boolean
+    content?: boolean
+    mediaUrls?: boolean
+    postType?: boolean
+    publishedAt?: boolean
+    impressions?: boolean
+    reach?: boolean
+    engagements?: boolean
+    likes?: boolean
+    comments?: boolean
+    shares?: boolean
+    saves?: boolean
+    clicks?: boolean
+    videoViews?: boolean
+    isIngested?: boolean
+    ingestedAt?: boolean
+    rawPlatformData?: boolean
+    createdAt?: boolean
+  }
+
+  export type HistoricalPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pageId" | "orgId" | "platformPostId" | "platformUrl" | "content" | "mediaUrls" | "postType" | "publishedAt" | "impressions" | "reach" | "engagements" | "likes" | "comments" | "shares" | "saves" | "clicks" | "videoViews" | "isIngested" | "ingestedAt" | "rawPlatformData" | "createdAt", ExtArgs["result"]["historicalPost"]>
+  export type HistoricalPostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }
+  export type HistoricalPostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }
+  export type HistoricalPostIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }
+
+  export type $HistoricalPostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "HistoricalPost"
+    objects: {
+      page: Prisma.$PagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pageId: string
+      orgId: string
+      platformPostId: string
+      platformUrl: string | null
+      content: string | null
+      mediaUrls: string[]
+      postType: string | null
+      publishedAt: Date
+      impressions: number
+      reach: number
+      engagements: number
+      likes: number
+      comments: number
+      shares: number
+      saves: number
+      clicks: number
+      videoViews: number
+      isIngested: boolean
+      ingestedAt: Date
+      rawPlatformData: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["historicalPost"]>
+    composites: {}
+  }
+
+  type HistoricalPostGetPayload<S extends boolean | null | undefined | HistoricalPostDefaultArgs> = $Result.GetResult<Prisma.$HistoricalPostPayload, S>
+
+  type HistoricalPostCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<HistoricalPostFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: HistoricalPostCountAggregateInputType | true
+    }
+
+  export interface HistoricalPostDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['HistoricalPost'], meta: { name: 'HistoricalPost' } }
+    /**
+     * Find zero or one HistoricalPost that matches the filter.
+     * @param {HistoricalPostFindUniqueArgs} args - Arguments to find a HistoricalPost
+     * @example
+     * // Get one HistoricalPost
+     * const historicalPost = await prisma.historicalPost.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends HistoricalPostFindUniqueArgs>(args: SelectSubset<T, HistoricalPostFindUniqueArgs<ExtArgs>>): Prisma__HistoricalPostClient<$Result.GetResult<Prisma.$HistoricalPostPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one HistoricalPost that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {HistoricalPostFindUniqueOrThrowArgs} args - Arguments to find a HistoricalPost
+     * @example
+     * // Get one HistoricalPost
+     * const historicalPost = await prisma.historicalPost.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends HistoricalPostFindUniqueOrThrowArgs>(args: SelectSubset<T, HistoricalPostFindUniqueOrThrowArgs<ExtArgs>>): Prisma__HistoricalPostClient<$Result.GetResult<Prisma.$HistoricalPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HistoricalPost that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalPostFindFirstArgs} args - Arguments to find a HistoricalPost
+     * @example
+     * // Get one HistoricalPost
+     * const historicalPost = await prisma.historicalPost.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends HistoricalPostFindFirstArgs>(args?: SelectSubset<T, HistoricalPostFindFirstArgs<ExtArgs>>): Prisma__HistoricalPostClient<$Result.GetResult<Prisma.$HistoricalPostPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HistoricalPost that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalPostFindFirstOrThrowArgs} args - Arguments to find a HistoricalPost
+     * @example
+     * // Get one HistoricalPost
+     * const historicalPost = await prisma.historicalPost.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends HistoricalPostFindFirstOrThrowArgs>(args?: SelectSubset<T, HistoricalPostFindFirstOrThrowArgs<ExtArgs>>): Prisma__HistoricalPostClient<$Result.GetResult<Prisma.$HistoricalPostPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more HistoricalPosts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalPostFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all HistoricalPosts
+     * const historicalPosts = await prisma.historicalPost.findMany()
+     * 
+     * // Get first 10 HistoricalPosts
+     * const historicalPosts = await prisma.historicalPost.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const historicalPostWithIdOnly = await prisma.historicalPost.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends HistoricalPostFindManyArgs>(args?: SelectSubset<T, HistoricalPostFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricalPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a HistoricalPost.
+     * @param {HistoricalPostCreateArgs} args - Arguments to create a HistoricalPost.
+     * @example
+     * // Create one HistoricalPost
+     * const HistoricalPost = await prisma.historicalPost.create({
+     *   data: {
+     *     // ... data to create a HistoricalPost
+     *   }
+     * })
+     * 
+     */
+    create<T extends HistoricalPostCreateArgs>(args: SelectSubset<T, HistoricalPostCreateArgs<ExtArgs>>): Prisma__HistoricalPostClient<$Result.GetResult<Prisma.$HistoricalPostPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many HistoricalPosts.
+     * @param {HistoricalPostCreateManyArgs} args - Arguments to create many HistoricalPosts.
+     * @example
+     * // Create many HistoricalPosts
+     * const historicalPost = await prisma.historicalPost.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends HistoricalPostCreateManyArgs>(args?: SelectSubset<T, HistoricalPostCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many HistoricalPosts and returns the data saved in the database.
+     * @param {HistoricalPostCreateManyAndReturnArgs} args - Arguments to create many HistoricalPosts.
+     * @example
+     * // Create many HistoricalPosts
+     * const historicalPost = await prisma.historicalPost.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many HistoricalPosts and only return the `id`
+     * const historicalPostWithIdOnly = await prisma.historicalPost.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends HistoricalPostCreateManyAndReturnArgs>(args?: SelectSubset<T, HistoricalPostCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricalPostPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a HistoricalPost.
+     * @param {HistoricalPostDeleteArgs} args - Arguments to delete one HistoricalPost.
+     * @example
+     * // Delete one HistoricalPost
+     * const HistoricalPost = await prisma.historicalPost.delete({
+     *   where: {
+     *     // ... filter to delete one HistoricalPost
+     *   }
+     * })
+     * 
+     */
+    delete<T extends HistoricalPostDeleteArgs>(args: SelectSubset<T, HistoricalPostDeleteArgs<ExtArgs>>): Prisma__HistoricalPostClient<$Result.GetResult<Prisma.$HistoricalPostPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one HistoricalPost.
+     * @param {HistoricalPostUpdateArgs} args - Arguments to update one HistoricalPost.
+     * @example
+     * // Update one HistoricalPost
+     * const historicalPost = await prisma.historicalPost.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends HistoricalPostUpdateArgs>(args: SelectSubset<T, HistoricalPostUpdateArgs<ExtArgs>>): Prisma__HistoricalPostClient<$Result.GetResult<Prisma.$HistoricalPostPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more HistoricalPosts.
+     * @param {HistoricalPostDeleteManyArgs} args - Arguments to filter HistoricalPosts to delete.
+     * @example
+     * // Delete a few HistoricalPosts
+     * const { count } = await prisma.historicalPost.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends HistoricalPostDeleteManyArgs>(args?: SelectSubset<T, HistoricalPostDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HistoricalPosts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalPostUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many HistoricalPosts
+     * const historicalPost = await prisma.historicalPost.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends HistoricalPostUpdateManyArgs>(args: SelectSubset<T, HistoricalPostUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HistoricalPosts and returns the data updated in the database.
+     * @param {HistoricalPostUpdateManyAndReturnArgs} args - Arguments to update many HistoricalPosts.
+     * @example
+     * // Update many HistoricalPosts
+     * const historicalPost = await prisma.historicalPost.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more HistoricalPosts and only return the `id`
+     * const historicalPostWithIdOnly = await prisma.historicalPost.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends HistoricalPostUpdateManyAndReturnArgs>(args: SelectSubset<T, HistoricalPostUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricalPostPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one HistoricalPost.
+     * @param {HistoricalPostUpsertArgs} args - Arguments to update or create a HistoricalPost.
+     * @example
+     * // Update or create a HistoricalPost
+     * const historicalPost = await prisma.historicalPost.upsert({
+     *   create: {
+     *     // ... data to create a HistoricalPost
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the HistoricalPost we want to update
+     *   }
+     * })
+     */
+    upsert<T extends HistoricalPostUpsertArgs>(args: SelectSubset<T, HistoricalPostUpsertArgs<ExtArgs>>): Prisma__HistoricalPostClient<$Result.GetResult<Prisma.$HistoricalPostPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of HistoricalPosts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalPostCountArgs} args - Arguments to filter HistoricalPosts to count.
+     * @example
+     * // Count the number of HistoricalPosts
+     * const count = await prisma.historicalPost.count({
+     *   where: {
+     *     // ... the filter for the HistoricalPosts we want to count
+     *   }
+     * })
+    **/
+    count<T extends HistoricalPostCountArgs>(
+      args?: Subset<T, HistoricalPostCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HistoricalPostCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a HistoricalPost.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalPostAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HistoricalPostAggregateArgs>(args: Subset<T, HistoricalPostAggregateArgs>): Prisma.PrismaPromise<GetHistoricalPostAggregateType<T>>
+
+    /**
+     * Group by HistoricalPost.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalPostGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HistoricalPostGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HistoricalPostGroupByArgs['orderBy'] }
+        : { orderBy?: HistoricalPostGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HistoricalPostGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHistoricalPostGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the HistoricalPost model
+   */
+  readonly fields: HistoricalPostFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for HistoricalPost.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__HistoricalPostClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    page<T extends PageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PageDefaultArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the HistoricalPost model
+   */
+  interface HistoricalPostFieldRefs {
+    readonly id: FieldRef<"HistoricalPost", 'String'>
+    readonly pageId: FieldRef<"HistoricalPost", 'String'>
+    readonly orgId: FieldRef<"HistoricalPost", 'String'>
+    readonly platformPostId: FieldRef<"HistoricalPost", 'String'>
+    readonly platformUrl: FieldRef<"HistoricalPost", 'String'>
+    readonly content: FieldRef<"HistoricalPost", 'String'>
+    readonly mediaUrls: FieldRef<"HistoricalPost", 'String[]'>
+    readonly postType: FieldRef<"HistoricalPost", 'String'>
+    readonly publishedAt: FieldRef<"HistoricalPost", 'DateTime'>
+    readonly impressions: FieldRef<"HistoricalPost", 'Int'>
+    readonly reach: FieldRef<"HistoricalPost", 'Int'>
+    readonly engagements: FieldRef<"HistoricalPost", 'Int'>
+    readonly likes: FieldRef<"HistoricalPost", 'Int'>
+    readonly comments: FieldRef<"HistoricalPost", 'Int'>
+    readonly shares: FieldRef<"HistoricalPost", 'Int'>
+    readonly saves: FieldRef<"HistoricalPost", 'Int'>
+    readonly clicks: FieldRef<"HistoricalPost", 'Int'>
+    readonly videoViews: FieldRef<"HistoricalPost", 'Int'>
+    readonly isIngested: FieldRef<"HistoricalPost", 'Boolean'>
+    readonly ingestedAt: FieldRef<"HistoricalPost", 'DateTime'>
+    readonly rawPlatformData: FieldRef<"HistoricalPost", 'Json'>
+    readonly createdAt: FieldRef<"HistoricalPost", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * HistoricalPost findUnique
+   */
+  export type HistoricalPostFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalPost
+     */
+    select?: HistoricalPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalPost
+     */
+    omit?: HistoricalPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalPostInclude<ExtArgs> | null
+    /**
+     * Filter, which HistoricalPost to fetch.
+     */
+    where: HistoricalPostWhereUniqueInput
+  }
+
+  /**
+   * HistoricalPost findUniqueOrThrow
+   */
+  export type HistoricalPostFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalPost
+     */
+    select?: HistoricalPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalPost
+     */
+    omit?: HistoricalPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalPostInclude<ExtArgs> | null
+    /**
+     * Filter, which HistoricalPost to fetch.
+     */
+    where: HistoricalPostWhereUniqueInput
+  }
+
+  /**
+   * HistoricalPost findFirst
+   */
+  export type HistoricalPostFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalPost
+     */
+    select?: HistoricalPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalPost
+     */
+    omit?: HistoricalPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalPostInclude<ExtArgs> | null
+    /**
+     * Filter, which HistoricalPost to fetch.
+     */
+    where?: HistoricalPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HistoricalPosts to fetch.
+     */
+    orderBy?: HistoricalPostOrderByWithRelationInput | HistoricalPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HistoricalPosts.
+     */
+    cursor?: HistoricalPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HistoricalPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HistoricalPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HistoricalPosts.
+     */
+    distinct?: HistoricalPostScalarFieldEnum | HistoricalPostScalarFieldEnum[]
+  }
+
+  /**
+   * HistoricalPost findFirstOrThrow
+   */
+  export type HistoricalPostFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalPost
+     */
+    select?: HistoricalPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalPost
+     */
+    omit?: HistoricalPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalPostInclude<ExtArgs> | null
+    /**
+     * Filter, which HistoricalPost to fetch.
+     */
+    where?: HistoricalPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HistoricalPosts to fetch.
+     */
+    orderBy?: HistoricalPostOrderByWithRelationInput | HistoricalPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HistoricalPosts.
+     */
+    cursor?: HistoricalPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HistoricalPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HistoricalPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HistoricalPosts.
+     */
+    distinct?: HistoricalPostScalarFieldEnum | HistoricalPostScalarFieldEnum[]
+  }
+
+  /**
+   * HistoricalPost findMany
+   */
+  export type HistoricalPostFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalPost
+     */
+    select?: HistoricalPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalPost
+     */
+    omit?: HistoricalPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalPostInclude<ExtArgs> | null
+    /**
+     * Filter, which HistoricalPosts to fetch.
+     */
+    where?: HistoricalPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HistoricalPosts to fetch.
+     */
+    orderBy?: HistoricalPostOrderByWithRelationInput | HistoricalPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing HistoricalPosts.
+     */
+    cursor?: HistoricalPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HistoricalPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HistoricalPosts.
+     */
+    skip?: number
+    distinct?: HistoricalPostScalarFieldEnum | HistoricalPostScalarFieldEnum[]
+  }
+
+  /**
+   * HistoricalPost create
+   */
+  export type HistoricalPostCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalPost
+     */
+    select?: HistoricalPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalPost
+     */
+    omit?: HistoricalPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalPostInclude<ExtArgs> | null
+    /**
+     * The data needed to create a HistoricalPost.
+     */
+    data: XOR<HistoricalPostCreateInput, HistoricalPostUncheckedCreateInput>
+  }
+
+  /**
+   * HistoricalPost createMany
+   */
+  export type HistoricalPostCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many HistoricalPosts.
+     */
+    data: HistoricalPostCreateManyInput | HistoricalPostCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * HistoricalPost createManyAndReturn
+   */
+  export type HistoricalPostCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalPost
+     */
+    select?: HistoricalPostSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalPost
+     */
+    omit?: HistoricalPostOmit<ExtArgs> | null
+    /**
+     * The data used to create many HistoricalPosts.
+     */
+    data: HistoricalPostCreateManyInput | HistoricalPostCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalPostIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * HistoricalPost update
+   */
+  export type HistoricalPostUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalPost
+     */
+    select?: HistoricalPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalPost
+     */
+    omit?: HistoricalPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalPostInclude<ExtArgs> | null
+    /**
+     * The data needed to update a HistoricalPost.
+     */
+    data: XOR<HistoricalPostUpdateInput, HistoricalPostUncheckedUpdateInput>
+    /**
+     * Choose, which HistoricalPost to update.
+     */
+    where: HistoricalPostWhereUniqueInput
+  }
+
+  /**
+   * HistoricalPost updateMany
+   */
+  export type HistoricalPostUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update HistoricalPosts.
+     */
+    data: XOR<HistoricalPostUpdateManyMutationInput, HistoricalPostUncheckedUpdateManyInput>
+    /**
+     * Filter which HistoricalPosts to update
+     */
+    where?: HistoricalPostWhereInput
+    /**
+     * Limit how many HistoricalPosts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * HistoricalPost updateManyAndReturn
+   */
+  export type HistoricalPostUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalPost
+     */
+    select?: HistoricalPostSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalPost
+     */
+    omit?: HistoricalPostOmit<ExtArgs> | null
+    /**
+     * The data used to update HistoricalPosts.
+     */
+    data: XOR<HistoricalPostUpdateManyMutationInput, HistoricalPostUncheckedUpdateManyInput>
+    /**
+     * Filter which HistoricalPosts to update
+     */
+    where?: HistoricalPostWhereInput
+    /**
+     * Limit how many HistoricalPosts to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalPostIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * HistoricalPost upsert
+   */
+  export type HistoricalPostUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalPost
+     */
+    select?: HistoricalPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalPost
+     */
+    omit?: HistoricalPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalPostInclude<ExtArgs> | null
+    /**
+     * The filter to search for the HistoricalPost to update in case it exists.
+     */
+    where: HistoricalPostWhereUniqueInput
+    /**
+     * In case the HistoricalPost found by the `where` argument doesn't exist, create a new HistoricalPost with this data.
+     */
+    create: XOR<HistoricalPostCreateInput, HistoricalPostUncheckedCreateInput>
+    /**
+     * In case the HistoricalPost was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HistoricalPostUpdateInput, HistoricalPostUncheckedUpdateInput>
+  }
+
+  /**
+   * HistoricalPost delete
+   */
+  export type HistoricalPostDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalPost
+     */
+    select?: HistoricalPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalPost
+     */
+    omit?: HistoricalPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalPostInclude<ExtArgs> | null
+    /**
+     * Filter which HistoricalPost to delete.
+     */
+    where: HistoricalPostWhereUniqueInput
+  }
+
+  /**
+   * HistoricalPost deleteMany
+   */
+  export type HistoricalPostDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HistoricalPosts to delete
+     */
+    where?: HistoricalPostWhereInput
+    /**
+     * Limit how many HistoricalPosts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * HistoricalPost without action
+   */
+  export type HistoricalPostDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalPost
+     */
+    select?: HistoricalPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalPost
+     */
+    omit?: HistoricalPostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalPostInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model HistoricalMetricSnapshot
+   */
+
+  export type AggregateHistoricalMetricSnapshot = {
+    _count: HistoricalMetricSnapshotCountAggregateOutputType | null
+    _avg: HistoricalMetricSnapshotAvgAggregateOutputType | null
+    _sum: HistoricalMetricSnapshotSumAggregateOutputType | null
+    _min: HistoricalMetricSnapshotMinAggregateOutputType | null
+    _max: HistoricalMetricSnapshotMaxAggregateOutputType | null
+  }
+
+  export type HistoricalMetricSnapshotAvgAggregateOutputType = {
+    followers: number | null
+    followersChange: number | null
+    pageViews: number | null
+    pageImpressions: number | null
+    pageReach: number | null
+    pageEngagement: number | null
+  }
+
+  export type HistoricalMetricSnapshotSumAggregateOutputType = {
+    followers: number | null
+    followersChange: number | null
+    pageViews: number | null
+    pageImpressions: number | null
+    pageReach: number | null
+    pageEngagement: number | null
+  }
+
+  export type HistoricalMetricSnapshotMinAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    orgId: string | null
+    metricDate: Date | null
+    followers: number | null
+    followersChange: number | null
+    pageViews: number | null
+    pageImpressions: number | null
+    pageReach: number | null
+    pageEngagement: number | null
+    createdAt: Date | null
+  }
+
+  export type HistoricalMetricSnapshotMaxAggregateOutputType = {
+    id: string | null
+    pageId: string | null
+    orgId: string | null
+    metricDate: Date | null
+    followers: number | null
+    followersChange: number | null
+    pageViews: number | null
+    pageImpressions: number | null
+    pageReach: number | null
+    pageEngagement: number | null
+    createdAt: Date | null
+  }
+
+  export type HistoricalMetricSnapshotCountAggregateOutputType = {
+    id: number
+    pageId: number
+    orgId: number
+    metricDate: number
+    followers: number
+    followersChange: number
+    pageViews: number
+    pageImpressions: number
+    pageReach: number
+    pageEngagement: number
+    audienceData: number
+    rawPlatformData: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type HistoricalMetricSnapshotAvgAggregateInputType = {
+    followers?: true
+    followersChange?: true
+    pageViews?: true
+    pageImpressions?: true
+    pageReach?: true
+    pageEngagement?: true
+  }
+
+  export type HistoricalMetricSnapshotSumAggregateInputType = {
+    followers?: true
+    followersChange?: true
+    pageViews?: true
+    pageImpressions?: true
+    pageReach?: true
+    pageEngagement?: true
+  }
+
+  export type HistoricalMetricSnapshotMinAggregateInputType = {
+    id?: true
+    pageId?: true
+    orgId?: true
+    metricDate?: true
+    followers?: true
+    followersChange?: true
+    pageViews?: true
+    pageImpressions?: true
+    pageReach?: true
+    pageEngagement?: true
+    createdAt?: true
+  }
+
+  export type HistoricalMetricSnapshotMaxAggregateInputType = {
+    id?: true
+    pageId?: true
+    orgId?: true
+    metricDate?: true
+    followers?: true
+    followersChange?: true
+    pageViews?: true
+    pageImpressions?: true
+    pageReach?: true
+    pageEngagement?: true
+    createdAt?: true
+  }
+
+  export type HistoricalMetricSnapshotCountAggregateInputType = {
+    id?: true
+    pageId?: true
+    orgId?: true
+    metricDate?: true
+    followers?: true
+    followersChange?: true
+    pageViews?: true
+    pageImpressions?: true
+    pageReach?: true
+    pageEngagement?: true
+    audienceData?: true
+    rawPlatformData?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type HistoricalMetricSnapshotAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HistoricalMetricSnapshot to aggregate.
+     */
+    where?: HistoricalMetricSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HistoricalMetricSnapshots to fetch.
+     */
+    orderBy?: HistoricalMetricSnapshotOrderByWithRelationInput | HistoricalMetricSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HistoricalMetricSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HistoricalMetricSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HistoricalMetricSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned HistoricalMetricSnapshots
+    **/
+    _count?: true | HistoricalMetricSnapshotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: HistoricalMetricSnapshotAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: HistoricalMetricSnapshotSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HistoricalMetricSnapshotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HistoricalMetricSnapshotMaxAggregateInputType
+  }
+
+  export type GetHistoricalMetricSnapshotAggregateType<T extends HistoricalMetricSnapshotAggregateArgs> = {
+        [P in keyof T & keyof AggregateHistoricalMetricSnapshot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHistoricalMetricSnapshot[P]>
+      : GetScalarType<T[P], AggregateHistoricalMetricSnapshot[P]>
+  }
+
+
+
+
+  export type HistoricalMetricSnapshotGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HistoricalMetricSnapshotWhereInput
+    orderBy?: HistoricalMetricSnapshotOrderByWithAggregationInput | HistoricalMetricSnapshotOrderByWithAggregationInput[]
+    by: HistoricalMetricSnapshotScalarFieldEnum[] | HistoricalMetricSnapshotScalarFieldEnum
+    having?: HistoricalMetricSnapshotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HistoricalMetricSnapshotCountAggregateInputType | true
+    _avg?: HistoricalMetricSnapshotAvgAggregateInputType
+    _sum?: HistoricalMetricSnapshotSumAggregateInputType
+    _min?: HistoricalMetricSnapshotMinAggregateInputType
+    _max?: HistoricalMetricSnapshotMaxAggregateInputType
+  }
+
+  export type HistoricalMetricSnapshotGroupByOutputType = {
+    id: string
+    pageId: string
+    orgId: string
+    metricDate: Date
+    followers: number | null
+    followersChange: number | null
+    pageViews: number | null
+    pageImpressions: number | null
+    pageReach: number | null
+    pageEngagement: number | null
+    audienceData: JsonValue | null
+    rawPlatformData: JsonValue | null
+    createdAt: Date
+    _count: HistoricalMetricSnapshotCountAggregateOutputType | null
+    _avg: HistoricalMetricSnapshotAvgAggregateOutputType | null
+    _sum: HistoricalMetricSnapshotSumAggregateOutputType | null
+    _min: HistoricalMetricSnapshotMinAggregateOutputType | null
+    _max: HistoricalMetricSnapshotMaxAggregateOutputType | null
+  }
+
+  type GetHistoricalMetricSnapshotGroupByPayload<T extends HistoricalMetricSnapshotGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<HistoricalMetricSnapshotGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HistoricalMetricSnapshotGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HistoricalMetricSnapshotGroupByOutputType[P]>
+            : GetScalarType<T[P], HistoricalMetricSnapshotGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HistoricalMetricSnapshotSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    metricDate?: boolean
+    followers?: boolean
+    followersChange?: boolean
+    pageViews?: boolean
+    pageImpressions?: boolean
+    pageReach?: boolean
+    pageEngagement?: boolean
+    audienceData?: boolean
+    rawPlatformData?: boolean
+    createdAt?: boolean
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["historicalMetricSnapshot"]>
+
+  export type HistoricalMetricSnapshotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    metricDate?: boolean
+    followers?: boolean
+    followersChange?: boolean
+    pageViews?: boolean
+    pageImpressions?: boolean
+    pageReach?: boolean
+    pageEngagement?: boolean
+    audienceData?: boolean
+    rawPlatformData?: boolean
+    createdAt?: boolean
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["historicalMetricSnapshot"]>
+
+  export type HistoricalMetricSnapshotSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    metricDate?: boolean
+    followers?: boolean
+    followersChange?: boolean
+    pageViews?: boolean
+    pageImpressions?: boolean
+    pageReach?: boolean
+    pageEngagement?: boolean
+    audienceData?: boolean
+    rawPlatformData?: boolean
+    createdAt?: boolean
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["historicalMetricSnapshot"]>
+
+  export type HistoricalMetricSnapshotSelectScalar = {
+    id?: boolean
+    pageId?: boolean
+    orgId?: boolean
+    metricDate?: boolean
+    followers?: boolean
+    followersChange?: boolean
+    pageViews?: boolean
+    pageImpressions?: boolean
+    pageReach?: boolean
+    pageEngagement?: boolean
+    audienceData?: boolean
+    rawPlatformData?: boolean
+    createdAt?: boolean
+  }
+
+  export type HistoricalMetricSnapshotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pageId" | "orgId" | "metricDate" | "followers" | "followersChange" | "pageViews" | "pageImpressions" | "pageReach" | "pageEngagement" | "audienceData" | "rawPlatformData" | "createdAt", ExtArgs["result"]["historicalMetricSnapshot"]>
+  export type HistoricalMetricSnapshotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }
+  export type HistoricalMetricSnapshotIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }
+  export type HistoricalMetricSnapshotIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    page?: boolean | PageDefaultArgs<ExtArgs>
+  }
+
+  export type $HistoricalMetricSnapshotPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "HistoricalMetricSnapshot"
+    objects: {
+      page: Prisma.$PagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      pageId: string
+      orgId: string
+      metricDate: Date
+      followers: number | null
+      followersChange: number | null
+      pageViews: number | null
+      pageImpressions: number | null
+      pageReach: number | null
+      pageEngagement: number | null
+      audienceData: Prisma.JsonValue | null
+      rawPlatformData: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["historicalMetricSnapshot"]>
+    composites: {}
+  }
+
+  type HistoricalMetricSnapshotGetPayload<S extends boolean | null | undefined | HistoricalMetricSnapshotDefaultArgs> = $Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload, S>
+
+  type HistoricalMetricSnapshotCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<HistoricalMetricSnapshotFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: HistoricalMetricSnapshotCountAggregateInputType | true
+    }
+
+  export interface HistoricalMetricSnapshotDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['HistoricalMetricSnapshot'], meta: { name: 'HistoricalMetricSnapshot' } }
+    /**
+     * Find zero or one HistoricalMetricSnapshot that matches the filter.
+     * @param {HistoricalMetricSnapshotFindUniqueArgs} args - Arguments to find a HistoricalMetricSnapshot
+     * @example
+     * // Get one HistoricalMetricSnapshot
+     * const historicalMetricSnapshot = await prisma.historicalMetricSnapshot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends HistoricalMetricSnapshotFindUniqueArgs>(args: SelectSubset<T, HistoricalMetricSnapshotFindUniqueArgs<ExtArgs>>): Prisma__HistoricalMetricSnapshotClient<$Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one HistoricalMetricSnapshot that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {HistoricalMetricSnapshotFindUniqueOrThrowArgs} args - Arguments to find a HistoricalMetricSnapshot
+     * @example
+     * // Get one HistoricalMetricSnapshot
+     * const historicalMetricSnapshot = await prisma.historicalMetricSnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends HistoricalMetricSnapshotFindUniqueOrThrowArgs>(args: SelectSubset<T, HistoricalMetricSnapshotFindUniqueOrThrowArgs<ExtArgs>>): Prisma__HistoricalMetricSnapshotClient<$Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HistoricalMetricSnapshot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalMetricSnapshotFindFirstArgs} args - Arguments to find a HistoricalMetricSnapshot
+     * @example
+     * // Get one HistoricalMetricSnapshot
+     * const historicalMetricSnapshot = await prisma.historicalMetricSnapshot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends HistoricalMetricSnapshotFindFirstArgs>(args?: SelectSubset<T, HistoricalMetricSnapshotFindFirstArgs<ExtArgs>>): Prisma__HistoricalMetricSnapshotClient<$Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first HistoricalMetricSnapshot that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalMetricSnapshotFindFirstOrThrowArgs} args - Arguments to find a HistoricalMetricSnapshot
+     * @example
+     * // Get one HistoricalMetricSnapshot
+     * const historicalMetricSnapshot = await prisma.historicalMetricSnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends HistoricalMetricSnapshotFindFirstOrThrowArgs>(args?: SelectSubset<T, HistoricalMetricSnapshotFindFirstOrThrowArgs<ExtArgs>>): Prisma__HistoricalMetricSnapshotClient<$Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more HistoricalMetricSnapshots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalMetricSnapshotFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all HistoricalMetricSnapshots
+     * const historicalMetricSnapshots = await prisma.historicalMetricSnapshot.findMany()
+     * 
+     * // Get first 10 HistoricalMetricSnapshots
+     * const historicalMetricSnapshots = await prisma.historicalMetricSnapshot.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const historicalMetricSnapshotWithIdOnly = await prisma.historicalMetricSnapshot.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends HistoricalMetricSnapshotFindManyArgs>(args?: SelectSubset<T, HistoricalMetricSnapshotFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a HistoricalMetricSnapshot.
+     * @param {HistoricalMetricSnapshotCreateArgs} args - Arguments to create a HistoricalMetricSnapshot.
+     * @example
+     * // Create one HistoricalMetricSnapshot
+     * const HistoricalMetricSnapshot = await prisma.historicalMetricSnapshot.create({
+     *   data: {
+     *     // ... data to create a HistoricalMetricSnapshot
+     *   }
+     * })
+     * 
+     */
+    create<T extends HistoricalMetricSnapshotCreateArgs>(args: SelectSubset<T, HistoricalMetricSnapshotCreateArgs<ExtArgs>>): Prisma__HistoricalMetricSnapshotClient<$Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many HistoricalMetricSnapshots.
+     * @param {HistoricalMetricSnapshotCreateManyArgs} args - Arguments to create many HistoricalMetricSnapshots.
+     * @example
+     * // Create many HistoricalMetricSnapshots
+     * const historicalMetricSnapshot = await prisma.historicalMetricSnapshot.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends HistoricalMetricSnapshotCreateManyArgs>(args?: SelectSubset<T, HistoricalMetricSnapshotCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many HistoricalMetricSnapshots and returns the data saved in the database.
+     * @param {HistoricalMetricSnapshotCreateManyAndReturnArgs} args - Arguments to create many HistoricalMetricSnapshots.
+     * @example
+     * // Create many HistoricalMetricSnapshots
+     * const historicalMetricSnapshot = await prisma.historicalMetricSnapshot.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many HistoricalMetricSnapshots and only return the `id`
+     * const historicalMetricSnapshotWithIdOnly = await prisma.historicalMetricSnapshot.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends HistoricalMetricSnapshotCreateManyAndReturnArgs>(args?: SelectSubset<T, HistoricalMetricSnapshotCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a HistoricalMetricSnapshot.
+     * @param {HistoricalMetricSnapshotDeleteArgs} args - Arguments to delete one HistoricalMetricSnapshot.
+     * @example
+     * // Delete one HistoricalMetricSnapshot
+     * const HistoricalMetricSnapshot = await prisma.historicalMetricSnapshot.delete({
+     *   where: {
+     *     // ... filter to delete one HistoricalMetricSnapshot
+     *   }
+     * })
+     * 
+     */
+    delete<T extends HistoricalMetricSnapshotDeleteArgs>(args: SelectSubset<T, HistoricalMetricSnapshotDeleteArgs<ExtArgs>>): Prisma__HistoricalMetricSnapshotClient<$Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one HistoricalMetricSnapshot.
+     * @param {HistoricalMetricSnapshotUpdateArgs} args - Arguments to update one HistoricalMetricSnapshot.
+     * @example
+     * // Update one HistoricalMetricSnapshot
+     * const historicalMetricSnapshot = await prisma.historicalMetricSnapshot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends HistoricalMetricSnapshotUpdateArgs>(args: SelectSubset<T, HistoricalMetricSnapshotUpdateArgs<ExtArgs>>): Prisma__HistoricalMetricSnapshotClient<$Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more HistoricalMetricSnapshots.
+     * @param {HistoricalMetricSnapshotDeleteManyArgs} args - Arguments to filter HistoricalMetricSnapshots to delete.
+     * @example
+     * // Delete a few HistoricalMetricSnapshots
+     * const { count } = await prisma.historicalMetricSnapshot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends HistoricalMetricSnapshotDeleteManyArgs>(args?: SelectSubset<T, HistoricalMetricSnapshotDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HistoricalMetricSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalMetricSnapshotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many HistoricalMetricSnapshots
+     * const historicalMetricSnapshot = await prisma.historicalMetricSnapshot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends HistoricalMetricSnapshotUpdateManyArgs>(args: SelectSubset<T, HistoricalMetricSnapshotUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HistoricalMetricSnapshots and returns the data updated in the database.
+     * @param {HistoricalMetricSnapshotUpdateManyAndReturnArgs} args - Arguments to update many HistoricalMetricSnapshots.
+     * @example
+     * // Update many HistoricalMetricSnapshots
+     * const historicalMetricSnapshot = await prisma.historicalMetricSnapshot.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more HistoricalMetricSnapshots and only return the `id`
+     * const historicalMetricSnapshotWithIdOnly = await prisma.historicalMetricSnapshot.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends HistoricalMetricSnapshotUpdateManyAndReturnArgs>(args: SelectSubset<T, HistoricalMetricSnapshotUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one HistoricalMetricSnapshot.
+     * @param {HistoricalMetricSnapshotUpsertArgs} args - Arguments to update or create a HistoricalMetricSnapshot.
+     * @example
+     * // Update or create a HistoricalMetricSnapshot
+     * const historicalMetricSnapshot = await prisma.historicalMetricSnapshot.upsert({
+     *   create: {
+     *     // ... data to create a HistoricalMetricSnapshot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the HistoricalMetricSnapshot we want to update
+     *   }
+     * })
+     */
+    upsert<T extends HistoricalMetricSnapshotUpsertArgs>(args: SelectSubset<T, HistoricalMetricSnapshotUpsertArgs<ExtArgs>>): Prisma__HistoricalMetricSnapshotClient<$Result.GetResult<Prisma.$HistoricalMetricSnapshotPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of HistoricalMetricSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalMetricSnapshotCountArgs} args - Arguments to filter HistoricalMetricSnapshots to count.
+     * @example
+     * // Count the number of HistoricalMetricSnapshots
+     * const count = await prisma.historicalMetricSnapshot.count({
+     *   where: {
+     *     // ... the filter for the HistoricalMetricSnapshots we want to count
+     *   }
+     * })
+    **/
+    count<T extends HistoricalMetricSnapshotCountArgs>(
+      args?: Subset<T, HistoricalMetricSnapshotCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HistoricalMetricSnapshotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a HistoricalMetricSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalMetricSnapshotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HistoricalMetricSnapshotAggregateArgs>(args: Subset<T, HistoricalMetricSnapshotAggregateArgs>): Prisma.PrismaPromise<GetHistoricalMetricSnapshotAggregateType<T>>
+
+    /**
+     * Group by HistoricalMetricSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HistoricalMetricSnapshotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HistoricalMetricSnapshotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HistoricalMetricSnapshotGroupByArgs['orderBy'] }
+        : { orderBy?: HistoricalMetricSnapshotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HistoricalMetricSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHistoricalMetricSnapshotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the HistoricalMetricSnapshot model
+   */
+  readonly fields: HistoricalMetricSnapshotFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for HistoricalMetricSnapshot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__HistoricalMetricSnapshotClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    page<T extends PageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PageDefaultArgs<ExtArgs>>): Prisma__PageClient<$Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the HistoricalMetricSnapshot model
+   */
+  interface HistoricalMetricSnapshotFieldRefs {
+    readonly id: FieldRef<"HistoricalMetricSnapshot", 'String'>
+    readonly pageId: FieldRef<"HistoricalMetricSnapshot", 'String'>
+    readonly orgId: FieldRef<"HistoricalMetricSnapshot", 'String'>
+    readonly metricDate: FieldRef<"HistoricalMetricSnapshot", 'DateTime'>
+    readonly followers: FieldRef<"HistoricalMetricSnapshot", 'Int'>
+    readonly followersChange: FieldRef<"HistoricalMetricSnapshot", 'Int'>
+    readonly pageViews: FieldRef<"HistoricalMetricSnapshot", 'Int'>
+    readonly pageImpressions: FieldRef<"HistoricalMetricSnapshot", 'Int'>
+    readonly pageReach: FieldRef<"HistoricalMetricSnapshot", 'Int'>
+    readonly pageEngagement: FieldRef<"HistoricalMetricSnapshot", 'Int'>
+    readonly audienceData: FieldRef<"HistoricalMetricSnapshot", 'Json'>
+    readonly rawPlatformData: FieldRef<"HistoricalMetricSnapshot", 'Json'>
+    readonly createdAt: FieldRef<"HistoricalMetricSnapshot", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * HistoricalMetricSnapshot findUnique
+   */
+  export type HistoricalMetricSnapshotFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalMetricSnapshot
+     */
+    select?: HistoricalMetricSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalMetricSnapshot
+     */
+    omit?: HistoricalMetricSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalMetricSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which HistoricalMetricSnapshot to fetch.
+     */
+    where: HistoricalMetricSnapshotWhereUniqueInput
+  }
+
+  /**
+   * HistoricalMetricSnapshot findUniqueOrThrow
+   */
+  export type HistoricalMetricSnapshotFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalMetricSnapshot
+     */
+    select?: HistoricalMetricSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalMetricSnapshot
+     */
+    omit?: HistoricalMetricSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalMetricSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which HistoricalMetricSnapshot to fetch.
+     */
+    where: HistoricalMetricSnapshotWhereUniqueInput
+  }
+
+  /**
+   * HistoricalMetricSnapshot findFirst
+   */
+  export type HistoricalMetricSnapshotFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalMetricSnapshot
+     */
+    select?: HistoricalMetricSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalMetricSnapshot
+     */
+    omit?: HistoricalMetricSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalMetricSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which HistoricalMetricSnapshot to fetch.
+     */
+    where?: HistoricalMetricSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HistoricalMetricSnapshots to fetch.
+     */
+    orderBy?: HistoricalMetricSnapshotOrderByWithRelationInput | HistoricalMetricSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HistoricalMetricSnapshots.
+     */
+    cursor?: HistoricalMetricSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HistoricalMetricSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HistoricalMetricSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HistoricalMetricSnapshots.
+     */
+    distinct?: HistoricalMetricSnapshotScalarFieldEnum | HistoricalMetricSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * HistoricalMetricSnapshot findFirstOrThrow
+   */
+  export type HistoricalMetricSnapshotFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalMetricSnapshot
+     */
+    select?: HistoricalMetricSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalMetricSnapshot
+     */
+    omit?: HistoricalMetricSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalMetricSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which HistoricalMetricSnapshot to fetch.
+     */
+    where?: HistoricalMetricSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HistoricalMetricSnapshots to fetch.
+     */
+    orderBy?: HistoricalMetricSnapshotOrderByWithRelationInput | HistoricalMetricSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HistoricalMetricSnapshots.
+     */
+    cursor?: HistoricalMetricSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HistoricalMetricSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HistoricalMetricSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HistoricalMetricSnapshots.
+     */
+    distinct?: HistoricalMetricSnapshotScalarFieldEnum | HistoricalMetricSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * HistoricalMetricSnapshot findMany
+   */
+  export type HistoricalMetricSnapshotFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalMetricSnapshot
+     */
+    select?: HistoricalMetricSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalMetricSnapshot
+     */
+    omit?: HistoricalMetricSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalMetricSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter, which HistoricalMetricSnapshots to fetch.
+     */
+    where?: HistoricalMetricSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HistoricalMetricSnapshots to fetch.
+     */
+    orderBy?: HistoricalMetricSnapshotOrderByWithRelationInput | HistoricalMetricSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing HistoricalMetricSnapshots.
+     */
+    cursor?: HistoricalMetricSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HistoricalMetricSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HistoricalMetricSnapshots.
+     */
+    skip?: number
+    distinct?: HistoricalMetricSnapshotScalarFieldEnum | HistoricalMetricSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * HistoricalMetricSnapshot create
+   */
+  export type HistoricalMetricSnapshotCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalMetricSnapshot
+     */
+    select?: HistoricalMetricSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalMetricSnapshot
+     */
+    omit?: HistoricalMetricSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalMetricSnapshotInclude<ExtArgs> | null
+    /**
+     * The data needed to create a HistoricalMetricSnapshot.
+     */
+    data: XOR<HistoricalMetricSnapshotCreateInput, HistoricalMetricSnapshotUncheckedCreateInput>
+  }
+
+  /**
+   * HistoricalMetricSnapshot createMany
+   */
+  export type HistoricalMetricSnapshotCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many HistoricalMetricSnapshots.
+     */
+    data: HistoricalMetricSnapshotCreateManyInput | HistoricalMetricSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * HistoricalMetricSnapshot createManyAndReturn
+   */
+  export type HistoricalMetricSnapshotCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalMetricSnapshot
+     */
+    select?: HistoricalMetricSnapshotSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalMetricSnapshot
+     */
+    omit?: HistoricalMetricSnapshotOmit<ExtArgs> | null
+    /**
+     * The data used to create many HistoricalMetricSnapshots.
+     */
+    data: HistoricalMetricSnapshotCreateManyInput | HistoricalMetricSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalMetricSnapshotIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * HistoricalMetricSnapshot update
+   */
+  export type HistoricalMetricSnapshotUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalMetricSnapshot
+     */
+    select?: HistoricalMetricSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalMetricSnapshot
+     */
+    omit?: HistoricalMetricSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalMetricSnapshotInclude<ExtArgs> | null
+    /**
+     * The data needed to update a HistoricalMetricSnapshot.
+     */
+    data: XOR<HistoricalMetricSnapshotUpdateInput, HistoricalMetricSnapshotUncheckedUpdateInput>
+    /**
+     * Choose, which HistoricalMetricSnapshot to update.
+     */
+    where: HistoricalMetricSnapshotWhereUniqueInput
+  }
+
+  /**
+   * HistoricalMetricSnapshot updateMany
+   */
+  export type HistoricalMetricSnapshotUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update HistoricalMetricSnapshots.
+     */
+    data: XOR<HistoricalMetricSnapshotUpdateManyMutationInput, HistoricalMetricSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which HistoricalMetricSnapshots to update
+     */
+    where?: HistoricalMetricSnapshotWhereInput
+    /**
+     * Limit how many HistoricalMetricSnapshots to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * HistoricalMetricSnapshot updateManyAndReturn
+   */
+  export type HistoricalMetricSnapshotUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalMetricSnapshot
+     */
+    select?: HistoricalMetricSnapshotSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalMetricSnapshot
+     */
+    omit?: HistoricalMetricSnapshotOmit<ExtArgs> | null
+    /**
+     * The data used to update HistoricalMetricSnapshots.
+     */
+    data: XOR<HistoricalMetricSnapshotUpdateManyMutationInput, HistoricalMetricSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which HistoricalMetricSnapshots to update
+     */
+    where?: HistoricalMetricSnapshotWhereInput
+    /**
+     * Limit how many HistoricalMetricSnapshots to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalMetricSnapshotIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * HistoricalMetricSnapshot upsert
+   */
+  export type HistoricalMetricSnapshotUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalMetricSnapshot
+     */
+    select?: HistoricalMetricSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalMetricSnapshot
+     */
+    omit?: HistoricalMetricSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalMetricSnapshotInclude<ExtArgs> | null
+    /**
+     * The filter to search for the HistoricalMetricSnapshot to update in case it exists.
+     */
+    where: HistoricalMetricSnapshotWhereUniqueInput
+    /**
+     * In case the HistoricalMetricSnapshot found by the `where` argument doesn't exist, create a new HistoricalMetricSnapshot with this data.
+     */
+    create: XOR<HistoricalMetricSnapshotCreateInput, HistoricalMetricSnapshotUncheckedCreateInput>
+    /**
+     * In case the HistoricalMetricSnapshot was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HistoricalMetricSnapshotUpdateInput, HistoricalMetricSnapshotUncheckedUpdateInput>
+  }
+
+  /**
+   * HistoricalMetricSnapshot delete
+   */
+  export type HistoricalMetricSnapshotDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalMetricSnapshot
+     */
+    select?: HistoricalMetricSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalMetricSnapshot
+     */
+    omit?: HistoricalMetricSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalMetricSnapshotInclude<ExtArgs> | null
+    /**
+     * Filter which HistoricalMetricSnapshot to delete.
+     */
+    where: HistoricalMetricSnapshotWhereUniqueInput
+  }
+
+  /**
+   * HistoricalMetricSnapshot deleteMany
+   */
+  export type HistoricalMetricSnapshotDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HistoricalMetricSnapshots to delete
+     */
+    where?: HistoricalMetricSnapshotWhereInput
+    /**
+     * Limit how many HistoricalMetricSnapshots to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * HistoricalMetricSnapshot without action
+   */
+  export type HistoricalMetricSnapshotDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HistoricalMetricSnapshot
+     */
+    select?: HistoricalMetricSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the HistoricalMetricSnapshot
+     */
+    omit?: HistoricalMetricSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HistoricalMetricSnapshotInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -44981,6 +49285,7 @@ export namespace Prisma {
     status: 'status',
     systemRole: 'systemRole',
     onboardingComplete: 'onboardingComplete',
+    lastSelectedPageId: 'lastSelectedPageId',
     deletedAt: 'deletedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -45240,8 +49545,10 @@ export namespace Prisma {
     platformPageId: 'platformPageId',
     name: 'name',
     pictureUrl: 'pictureUrl',
+    avatarUrl: 'avatarUrl',
     accessToken: 'accessToken',
     isActive: 'isActive',
+    followerCount: 'followerCount',
     metadata: 'metadata',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -45514,6 +49821,78 @@ export namespace Prisma {
   };
 
   export type WaitlistEntryScalarFieldEnum = (typeof WaitlistEntryScalarFieldEnum)[keyof typeof WaitlistEntryScalarFieldEnum]
+
+
+  export const IngestionJobScalarFieldEnum: {
+    id: 'id',
+    pageId: 'pageId',
+    orgId: 'orgId',
+    status: 'status',
+    dataTypes: 'dataTypes',
+    totalItems: 'totalItems',
+    processedItems: 'processedItems',
+    failedItems: 'failedItems',
+    progress: 'progress',
+    platformCursor: 'platformCursor',
+    oldestPostDate: 'oldestPostDate',
+    startedAt: 'startedAt',
+    completedAt: 'completedAt',
+    lastActivityAt: 'lastActivityAt',
+    errorMessage: 'errorMessage',
+    rateLimitHits: 'rateLimitHits',
+    nextRetryAfter: 'nextRetryAfter',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type IngestionJobScalarFieldEnum = (typeof IngestionJobScalarFieldEnum)[keyof typeof IngestionJobScalarFieldEnum]
+
+
+  export const HistoricalPostScalarFieldEnum: {
+    id: 'id',
+    pageId: 'pageId',
+    orgId: 'orgId',
+    platformPostId: 'platformPostId',
+    platformUrl: 'platformUrl',
+    content: 'content',
+    mediaUrls: 'mediaUrls',
+    postType: 'postType',
+    publishedAt: 'publishedAt',
+    impressions: 'impressions',
+    reach: 'reach',
+    engagements: 'engagements',
+    likes: 'likes',
+    comments: 'comments',
+    shares: 'shares',
+    saves: 'saves',
+    clicks: 'clicks',
+    videoViews: 'videoViews',
+    isIngested: 'isIngested',
+    ingestedAt: 'ingestedAt',
+    rawPlatformData: 'rawPlatformData',
+    createdAt: 'createdAt'
+  };
+
+  export type HistoricalPostScalarFieldEnum = (typeof HistoricalPostScalarFieldEnum)[keyof typeof HistoricalPostScalarFieldEnum]
+
+
+  export const HistoricalMetricSnapshotScalarFieldEnum: {
+    id: 'id',
+    pageId: 'pageId',
+    orgId: 'orgId',
+    metricDate: 'metricDate',
+    followers: 'followers',
+    followersChange: 'followersChange',
+    pageViews: 'pageViews',
+    pageImpressions: 'pageImpressions',
+    pageReach: 'pageReach',
+    pageEngagement: 'pageEngagement',
+    audienceData: 'audienceData',
+    rawPlatformData: 'rawPlatformData',
+    createdAt: 'createdAt'
+  };
+
+  export type HistoricalMetricSnapshotScalarFieldEnum = (typeof HistoricalMetricSnapshotScalarFieldEnum)[keyof typeof HistoricalMetricSnapshotScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -45882,6 +50261,20 @@ export namespace Prisma {
    */
   export type ListEnumAnnouncementTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AnnouncementType[]'>
     
+
+
+  /**
+   * Reference to a field of type 'IngestionStatus'
+   */
+  export type EnumIngestionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IngestionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'IngestionStatus[]'
+   */
+  export type ListEnumIngestionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IngestionStatus[]'>
+    
   /**
    * Deep Input Types
    */
@@ -46135,6 +50528,7 @@ export namespace Prisma {
     status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
     systemRole?: EnumSystemRoleFilter<"User"> | $Enums.SystemRole
     onboardingComplete?: BoolFilter<"User"> | boolean
+    lastSelectedPageId?: StringNullableFilter<"User"> | string | null
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -46171,6 +50565,7 @@ export namespace Prisma {
     status?: SortOrder
     systemRole?: SortOrder
     onboardingComplete?: SortOrder
+    lastSelectedPageId?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -46210,6 +50605,7 @@ export namespace Prisma {
     status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
     systemRole?: EnumSystemRoleFilter<"User"> | $Enums.SystemRole
     onboardingComplete?: BoolFilter<"User"> | boolean
+    lastSelectedPageId?: StringNullableFilter<"User"> | string | null
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
@@ -46246,6 +50642,7 @@ export namespace Prisma {
     status?: SortOrder
     systemRole?: SortOrder
     onboardingComplete?: SortOrder
+    lastSelectedPageId?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -46277,6 +50674,7 @@ export namespace Prisma {
     status?: EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
     systemRole?: EnumSystemRoleWithAggregatesFilter<"User"> | $Enums.SystemRole
     onboardingComplete?: BoolWithAggregatesFilter<"User"> | boolean
+    lastSelectedPageId?: StringNullableWithAggregatesFilter<"User"> | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -47565,8 +51963,10 @@ export namespace Prisma {
     platformPageId?: StringFilter<"Page"> | string
     name?: StringFilter<"Page"> | string
     pictureUrl?: StringNullableFilter<"Page"> | string | null
+    avatarUrl?: StringNullableFilter<"Page"> | string | null
     accessToken?: StringFilter<"Page"> | string
     isActive?: BoolFilter<"Page"> | boolean
+    followerCount?: IntNullableFilter<"Page"> | number | null
     metadata?: JsonNullableFilter<"Page">
     createdAt?: DateTimeFilter<"Page"> | Date | string
     updatedAt?: DateTimeFilter<"Page"> | Date | string
@@ -47581,6 +51981,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleListRelationFilter
     leadCaptures?: LeadCaptureListRelationFilter
     performanceReports?: PerformanceReportListRelationFilter
+    ingestionJobs?: IngestionJobListRelationFilter
+    historicalPosts?: HistoricalPostListRelationFilter
+    historicalMetrics?: HistoricalMetricSnapshotListRelationFilter
   }
 
   export type PageOrderByWithRelationInput = {
@@ -47591,8 +51994,10 @@ export namespace Prisma {
     platformPageId?: SortOrder
     name?: SortOrder
     pictureUrl?: SortOrderInput | SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
     accessToken?: SortOrder
     isActive?: SortOrder
+    followerCount?: SortOrderInput | SortOrder
     metadata?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -47607,6 +52012,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleOrderByRelationAggregateInput
     leadCaptures?: LeadCaptureOrderByRelationAggregateInput
     performanceReports?: PerformanceReportOrderByRelationAggregateInput
+    ingestionJobs?: IngestionJobOrderByRelationAggregateInput
+    historicalPosts?: HistoricalPostOrderByRelationAggregateInput
+    historicalMetrics?: HistoricalMetricSnapshotOrderByRelationAggregateInput
   }
 
   export type PageWhereUniqueInput = Prisma.AtLeast<{
@@ -47621,8 +52029,10 @@ export namespace Prisma {
     platformPageId?: StringFilter<"Page"> | string
     name?: StringFilter<"Page"> | string
     pictureUrl?: StringNullableFilter<"Page"> | string | null
+    avatarUrl?: StringNullableFilter<"Page"> | string | null
     accessToken?: StringFilter<"Page"> | string
     isActive?: BoolFilter<"Page"> | boolean
+    followerCount?: IntNullableFilter<"Page"> | number | null
     metadata?: JsonNullableFilter<"Page">
     createdAt?: DateTimeFilter<"Page"> | Date | string
     updatedAt?: DateTimeFilter<"Page"> | Date | string
@@ -47637,6 +52047,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleListRelationFilter
     leadCaptures?: LeadCaptureListRelationFilter
     performanceReports?: PerformanceReportListRelationFilter
+    ingestionJobs?: IngestionJobListRelationFilter
+    historicalPosts?: HistoricalPostListRelationFilter
+    historicalMetrics?: HistoricalMetricSnapshotListRelationFilter
   }, "id" | "orgId_platform_platformPageId">
 
   export type PageOrderByWithAggregationInput = {
@@ -47647,14 +52060,18 @@ export namespace Prisma {
     platformPageId?: SortOrder
     name?: SortOrder
     pictureUrl?: SortOrderInput | SortOrder
+    avatarUrl?: SortOrderInput | SortOrder
     accessToken?: SortOrder
     isActive?: SortOrder
+    followerCount?: SortOrderInput | SortOrder
     metadata?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PageCountOrderByAggregateInput
+    _avg?: PageAvgOrderByAggregateInput
     _max?: PageMaxOrderByAggregateInput
     _min?: PageMinOrderByAggregateInput
+    _sum?: PageSumOrderByAggregateInput
   }
 
   export type PageScalarWhereWithAggregatesInput = {
@@ -47668,8 +52085,10 @@ export namespace Prisma {
     platformPageId?: StringWithAggregatesFilter<"Page"> | string
     name?: StringWithAggregatesFilter<"Page"> | string
     pictureUrl?: StringNullableWithAggregatesFilter<"Page"> | string | null
+    avatarUrl?: StringNullableWithAggregatesFilter<"Page"> | string | null
     accessToken?: StringWithAggregatesFilter<"Page"> | string
     isActive?: BoolWithAggregatesFilter<"Page"> | boolean
+    followerCount?: IntNullableWithAggregatesFilter<"Page"> | number | null
     metadata?: JsonNullableWithAggregatesFilter<"Page">
     createdAt?: DateTimeWithAggregatesFilter<"Page"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Page"> | Date | string
@@ -49023,6 +53442,374 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"WaitlistEntry"> | Date | string
   }
 
+  export type IngestionJobWhereInput = {
+    AND?: IngestionJobWhereInput | IngestionJobWhereInput[]
+    OR?: IngestionJobWhereInput[]
+    NOT?: IngestionJobWhereInput | IngestionJobWhereInput[]
+    id?: StringFilter<"IngestionJob"> | string
+    pageId?: StringFilter<"IngestionJob"> | string
+    orgId?: StringFilter<"IngestionJob"> | string
+    status?: EnumIngestionStatusFilter<"IngestionJob"> | $Enums.IngestionStatus
+    dataTypes?: StringNullableListFilter<"IngestionJob">
+    totalItems?: IntNullableFilter<"IngestionJob"> | number | null
+    processedItems?: IntFilter<"IngestionJob"> | number
+    failedItems?: IntFilter<"IngestionJob"> | number
+    progress?: FloatFilter<"IngestionJob"> | number
+    platformCursor?: StringNullableFilter<"IngestionJob"> | string | null
+    oldestPostDate?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    startedAt?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    lastActivityAt?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    errorMessage?: StringNullableFilter<"IngestionJob"> | string | null
+    rateLimitHits?: IntFilter<"IngestionJob"> | number
+    nextRetryAfter?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    createdAt?: DateTimeFilter<"IngestionJob"> | Date | string
+    updatedAt?: DateTimeFilter<"IngestionJob"> | Date | string
+    page?: XOR<PageScalarRelationFilter, PageWhereInput>
+  }
+
+  export type IngestionJobOrderByWithRelationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    status?: SortOrder
+    dataTypes?: SortOrder
+    totalItems?: SortOrderInput | SortOrder
+    processedItems?: SortOrder
+    failedItems?: SortOrder
+    progress?: SortOrder
+    platformCursor?: SortOrderInput | SortOrder
+    oldestPostDate?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    lastActivityAt?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    rateLimitHits?: SortOrder
+    nextRetryAfter?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    page?: PageOrderByWithRelationInput
+  }
+
+  export type IngestionJobWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: IngestionJobWhereInput | IngestionJobWhereInput[]
+    OR?: IngestionJobWhereInput[]
+    NOT?: IngestionJobWhereInput | IngestionJobWhereInput[]
+    pageId?: StringFilter<"IngestionJob"> | string
+    orgId?: StringFilter<"IngestionJob"> | string
+    status?: EnumIngestionStatusFilter<"IngestionJob"> | $Enums.IngestionStatus
+    dataTypes?: StringNullableListFilter<"IngestionJob">
+    totalItems?: IntNullableFilter<"IngestionJob"> | number | null
+    processedItems?: IntFilter<"IngestionJob"> | number
+    failedItems?: IntFilter<"IngestionJob"> | number
+    progress?: FloatFilter<"IngestionJob"> | number
+    platformCursor?: StringNullableFilter<"IngestionJob"> | string | null
+    oldestPostDate?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    startedAt?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    lastActivityAt?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    errorMessage?: StringNullableFilter<"IngestionJob"> | string | null
+    rateLimitHits?: IntFilter<"IngestionJob"> | number
+    nextRetryAfter?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    createdAt?: DateTimeFilter<"IngestionJob"> | Date | string
+    updatedAt?: DateTimeFilter<"IngestionJob"> | Date | string
+    page?: XOR<PageScalarRelationFilter, PageWhereInput>
+  }, "id">
+
+  export type IngestionJobOrderByWithAggregationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    status?: SortOrder
+    dataTypes?: SortOrder
+    totalItems?: SortOrderInput | SortOrder
+    processedItems?: SortOrder
+    failedItems?: SortOrder
+    progress?: SortOrder
+    platformCursor?: SortOrderInput | SortOrder
+    oldestPostDate?: SortOrderInput | SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    lastActivityAt?: SortOrderInput | SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    rateLimitHits?: SortOrder
+    nextRetryAfter?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: IngestionJobCountOrderByAggregateInput
+    _avg?: IngestionJobAvgOrderByAggregateInput
+    _max?: IngestionJobMaxOrderByAggregateInput
+    _min?: IngestionJobMinOrderByAggregateInput
+    _sum?: IngestionJobSumOrderByAggregateInput
+  }
+
+  export type IngestionJobScalarWhereWithAggregatesInput = {
+    AND?: IngestionJobScalarWhereWithAggregatesInput | IngestionJobScalarWhereWithAggregatesInput[]
+    OR?: IngestionJobScalarWhereWithAggregatesInput[]
+    NOT?: IngestionJobScalarWhereWithAggregatesInput | IngestionJobScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"IngestionJob"> | string
+    pageId?: StringWithAggregatesFilter<"IngestionJob"> | string
+    orgId?: StringWithAggregatesFilter<"IngestionJob"> | string
+    status?: EnumIngestionStatusWithAggregatesFilter<"IngestionJob"> | $Enums.IngestionStatus
+    dataTypes?: StringNullableListFilter<"IngestionJob">
+    totalItems?: IntNullableWithAggregatesFilter<"IngestionJob"> | number | null
+    processedItems?: IntWithAggregatesFilter<"IngestionJob"> | number
+    failedItems?: IntWithAggregatesFilter<"IngestionJob"> | number
+    progress?: FloatWithAggregatesFilter<"IngestionJob"> | number
+    platformCursor?: StringNullableWithAggregatesFilter<"IngestionJob"> | string | null
+    oldestPostDate?: DateTimeNullableWithAggregatesFilter<"IngestionJob"> | Date | string | null
+    startedAt?: DateTimeNullableWithAggregatesFilter<"IngestionJob"> | Date | string | null
+    completedAt?: DateTimeNullableWithAggregatesFilter<"IngestionJob"> | Date | string | null
+    lastActivityAt?: DateTimeNullableWithAggregatesFilter<"IngestionJob"> | Date | string | null
+    errorMessage?: StringNullableWithAggregatesFilter<"IngestionJob"> | string | null
+    rateLimitHits?: IntWithAggregatesFilter<"IngestionJob"> | number
+    nextRetryAfter?: DateTimeNullableWithAggregatesFilter<"IngestionJob"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"IngestionJob"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"IngestionJob"> | Date | string
+  }
+
+  export type HistoricalPostWhereInput = {
+    AND?: HistoricalPostWhereInput | HistoricalPostWhereInput[]
+    OR?: HistoricalPostWhereInput[]
+    NOT?: HistoricalPostWhereInput | HistoricalPostWhereInput[]
+    id?: StringFilter<"HistoricalPost"> | string
+    pageId?: StringFilter<"HistoricalPost"> | string
+    orgId?: StringFilter<"HistoricalPost"> | string
+    platformPostId?: StringFilter<"HistoricalPost"> | string
+    platformUrl?: StringNullableFilter<"HistoricalPost"> | string | null
+    content?: StringNullableFilter<"HistoricalPost"> | string | null
+    mediaUrls?: StringNullableListFilter<"HistoricalPost">
+    postType?: StringNullableFilter<"HistoricalPost"> | string | null
+    publishedAt?: DateTimeFilter<"HistoricalPost"> | Date | string
+    impressions?: IntFilter<"HistoricalPost"> | number
+    reach?: IntFilter<"HistoricalPost"> | number
+    engagements?: IntFilter<"HistoricalPost"> | number
+    likes?: IntFilter<"HistoricalPost"> | number
+    comments?: IntFilter<"HistoricalPost"> | number
+    shares?: IntFilter<"HistoricalPost"> | number
+    saves?: IntFilter<"HistoricalPost"> | number
+    clicks?: IntFilter<"HistoricalPost"> | number
+    videoViews?: IntFilter<"HistoricalPost"> | number
+    isIngested?: BoolFilter<"HistoricalPost"> | boolean
+    ingestedAt?: DateTimeFilter<"HistoricalPost"> | Date | string
+    rawPlatformData?: JsonNullableFilter<"HistoricalPost">
+    createdAt?: DateTimeFilter<"HistoricalPost"> | Date | string
+    page?: XOR<PageScalarRelationFilter, PageWhereInput>
+  }
+
+  export type HistoricalPostOrderByWithRelationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    platformPostId?: SortOrder
+    platformUrl?: SortOrderInput | SortOrder
+    content?: SortOrderInput | SortOrder
+    mediaUrls?: SortOrder
+    postType?: SortOrderInput | SortOrder
+    publishedAt?: SortOrder
+    impressions?: SortOrder
+    reach?: SortOrder
+    engagements?: SortOrder
+    likes?: SortOrder
+    comments?: SortOrder
+    shares?: SortOrder
+    saves?: SortOrder
+    clicks?: SortOrder
+    videoViews?: SortOrder
+    isIngested?: SortOrder
+    ingestedAt?: SortOrder
+    rawPlatformData?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    page?: PageOrderByWithRelationInput
+  }
+
+  export type HistoricalPostWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    pageId_platformPostId?: HistoricalPostPageIdPlatformPostIdCompoundUniqueInput
+    AND?: HistoricalPostWhereInput | HistoricalPostWhereInput[]
+    OR?: HistoricalPostWhereInput[]
+    NOT?: HistoricalPostWhereInput | HistoricalPostWhereInput[]
+    pageId?: StringFilter<"HistoricalPost"> | string
+    orgId?: StringFilter<"HistoricalPost"> | string
+    platformPostId?: StringFilter<"HistoricalPost"> | string
+    platformUrl?: StringNullableFilter<"HistoricalPost"> | string | null
+    content?: StringNullableFilter<"HistoricalPost"> | string | null
+    mediaUrls?: StringNullableListFilter<"HistoricalPost">
+    postType?: StringNullableFilter<"HistoricalPost"> | string | null
+    publishedAt?: DateTimeFilter<"HistoricalPost"> | Date | string
+    impressions?: IntFilter<"HistoricalPost"> | number
+    reach?: IntFilter<"HistoricalPost"> | number
+    engagements?: IntFilter<"HistoricalPost"> | number
+    likes?: IntFilter<"HistoricalPost"> | number
+    comments?: IntFilter<"HistoricalPost"> | number
+    shares?: IntFilter<"HistoricalPost"> | number
+    saves?: IntFilter<"HistoricalPost"> | number
+    clicks?: IntFilter<"HistoricalPost"> | number
+    videoViews?: IntFilter<"HistoricalPost"> | number
+    isIngested?: BoolFilter<"HistoricalPost"> | boolean
+    ingestedAt?: DateTimeFilter<"HistoricalPost"> | Date | string
+    rawPlatformData?: JsonNullableFilter<"HistoricalPost">
+    createdAt?: DateTimeFilter<"HistoricalPost"> | Date | string
+    page?: XOR<PageScalarRelationFilter, PageWhereInput>
+  }, "id" | "pageId_platformPostId">
+
+  export type HistoricalPostOrderByWithAggregationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    platformPostId?: SortOrder
+    platformUrl?: SortOrderInput | SortOrder
+    content?: SortOrderInput | SortOrder
+    mediaUrls?: SortOrder
+    postType?: SortOrderInput | SortOrder
+    publishedAt?: SortOrder
+    impressions?: SortOrder
+    reach?: SortOrder
+    engagements?: SortOrder
+    likes?: SortOrder
+    comments?: SortOrder
+    shares?: SortOrder
+    saves?: SortOrder
+    clicks?: SortOrder
+    videoViews?: SortOrder
+    isIngested?: SortOrder
+    ingestedAt?: SortOrder
+    rawPlatformData?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: HistoricalPostCountOrderByAggregateInput
+    _avg?: HistoricalPostAvgOrderByAggregateInput
+    _max?: HistoricalPostMaxOrderByAggregateInput
+    _min?: HistoricalPostMinOrderByAggregateInput
+    _sum?: HistoricalPostSumOrderByAggregateInput
+  }
+
+  export type HistoricalPostScalarWhereWithAggregatesInput = {
+    AND?: HistoricalPostScalarWhereWithAggregatesInput | HistoricalPostScalarWhereWithAggregatesInput[]
+    OR?: HistoricalPostScalarWhereWithAggregatesInput[]
+    NOT?: HistoricalPostScalarWhereWithAggregatesInput | HistoricalPostScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"HistoricalPost"> | string
+    pageId?: StringWithAggregatesFilter<"HistoricalPost"> | string
+    orgId?: StringWithAggregatesFilter<"HistoricalPost"> | string
+    platformPostId?: StringWithAggregatesFilter<"HistoricalPost"> | string
+    platformUrl?: StringNullableWithAggregatesFilter<"HistoricalPost"> | string | null
+    content?: StringNullableWithAggregatesFilter<"HistoricalPost"> | string | null
+    mediaUrls?: StringNullableListFilter<"HistoricalPost">
+    postType?: StringNullableWithAggregatesFilter<"HistoricalPost"> | string | null
+    publishedAt?: DateTimeWithAggregatesFilter<"HistoricalPost"> | Date | string
+    impressions?: IntWithAggregatesFilter<"HistoricalPost"> | number
+    reach?: IntWithAggregatesFilter<"HistoricalPost"> | number
+    engagements?: IntWithAggregatesFilter<"HistoricalPost"> | number
+    likes?: IntWithAggregatesFilter<"HistoricalPost"> | number
+    comments?: IntWithAggregatesFilter<"HistoricalPost"> | number
+    shares?: IntWithAggregatesFilter<"HistoricalPost"> | number
+    saves?: IntWithAggregatesFilter<"HistoricalPost"> | number
+    clicks?: IntWithAggregatesFilter<"HistoricalPost"> | number
+    videoViews?: IntWithAggregatesFilter<"HistoricalPost"> | number
+    isIngested?: BoolWithAggregatesFilter<"HistoricalPost"> | boolean
+    ingestedAt?: DateTimeWithAggregatesFilter<"HistoricalPost"> | Date | string
+    rawPlatformData?: JsonNullableWithAggregatesFilter<"HistoricalPost">
+    createdAt?: DateTimeWithAggregatesFilter<"HistoricalPost"> | Date | string
+  }
+
+  export type HistoricalMetricSnapshotWhereInput = {
+    AND?: HistoricalMetricSnapshotWhereInput | HistoricalMetricSnapshotWhereInput[]
+    OR?: HistoricalMetricSnapshotWhereInput[]
+    NOT?: HistoricalMetricSnapshotWhereInput | HistoricalMetricSnapshotWhereInput[]
+    id?: StringFilter<"HistoricalMetricSnapshot"> | string
+    pageId?: StringFilter<"HistoricalMetricSnapshot"> | string
+    orgId?: StringFilter<"HistoricalMetricSnapshot"> | string
+    metricDate?: DateTimeFilter<"HistoricalMetricSnapshot"> | Date | string
+    followers?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    followersChange?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    pageViews?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    pageImpressions?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    pageReach?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    pageEngagement?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    audienceData?: JsonNullableFilter<"HistoricalMetricSnapshot">
+    rawPlatformData?: JsonNullableFilter<"HistoricalMetricSnapshot">
+    createdAt?: DateTimeFilter<"HistoricalMetricSnapshot"> | Date | string
+    page?: XOR<PageScalarRelationFilter, PageWhereInput>
+  }
+
+  export type HistoricalMetricSnapshotOrderByWithRelationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    metricDate?: SortOrder
+    followers?: SortOrderInput | SortOrder
+    followersChange?: SortOrderInput | SortOrder
+    pageViews?: SortOrderInput | SortOrder
+    pageImpressions?: SortOrderInput | SortOrder
+    pageReach?: SortOrderInput | SortOrder
+    pageEngagement?: SortOrderInput | SortOrder
+    audienceData?: SortOrderInput | SortOrder
+    rawPlatformData?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    page?: PageOrderByWithRelationInput
+  }
+
+  export type HistoricalMetricSnapshotWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    pageId_metricDate?: HistoricalMetricSnapshotPageIdMetricDateCompoundUniqueInput
+    AND?: HistoricalMetricSnapshotWhereInput | HistoricalMetricSnapshotWhereInput[]
+    OR?: HistoricalMetricSnapshotWhereInput[]
+    NOT?: HistoricalMetricSnapshotWhereInput | HistoricalMetricSnapshotWhereInput[]
+    pageId?: StringFilter<"HistoricalMetricSnapshot"> | string
+    orgId?: StringFilter<"HistoricalMetricSnapshot"> | string
+    metricDate?: DateTimeFilter<"HistoricalMetricSnapshot"> | Date | string
+    followers?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    followersChange?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    pageViews?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    pageImpressions?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    pageReach?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    pageEngagement?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    audienceData?: JsonNullableFilter<"HistoricalMetricSnapshot">
+    rawPlatformData?: JsonNullableFilter<"HistoricalMetricSnapshot">
+    createdAt?: DateTimeFilter<"HistoricalMetricSnapshot"> | Date | string
+    page?: XOR<PageScalarRelationFilter, PageWhereInput>
+  }, "id" | "pageId_metricDate">
+
+  export type HistoricalMetricSnapshotOrderByWithAggregationInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    metricDate?: SortOrder
+    followers?: SortOrderInput | SortOrder
+    followersChange?: SortOrderInput | SortOrder
+    pageViews?: SortOrderInput | SortOrder
+    pageImpressions?: SortOrderInput | SortOrder
+    pageReach?: SortOrderInput | SortOrder
+    pageEngagement?: SortOrderInput | SortOrder
+    audienceData?: SortOrderInput | SortOrder
+    rawPlatformData?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: HistoricalMetricSnapshotCountOrderByAggregateInput
+    _avg?: HistoricalMetricSnapshotAvgOrderByAggregateInput
+    _max?: HistoricalMetricSnapshotMaxOrderByAggregateInput
+    _min?: HistoricalMetricSnapshotMinOrderByAggregateInput
+    _sum?: HistoricalMetricSnapshotSumOrderByAggregateInput
+  }
+
+  export type HistoricalMetricSnapshotScalarWhereWithAggregatesInput = {
+    AND?: HistoricalMetricSnapshotScalarWhereWithAggregatesInput | HistoricalMetricSnapshotScalarWhereWithAggregatesInput[]
+    OR?: HistoricalMetricSnapshotScalarWhereWithAggregatesInput[]
+    NOT?: HistoricalMetricSnapshotScalarWhereWithAggregatesInput | HistoricalMetricSnapshotScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"HistoricalMetricSnapshot"> | string
+    pageId?: StringWithAggregatesFilter<"HistoricalMetricSnapshot"> | string
+    orgId?: StringWithAggregatesFilter<"HistoricalMetricSnapshot"> | string
+    metricDate?: DateTimeWithAggregatesFilter<"HistoricalMetricSnapshot"> | Date | string
+    followers?: IntNullableWithAggregatesFilter<"HistoricalMetricSnapshot"> | number | null
+    followersChange?: IntNullableWithAggregatesFilter<"HistoricalMetricSnapshot"> | number | null
+    pageViews?: IntNullableWithAggregatesFilter<"HistoricalMetricSnapshot"> | number | null
+    pageImpressions?: IntNullableWithAggregatesFilter<"HistoricalMetricSnapshot"> | number | null
+    pageReach?: IntNullableWithAggregatesFilter<"HistoricalMetricSnapshot"> | number | null
+    pageEngagement?: IntNullableWithAggregatesFilter<"HistoricalMetricSnapshot"> | number | null
+    audienceData?: JsonNullableWithAggregatesFilter<"HistoricalMetricSnapshot">
+    rawPlatformData?: JsonNullableWithAggregatesFilter<"HistoricalMetricSnapshot">
+    createdAt?: DateTimeWithAggregatesFilter<"HistoricalMetricSnapshot"> | Date | string
+  }
+
   export type OrganizationCreateInput = {
     id?: string
     name: string
@@ -49336,6 +54123,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -49372,6 +54160,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -49408,6 +54197,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -49444,6 +54234,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -49480,6 +54271,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -49503,6 +54295,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -49526,6 +54319,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50942,8 +55736,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -50958,6 +55754,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateInput = {
@@ -50968,8 +55767,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -50982,6 +55783,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageUpdateInput = {
@@ -50990,8 +55794,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51006,6 +55812,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateInput = {
@@ -51016,8 +55825,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51030,6 +55841,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PageCreateManyInput = {
@@ -51040,8 +55854,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -51053,8 +55869,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51068,8 +55886,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -52561,6 +57381,444 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type IngestionJobCreateInput = {
+    id?: string
+    orgId: string
+    status?: $Enums.IngestionStatus
+    dataTypes?: IngestionJobCreatedataTypesInput | string[]
+    totalItems?: number | null
+    processedItems?: number
+    failedItems?: number
+    progress?: number
+    platformCursor?: string | null
+    oldestPostDate?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    lastActivityAt?: Date | string | null
+    errorMessage?: string | null
+    rateLimitHits?: number
+    nextRetryAfter?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    page: PageCreateNestedOneWithoutIngestionJobsInput
+  }
+
+  export type IngestionJobUncheckedCreateInput = {
+    id?: string
+    pageId: string
+    orgId: string
+    status?: $Enums.IngestionStatus
+    dataTypes?: IngestionJobCreatedataTypesInput | string[]
+    totalItems?: number | null
+    processedItems?: number
+    failedItems?: number
+    progress?: number
+    platformCursor?: string | null
+    oldestPostDate?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    lastActivityAt?: Date | string | null
+    errorMessage?: string | null
+    rateLimitHits?: number
+    nextRetryAfter?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IngestionJobUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    status?: EnumIngestionStatusFieldUpdateOperationsInput | $Enums.IngestionStatus
+    dataTypes?: IngestionJobUpdatedataTypesInput | string[]
+    totalItems?: NullableIntFieldUpdateOperationsInput | number | null
+    processedItems?: IntFieldUpdateOperationsInput | number
+    failedItems?: IntFieldUpdateOperationsInput | number
+    progress?: FloatFieldUpdateOperationsInput | number
+    platformCursor?: NullableStringFieldUpdateOperationsInput | string | null
+    oldestPostDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastActivityAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    rateLimitHits?: IntFieldUpdateOperationsInput | number
+    nextRetryAfter?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: PageUpdateOneRequiredWithoutIngestionJobsNestedInput
+  }
+
+  export type IngestionJobUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    status?: EnumIngestionStatusFieldUpdateOperationsInput | $Enums.IngestionStatus
+    dataTypes?: IngestionJobUpdatedataTypesInput | string[]
+    totalItems?: NullableIntFieldUpdateOperationsInput | number | null
+    processedItems?: IntFieldUpdateOperationsInput | number
+    failedItems?: IntFieldUpdateOperationsInput | number
+    progress?: FloatFieldUpdateOperationsInput | number
+    platformCursor?: NullableStringFieldUpdateOperationsInput | string | null
+    oldestPostDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastActivityAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    rateLimitHits?: IntFieldUpdateOperationsInput | number
+    nextRetryAfter?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IngestionJobCreateManyInput = {
+    id?: string
+    pageId: string
+    orgId: string
+    status?: $Enums.IngestionStatus
+    dataTypes?: IngestionJobCreatedataTypesInput | string[]
+    totalItems?: number | null
+    processedItems?: number
+    failedItems?: number
+    progress?: number
+    platformCursor?: string | null
+    oldestPostDate?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    lastActivityAt?: Date | string | null
+    errorMessage?: string | null
+    rateLimitHits?: number
+    nextRetryAfter?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IngestionJobUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    status?: EnumIngestionStatusFieldUpdateOperationsInput | $Enums.IngestionStatus
+    dataTypes?: IngestionJobUpdatedataTypesInput | string[]
+    totalItems?: NullableIntFieldUpdateOperationsInput | number | null
+    processedItems?: IntFieldUpdateOperationsInput | number
+    failedItems?: IntFieldUpdateOperationsInput | number
+    progress?: FloatFieldUpdateOperationsInput | number
+    platformCursor?: NullableStringFieldUpdateOperationsInput | string | null
+    oldestPostDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastActivityAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    rateLimitHits?: IntFieldUpdateOperationsInput | number
+    nextRetryAfter?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IngestionJobUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    status?: EnumIngestionStatusFieldUpdateOperationsInput | $Enums.IngestionStatus
+    dataTypes?: IngestionJobUpdatedataTypesInput | string[]
+    totalItems?: NullableIntFieldUpdateOperationsInput | number | null
+    processedItems?: IntFieldUpdateOperationsInput | number
+    failedItems?: IntFieldUpdateOperationsInput | number
+    progress?: FloatFieldUpdateOperationsInput | number
+    platformCursor?: NullableStringFieldUpdateOperationsInput | string | null
+    oldestPostDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastActivityAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    rateLimitHits?: IntFieldUpdateOperationsInput | number
+    nextRetryAfter?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricalPostCreateInput = {
+    id?: string
+    orgId: string
+    platformPostId: string
+    platformUrl?: string | null
+    content?: string | null
+    mediaUrls?: HistoricalPostCreatemediaUrlsInput | string[]
+    postType?: string | null
+    publishedAt: Date | string
+    impressions?: number
+    reach?: number
+    engagements?: number
+    likes?: number
+    comments?: number
+    shares?: number
+    saves?: number
+    clicks?: number
+    videoViews?: number
+    isIngested?: boolean
+    ingestedAt?: Date | string
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    page: PageCreateNestedOneWithoutHistoricalPostsInput
+  }
+
+  export type HistoricalPostUncheckedCreateInput = {
+    id?: string
+    pageId: string
+    orgId: string
+    platformPostId: string
+    platformUrl?: string | null
+    content?: string | null
+    mediaUrls?: HistoricalPostCreatemediaUrlsInput | string[]
+    postType?: string | null
+    publishedAt: Date | string
+    impressions?: number
+    reach?: number
+    engagements?: number
+    likes?: number
+    comments?: number
+    shares?: number
+    saves?: number
+    clicks?: number
+    videoViews?: number
+    isIngested?: boolean
+    ingestedAt?: Date | string
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type HistoricalPostUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    platformPostId?: StringFieldUpdateOperationsInput | string
+    platformUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaUrls?: HistoricalPostUpdatemediaUrlsInput | string[]
+    postType?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: IntFieldUpdateOperationsInput | number
+    reach?: IntFieldUpdateOperationsInput | number
+    engagements?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    comments?: IntFieldUpdateOperationsInput | number
+    shares?: IntFieldUpdateOperationsInput | number
+    saves?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    videoViews?: IntFieldUpdateOperationsInput | number
+    isIngested?: BoolFieldUpdateOperationsInput | boolean
+    ingestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: PageUpdateOneRequiredWithoutHistoricalPostsNestedInput
+  }
+
+  export type HistoricalPostUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    platformPostId?: StringFieldUpdateOperationsInput | string
+    platformUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaUrls?: HistoricalPostUpdatemediaUrlsInput | string[]
+    postType?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: IntFieldUpdateOperationsInput | number
+    reach?: IntFieldUpdateOperationsInput | number
+    engagements?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    comments?: IntFieldUpdateOperationsInput | number
+    shares?: IntFieldUpdateOperationsInput | number
+    saves?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    videoViews?: IntFieldUpdateOperationsInput | number
+    isIngested?: BoolFieldUpdateOperationsInput | boolean
+    ingestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricalPostCreateManyInput = {
+    id?: string
+    pageId: string
+    orgId: string
+    platformPostId: string
+    platformUrl?: string | null
+    content?: string | null
+    mediaUrls?: HistoricalPostCreatemediaUrlsInput | string[]
+    postType?: string | null
+    publishedAt: Date | string
+    impressions?: number
+    reach?: number
+    engagements?: number
+    likes?: number
+    comments?: number
+    shares?: number
+    saves?: number
+    clicks?: number
+    videoViews?: number
+    isIngested?: boolean
+    ingestedAt?: Date | string
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type HistoricalPostUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    platformPostId?: StringFieldUpdateOperationsInput | string
+    platformUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaUrls?: HistoricalPostUpdatemediaUrlsInput | string[]
+    postType?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: IntFieldUpdateOperationsInput | number
+    reach?: IntFieldUpdateOperationsInput | number
+    engagements?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    comments?: IntFieldUpdateOperationsInput | number
+    shares?: IntFieldUpdateOperationsInput | number
+    saves?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    videoViews?: IntFieldUpdateOperationsInput | number
+    isIngested?: BoolFieldUpdateOperationsInput | boolean
+    ingestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricalPostUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    platformPostId?: StringFieldUpdateOperationsInput | string
+    platformUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaUrls?: HistoricalPostUpdatemediaUrlsInput | string[]
+    postType?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: IntFieldUpdateOperationsInput | number
+    reach?: IntFieldUpdateOperationsInput | number
+    engagements?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    comments?: IntFieldUpdateOperationsInput | number
+    shares?: IntFieldUpdateOperationsInput | number
+    saves?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    videoViews?: IntFieldUpdateOperationsInput | number
+    isIngested?: BoolFieldUpdateOperationsInput | boolean
+    ingestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricalMetricSnapshotCreateInput = {
+    id?: string
+    orgId: string
+    metricDate: Date | string
+    followers?: number | null
+    followersChange?: number | null
+    pageViews?: number | null
+    pageImpressions?: number | null
+    pageReach?: number | null
+    pageEngagement?: number | null
+    audienceData?: NullableJsonNullValueInput | InputJsonValue
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    page: PageCreateNestedOneWithoutHistoricalMetricsInput
+  }
+
+  export type HistoricalMetricSnapshotUncheckedCreateInput = {
+    id?: string
+    pageId: string
+    orgId: string
+    metricDate: Date | string
+    followers?: number | null
+    followersChange?: number | null
+    pageViews?: number | null
+    pageImpressions?: number | null
+    pageReach?: number | null
+    pageEngagement?: number | null
+    audienceData?: NullableJsonNullValueInput | InputJsonValue
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type HistoricalMetricSnapshotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    metricDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: NullableIntFieldUpdateOperationsInput | number | null
+    followersChange?: NullableIntFieldUpdateOperationsInput | number | null
+    pageViews?: NullableIntFieldUpdateOperationsInput | number | null
+    pageImpressions?: NullableIntFieldUpdateOperationsInput | number | null
+    pageReach?: NullableIntFieldUpdateOperationsInput | number | null
+    pageEngagement?: NullableIntFieldUpdateOperationsInput | number | null
+    audienceData?: NullableJsonNullValueInput | InputJsonValue
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    page?: PageUpdateOneRequiredWithoutHistoricalMetricsNestedInput
+  }
+
+  export type HistoricalMetricSnapshotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    metricDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: NullableIntFieldUpdateOperationsInput | number | null
+    followersChange?: NullableIntFieldUpdateOperationsInput | number | null
+    pageViews?: NullableIntFieldUpdateOperationsInput | number | null
+    pageImpressions?: NullableIntFieldUpdateOperationsInput | number | null
+    pageReach?: NullableIntFieldUpdateOperationsInput | number | null
+    pageEngagement?: NullableIntFieldUpdateOperationsInput | number | null
+    audienceData?: NullableJsonNullValueInput | InputJsonValue
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricalMetricSnapshotCreateManyInput = {
+    id?: string
+    pageId: string
+    orgId: string
+    metricDate: Date | string
+    followers?: number | null
+    followersChange?: number | null
+    pageViews?: number | null
+    pageImpressions?: number | null
+    pageReach?: number | null
+    pageEngagement?: number | null
+    audienceData?: NullableJsonNullValueInput | InputJsonValue
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type HistoricalMetricSnapshotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    metricDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: NullableIntFieldUpdateOperationsInput | number | null
+    followersChange?: NullableIntFieldUpdateOperationsInput | number | null
+    pageViews?: NullableIntFieldUpdateOperationsInput | number | null
+    pageImpressions?: NullableIntFieldUpdateOperationsInput | number | null
+    pageReach?: NullableIntFieldUpdateOperationsInput | number | null
+    pageEngagement?: NullableIntFieldUpdateOperationsInput | number | null
+    audienceData?: NullableJsonNullValueInput | InputJsonValue
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricalMetricSnapshotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageId?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    metricDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: NullableIntFieldUpdateOperationsInput | number | null
+    followersChange?: NullableIntFieldUpdateOperationsInput | number | null
+    pageViews?: NullableIntFieldUpdateOperationsInput | number | null
+    pageImpressions?: NullableIntFieldUpdateOperationsInput | number | null
+    pageReach?: NullableIntFieldUpdateOperationsInput | number | null
+    pageEngagement?: NullableIntFieldUpdateOperationsInput | number | null
+    audienceData?: NullableJsonNullValueInput | InputJsonValue
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -53173,6 +58431,7 @@ export namespace Prisma {
     status?: SortOrder
     systemRole?: SortOrder
     onboardingComplete?: SortOrder
+    lastSelectedPageId?: SortOrder
     deletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -53200,6 +58459,7 @@ export namespace Prisma {
     status?: SortOrder
     systemRole?: SortOrder
     onboardingComplete?: SortOrder
+    lastSelectedPageId?: SortOrder
     deletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -53223,6 +58483,7 @@ export namespace Prisma {
     status?: SortOrder
     systemRole?: SortOrder
     onboardingComplete?: SortOrder
+    lastSelectedPageId?: SortOrder
     deletedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -54343,6 +59604,24 @@ export namespace Prisma {
     none?: RssFeedWhereInput
   }
 
+  export type IngestionJobListRelationFilter = {
+    every?: IngestionJobWhereInput
+    some?: IngestionJobWhereInput
+    none?: IngestionJobWhereInput
+  }
+
+  export type HistoricalPostListRelationFilter = {
+    every?: HistoricalPostWhereInput
+    some?: HistoricalPostWhereInput
+    none?: HistoricalPostWhereInput
+  }
+
+  export type HistoricalMetricSnapshotListRelationFilter = {
+    every?: HistoricalMetricSnapshotWhereInput
+    some?: HistoricalMetricSnapshotWhereInput
+    none?: HistoricalMetricSnapshotWhereInput
+  }
+
   export type BrandVoiceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -54352,6 +59631,18 @@ export namespace Prisma {
   }
 
   export type RssFeedOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type IngestionJobOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type HistoricalPostOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type HistoricalMetricSnapshotOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -54369,11 +59660,17 @@ export namespace Prisma {
     platformPageId?: SortOrder
     name?: SortOrder
     pictureUrl?: SortOrder
+    avatarUrl?: SortOrder
     accessToken?: SortOrder
     isActive?: SortOrder
+    followerCount?: SortOrder
     metadata?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type PageAvgOrderByAggregateInput = {
+    followerCount?: SortOrder
   }
 
   export type PageMaxOrderByAggregateInput = {
@@ -54384,8 +59681,10 @@ export namespace Prisma {
     platformPageId?: SortOrder
     name?: SortOrder
     pictureUrl?: SortOrder
+    avatarUrl?: SortOrder
     accessToken?: SortOrder
     isActive?: SortOrder
+    followerCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -54398,10 +59697,16 @@ export namespace Prisma {
     platformPageId?: SortOrder
     name?: SortOrder
     pictureUrl?: SortOrder
+    avatarUrl?: SortOrder
     accessToken?: SortOrder
     isActive?: SortOrder
+    followerCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type PageSumOrderByAggregateInput = {
+    followerCount?: SortOrder
   }
 
   export type PageScalarRelationFilter = {
@@ -55161,6 +60466,270 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedEnumPlanNullableFilter<$PrismaModel>
     _max?: NestedEnumPlanNullableFilter<$PrismaModel>
+  }
+
+  export type EnumIngestionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.IngestionStatus | EnumIngestionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IngestionStatus[] | ListEnumIngestionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IngestionStatus[] | ListEnumIngestionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIngestionStatusFilter<$PrismaModel> | $Enums.IngestionStatus
+  }
+
+  export type IngestionJobCountOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    status?: SortOrder
+    dataTypes?: SortOrder
+    totalItems?: SortOrder
+    processedItems?: SortOrder
+    failedItems?: SortOrder
+    progress?: SortOrder
+    platformCursor?: SortOrder
+    oldestPostDate?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    lastActivityAt?: SortOrder
+    errorMessage?: SortOrder
+    rateLimitHits?: SortOrder
+    nextRetryAfter?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IngestionJobAvgOrderByAggregateInput = {
+    totalItems?: SortOrder
+    processedItems?: SortOrder
+    failedItems?: SortOrder
+    progress?: SortOrder
+    rateLimitHits?: SortOrder
+  }
+
+  export type IngestionJobMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    status?: SortOrder
+    totalItems?: SortOrder
+    processedItems?: SortOrder
+    failedItems?: SortOrder
+    progress?: SortOrder
+    platformCursor?: SortOrder
+    oldestPostDate?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    lastActivityAt?: SortOrder
+    errorMessage?: SortOrder
+    rateLimitHits?: SortOrder
+    nextRetryAfter?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IngestionJobMinOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    status?: SortOrder
+    totalItems?: SortOrder
+    processedItems?: SortOrder
+    failedItems?: SortOrder
+    progress?: SortOrder
+    platformCursor?: SortOrder
+    oldestPostDate?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    lastActivityAt?: SortOrder
+    errorMessage?: SortOrder
+    rateLimitHits?: SortOrder
+    nextRetryAfter?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IngestionJobSumOrderByAggregateInput = {
+    totalItems?: SortOrder
+    processedItems?: SortOrder
+    failedItems?: SortOrder
+    progress?: SortOrder
+    rateLimitHits?: SortOrder
+  }
+
+  export type EnumIngestionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IngestionStatus | EnumIngestionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IngestionStatus[] | ListEnumIngestionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IngestionStatus[] | ListEnumIngestionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIngestionStatusWithAggregatesFilter<$PrismaModel> | $Enums.IngestionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIngestionStatusFilter<$PrismaModel>
+    _max?: NestedEnumIngestionStatusFilter<$PrismaModel>
+  }
+
+  export type HistoricalPostPageIdPlatformPostIdCompoundUniqueInput = {
+    pageId: string
+    platformPostId: string
+  }
+
+  export type HistoricalPostCountOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    platformPostId?: SortOrder
+    platformUrl?: SortOrder
+    content?: SortOrder
+    mediaUrls?: SortOrder
+    postType?: SortOrder
+    publishedAt?: SortOrder
+    impressions?: SortOrder
+    reach?: SortOrder
+    engagements?: SortOrder
+    likes?: SortOrder
+    comments?: SortOrder
+    shares?: SortOrder
+    saves?: SortOrder
+    clicks?: SortOrder
+    videoViews?: SortOrder
+    isIngested?: SortOrder
+    ingestedAt?: SortOrder
+    rawPlatformData?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HistoricalPostAvgOrderByAggregateInput = {
+    impressions?: SortOrder
+    reach?: SortOrder
+    engagements?: SortOrder
+    likes?: SortOrder
+    comments?: SortOrder
+    shares?: SortOrder
+    saves?: SortOrder
+    clicks?: SortOrder
+    videoViews?: SortOrder
+  }
+
+  export type HistoricalPostMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    platformPostId?: SortOrder
+    platformUrl?: SortOrder
+    content?: SortOrder
+    postType?: SortOrder
+    publishedAt?: SortOrder
+    impressions?: SortOrder
+    reach?: SortOrder
+    engagements?: SortOrder
+    likes?: SortOrder
+    comments?: SortOrder
+    shares?: SortOrder
+    saves?: SortOrder
+    clicks?: SortOrder
+    videoViews?: SortOrder
+    isIngested?: SortOrder
+    ingestedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HistoricalPostMinOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    platformPostId?: SortOrder
+    platformUrl?: SortOrder
+    content?: SortOrder
+    postType?: SortOrder
+    publishedAt?: SortOrder
+    impressions?: SortOrder
+    reach?: SortOrder
+    engagements?: SortOrder
+    likes?: SortOrder
+    comments?: SortOrder
+    shares?: SortOrder
+    saves?: SortOrder
+    clicks?: SortOrder
+    videoViews?: SortOrder
+    isIngested?: SortOrder
+    ingestedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HistoricalPostSumOrderByAggregateInput = {
+    impressions?: SortOrder
+    reach?: SortOrder
+    engagements?: SortOrder
+    likes?: SortOrder
+    comments?: SortOrder
+    shares?: SortOrder
+    saves?: SortOrder
+    clicks?: SortOrder
+    videoViews?: SortOrder
+  }
+
+  export type HistoricalMetricSnapshotPageIdMetricDateCompoundUniqueInput = {
+    pageId: string
+    metricDate: Date | string
+  }
+
+  export type HistoricalMetricSnapshotCountOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    metricDate?: SortOrder
+    followers?: SortOrder
+    followersChange?: SortOrder
+    pageViews?: SortOrder
+    pageImpressions?: SortOrder
+    pageReach?: SortOrder
+    pageEngagement?: SortOrder
+    audienceData?: SortOrder
+    rawPlatformData?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HistoricalMetricSnapshotAvgOrderByAggregateInput = {
+    followers?: SortOrder
+    followersChange?: SortOrder
+    pageViews?: SortOrder
+    pageImpressions?: SortOrder
+    pageReach?: SortOrder
+    pageEngagement?: SortOrder
+  }
+
+  export type HistoricalMetricSnapshotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    metricDate?: SortOrder
+    followers?: SortOrder
+    followersChange?: SortOrder
+    pageViews?: SortOrder
+    pageImpressions?: SortOrder
+    pageReach?: SortOrder
+    pageEngagement?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HistoricalMetricSnapshotMinOrderByAggregateInput = {
+    id?: SortOrder
+    pageId?: SortOrder
+    orgId?: SortOrder
+    metricDate?: SortOrder
+    followers?: SortOrder
+    followersChange?: SortOrder
+    pageViews?: SortOrder
+    pageImpressions?: SortOrder
+    pageReach?: SortOrder
+    pageEngagement?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HistoricalMetricSnapshotSumOrderByAggregateInput = {
+    followers?: SortOrder
+    followersChange?: SortOrder
+    pageViews?: SortOrder
+    pageImpressions?: SortOrder
+    pageReach?: SortOrder
+    pageEngagement?: SortOrder
   }
 
   export type MembershipCreateNestedManyWithoutOrganizationInput = {
@@ -57150,6 +62719,27 @@ export namespace Prisma {
     connect?: PerformanceReportWhereUniqueInput | PerformanceReportWhereUniqueInput[]
   }
 
+  export type IngestionJobCreateNestedManyWithoutPageInput = {
+    create?: XOR<IngestionJobCreateWithoutPageInput, IngestionJobUncheckedCreateWithoutPageInput> | IngestionJobCreateWithoutPageInput[] | IngestionJobUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: IngestionJobCreateOrConnectWithoutPageInput | IngestionJobCreateOrConnectWithoutPageInput[]
+    createMany?: IngestionJobCreateManyPageInputEnvelope
+    connect?: IngestionJobWhereUniqueInput | IngestionJobWhereUniqueInput[]
+  }
+
+  export type HistoricalPostCreateNestedManyWithoutPageInput = {
+    create?: XOR<HistoricalPostCreateWithoutPageInput, HistoricalPostUncheckedCreateWithoutPageInput> | HistoricalPostCreateWithoutPageInput[] | HistoricalPostUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: HistoricalPostCreateOrConnectWithoutPageInput | HistoricalPostCreateOrConnectWithoutPageInput[]
+    createMany?: HistoricalPostCreateManyPageInputEnvelope
+    connect?: HistoricalPostWhereUniqueInput | HistoricalPostWhereUniqueInput[]
+  }
+
+  export type HistoricalMetricSnapshotCreateNestedManyWithoutPageInput = {
+    create?: XOR<HistoricalMetricSnapshotCreateWithoutPageInput, HistoricalMetricSnapshotUncheckedCreateWithoutPageInput> | HistoricalMetricSnapshotCreateWithoutPageInput[] | HistoricalMetricSnapshotUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: HistoricalMetricSnapshotCreateOrConnectWithoutPageInput | HistoricalMetricSnapshotCreateOrConnectWithoutPageInput[]
+    createMany?: HistoricalMetricSnapshotCreateManyPageInputEnvelope
+    connect?: HistoricalMetricSnapshotWhereUniqueInput | HistoricalMetricSnapshotWhereUniqueInput[]
+  }
+
   export type PostUncheckedCreateNestedManyWithoutPageInput = {
     create?: XOR<PostCreateWithoutPageInput, PostUncheckedCreateWithoutPageInput> | PostCreateWithoutPageInput[] | PostUncheckedCreateWithoutPageInput[]
     connectOrCreate?: PostCreateOrConnectWithoutPageInput | PostCreateOrConnectWithoutPageInput[]
@@ -57211,6 +62801,27 @@ export namespace Prisma {
     connectOrCreate?: PerformanceReportCreateOrConnectWithoutPageInput | PerformanceReportCreateOrConnectWithoutPageInput[]
     createMany?: PerformanceReportCreateManyPageInputEnvelope
     connect?: PerformanceReportWhereUniqueInput | PerformanceReportWhereUniqueInput[]
+  }
+
+  export type IngestionJobUncheckedCreateNestedManyWithoutPageInput = {
+    create?: XOR<IngestionJobCreateWithoutPageInput, IngestionJobUncheckedCreateWithoutPageInput> | IngestionJobCreateWithoutPageInput[] | IngestionJobUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: IngestionJobCreateOrConnectWithoutPageInput | IngestionJobCreateOrConnectWithoutPageInput[]
+    createMany?: IngestionJobCreateManyPageInputEnvelope
+    connect?: IngestionJobWhereUniqueInput | IngestionJobWhereUniqueInput[]
+  }
+
+  export type HistoricalPostUncheckedCreateNestedManyWithoutPageInput = {
+    create?: XOR<HistoricalPostCreateWithoutPageInput, HistoricalPostUncheckedCreateWithoutPageInput> | HistoricalPostCreateWithoutPageInput[] | HistoricalPostUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: HistoricalPostCreateOrConnectWithoutPageInput | HistoricalPostCreateOrConnectWithoutPageInput[]
+    createMany?: HistoricalPostCreateManyPageInputEnvelope
+    connect?: HistoricalPostWhereUniqueInput | HistoricalPostWhereUniqueInput[]
+  }
+
+  export type HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput = {
+    create?: XOR<HistoricalMetricSnapshotCreateWithoutPageInput, HistoricalMetricSnapshotUncheckedCreateWithoutPageInput> | HistoricalMetricSnapshotCreateWithoutPageInput[] | HistoricalMetricSnapshotUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: HistoricalMetricSnapshotCreateOrConnectWithoutPageInput | HistoricalMetricSnapshotCreateOrConnectWithoutPageInput[]
+    createMany?: HistoricalMetricSnapshotCreateManyPageInputEnvelope
+    connect?: HistoricalMetricSnapshotWhereUniqueInput | HistoricalMetricSnapshotWhereUniqueInput[]
   }
 
   export type OrganizationUpdateOneRequiredWithoutPagesNestedInput = {
@@ -57355,6 +62966,48 @@ export namespace Prisma {
     deleteMany?: PerformanceReportScalarWhereInput | PerformanceReportScalarWhereInput[]
   }
 
+  export type IngestionJobUpdateManyWithoutPageNestedInput = {
+    create?: XOR<IngestionJobCreateWithoutPageInput, IngestionJobUncheckedCreateWithoutPageInput> | IngestionJobCreateWithoutPageInput[] | IngestionJobUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: IngestionJobCreateOrConnectWithoutPageInput | IngestionJobCreateOrConnectWithoutPageInput[]
+    upsert?: IngestionJobUpsertWithWhereUniqueWithoutPageInput | IngestionJobUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: IngestionJobCreateManyPageInputEnvelope
+    set?: IngestionJobWhereUniqueInput | IngestionJobWhereUniqueInput[]
+    disconnect?: IngestionJobWhereUniqueInput | IngestionJobWhereUniqueInput[]
+    delete?: IngestionJobWhereUniqueInput | IngestionJobWhereUniqueInput[]
+    connect?: IngestionJobWhereUniqueInput | IngestionJobWhereUniqueInput[]
+    update?: IngestionJobUpdateWithWhereUniqueWithoutPageInput | IngestionJobUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: IngestionJobUpdateManyWithWhereWithoutPageInput | IngestionJobUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: IngestionJobScalarWhereInput | IngestionJobScalarWhereInput[]
+  }
+
+  export type HistoricalPostUpdateManyWithoutPageNestedInput = {
+    create?: XOR<HistoricalPostCreateWithoutPageInput, HistoricalPostUncheckedCreateWithoutPageInput> | HistoricalPostCreateWithoutPageInput[] | HistoricalPostUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: HistoricalPostCreateOrConnectWithoutPageInput | HistoricalPostCreateOrConnectWithoutPageInput[]
+    upsert?: HistoricalPostUpsertWithWhereUniqueWithoutPageInput | HistoricalPostUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: HistoricalPostCreateManyPageInputEnvelope
+    set?: HistoricalPostWhereUniqueInput | HistoricalPostWhereUniqueInput[]
+    disconnect?: HistoricalPostWhereUniqueInput | HistoricalPostWhereUniqueInput[]
+    delete?: HistoricalPostWhereUniqueInput | HistoricalPostWhereUniqueInput[]
+    connect?: HistoricalPostWhereUniqueInput | HistoricalPostWhereUniqueInput[]
+    update?: HistoricalPostUpdateWithWhereUniqueWithoutPageInput | HistoricalPostUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: HistoricalPostUpdateManyWithWhereWithoutPageInput | HistoricalPostUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: HistoricalPostScalarWhereInput | HistoricalPostScalarWhereInput[]
+  }
+
+  export type HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput = {
+    create?: XOR<HistoricalMetricSnapshotCreateWithoutPageInput, HistoricalMetricSnapshotUncheckedCreateWithoutPageInput> | HistoricalMetricSnapshotCreateWithoutPageInput[] | HistoricalMetricSnapshotUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: HistoricalMetricSnapshotCreateOrConnectWithoutPageInput | HistoricalMetricSnapshotCreateOrConnectWithoutPageInput[]
+    upsert?: HistoricalMetricSnapshotUpsertWithWhereUniqueWithoutPageInput | HistoricalMetricSnapshotUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: HistoricalMetricSnapshotCreateManyPageInputEnvelope
+    set?: HistoricalMetricSnapshotWhereUniqueInput | HistoricalMetricSnapshotWhereUniqueInput[]
+    disconnect?: HistoricalMetricSnapshotWhereUniqueInput | HistoricalMetricSnapshotWhereUniqueInput[]
+    delete?: HistoricalMetricSnapshotWhereUniqueInput | HistoricalMetricSnapshotWhereUniqueInput[]
+    connect?: HistoricalMetricSnapshotWhereUniqueInput | HistoricalMetricSnapshotWhereUniqueInput[]
+    update?: HistoricalMetricSnapshotUpdateWithWhereUniqueWithoutPageInput | HistoricalMetricSnapshotUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: HistoricalMetricSnapshotUpdateManyWithWhereWithoutPageInput | HistoricalMetricSnapshotUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: HistoricalMetricSnapshotScalarWhereInput | HistoricalMetricSnapshotScalarWhereInput[]
+  }
+
   export type PostUncheckedUpdateManyWithoutPageNestedInput = {
     create?: XOR<PostCreateWithoutPageInput, PostUncheckedCreateWithoutPageInput> | PostCreateWithoutPageInput[] | PostUncheckedCreateWithoutPageInput[]
     connectOrCreate?: PostCreateOrConnectWithoutPageInput | PostCreateOrConnectWithoutPageInput[]
@@ -57479,6 +63132,48 @@ export namespace Prisma {
     update?: PerformanceReportUpdateWithWhereUniqueWithoutPageInput | PerformanceReportUpdateWithWhereUniqueWithoutPageInput[]
     updateMany?: PerformanceReportUpdateManyWithWhereWithoutPageInput | PerformanceReportUpdateManyWithWhereWithoutPageInput[]
     deleteMany?: PerformanceReportScalarWhereInput | PerformanceReportScalarWhereInput[]
+  }
+
+  export type IngestionJobUncheckedUpdateManyWithoutPageNestedInput = {
+    create?: XOR<IngestionJobCreateWithoutPageInput, IngestionJobUncheckedCreateWithoutPageInput> | IngestionJobCreateWithoutPageInput[] | IngestionJobUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: IngestionJobCreateOrConnectWithoutPageInput | IngestionJobCreateOrConnectWithoutPageInput[]
+    upsert?: IngestionJobUpsertWithWhereUniqueWithoutPageInput | IngestionJobUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: IngestionJobCreateManyPageInputEnvelope
+    set?: IngestionJobWhereUniqueInput | IngestionJobWhereUniqueInput[]
+    disconnect?: IngestionJobWhereUniqueInput | IngestionJobWhereUniqueInput[]
+    delete?: IngestionJobWhereUniqueInput | IngestionJobWhereUniqueInput[]
+    connect?: IngestionJobWhereUniqueInput | IngestionJobWhereUniqueInput[]
+    update?: IngestionJobUpdateWithWhereUniqueWithoutPageInput | IngestionJobUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: IngestionJobUpdateManyWithWhereWithoutPageInput | IngestionJobUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: IngestionJobScalarWhereInput | IngestionJobScalarWhereInput[]
+  }
+
+  export type HistoricalPostUncheckedUpdateManyWithoutPageNestedInput = {
+    create?: XOR<HistoricalPostCreateWithoutPageInput, HistoricalPostUncheckedCreateWithoutPageInput> | HistoricalPostCreateWithoutPageInput[] | HistoricalPostUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: HistoricalPostCreateOrConnectWithoutPageInput | HistoricalPostCreateOrConnectWithoutPageInput[]
+    upsert?: HistoricalPostUpsertWithWhereUniqueWithoutPageInput | HistoricalPostUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: HistoricalPostCreateManyPageInputEnvelope
+    set?: HistoricalPostWhereUniqueInput | HistoricalPostWhereUniqueInput[]
+    disconnect?: HistoricalPostWhereUniqueInput | HistoricalPostWhereUniqueInput[]
+    delete?: HistoricalPostWhereUniqueInput | HistoricalPostWhereUniqueInput[]
+    connect?: HistoricalPostWhereUniqueInput | HistoricalPostWhereUniqueInput[]
+    update?: HistoricalPostUpdateWithWhereUniqueWithoutPageInput | HistoricalPostUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: HistoricalPostUpdateManyWithWhereWithoutPageInput | HistoricalPostUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: HistoricalPostScalarWhereInput | HistoricalPostScalarWhereInput[]
+  }
+
+  export type HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput = {
+    create?: XOR<HistoricalMetricSnapshotCreateWithoutPageInput, HistoricalMetricSnapshotUncheckedCreateWithoutPageInput> | HistoricalMetricSnapshotCreateWithoutPageInput[] | HistoricalMetricSnapshotUncheckedCreateWithoutPageInput[]
+    connectOrCreate?: HistoricalMetricSnapshotCreateOrConnectWithoutPageInput | HistoricalMetricSnapshotCreateOrConnectWithoutPageInput[]
+    upsert?: HistoricalMetricSnapshotUpsertWithWhereUniqueWithoutPageInput | HistoricalMetricSnapshotUpsertWithWhereUniqueWithoutPageInput[]
+    createMany?: HistoricalMetricSnapshotCreateManyPageInputEnvelope
+    set?: HistoricalMetricSnapshotWhereUniqueInput | HistoricalMetricSnapshotWhereUniqueInput[]
+    disconnect?: HistoricalMetricSnapshotWhereUniqueInput | HistoricalMetricSnapshotWhereUniqueInput[]
+    delete?: HistoricalMetricSnapshotWhereUniqueInput | HistoricalMetricSnapshotWhereUniqueInput[]
+    connect?: HistoricalMetricSnapshotWhereUniqueInput | HistoricalMetricSnapshotWhereUniqueInput[]
+    update?: HistoricalMetricSnapshotUpdateWithWhereUniqueWithoutPageInput | HistoricalMetricSnapshotUpdateWithWhereUniqueWithoutPageInput[]
+    updateMany?: HistoricalMetricSnapshotUpdateManyWithWhereWithoutPageInput | HistoricalMetricSnapshotUpdateManyWithWhereWithoutPageInput[]
+    deleteMany?: HistoricalMetricSnapshotScalarWhereInput | HistoricalMetricSnapshotScalarWhereInput[]
   }
 
   export type BrandVoiceCreatesampleTextsInput = {
@@ -57845,6 +63540,70 @@ export namespace Prisma {
 
   export type NullableEnumPlanFieldUpdateOperationsInput = {
     set?: $Enums.Plan | null
+  }
+
+  export type IngestionJobCreatedataTypesInput = {
+    set: string[]
+  }
+
+  export type PageCreateNestedOneWithoutIngestionJobsInput = {
+    create?: XOR<PageCreateWithoutIngestionJobsInput, PageUncheckedCreateWithoutIngestionJobsInput>
+    connectOrCreate?: PageCreateOrConnectWithoutIngestionJobsInput
+    connect?: PageWhereUniqueInput
+  }
+
+  export type EnumIngestionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.IngestionStatus
+  }
+
+  export type IngestionJobUpdatedataTypesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type PageUpdateOneRequiredWithoutIngestionJobsNestedInput = {
+    create?: XOR<PageCreateWithoutIngestionJobsInput, PageUncheckedCreateWithoutIngestionJobsInput>
+    connectOrCreate?: PageCreateOrConnectWithoutIngestionJobsInput
+    upsert?: PageUpsertWithoutIngestionJobsInput
+    connect?: PageWhereUniqueInput
+    update?: XOR<XOR<PageUpdateToOneWithWhereWithoutIngestionJobsInput, PageUpdateWithoutIngestionJobsInput>, PageUncheckedUpdateWithoutIngestionJobsInput>
+  }
+
+  export type HistoricalPostCreatemediaUrlsInput = {
+    set: string[]
+  }
+
+  export type PageCreateNestedOneWithoutHistoricalPostsInput = {
+    create?: XOR<PageCreateWithoutHistoricalPostsInput, PageUncheckedCreateWithoutHistoricalPostsInput>
+    connectOrCreate?: PageCreateOrConnectWithoutHistoricalPostsInput
+    connect?: PageWhereUniqueInput
+  }
+
+  export type HistoricalPostUpdatemediaUrlsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type PageUpdateOneRequiredWithoutHistoricalPostsNestedInput = {
+    create?: XOR<PageCreateWithoutHistoricalPostsInput, PageUncheckedCreateWithoutHistoricalPostsInput>
+    connectOrCreate?: PageCreateOrConnectWithoutHistoricalPostsInput
+    upsert?: PageUpsertWithoutHistoricalPostsInput
+    connect?: PageWhereUniqueInput
+    update?: XOR<XOR<PageUpdateToOneWithWhereWithoutHistoricalPostsInput, PageUpdateWithoutHistoricalPostsInput>, PageUncheckedUpdateWithoutHistoricalPostsInput>
+  }
+
+  export type PageCreateNestedOneWithoutHistoricalMetricsInput = {
+    create?: XOR<PageCreateWithoutHistoricalMetricsInput, PageUncheckedCreateWithoutHistoricalMetricsInput>
+    connectOrCreate?: PageCreateOrConnectWithoutHistoricalMetricsInput
+    connect?: PageWhereUniqueInput
+  }
+
+  export type PageUpdateOneRequiredWithoutHistoricalMetricsNestedInput = {
+    create?: XOR<PageCreateWithoutHistoricalMetricsInput, PageUncheckedCreateWithoutHistoricalMetricsInput>
+    connectOrCreate?: PageCreateOrConnectWithoutHistoricalMetricsInput
+    upsert?: PageUpsertWithoutHistoricalMetricsInput
+    connect?: PageWhereUniqueInput
+    update?: XOR<XOR<PageUpdateToOneWithWhereWithoutHistoricalMetricsInput, PageUpdateWithoutHistoricalMetricsInput>, PageUncheckedUpdateWithoutHistoricalMetricsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -58480,6 +64239,23 @@ export namespace Prisma {
     _max?: NestedEnumPlanNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumIngestionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.IngestionStatus | EnumIngestionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IngestionStatus[] | ListEnumIngestionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IngestionStatus[] | ListEnumIngestionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIngestionStatusFilter<$PrismaModel> | $Enums.IngestionStatus
+  }
+
+  export type NestedEnumIngestionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IngestionStatus | EnumIngestionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.IngestionStatus[] | ListEnumIngestionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IngestionStatus[] | ListEnumIngestionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumIngestionStatusWithAggregatesFilter<$PrismaModel> | $Enums.IngestionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIngestionStatusFilter<$PrismaModel>
+    _max?: NestedEnumIngestionStatusFilter<$PrismaModel>
+  }
+
   export type MembershipCreateWithoutOrganizationInput = {
     id?: string
     role: $Enums.Role
@@ -58594,8 +64370,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -58609,6 +64387,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutOrganizationInput = {
@@ -58618,8 +64399,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -58632,6 +64415,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutOrganizationInput = {
@@ -59235,8 +65021,10 @@ export namespace Prisma {
     platformPageId?: StringFilter<"Page"> | string
     name?: StringFilter<"Page"> | string
     pictureUrl?: StringNullableFilter<"Page"> | string | null
+    avatarUrl?: StringNullableFilter<"Page"> | string | null
     accessToken?: StringFilter<"Page"> | string
     isActive?: BoolFilter<"Page"> | boolean
+    followerCount?: IntNullableFilter<"Page"> | number | null
     metadata?: JsonNullableFilter<"Page">
     createdAt?: DateTimeFilter<"Page"> | Date | string
     updatedAt?: DateTimeFilter<"Page"> | Date | string
@@ -60421,6 +66209,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -60456,6 +66245,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -60507,6 +66297,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -60542,6 +66333,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -60577,6 +66369,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -60612,6 +66405,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -60663,6 +66457,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -60698,6 +66493,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -60733,6 +66529,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -60768,6 +66565,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -60920,6 +66718,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -60955,6 +66754,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -61198,6 +66998,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -61233,6 +67034,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -61391,6 +67193,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -61426,6 +67229,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -61562,6 +67366,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -61597,6 +67402,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -61625,8 +67431,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -61640,6 +67448,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutConnectionInput = {
@@ -61649,8 +67460,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -61663,6 +67476,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutConnectionInput = {
@@ -61811,6 +67627,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -61846,6 +67663,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -61986,8 +67804,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62001,6 +67821,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutCampaignsInput = {
@@ -62011,8 +67834,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62024,6 +67849,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutCampaignsInput = {
@@ -62049,6 +67877,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62084,6 +67913,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62292,8 +68122,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62307,6 +68139,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutCampaignsInput = {
@@ -62317,8 +68152,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62330,6 +68167,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type UserUpsertWithoutCampaignsCreatedInput = {
@@ -62361,6 +68201,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62396,6 +68237,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -62579,8 +68421,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62594,6 +68438,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutPostsInput = {
@@ -62604,8 +68451,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62617,6 +68466,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutPostsInput = {
@@ -62642,6 +68494,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62677,6 +68530,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -62987,8 +68841,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63002,6 +68858,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutPostsInput = {
@@ -63012,8 +68871,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63025,6 +68886,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type UserUpsertWithoutPostsApprovedInput = {
@@ -63056,6 +68920,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63091,6 +68956,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63643,6 +69509,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -63678,6 +69545,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -63836,6 +69704,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -63871,6 +69740,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64007,6 +69877,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -64042,6 +69913,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -64200,6 +70072,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64235,6 +70108,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64270,6 +70144,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -64305,6 +70180,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -64356,6 +70232,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64391,6 +70268,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -64888,6 +70766,156 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type IngestionJobCreateWithoutPageInput = {
+    id?: string
+    orgId: string
+    status?: $Enums.IngestionStatus
+    dataTypes?: IngestionJobCreatedataTypesInput | string[]
+    totalItems?: number | null
+    processedItems?: number
+    failedItems?: number
+    progress?: number
+    platformCursor?: string | null
+    oldestPostDate?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    lastActivityAt?: Date | string | null
+    errorMessage?: string | null
+    rateLimitHits?: number
+    nextRetryAfter?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IngestionJobUncheckedCreateWithoutPageInput = {
+    id?: string
+    orgId: string
+    status?: $Enums.IngestionStatus
+    dataTypes?: IngestionJobCreatedataTypesInput | string[]
+    totalItems?: number | null
+    processedItems?: number
+    failedItems?: number
+    progress?: number
+    platformCursor?: string | null
+    oldestPostDate?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    lastActivityAt?: Date | string | null
+    errorMessage?: string | null
+    rateLimitHits?: number
+    nextRetryAfter?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IngestionJobCreateOrConnectWithoutPageInput = {
+    where: IngestionJobWhereUniqueInput
+    create: XOR<IngestionJobCreateWithoutPageInput, IngestionJobUncheckedCreateWithoutPageInput>
+  }
+
+  export type IngestionJobCreateManyPageInputEnvelope = {
+    data: IngestionJobCreateManyPageInput | IngestionJobCreateManyPageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type HistoricalPostCreateWithoutPageInput = {
+    id?: string
+    orgId: string
+    platformPostId: string
+    platformUrl?: string | null
+    content?: string | null
+    mediaUrls?: HistoricalPostCreatemediaUrlsInput | string[]
+    postType?: string | null
+    publishedAt: Date | string
+    impressions?: number
+    reach?: number
+    engagements?: number
+    likes?: number
+    comments?: number
+    shares?: number
+    saves?: number
+    clicks?: number
+    videoViews?: number
+    isIngested?: boolean
+    ingestedAt?: Date | string
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type HistoricalPostUncheckedCreateWithoutPageInput = {
+    id?: string
+    orgId: string
+    platformPostId: string
+    platformUrl?: string | null
+    content?: string | null
+    mediaUrls?: HistoricalPostCreatemediaUrlsInput | string[]
+    postType?: string | null
+    publishedAt: Date | string
+    impressions?: number
+    reach?: number
+    engagements?: number
+    likes?: number
+    comments?: number
+    shares?: number
+    saves?: number
+    clicks?: number
+    videoViews?: number
+    isIngested?: boolean
+    ingestedAt?: Date | string
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type HistoricalPostCreateOrConnectWithoutPageInput = {
+    where: HistoricalPostWhereUniqueInput
+    create: XOR<HistoricalPostCreateWithoutPageInput, HistoricalPostUncheckedCreateWithoutPageInput>
+  }
+
+  export type HistoricalPostCreateManyPageInputEnvelope = {
+    data: HistoricalPostCreateManyPageInput | HistoricalPostCreateManyPageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type HistoricalMetricSnapshotCreateWithoutPageInput = {
+    id?: string
+    orgId: string
+    metricDate: Date | string
+    followers?: number | null
+    followersChange?: number | null
+    pageViews?: number | null
+    pageImpressions?: number | null
+    pageReach?: number | null
+    pageEngagement?: number | null
+    audienceData?: NullableJsonNullValueInput | InputJsonValue
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type HistoricalMetricSnapshotUncheckedCreateWithoutPageInput = {
+    id?: string
+    orgId: string
+    metricDate: Date | string
+    followers?: number | null
+    followersChange?: number | null
+    pageViews?: number | null
+    pageImpressions?: number | null
+    pageReach?: number | null
+    pageEngagement?: number | null
+    audienceData?: NullableJsonNullValueInput | InputJsonValue
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type HistoricalMetricSnapshotCreateOrConnectWithoutPageInput = {
+    where: HistoricalMetricSnapshotWhereUniqueInput
+    create: XOR<HistoricalMetricSnapshotCreateWithoutPageInput, HistoricalMetricSnapshotUncheckedCreateWithoutPageInput>
+  }
+
+  export type HistoricalMetricSnapshotCreateManyPageInputEnvelope = {
+    data: HistoricalMetricSnapshotCreateManyPageInput | HistoricalMetricSnapshotCreateManyPageInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OrganizationUpsertWithoutPagesInput = {
     update: XOR<OrganizationUpdateWithoutPagesInput, OrganizationUncheckedUpdateWithoutPagesInput>
     create: XOR<OrganizationCreateWithoutPagesInput, OrganizationUncheckedCreateWithoutPagesInput>
@@ -65229,14 +71257,136 @@ export namespace Prisma {
     data: XOR<PerformanceReportUpdateManyMutationInput, PerformanceReportUncheckedUpdateManyWithoutPageInput>
   }
 
+  export type IngestionJobUpsertWithWhereUniqueWithoutPageInput = {
+    where: IngestionJobWhereUniqueInput
+    update: XOR<IngestionJobUpdateWithoutPageInput, IngestionJobUncheckedUpdateWithoutPageInput>
+    create: XOR<IngestionJobCreateWithoutPageInput, IngestionJobUncheckedCreateWithoutPageInput>
+  }
+
+  export type IngestionJobUpdateWithWhereUniqueWithoutPageInput = {
+    where: IngestionJobWhereUniqueInput
+    data: XOR<IngestionJobUpdateWithoutPageInput, IngestionJobUncheckedUpdateWithoutPageInput>
+  }
+
+  export type IngestionJobUpdateManyWithWhereWithoutPageInput = {
+    where: IngestionJobScalarWhereInput
+    data: XOR<IngestionJobUpdateManyMutationInput, IngestionJobUncheckedUpdateManyWithoutPageInput>
+  }
+
+  export type IngestionJobScalarWhereInput = {
+    AND?: IngestionJobScalarWhereInput | IngestionJobScalarWhereInput[]
+    OR?: IngestionJobScalarWhereInput[]
+    NOT?: IngestionJobScalarWhereInput | IngestionJobScalarWhereInput[]
+    id?: StringFilter<"IngestionJob"> | string
+    pageId?: StringFilter<"IngestionJob"> | string
+    orgId?: StringFilter<"IngestionJob"> | string
+    status?: EnumIngestionStatusFilter<"IngestionJob"> | $Enums.IngestionStatus
+    dataTypes?: StringNullableListFilter<"IngestionJob">
+    totalItems?: IntNullableFilter<"IngestionJob"> | number | null
+    processedItems?: IntFilter<"IngestionJob"> | number
+    failedItems?: IntFilter<"IngestionJob"> | number
+    progress?: FloatFilter<"IngestionJob"> | number
+    platformCursor?: StringNullableFilter<"IngestionJob"> | string | null
+    oldestPostDate?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    startedAt?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    lastActivityAt?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    errorMessage?: StringNullableFilter<"IngestionJob"> | string | null
+    rateLimitHits?: IntFilter<"IngestionJob"> | number
+    nextRetryAfter?: DateTimeNullableFilter<"IngestionJob"> | Date | string | null
+    createdAt?: DateTimeFilter<"IngestionJob"> | Date | string
+    updatedAt?: DateTimeFilter<"IngestionJob"> | Date | string
+  }
+
+  export type HistoricalPostUpsertWithWhereUniqueWithoutPageInput = {
+    where: HistoricalPostWhereUniqueInput
+    update: XOR<HistoricalPostUpdateWithoutPageInput, HistoricalPostUncheckedUpdateWithoutPageInput>
+    create: XOR<HistoricalPostCreateWithoutPageInput, HistoricalPostUncheckedCreateWithoutPageInput>
+  }
+
+  export type HistoricalPostUpdateWithWhereUniqueWithoutPageInput = {
+    where: HistoricalPostWhereUniqueInput
+    data: XOR<HistoricalPostUpdateWithoutPageInput, HistoricalPostUncheckedUpdateWithoutPageInput>
+  }
+
+  export type HistoricalPostUpdateManyWithWhereWithoutPageInput = {
+    where: HistoricalPostScalarWhereInput
+    data: XOR<HistoricalPostUpdateManyMutationInput, HistoricalPostUncheckedUpdateManyWithoutPageInput>
+  }
+
+  export type HistoricalPostScalarWhereInput = {
+    AND?: HistoricalPostScalarWhereInput | HistoricalPostScalarWhereInput[]
+    OR?: HistoricalPostScalarWhereInput[]
+    NOT?: HistoricalPostScalarWhereInput | HistoricalPostScalarWhereInput[]
+    id?: StringFilter<"HistoricalPost"> | string
+    pageId?: StringFilter<"HistoricalPost"> | string
+    orgId?: StringFilter<"HistoricalPost"> | string
+    platformPostId?: StringFilter<"HistoricalPost"> | string
+    platformUrl?: StringNullableFilter<"HistoricalPost"> | string | null
+    content?: StringNullableFilter<"HistoricalPost"> | string | null
+    mediaUrls?: StringNullableListFilter<"HistoricalPost">
+    postType?: StringNullableFilter<"HistoricalPost"> | string | null
+    publishedAt?: DateTimeFilter<"HistoricalPost"> | Date | string
+    impressions?: IntFilter<"HistoricalPost"> | number
+    reach?: IntFilter<"HistoricalPost"> | number
+    engagements?: IntFilter<"HistoricalPost"> | number
+    likes?: IntFilter<"HistoricalPost"> | number
+    comments?: IntFilter<"HistoricalPost"> | number
+    shares?: IntFilter<"HistoricalPost"> | number
+    saves?: IntFilter<"HistoricalPost"> | number
+    clicks?: IntFilter<"HistoricalPost"> | number
+    videoViews?: IntFilter<"HistoricalPost"> | number
+    isIngested?: BoolFilter<"HistoricalPost"> | boolean
+    ingestedAt?: DateTimeFilter<"HistoricalPost"> | Date | string
+    rawPlatformData?: JsonNullableFilter<"HistoricalPost">
+    createdAt?: DateTimeFilter<"HistoricalPost"> | Date | string
+  }
+
+  export type HistoricalMetricSnapshotUpsertWithWhereUniqueWithoutPageInput = {
+    where: HistoricalMetricSnapshotWhereUniqueInput
+    update: XOR<HistoricalMetricSnapshotUpdateWithoutPageInput, HistoricalMetricSnapshotUncheckedUpdateWithoutPageInput>
+    create: XOR<HistoricalMetricSnapshotCreateWithoutPageInput, HistoricalMetricSnapshotUncheckedCreateWithoutPageInput>
+  }
+
+  export type HistoricalMetricSnapshotUpdateWithWhereUniqueWithoutPageInput = {
+    where: HistoricalMetricSnapshotWhereUniqueInput
+    data: XOR<HistoricalMetricSnapshotUpdateWithoutPageInput, HistoricalMetricSnapshotUncheckedUpdateWithoutPageInput>
+  }
+
+  export type HistoricalMetricSnapshotUpdateManyWithWhereWithoutPageInput = {
+    where: HistoricalMetricSnapshotScalarWhereInput
+    data: XOR<HistoricalMetricSnapshotUpdateManyMutationInput, HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageInput>
+  }
+
+  export type HistoricalMetricSnapshotScalarWhereInput = {
+    AND?: HistoricalMetricSnapshotScalarWhereInput | HistoricalMetricSnapshotScalarWhereInput[]
+    OR?: HistoricalMetricSnapshotScalarWhereInput[]
+    NOT?: HistoricalMetricSnapshotScalarWhereInput | HistoricalMetricSnapshotScalarWhereInput[]
+    id?: StringFilter<"HistoricalMetricSnapshot"> | string
+    pageId?: StringFilter<"HistoricalMetricSnapshot"> | string
+    orgId?: StringFilter<"HistoricalMetricSnapshot"> | string
+    metricDate?: DateTimeFilter<"HistoricalMetricSnapshot"> | Date | string
+    followers?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    followersChange?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    pageViews?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    pageImpressions?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    pageReach?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    pageEngagement?: IntNullableFilter<"HistoricalMetricSnapshot"> | number | null
+    audienceData?: JsonNullableFilter<"HistoricalMetricSnapshot">
+    rawPlatformData?: JsonNullableFilter<"HistoricalMetricSnapshot">
+    createdAt?: DateTimeFilter<"HistoricalMetricSnapshot"> | Date | string
+  }
+
   export type PageCreateWithoutBrandVoicesInput = {
     id?: string
     platform: $Enums.Platform
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -65250,6 +71400,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutBrandVoicesInput = {
@@ -65260,8 +71413,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -65273,6 +71428,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutBrandVoicesInput = {
@@ -65297,8 +71455,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -65312,6 +71472,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutBrandVoicesInput = {
@@ -65322,8 +71485,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -65335,6 +71500,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PageCreateWithoutHashtagSetsInput = {
@@ -65343,8 +71511,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -65358,6 +71528,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutHashtagSetsInput = {
@@ -65368,8 +71541,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -65381,6 +71556,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutHashtagSetsInput = {
@@ -65405,8 +71583,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -65420,6 +71600,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutHashtagSetsInput = {
@@ -65430,8 +71613,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -65443,6 +71628,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PageCreateWithoutContentTemplatesInput = {
@@ -65451,8 +71639,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -65466,6 +71656,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutContentTemplatesInput = {
@@ -65476,8 +71669,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -65489,6 +71684,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutContentTemplatesInput = {
@@ -65614,8 +71812,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -65629,6 +71829,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutContentTemplatesInput = {
@@ -65639,8 +71842,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -65652,6 +71857,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type OrganizationUpsertWithoutContentTemplatesInput = {
@@ -65836,6 +72044,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -65871,6 +72080,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -65911,6 +72121,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -65946,6 +72157,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -66060,6 +72272,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66095,6 +72308,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66141,6 +72355,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66176,6 +72391,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66199,8 +72415,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -66214,6 +72432,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutRssFeedsInput = {
@@ -66224,8 +72445,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -66237,6 +72460,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutRssFeedsInput = {
@@ -66261,8 +72487,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66276,6 +72504,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutRssFeedsInput = {
@@ -66286,8 +72517,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66299,6 +72532,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type OrganizationCreateWithoutWebhookRulesInput = {
@@ -66408,8 +72644,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -66423,6 +72661,9 @@ export namespace Prisma {
     rssFeeds?: RssFeedCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutWebhookRulesInput = {
@@ -66433,8 +72674,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -66446,6 +72689,9 @@ export namespace Prisma {
     rssFeeds?: RssFeedUncheckedCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutWebhookRulesInput = {
@@ -66577,8 +72823,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66592,6 +72840,9 @@ export namespace Prisma {
     rssFeeds?: RssFeedUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutWebhookRulesInput = {
@@ -66602,8 +72853,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66615,6 +72868,9 @@ export namespace Prisma {
     rssFeeds?: RssFeedUncheckedUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type OrganizationCreateWithoutLeadCapturesInput = {
@@ -66724,8 +72980,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -66739,6 +72997,9 @@ export namespace Prisma {
     rssFeeds?: RssFeedCreateNestedManyWithoutPageInput
     webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutLeadCapturesInput = {
@@ -66749,8 +73010,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -66762,6 +73025,9 @@ export namespace Prisma {
     rssFeeds?: RssFeedUncheckedCreateNestedManyWithoutPageInput
     webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutLeadCapturesInput = {
@@ -66893,8 +73159,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66908,6 +73176,9 @@ export namespace Prisma {
     rssFeeds?: RssFeedUpdateManyWithoutPageNestedInput
     webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutLeadCapturesInput = {
@@ -66918,8 +73189,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -66931,6 +73204,9 @@ export namespace Prisma {
     rssFeeds?: RssFeedUncheckedUpdateManyWithoutPageNestedInput
     webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type OrganizationCreateWithoutUtmLinksInput = {
@@ -67368,8 +73644,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -67383,6 +73661,9 @@ export namespace Prisma {
     rssFeeds?: RssFeedCreateNestedManyWithoutPageInput
     webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
   }
 
   export type PageUncheckedCreateWithoutPerformanceReportsInput = {
@@ -67393,8 +73674,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -67406,6 +73689,9 @@ export namespace Prisma {
     rssFeeds?: RssFeedUncheckedCreateNestedManyWithoutPageInput
     webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
     leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
   }
 
   export type PageCreateOrConnectWithoutPerformanceReportsInput = {
@@ -67537,8 +73823,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -67552,6 +73840,9 @@ export namespace Prisma {
     rssFeeds?: RssFeedUpdateManyWithoutPageNestedInput
     webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutPerformanceReportsInput = {
@@ -67562,8 +73853,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -67575,6 +73868,9 @@ export namespace Prisma {
     rssFeeds?: RssFeedUncheckedUpdateManyWithoutPageNestedInput
     webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type OrganizationCreateWithoutInvoicesInput = {
@@ -68011,6 +74307,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -68046,6 +74343,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     systemRole?: $Enums.SystemRole
     onboardingComplete?: boolean
+    lastSelectedPageId?: string | null
     deletedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -68097,6 +74395,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -68132,6 +74431,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     systemRole?: EnumSystemRoleFieldUpdateOperationsInput | $Enums.SystemRole
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
+    lastSelectedPageId?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -68147,6 +74447,390 @@ export namespace Prisma {
     approvalReviews?: ApprovalRequestUncheckedUpdateManyWithoutReviewerNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PageCreateWithoutIngestionJobsInput = {
+    id?: string
+    platform: $Enums.Platform
+    platformPageId: string
+    name: string
+    pictureUrl?: string | null
+    avatarUrl?: string | null
+    accessToken: string
+    isActive?: boolean
+    followerCount?: number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organization: OrganizationCreateNestedOneWithoutPagesInput
+    connection: PlatformConnectionCreateNestedOneWithoutPagesInput
+    posts?: PostCreateNestedManyWithoutPageInput
+    campaigns?: CampaignCreateNestedManyWithoutPageInput
+    brandVoices?: BrandVoiceCreateNestedManyWithoutPageInput
+    hashtagSets?: HashtagSetCreateNestedManyWithoutPageInput
+    contentTemplates?: ContentTemplateCreateNestedManyWithoutPageInput
+    rssFeeds?: RssFeedCreateNestedManyWithoutPageInput
+    webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
+    leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
+    performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+  }
+
+  export type PageUncheckedCreateWithoutIngestionJobsInput = {
+    id?: string
+    orgId: string
+    connectionId: string
+    platform: $Enums.Platform
+    platformPageId: string
+    name: string
+    pictureUrl?: string | null
+    avatarUrl?: string | null
+    accessToken: string
+    isActive?: boolean
+    followerCount?: number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    posts?: PostUncheckedCreateNestedManyWithoutPageInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutPageInput
+    brandVoices?: BrandVoiceUncheckedCreateNestedManyWithoutPageInput
+    hashtagSets?: HashtagSetUncheckedCreateNestedManyWithoutPageInput
+    contentTemplates?: ContentTemplateUncheckedCreateNestedManyWithoutPageInput
+    rssFeeds?: RssFeedUncheckedCreateNestedManyWithoutPageInput
+    webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
+    leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
+    performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type PageCreateOrConnectWithoutIngestionJobsInput = {
+    where: PageWhereUniqueInput
+    create: XOR<PageCreateWithoutIngestionJobsInput, PageUncheckedCreateWithoutIngestionJobsInput>
+  }
+
+  export type PageUpsertWithoutIngestionJobsInput = {
+    update: XOR<PageUpdateWithoutIngestionJobsInput, PageUncheckedUpdateWithoutIngestionJobsInput>
+    create: XOR<PageCreateWithoutIngestionJobsInput, PageUncheckedCreateWithoutIngestionJobsInput>
+    where?: PageWhereInput
+  }
+
+  export type PageUpdateToOneWithWhereWithoutIngestionJobsInput = {
+    where?: PageWhereInput
+    data: XOR<PageUpdateWithoutIngestionJobsInput, PageUncheckedUpdateWithoutIngestionJobsInput>
+  }
+
+  export type PageUpdateWithoutIngestionJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    platformPageId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organization?: OrganizationUpdateOneRequiredWithoutPagesNestedInput
+    connection?: PlatformConnectionUpdateOneRequiredWithoutPagesNestedInput
+    posts?: PostUpdateManyWithoutPageNestedInput
+    campaigns?: CampaignUpdateManyWithoutPageNestedInput
+    brandVoices?: BrandVoiceUpdateManyWithoutPageNestedInput
+    hashtagSets?: HashtagSetUpdateManyWithoutPageNestedInput
+    contentTemplates?: ContentTemplateUpdateManyWithoutPageNestedInput
+    rssFeeds?: RssFeedUpdateManyWithoutPageNestedInput
+    webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
+    leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
+    performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+  }
+
+  export type PageUncheckedUpdateWithoutIngestionJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    connectionId?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    platformPageId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    posts?: PostUncheckedUpdateManyWithoutPageNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutPageNestedInput
+    brandVoices?: BrandVoiceUncheckedUpdateManyWithoutPageNestedInput
+    hashtagSets?: HashtagSetUncheckedUpdateManyWithoutPageNestedInput
+    contentTemplates?: ContentTemplateUncheckedUpdateManyWithoutPageNestedInput
+    rssFeeds?: RssFeedUncheckedUpdateManyWithoutPageNestedInput
+    webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
+    leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
+    performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+  }
+
+  export type PageCreateWithoutHistoricalPostsInput = {
+    id?: string
+    platform: $Enums.Platform
+    platformPageId: string
+    name: string
+    pictureUrl?: string | null
+    avatarUrl?: string | null
+    accessToken: string
+    isActive?: boolean
+    followerCount?: number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organization: OrganizationCreateNestedOneWithoutPagesInput
+    connection: PlatformConnectionCreateNestedOneWithoutPagesInput
+    posts?: PostCreateNestedManyWithoutPageInput
+    campaigns?: CampaignCreateNestedManyWithoutPageInput
+    brandVoices?: BrandVoiceCreateNestedManyWithoutPageInput
+    hashtagSets?: HashtagSetCreateNestedManyWithoutPageInput
+    contentTemplates?: ContentTemplateCreateNestedManyWithoutPageInput
+    rssFeeds?: RssFeedCreateNestedManyWithoutPageInput
+    webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
+    leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
+    performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotCreateNestedManyWithoutPageInput
+  }
+
+  export type PageUncheckedCreateWithoutHistoricalPostsInput = {
+    id?: string
+    orgId: string
+    connectionId: string
+    platform: $Enums.Platform
+    platformPageId: string
+    name: string
+    pictureUrl?: string | null
+    avatarUrl?: string | null
+    accessToken: string
+    isActive?: boolean
+    followerCount?: number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    posts?: PostUncheckedCreateNestedManyWithoutPageInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutPageInput
+    brandVoices?: BrandVoiceUncheckedCreateNestedManyWithoutPageInput
+    hashtagSets?: HashtagSetUncheckedCreateNestedManyWithoutPageInput
+    contentTemplates?: ContentTemplateUncheckedCreateNestedManyWithoutPageInput
+    rssFeeds?: RssFeedUncheckedCreateNestedManyWithoutPageInput
+    webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
+    leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
+    performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type PageCreateOrConnectWithoutHistoricalPostsInput = {
+    where: PageWhereUniqueInput
+    create: XOR<PageCreateWithoutHistoricalPostsInput, PageUncheckedCreateWithoutHistoricalPostsInput>
+  }
+
+  export type PageUpsertWithoutHistoricalPostsInput = {
+    update: XOR<PageUpdateWithoutHistoricalPostsInput, PageUncheckedUpdateWithoutHistoricalPostsInput>
+    create: XOR<PageCreateWithoutHistoricalPostsInput, PageUncheckedCreateWithoutHistoricalPostsInput>
+    where?: PageWhereInput
+  }
+
+  export type PageUpdateToOneWithWhereWithoutHistoricalPostsInput = {
+    where?: PageWhereInput
+    data: XOR<PageUpdateWithoutHistoricalPostsInput, PageUncheckedUpdateWithoutHistoricalPostsInput>
+  }
+
+  export type PageUpdateWithoutHistoricalPostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    platformPageId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organization?: OrganizationUpdateOneRequiredWithoutPagesNestedInput
+    connection?: PlatformConnectionUpdateOneRequiredWithoutPagesNestedInput
+    posts?: PostUpdateManyWithoutPageNestedInput
+    campaigns?: CampaignUpdateManyWithoutPageNestedInput
+    brandVoices?: BrandVoiceUpdateManyWithoutPageNestedInput
+    hashtagSets?: HashtagSetUpdateManyWithoutPageNestedInput
+    contentTemplates?: ContentTemplateUpdateManyWithoutPageNestedInput
+    rssFeeds?: RssFeedUpdateManyWithoutPageNestedInput
+    webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
+    leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
+    performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
+  }
+
+  export type PageUncheckedUpdateWithoutHistoricalPostsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    connectionId?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    platformPageId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    posts?: PostUncheckedUpdateManyWithoutPageNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutPageNestedInput
+    brandVoices?: BrandVoiceUncheckedUpdateManyWithoutPageNestedInput
+    hashtagSets?: HashtagSetUncheckedUpdateManyWithoutPageNestedInput
+    contentTemplates?: ContentTemplateUncheckedUpdateManyWithoutPageNestedInput
+    rssFeeds?: RssFeedUncheckedUpdateManyWithoutPageNestedInput
+    webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
+    leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
+    performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
+  }
+
+  export type PageCreateWithoutHistoricalMetricsInput = {
+    id?: string
+    platform: $Enums.Platform
+    platformPageId: string
+    name: string
+    pictureUrl?: string | null
+    avatarUrl?: string | null
+    accessToken: string
+    isActive?: boolean
+    followerCount?: number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    organization: OrganizationCreateNestedOneWithoutPagesInput
+    connection: PlatformConnectionCreateNestedOneWithoutPagesInput
+    posts?: PostCreateNestedManyWithoutPageInput
+    campaigns?: CampaignCreateNestedManyWithoutPageInput
+    brandVoices?: BrandVoiceCreateNestedManyWithoutPageInput
+    hashtagSets?: HashtagSetCreateNestedManyWithoutPageInput
+    contentTemplates?: ContentTemplateCreateNestedManyWithoutPageInput
+    rssFeeds?: RssFeedCreateNestedManyWithoutPageInput
+    webhookRules?: WebhookRuleCreateNestedManyWithoutPageInput
+    leadCaptures?: LeadCaptureCreateNestedManyWithoutPageInput
+    performanceReports?: PerformanceReportCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostCreateNestedManyWithoutPageInput
+  }
+
+  export type PageUncheckedCreateWithoutHistoricalMetricsInput = {
+    id?: string
+    orgId: string
+    connectionId: string
+    platform: $Enums.Platform
+    platformPageId: string
+    name: string
+    pictureUrl?: string | null
+    avatarUrl?: string | null
+    accessToken: string
+    isActive?: boolean
+    followerCount?: number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    posts?: PostUncheckedCreateNestedManyWithoutPageInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutPageInput
+    brandVoices?: BrandVoiceUncheckedCreateNestedManyWithoutPageInput
+    hashtagSets?: HashtagSetUncheckedCreateNestedManyWithoutPageInput
+    contentTemplates?: ContentTemplateUncheckedCreateNestedManyWithoutPageInput
+    rssFeeds?: RssFeedUncheckedCreateNestedManyWithoutPageInput
+    webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutPageInput
+    leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutPageInput
+    performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutPageInput
+    ingestionJobs?: IngestionJobUncheckedCreateNestedManyWithoutPageInput
+    historicalPosts?: HistoricalPostUncheckedCreateNestedManyWithoutPageInput
+  }
+
+  export type PageCreateOrConnectWithoutHistoricalMetricsInput = {
+    where: PageWhereUniqueInput
+    create: XOR<PageCreateWithoutHistoricalMetricsInput, PageUncheckedCreateWithoutHistoricalMetricsInput>
+  }
+
+  export type PageUpsertWithoutHistoricalMetricsInput = {
+    update: XOR<PageUpdateWithoutHistoricalMetricsInput, PageUncheckedUpdateWithoutHistoricalMetricsInput>
+    create: XOR<PageCreateWithoutHistoricalMetricsInput, PageUncheckedCreateWithoutHistoricalMetricsInput>
+    where?: PageWhereInput
+  }
+
+  export type PageUpdateToOneWithWhereWithoutHistoricalMetricsInput = {
+    where?: PageWhereInput
+    data: XOR<PageUpdateWithoutHistoricalMetricsInput, PageUncheckedUpdateWithoutHistoricalMetricsInput>
+  }
+
+  export type PageUpdateWithoutHistoricalMetricsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    platformPageId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organization?: OrganizationUpdateOneRequiredWithoutPagesNestedInput
+    connection?: PlatformConnectionUpdateOneRequiredWithoutPagesNestedInput
+    posts?: PostUpdateManyWithoutPageNestedInput
+    campaigns?: CampaignUpdateManyWithoutPageNestedInput
+    brandVoices?: BrandVoiceUpdateManyWithoutPageNestedInput
+    hashtagSets?: HashtagSetUpdateManyWithoutPageNestedInput
+    contentTemplates?: ContentTemplateUpdateManyWithoutPageNestedInput
+    rssFeeds?: RssFeedUpdateManyWithoutPageNestedInput
+    webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
+    leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
+    performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+  }
+
+  export type PageUncheckedUpdateWithoutHistoricalMetricsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    connectionId?: StringFieldUpdateOperationsInput | string
+    platform?: EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
+    platformPageId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    posts?: PostUncheckedUpdateManyWithoutPageNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutPageNestedInput
+    brandVoices?: BrandVoiceUncheckedUpdateManyWithoutPageNestedInput
+    hashtagSets?: HashtagSetUncheckedUpdateManyWithoutPageNestedInput
+    contentTemplates?: ContentTemplateUncheckedUpdateManyWithoutPageNestedInput
+    rssFeeds?: RssFeedUncheckedUpdateManyWithoutPageNestedInput
+    webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
+    leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
+    performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type MembershipCreateManyOrganizationInput = {
@@ -68194,8 +74878,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -68492,8 +75178,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -68507,6 +75195,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutOrganizationInput = {
@@ -68516,8 +75207,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -68530,6 +75223,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateManyWithoutOrganizationInput = {
@@ -68539,8 +75235,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -69742,8 +76440,10 @@ export namespace Prisma {
     platformPageId: string
     name: string
     pictureUrl?: string | null
+    avatarUrl?: string | null
     accessToken: string
     isActive?: boolean
+    followerCount?: number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -69755,8 +76455,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -69770,6 +76472,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateWithoutConnectionInput = {
@@ -69779,8 +76484,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -69793,6 +76500,9 @@ export namespace Prisma {
     webhookRules?: WebhookRuleUncheckedUpdateManyWithoutPageNestedInput
     leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutPageNestedInput
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutPageNestedInput
+    ingestionJobs?: IngestionJobUncheckedUpdateManyWithoutPageNestedInput
+    historicalPosts?: HistoricalPostUncheckedUpdateManyWithoutPageNestedInput
+    historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
   export type PageUncheckedUpdateManyWithoutConnectionInput = {
@@ -69802,8 +76512,10 @@ export namespace Prisma {
     platformPageId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     pictureUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     accessToken?: StringFieldUpdateOperationsInput | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    followerCount?: NullableIntFieldUpdateOperationsInput | number | null
     metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -70165,6 +76877,66 @@ export namespace Prisma {
     data: JsonNullValueInput | InputJsonValue
     pdfUrl?: string | null
     sentTo?: PerformanceReportCreatesentToInput | string[]
+    createdAt?: Date | string
+  }
+
+  export type IngestionJobCreateManyPageInput = {
+    id?: string
+    orgId: string
+    status?: $Enums.IngestionStatus
+    dataTypes?: IngestionJobCreatedataTypesInput | string[]
+    totalItems?: number | null
+    processedItems?: number
+    failedItems?: number
+    progress?: number
+    platformCursor?: string | null
+    oldestPostDate?: Date | string | null
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    lastActivityAt?: Date | string | null
+    errorMessage?: string | null
+    rateLimitHits?: number
+    nextRetryAfter?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type HistoricalPostCreateManyPageInput = {
+    id?: string
+    orgId: string
+    platformPostId: string
+    platformUrl?: string | null
+    content?: string | null
+    mediaUrls?: HistoricalPostCreatemediaUrlsInput | string[]
+    postType?: string | null
+    publishedAt: Date | string
+    impressions?: number
+    reach?: number
+    engagements?: number
+    likes?: number
+    comments?: number
+    shares?: number
+    saves?: number
+    clicks?: number
+    videoViews?: number
+    isIngested?: boolean
+    ingestedAt?: Date | string
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type HistoricalMetricSnapshotCreateManyPageInput = {
+    id?: string
+    orgId: string
+    metricDate: Date | string
+    followers?: number | null
+    followersChange?: number | null
+    pageViews?: number | null
+    pageImpressions?: number | null
+    pageReach?: number | null
+    pageEngagement?: number | null
+    audienceData?: NullableJsonNullValueInput | InputJsonValue
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -70536,6 +77308,186 @@ export namespace Prisma {
     data?: JsonNullValueInput | InputJsonValue
     pdfUrl?: NullableStringFieldUpdateOperationsInput | string | null
     sentTo?: PerformanceReportUpdatesentToInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IngestionJobUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    status?: EnumIngestionStatusFieldUpdateOperationsInput | $Enums.IngestionStatus
+    dataTypes?: IngestionJobUpdatedataTypesInput | string[]
+    totalItems?: NullableIntFieldUpdateOperationsInput | number | null
+    processedItems?: IntFieldUpdateOperationsInput | number
+    failedItems?: IntFieldUpdateOperationsInput | number
+    progress?: FloatFieldUpdateOperationsInput | number
+    platformCursor?: NullableStringFieldUpdateOperationsInput | string | null
+    oldestPostDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastActivityAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    rateLimitHits?: IntFieldUpdateOperationsInput | number
+    nextRetryAfter?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IngestionJobUncheckedUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    status?: EnumIngestionStatusFieldUpdateOperationsInput | $Enums.IngestionStatus
+    dataTypes?: IngestionJobUpdatedataTypesInput | string[]
+    totalItems?: NullableIntFieldUpdateOperationsInput | number | null
+    processedItems?: IntFieldUpdateOperationsInput | number
+    failedItems?: IntFieldUpdateOperationsInput | number
+    progress?: FloatFieldUpdateOperationsInput | number
+    platformCursor?: NullableStringFieldUpdateOperationsInput | string | null
+    oldestPostDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastActivityAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    rateLimitHits?: IntFieldUpdateOperationsInput | number
+    nextRetryAfter?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IngestionJobUncheckedUpdateManyWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    status?: EnumIngestionStatusFieldUpdateOperationsInput | $Enums.IngestionStatus
+    dataTypes?: IngestionJobUpdatedataTypesInput | string[]
+    totalItems?: NullableIntFieldUpdateOperationsInput | number | null
+    processedItems?: IntFieldUpdateOperationsInput | number
+    failedItems?: IntFieldUpdateOperationsInput | number
+    progress?: FloatFieldUpdateOperationsInput | number
+    platformCursor?: NullableStringFieldUpdateOperationsInput | string | null
+    oldestPostDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastActivityAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    rateLimitHits?: IntFieldUpdateOperationsInput | number
+    nextRetryAfter?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricalPostUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    platformPostId?: StringFieldUpdateOperationsInput | string
+    platformUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaUrls?: HistoricalPostUpdatemediaUrlsInput | string[]
+    postType?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: IntFieldUpdateOperationsInput | number
+    reach?: IntFieldUpdateOperationsInput | number
+    engagements?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    comments?: IntFieldUpdateOperationsInput | number
+    shares?: IntFieldUpdateOperationsInput | number
+    saves?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    videoViews?: IntFieldUpdateOperationsInput | number
+    isIngested?: BoolFieldUpdateOperationsInput | boolean
+    ingestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricalPostUncheckedUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    platformPostId?: StringFieldUpdateOperationsInput | string
+    platformUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaUrls?: HistoricalPostUpdatemediaUrlsInput | string[]
+    postType?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: IntFieldUpdateOperationsInput | number
+    reach?: IntFieldUpdateOperationsInput | number
+    engagements?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    comments?: IntFieldUpdateOperationsInput | number
+    shares?: IntFieldUpdateOperationsInput | number
+    saves?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    videoViews?: IntFieldUpdateOperationsInput | number
+    isIngested?: BoolFieldUpdateOperationsInput | boolean
+    ingestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricalPostUncheckedUpdateManyWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    platformPostId?: StringFieldUpdateOperationsInput | string
+    platformUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    mediaUrls?: HistoricalPostUpdatemediaUrlsInput | string[]
+    postType?: NullableStringFieldUpdateOperationsInput | string | null
+    publishedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    impressions?: IntFieldUpdateOperationsInput | number
+    reach?: IntFieldUpdateOperationsInput | number
+    engagements?: IntFieldUpdateOperationsInput | number
+    likes?: IntFieldUpdateOperationsInput | number
+    comments?: IntFieldUpdateOperationsInput | number
+    shares?: IntFieldUpdateOperationsInput | number
+    saves?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    videoViews?: IntFieldUpdateOperationsInput | number
+    isIngested?: BoolFieldUpdateOperationsInput | boolean
+    ingestedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricalMetricSnapshotUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    metricDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: NullableIntFieldUpdateOperationsInput | number | null
+    followersChange?: NullableIntFieldUpdateOperationsInput | number | null
+    pageViews?: NullableIntFieldUpdateOperationsInput | number | null
+    pageImpressions?: NullableIntFieldUpdateOperationsInput | number | null
+    pageReach?: NullableIntFieldUpdateOperationsInput | number | null
+    pageEngagement?: NullableIntFieldUpdateOperationsInput | number | null
+    audienceData?: NullableJsonNullValueInput | InputJsonValue
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricalMetricSnapshotUncheckedUpdateWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    metricDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: NullableIntFieldUpdateOperationsInput | number | null
+    followersChange?: NullableIntFieldUpdateOperationsInput | number | null
+    pageViews?: NullableIntFieldUpdateOperationsInput | number | null
+    pageImpressions?: NullableIntFieldUpdateOperationsInput | number | null
+    pageReach?: NullableIntFieldUpdateOperationsInput | number | null
+    pageEngagement?: NullableIntFieldUpdateOperationsInput | number | null
+    audienceData?: NullableJsonNullValueInput | InputJsonValue
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    metricDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    followers?: NullableIntFieldUpdateOperationsInput | number | null
+    followersChange?: NullableIntFieldUpdateOperationsInput | number | null
+    pageViews?: NullableIntFieldUpdateOperationsInput | number | null
+    pageImpressions?: NullableIntFieldUpdateOperationsInput | number | null
+    pageReach?: NullableIntFieldUpdateOperationsInput | number | null
+    pageEngagement?: NullableIntFieldUpdateOperationsInput | number | null
+    audienceData?: NullableJsonNullValueInput | InputJsonValue
+    rawPlatformData?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

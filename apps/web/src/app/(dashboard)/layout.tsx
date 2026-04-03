@@ -1,6 +1,10 @@
+import { cookies } from "next/headers";
+import { prisma } from "@/lib/db";
+import { auth } from "@/lib/auth";
 import { SidebarNav } from "./components/sidebar-nav";
 import { TopBar } from "./components/top-bar";
 import { LayoutShell } from "./components/layout-shell";
+import { PageProvider, type PageInfo } from "@/lib/page-context";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -9,11 +13,89 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+/* ------------------------------------------------------------------ */
+/*  Resolve active page from cookie / DB                               */
+/* ------------------------------------------------------------------ */
+
+async function resolveActivePageId(
+  userId: string | undefined,
+  orgId: string | undefined,
+): Promise<string | null> {
+  // 1. Try cookie
+  const cookieStore = await cookies();
+  const raw = cookieStore.get("adpilot-active-page")?.value;
+  if (raw && raw !== "all") {
+    try {
+      const decoded = decodeURIComponent(raw);
+      const parsed = JSON.parse(decoded);
+      if (parsed?.id) return parsed.id as string;
+    } catch {
+      // Invalid cookie — fall through
+    }
+  }
+
+  // 2. Try DB lastSelectedPageId
+  if (userId) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { lastSelectedPageId: true },
+    });
+    if (user?.lastSelectedPageId) return user.lastSelectedPageId;
+  }
+
+  // 3. Auto-select first page in org
+  if (orgId) {
+    const firstPage = await prisma.page.findFirst({
+      where: { orgId, isActive: true },
+      select: { id: true },
+      orderBy: { createdAt: "asc" },
+    });
+    if (firstPage) return firstPage.id;
+  }
+
+  return null;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Layout                                                             */
+/* ------------------------------------------------------------------ */
+
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  const orgId = session?.user?.currentOrgId;
+
+  // Fetch all pages for the org
+  let allPages: PageInfo[] = [];
+  if (orgId) {
+    const rows = await prisma.page.findMany({
+      where: { orgId, isActive: true },
+      select: {
+        id: true,
+        platform: true,
+        name: true,
+        platformPageId: true,
+        avatarUrl: true,
+        isActive: true,
+      },
+      orderBy: [{ platform: "asc" }, { name: "asc" }],
+    });
+    allPages = rows.map((r) => ({
+      id: r.id,
+      platform: r.platform,
+      name: r.name,
+      platformPageId: r.platformPageId,
+      avatarUrl: r.avatarUrl,
+      isActive: r.isActive,
+    }));
+  }
+
+  const activePageId = await resolveActivePageId(userId, orgId);
+
   return (
     <div className="flex min-h-screen bg-[var(--bg-primary)] overflow-x-hidden">
       <a
@@ -27,14 +109,16 @@ export default async function DashboardLayout({
 
       {/* Right side: top bar + content */}
       <LayoutShell>
-        <TopBar />
+        <PageProvider initialPageId={activePageId} initialPages={allPages}>
+          <TopBar />
 
-        {/* Main content */}
-        <main id="main-content" className="flex-1">
-          <div className="pt-[4.5rem] md:pt-4 px-4 md:px-6 py-3 md:py-5 max-w-full xl:max-w-7xl overflow-x-hidden">
-            {children}
-          </div>
-        </main>
+          {/* Main content */}
+          <main id="main-content" className="flex-1">
+            <div className="pt-[4.5rem] md:pt-4 px-4 md:px-6 py-3 md:py-5 max-w-full xl:max-w-7xl overflow-x-hidden">
+              {children}
+            </div>
+          </main>
+        </PageProvider>
 
         {/* Footer */}
         <footer className="px-4 md:px-8 py-4 text-[11px] text-[var(--text-tertiary)] border-t border-[var(--border-secondary)]">

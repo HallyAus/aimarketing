@@ -7,6 +7,7 @@ import { processCampaignPublish } from "./processors/campaign-publish";
 import { processMediaProcess } from "./processors/media-process";
 import { processAnalyticsSync } from "./processors/analytics-sync";
 import { processEmailSend } from "./processors/email-send";
+import { processIngestion } from "./processors/ingestion";
 
 console.log("AdPilot Worker starting...");
 
@@ -27,6 +28,7 @@ const workers = [
   createWorker("media:process", processMediaProcess, 2),
   createWorker("email:send", processEmailSend, 3),
   createWorker("webhook:process", placeholderProcessor, 3),
+  createWorker("ingestion:process", processIngestion, 2),
 ];
 
 // ── Scheduled Jobs (repeatable) ──────────────────────────────────────────
@@ -54,6 +56,12 @@ async function setupScheduledJobs() {
     "analytics-sync-active",
     { every: 4 * 60 * 60_000 }, // every 4 hours
     { data: { type: "active" } }
+  );
+
+  await queues["ingestion:process"].upsertJobScheduler(
+    "ingestion-sweep",
+    { every: 60_000 }, // every minute — picks up PENDING and retry-ready PAUSED jobs
+    { data: {} }
   );
 
   console.log("Scheduled jobs configured");

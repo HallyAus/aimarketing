@@ -172,6 +172,7 @@ exports.Prisma.UserScalarFieldEnum = {
   status: 'status',
   systemRole: 'systemRole',
   onboardingComplete: 'onboardingComplete',
+  lastSelectedPageId: 'lastSelectedPageId',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -386,8 +387,10 @@ exports.Prisma.PageScalarFieldEnum = {
   platformPageId: 'platformPageId',
   name: 'name',
   pictureUrl: 'pictureUrl',
+  avatarUrl: 'avatarUrl',
   accessToken: 'accessToken',
   isActive: 'isActive',
+  followerCount: 'followerCount',
   metadata: 'metadata',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -608,6 +611,69 @@ exports.Prisma.WaitlistEntryScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.IngestionJobScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  orgId: 'orgId',
+  status: 'status',
+  dataTypes: 'dataTypes',
+  totalItems: 'totalItems',
+  processedItems: 'processedItems',
+  failedItems: 'failedItems',
+  progress: 'progress',
+  platformCursor: 'platformCursor',
+  oldestPostDate: 'oldestPostDate',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  lastActivityAt: 'lastActivityAt',
+  errorMessage: 'errorMessage',
+  rateLimitHits: 'rateLimitHits',
+  nextRetryAfter: 'nextRetryAfter',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.HistoricalPostScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  orgId: 'orgId',
+  platformPostId: 'platformPostId',
+  platformUrl: 'platformUrl',
+  content: 'content',
+  mediaUrls: 'mediaUrls',
+  postType: 'postType',
+  publishedAt: 'publishedAt',
+  impressions: 'impressions',
+  reach: 'reach',
+  engagements: 'engagements',
+  likes: 'likes',
+  comments: 'comments',
+  shares: 'shares',
+  saves: 'saves',
+  clicks: 'clicks',
+  videoViews: 'videoViews',
+  isIngested: 'isIngested',
+  ingestedAt: 'ingestedAt',
+  rawPlatformData: 'rawPlatformData',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.HistoricalMetricSnapshotScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  orgId: 'orgId',
+  metricDate: 'metricDate',
+  followers: 'followers',
+  followersChange: 'followersChange',
+  pageViews: 'pageViews',
+  pageImpressions: 'pageImpressions',
+  pageReach: 'pageReach',
+  pageEngagement: 'pageEngagement',
+  audienceData: 'audienceData',
+  rawPlatformData: 'rawPlatformData',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -758,6 +824,15 @@ exports.AnnouncementType = exports.$Enums.AnnouncementType = {
   FEATURE: 'FEATURE'
 };
 
+exports.IngestionStatus = exports.$Enums.IngestionStatus = {
+  PENDING: 'PENDING',
+  RUNNING: 'RUNNING',
+  PAUSED: 'PAUSED',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   Organization: 'Organization',
   User: 'User',
@@ -792,7 +867,10 @@ exports.Prisma.ModelName = {
   FeatureFlag: 'FeatureFlag',
   SystemMetric: 'SystemMetric',
   Announcement: 'Announcement',
-  WaitlistEntry: 'WaitlistEntry'
+  WaitlistEntry: 'WaitlistEntry',
+  IngestionJob: 'IngestionJob',
+  HistoricalPost: 'HistoricalPost',
+  HistoricalMetricSnapshot: 'HistoricalMetricSnapshot'
 };
 
 /**

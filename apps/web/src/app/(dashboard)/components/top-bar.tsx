@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { AccountSelector } from "./account-selector";
+import { PageSwitcher } from "@/components/page-switcher";
 import { TimezoneSelector } from "./timezone-selector";
 
 export function TopBar() {
@@ -127,8 +128,13 @@ export function TopBar() {
           </kbd>
         </button>
 
-        {/* Account / page selector */}
-        <AccountSelector />
+        {/* Page switcher (primary) */}
+        <PageSwitcher />
+
+        {/* Legacy account selector (hidden, kept for backwards compat) */}
+        <div className="hidden">
+          <AccountSelector />
+        </div>
 
         {/* Notification bell */}
         <button

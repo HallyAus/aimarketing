@@ -5,9 +5,9 @@ import { PageHeader } from "@/components/page-header";
 import { EmptyState } from "@/components/empty-state";
 import { PlatformBadge } from "@/components/platform-badge";
 import { StatusBadge } from "@/components/status-badge";
-import { ActiveAccountBanner } from "@/components/active-account-banner";
 import { getActiveAccount } from "@/lib/active-account";
 import { getActivePageId, pageWhere } from "@/lib/active-page";
+import { getActivePageServer } from "@/lib/get-active-page-server";
 import { getUserTimezone } from "@/lib/timezone-cookie";
 import { DashboardWidgets } from "./widgets";
 import { DashboardTabs } from "./dashboard-tabs";
@@ -71,9 +71,7 @@ function formatScheduleLabel(date: Date, tz: string): string {
 /** Compute start of "today" in user's timezone as a UTC Date */
 function getTodayStartInTz(tz: string): Date {
   const todayStr = new Date().toLocaleDateString("en-CA", { timeZone: tz }); // "2026-04-03"
-  // Create a Date at midnight UTC for that calendar date, then adjust for timezone offset
   const midnightUTC = new Date(todayStr + "T00:00:00Z");
-  // Get the offset in minutes for this timezone at this moment
   const sample = new Date();
   const utcStr = sample.toLocaleString("en-US", { timeZone: "UTC" });
   const tzStr = sample.toLocaleString("en-US", { timeZone: tz });
@@ -165,6 +163,18 @@ function LinkIcon() {
 
 /* ── Platform config for overview cards ──────────────────── */
 
+const PLATFORM_META: Record<string, { label: string; color: string }> = {
+  FACEBOOK: { label: "Facebook", color: "#1877F2" },
+  INSTAGRAM: { label: "Instagram", color: "#E4405F" },
+  LINKEDIN: { label: "LinkedIn", color: "#0A66C2" },
+  TWITTER_X: { label: "Twitter / X", color: "#1DA1F2" },
+  TIKTOK: { label: "TikTok", color: "#00F2EA" },
+  YOUTUBE: { label: "YouTube", color: "#FF0000" },
+  GOOGLE_ADS: { label: "Google Ads", color: "#4285F4" },
+  PINTEREST: { label: "Pinterest", color: "#BD081C" },
+  SNAPCHAT: { label: "Snapchat", color: "#FFFC00" },
+};
+
 const CORE_PLATFORMS = [
   { key: "FACEBOOK", label: "Facebook", color: "blue" },
   { key: "INSTAGRAM", label: "Instagram", color: "purple" },
@@ -174,7 +184,18 @@ const CORE_PLATFORMS = [
 
 /* ── Page Component ──────────────────────────────────────── */
 
-export default async function DashboardPage() {
+interface DashboardSearchParams {
+  page?: string;
+}
+
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<DashboardSearchParams>;
+}) {
+  const resolvedParams = await searchParams;
+
+  // Legacy: still support getActiveAccount for backwards compat
   const activeAccount = await getActiveAccount();
 
   const org = await prisma.organization.findFirst({
@@ -190,9 +211,6 @@ export default async function DashboardPage() {
     },
   });
 
-  const activePageId = org ? await getActivePageId(org.id) : null;
-  const pf = pageWhere(activePageId);
-
   if (!org) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
@@ -205,6 +223,40 @@ export default async function DashboardPage() {
       </div>
     );
   }
+
+  // ── Resolve active page (page-scoped architecture) ────
+  // Try the new getActivePageServer first; fall back to legacy if no pages exist
+  let activePageId: string | null = null;
+  let activePageInfo: {
+    id: string;
+    platform: string;
+    name: string;
+    avatarUrl: string | null;
+    isActive: boolean;
+    followerCount: number;
+  } | null = null;
+
+  // Check if org has any pages at all
+  const pageCount = await prisma.page.count({ where: { orgId: org.id, isActive: true } });
+
+  if (pageCount > 0) {
+    try {
+      const result = await getActivePageServer(resolvedParams);
+      activePageId = result.pageId;
+      activePageInfo = result.page;
+    } catch {
+      // getActivePageServer redirects to /select-page if no page found
+      // If we catch here, fallback to legacy behavior
+      const legacyPageId = await getActivePageId(org.id);
+      activePageId = legacyPageId;
+    }
+  } else {
+    // No pages — use legacy orgId scoping
+    activePageId = await getActivePageId(org.id);
+  }
+
+  // Build page filter for queries
+  const pf = activePageId ? { pageId: activePageId } : {};
 
   const userTz = await getUserTimezone();
   const now = new Date();
@@ -309,14 +361,20 @@ export default async function DashboardPage() {
     ? { value: Math.round(((publishedToday - publishedYesterday) / publishedYesterday) * 100), direction: (publishedToday >= publishedYesterday ? "up" : "down") as "up" | "down" }
     : undefined;
 
+  // Platform Overview: when page is active, show only that page's platform
+  const activePlatformFilter = activePageInfo?.platform ?? null;
+
   const platformMap = new Map<string, { connections: typeof platformConnections; pages: typeof pages; postCount: number }>();
   for (const conn of platformConnections) {
+    // If we have an active page, only show its platform in overview
+    if (activePlatformFilter && conn.platform !== activePlatformFilter) continue;
     if (!platformMap.has(conn.platform)) {
       platformMap.set(conn.platform, { connections: [], pages: [], postCount: 0 });
     }
     platformMap.get(conn.platform)!.connections.push(conn);
   }
   for (const page of pages) {
+    if (activePlatformFilter && page.platform !== activePlatformFilter) continue;
     const entry = platformMap.get(page.platform);
     if (entry) {
       entry.pages.push(page);
@@ -335,15 +393,69 @@ export default async function DashboardPage() {
 
   const connectedPlatformCount = platformMap.size;
 
+  // Determine which platforms to show in overview
+  const overviewPlatforms = activePlatformFilter
+    ? CORE_PLATFORMS.filter((p) => p.key === activePlatformFilter)
+    : CORE_PLATFORMS;
+
   return (
     <div>
       <PageHeader
         title={org.name}
-        subtitle={activeAccount ? `Overview of your marketing activity, upcoming posts, and platform status \u2014 ${activeAccount.name}` : "Overview of your marketing activity, upcoming posts, and platform status"}
+        subtitle={activePageInfo
+          ? `Overview for ${activePageInfo.name} — ${PLATFORM_META[activePageInfo.platform]?.label ?? activePageInfo.platform}`
+          : activeAccount
+            ? `Overview of your marketing activity, upcoming posts, and platform status — ${activeAccount.name}`
+            : "Overview of your marketing activity, upcoming posts, and platform status"
+        }
         action={<span className="badge badge-info">{org.plan}</span>}
         breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }]}
       />
-      <ActiveAccountBanner account={activeAccount} />
+
+      {/* Page summary header — shown when a specific page is active */}
+      {activePageInfo && (
+        <div
+          className="flex items-center gap-3 px-4 py-2.5 rounded-lg mb-4"
+          style={{
+            background: `${PLATFORM_META[activePageInfo.platform]?.color ?? "#888"}10`,
+            border: `1px solid ${PLATFORM_META[activePageInfo.platform]?.color ?? "#888"}30`,
+          }}
+        >
+          {/* Platform dot */}
+          <span
+            className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+            style={{ backgroundColor: PLATFORM_META[activePageInfo.platform]?.color ?? "#888" }}
+          />
+
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            <span className="text-sm font-medium truncate" style={{ color: "var(--text-primary)" }}>
+              {activePageInfo.name}
+            </span>
+            <PlatformBadge platform={activePageInfo.platform} size="sm" />
+          </div>
+
+          {/* Connection status */}
+          <div className="flex items-center gap-1.5 flex-shrink-0">
+            <span
+              className="w-1.5 h-1.5 rounded-full"
+              style={{
+                background: activePageInfo.isActive
+                  ? "var(--accent-emerald, #22c55e)"
+                  : "var(--accent-red, #ef4444)",
+              }}
+            />
+            <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+              {activePageInfo.isActive ? "Connected" : "Disconnected"}
+            </span>
+          </div>
+
+          {activePageInfo.followerCount > 0 && (
+            <span className="text-xs flex-shrink-0" style={{ color: "var(--text-tertiary)" }}>
+              {activePageInfo.followerCount.toLocaleString()} followers
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Welcome banner for new users with zero posts and zero connections */}
       {totalPosts === 0 && platformConnections.length === 0 && (
@@ -615,13 +727,18 @@ export default async function DashboardPage() {
 
       {/* ── BOTTOM: Platform Overview ─────────────────── */}
       <div className="card p-3">
-        <div className="section-label mb-3">Platform Overview</div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {CORE_PLATFORMS.map(({ key, label }) => {
+        <div className="section-label mb-3">
+          {activePageInfo
+            ? `${PLATFORM_META[activePageInfo.platform]?.label ?? activePageInfo.platform} Overview`
+            : "Platform Overview"
+          }
+        </div>
+        <div className={`grid gap-3 ${overviewPlatforms.length === 1 ? "grid-cols-1 max-w-xs" : "grid-cols-2 md:grid-cols-4"}`}>
+          {overviewPlatforms.map(({ key, label }) => {
             const data = platformMap.get(key);
             const isConnected = !!data && data.connections.length > 0;
             const hasExpired = data?.connections.some((c) => c.status === "EXPIRED");
-            const pageCount = data?.pages.length ?? 0;
+            const pageCountForPlatform = data?.pages.length ?? 0;
             const postCount = data?.postCount ?? 0;
 
             return (
@@ -646,7 +763,7 @@ export default async function DashboardPage() {
                 {isConnected ? (
                   <div className="space-y-0.5">
                     <div className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                      {pageCount > 0 ? `${pageCount} page${pageCount !== 1 ? "s" : ""}` : `${data?.connections.length ?? 0} account${(data?.connections.length ?? 0) !== 1 ? "s" : ""}`}
+                      {pageCountForPlatform > 0 ? `${pageCountForPlatform} page${pageCountForPlatform !== 1 ? "s" : ""}` : `${data?.connections.length ?? 0} account${(data?.connections.length ?? 0) !== 1 ? "s" : ""}`}
                     </div>
                     <div className="text-xs" style={{ color: "var(--text-tertiary)" }}>
                       {postCount} post{postCount !== 1 ? "s" : ""}

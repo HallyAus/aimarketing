@@ -206,6 +206,7 @@ model User {
   status               UserStatus @default(ACTIVE)
   systemRole           SystemRole @default(USER)
   onboardingComplete   Boolean    @default(false)
+  lastSelectedPageId   String?
   deletedAt            DateTime?
   createdAt            DateTime   @default(now())
   updatedAt            DateTime   @updatedAt
@@ -532,14 +533,16 @@ model Page {
   platformPageId String // e.g., Facebook page ID
   name           String // e.g., "Printforge"
   pictureUrl     String?
+  avatarUrl      String?
   accessToken    String // encrypted page-specific access token
   isActive       Boolean  @default(true)
+  followerCount  Int?     @default(0)
   metadata       Json?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  organization       Organization        @relation(fields: [orgId], references: [id], onDelete: Cascade)
-  connection         PlatformConnection  @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+  organization       Organization               @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  connection         PlatformConnection         @relation(fields: [connectionId], references: [id], onDelete: Cascade)
   posts              Post[]
   campaigns          Campaign[]
   brandVoices        BrandVoice[]
@@ -549,6 +552,9 @@ model Page {
   webhookRules       WebhookRule[]
   leadCaptures       LeadCapture[]
   performanceReports PerformanceReport[]
+  ingestionJobs      IngestionJob[]
+  historicalPosts    HistoricalPost[]
+  historicalMetrics  HistoricalMetricSnapshot[]
 
   @@unique([orgId, platform, platformPageId])
   @@index([orgId])
@@ -841,4 +847,96 @@ model WaitlistEntry {
 
   @@index([email])
   @@index([createdAt])
+}
+
+// ── Historical Data Ingestion ───────────────────────────────────────────
+
+enum IngestionStatus {
+  PENDING
+  RUNNING
+  PAUSED
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+model IngestionJob {
+  id             String          @id @default(cuid())
+  pageId         String
+  orgId          String
+  status         IngestionStatus @default(PENDING)
+  dataTypes      String[]
+  totalItems     Int?
+  processedItems Int             @default(0)
+  failedItems    Int             @default(0)
+  progress       Float           @default(0)
+  platformCursor String?
+  oldestPostDate DateTime?
+  startedAt      DateTime?
+  completedAt    DateTime?
+  lastActivityAt DateTime?
+  errorMessage   String?
+  rateLimitHits  Int             @default(0)
+  nextRetryAfter DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageId])
+  @@index([status])
+  @@index([orgId])
+}
+
+model HistoricalPost {
+  id              String   @id @default(cuid())
+  pageId          String
+  orgId           String
+  platformPostId  String
+  platformUrl     String?
+  content         String?
+  mediaUrls       String[]
+  postType        String?
+  publishedAt     DateTime
+  impressions     Int      @default(0)
+  reach           Int      @default(0)
+  engagements     Int      @default(0)
+  likes           Int      @default(0)
+  comments        Int      @default(0)
+  shares          Int      @default(0)
+  saves           Int      @default(0)
+  clicks          Int      @default(0)
+  videoViews      Int      @default(0)
+  isIngested      Boolean  @default(true)
+  ingestedAt      DateTime @default(now())
+  rawPlatformData Json?
+  createdAt       DateTime @default(now())
+
+  page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@unique([pageId, platformPostId])
+  @@index([pageId, publishedAt])
+  @@index([orgId])
+}
+
+model HistoricalMetricSnapshot {
+  id              String   @id @default(cuid())
+  pageId          String
+  orgId           String
+  metricDate      DateTime
+  followers       Int?
+  followersChange Int?
+  pageViews       Int?
+  pageImpressions Int?
+  pageReach       Int?
+  pageEngagement  Int?
+  audienceData    Json?
+  rawPlatformData Json?
+  createdAt       DateTime @default(now())
+
+  page Page @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@unique([pageId, metricDate])
+  @@index([pageId, metricDate])
+  @@index([orgId])
 }
