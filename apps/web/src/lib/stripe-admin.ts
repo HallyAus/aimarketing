@@ -1,11 +1,18 @@
 import Stripe from "stripe";
 import { prisma } from "@/lib/db";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-12-18.acacia" as Stripe.LatestApiVersion,
-});
+function getStripeClient(): Stripe {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error("STRIPE_SECRET_KEY is not configured");
+  return new Stripe(key, {
+    apiVersion: "2024-12-18.acacia" as Stripe.LatestApiVersion,
+  });
+}
 
-export { stripe };
+/** Lazy-initialized Stripe client — only fails when actually called, not at import time */
+export function stripe(): Stripe {
+  return getStripeClient();
+}
 
 // ── Price ID helpers ──────────────────────────────────────────────────
 
@@ -31,14 +38,14 @@ export async function getOrCreateStripeCustomer(org: {
 }): Promise<string> {
   if (org.stripeCustomerId) {
     try {
-      const existing = await stripe.customers.retrieve(org.stripeCustomerId);
+      const existing = await getStripeClient().customers.retrieve(org.stripeCustomerId);
       if (!existing.deleted) return org.stripeCustomerId;
     } catch {
       // Customer deleted or invalid, create new one
     }
   }
 
-  const customer = await stripe.customers.create({
+  const customer = await getStripeClient().customers.create({
     name: org.name,
     email: org.billingEmail ?? undefined,
     metadata: { orgId: org.id },
@@ -72,7 +79,7 @@ export async function changePlan(
   if (newPlan === "FREE") {
     if (org.stripeSubscriptionId) {
       try {
-        await stripe.subscriptions.update(org.stripeSubscriptionId, {
+        await getStripeClient().subscriptions.update(org.stripeSubscriptionId, {
           cancel_at_period_end: true,
         });
       } catch (err) {
@@ -102,7 +109,7 @@ export async function changePlan(
 
   // Upgrade from FREE: create new subscription
   if (currentPlan === "FREE" || !org.stripeSubscriptionId) {
-    const subscription = await stripe.subscriptions.create({
+    const subscription = await getStripeClient().subscriptions.create({
       customer: customerId,
       items: [{ price: priceId }],
       payment_behavior: "default_incomplete",
@@ -135,11 +142,11 @@ export async function changePlan(
 
   // PRO <-> AGENCY: update existing subscription item (prorated)
   try {
-    const subscription = await stripe.subscriptions.retrieve(org.stripeSubscriptionId);
+    const subscription = await getStripeClient().subscriptions.retrieve(org.stripeSubscriptionId);
     const itemId = subscription.items.data[0]?.id;
     if (!itemId) throw new Error("No subscription item found");
 
-    await stripe.subscriptions.update(org.stripeSubscriptionId, {
+    await getStripeClient().subscriptions.update(org.stripeSubscriptionId, {
       items: [{ id: itemId, price: priceId }],
       proration_behavior: "create_prorations",
       cancel_at_period_end: false,
@@ -186,7 +193,7 @@ export async function cancelSubscription(
 
   try {
     if (atPeriodEnd) {
-      await stripe.subscriptions.update(org.stripeSubscriptionId, {
+      await getStripeClient().subscriptions.update(org.stripeSubscriptionId, {
         cancel_at_period_end: true,
       });
       await prisma.organization.update({
@@ -194,7 +201,7 @@ export async function cancelSubscription(
         data: { cancelAtPeriodEnd: true },
       });
     } else {
-      await stripe.subscriptions.cancel(org.stripeSubscriptionId);
+      await getStripeClient().subscriptions.cancel(org.stripeSubscriptionId);
       await prisma.organization.update({
         where: { id: orgId },
         data: {
@@ -226,7 +233,7 @@ export async function cancelSubscription(
 
 export async function getInvoices(stripeCustomerId: string): Promise<Stripe.Invoice[]> {
   try {
-    const invoices = await stripe.invoices.list({
+    const invoices = await getStripeClient().invoices.list({
       customer: stripeCustomerId,
       limit: 50,
     });
@@ -243,7 +250,7 @@ export async function getUpcomingInvoice(
   stripeCustomerId: string
 ): Promise<Stripe.UpcomingInvoice | null> {
   try {
-    const invoice = await stripe.invoices.retrieveUpcoming({
+    const invoice = await getStripeClient().invoices.retrieveUpcoming({
       customer: stripeCustomerId,
     });
     return invoice;
