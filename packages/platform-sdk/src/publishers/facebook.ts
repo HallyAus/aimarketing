@@ -2,7 +2,7 @@ import { rateLimitAwareFetch } from "../rate-limiter";
 import { PlatformError } from "../errors";
 import type { PublishPayload, PublishResult } from "./index";
 
-const GRAPH_API_VERSION = "v19.0";
+const GRAPH_API_VERSION = "v21.0";
 const GRAPH_BASE = `https://graph.facebook.com/${GRAPH_API_VERSION}`;
 
 interface GraphApiError {
@@ -137,19 +137,42 @@ async function publishPhotoPost(
   photoUrl: string,
   accessToken: string
 ): Promise<PublishResult> {
-  const response = await rateLimitAwareFetch(
-    `${GRAPH_BASE}/${pageId}/photos`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        url: photoUrl,
-        message,
-        access_token: accessToken,
-      }),
-    },
-    "FACEBOOK"
-  );
+  let response: Response;
+
+  if (photoUrl.startsWith("data:image/")) {
+    // Base64 data URL — upload as multipart form data
+    const match = photoUrl.match(/^data:image\/(\w+);base64,(.+)$/);
+    if (!match) return { success: false, error: "Invalid base64 image data" };
+    const buffer = Buffer.from(match[2]!, "base64");
+    const ext = match[1] === "png" ? "png" : "jpg";
+    const blob = new Blob([buffer], { type: `image/${ext}` });
+
+    const form = new FormData();
+    form.append("source", blob, `image.${ext}`);
+    form.append("message", message);
+    form.append("access_token", accessToken);
+
+    response = await rateLimitAwareFetch(
+      `${GRAPH_BASE}/${pageId}/photos`,
+      { method: "POST", body: form },
+      "FACEBOOK"
+    );
+  } else {
+    // HTTP URL — use url parameter
+    response = await rateLimitAwareFetch(
+      `${GRAPH_BASE}/${pageId}/photos`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: photoUrl,
+          message,
+          access_token: accessToken,
+        }),
+      },
+      "FACEBOOK"
+    );
+  }
 
   const body = (await response.json()) as GraphApiError & {
     id?: string;
@@ -182,19 +205,40 @@ async function publishMultiPhotoPost(
   const photoIds: string[] = [];
 
   for (const photoUrl of photoUrls) {
-    const response = await rateLimitAwareFetch(
-      `${GRAPH_BASE}/${pageId}/photos`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          url: photoUrl,
-          published: false,
-          access_token: accessToken,
-        }),
-      },
-      "FACEBOOK"
-    );
+    let response: Response;
+
+    if (photoUrl.startsWith("data:image/")) {
+      const match = photoUrl.match(/^data:image\/(\w+);base64,(.+)$/);
+      if (!match) return { success: false, error: "Invalid base64 image data" };
+      const buffer = Buffer.from(match[2]!, "base64");
+      const ext = match[1] === "png" ? "png" : "jpg";
+      const blob = new Blob([buffer], { type: `image/${ext}` });
+
+      const form = new FormData();
+      form.append("source", blob, `image.${ext}`);
+      form.append("published", "false");
+      form.append("access_token", accessToken);
+
+      response = await rateLimitAwareFetch(
+        `${GRAPH_BASE}/${pageId}/photos`,
+        { method: "POST", body: form },
+        "FACEBOOK"
+      );
+    } else {
+      response = await rateLimitAwareFetch(
+        `${GRAPH_BASE}/${pageId}/photos`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            url: photoUrl,
+            published: false,
+            access_token: accessToken,
+          }),
+        },
+        "FACEBOOK"
+      );
+    }
 
     const body = (await response.json()) as GraphApiError & { id?: string };
 
