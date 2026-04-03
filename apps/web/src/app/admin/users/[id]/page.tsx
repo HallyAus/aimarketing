@@ -322,7 +322,7 @@ export default async function UserDetailPage({
             <span style={badgeStyle(roleColor(user.systemRole))}>{user.systemRole.replace("_", " ")}</span>
           </div>
         </div>
-        <UserActions userId={user.id} status={user.status} />
+        <UserActions userId={user.id} userEmail={user.email} status={user.status} />
       </div>
 
       {/* Tabs */}

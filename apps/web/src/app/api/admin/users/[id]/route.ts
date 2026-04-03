@@ -102,3 +102,47 @@ export async function PATCH(
 
   return NextResponse.json({ data: updated });
 }
+
+// DELETE /api/admin/users/[id] — permanently delete a user
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const authResult = await requireAdmin();
+  if ("status" in authResult) return authResult;
+
+  const { id } = await params;
+
+  const user = await prisma.user.findUnique({
+    where: { id },
+    select: { id: true, email: true, name: true },
+  });
+
+  if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+
+  // Protect permanent super admins
+  const { isPermanentSuperAdmin } = await import("@/lib/constants/super-admins");
+  if (isPermanentSuperAdmin(user.email)) {
+    return NextResponse.json(
+      { error: "This account cannot be deleted", code: "PERMANENT_SUPER_ADMIN" },
+      { status: 403 },
+    );
+  }
+
+  // Delete (cascade will handle related records)
+  await prisma.user.delete({ where: { id } });
+
+  await prisma.auditLog.create({
+    data: {
+      userId: authResult.user?.id,
+      action: "admin.user_deleted",
+      entityType: "User",
+      entityId: id,
+      after: { deletedEmail: user.email, deletedName: user.name } as never,
+    },
+  });
+
+  return NextResponse.json({ data: { deleted: true } });
+}
