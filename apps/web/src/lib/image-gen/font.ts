@@ -8,9 +8,9 @@ let fontCache: ArrayBuffer | null = null;
 let fontBoldCache: ArrayBuffer | null = null;
 
 const INTER_REGULAR_URL =
-  "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjQ.woff";
+  "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf";
 const INTER_BOLD_URL =
-  "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYAZ9hjQ.woff";
+  "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf";
 
 async function fetchFont(url: string): Promise<ArrayBuffer> {
   const res = await fetch(url);
