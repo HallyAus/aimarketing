@@ -8,9 +8,9 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
  */
 
 // ---------------------------------------------------------------------------
-// Mock Prisma
+// Mock Prisma (vi.hoisted ensures availability in vi.mock factory)
 // ---------------------------------------------------------------------------
-const mockPrisma = {
+const mockPrisma = vi.hoisted(() => ({
   featureFlag: {
     findUnique: vi.fn(),
     findMany: vi.fn(),
@@ -18,7 +18,7 @@ const mockPrisma = {
   organization: {
     findUnique: vi.fn(),
   },
-};
+}));
 
 vi.mock("@/lib/db", () => ({
   prisma: mockPrisma,

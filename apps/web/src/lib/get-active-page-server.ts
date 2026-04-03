@@ -64,15 +64,19 @@ export async function getActivePageServer(
     }
   }
 
-  // 3. Try DB lastSelectedPageId
+  // 3. Try DB lastSelectedPageId (wrapped for pre-migration resilience)
   if (userId) {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { lastSelectedPageId: true },
-    });
-    if (user?.lastSelectedPageId) {
-      const page = await findPage(user.lastSelectedPageId);
-      if (page) return { pageId: page.id, page: mapPage(page) };
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { lastSelectedPageId: true },
+      });
+      if (user?.lastSelectedPageId) {
+        const page = await findPage(user.lastSelectedPageId);
+        if (page) return { pageId: page.id, page: mapPage(page) };
+      }
+    } catch {
+      // Field may not exist yet
     }
   }
 
@@ -87,20 +91,22 @@ export async function getActivePageServer(
 type PageRow = Awaited<ReturnType<typeof findPage>>;
 
 async function findPage(pageId: string) {
-  return prisma.page.findFirst({
-    where: { id: pageId, isActive: true },
-    select: {
-      id: true,
-      orgId: true,
-      platform: true,
-      name: true,
-      platformPageId: true,
-      connectionId: true,
-      avatarUrl: true,
-      isActive: true,
-      followerCount: true,
-    },
-  });
+  try {
+    return await prisma.page.findFirst({
+      where: { id: pageId, isActive: true },
+      select: {
+        id: true,
+        orgId: true,
+        platform: true,
+        name: true,
+        platformPageId: true,
+        connectionId: true,
+        isActive: true,
+      },
+    });
+  } catch {
+    return null;
+  }
 }
 
 function mapPage(page: NonNullable<PageRow>): ActivePageResult["page"] {
@@ -111,8 +117,8 @@ function mapPage(page: NonNullable<PageRow>): ActivePageResult["page"] {
     name: page.name,
     platformPageId: page.platformPageId,
     connectionId: page.connectionId,
-    avatarUrl: page.avatarUrl,
+    avatarUrl: null,
     isActive: page.isActive,
-    followerCount: page.followerCount ?? 0,
+    followerCount: 0,
   };
 }

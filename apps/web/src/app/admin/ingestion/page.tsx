@@ -36,6 +36,23 @@ export default async function AdminIngestionPage({
   searchParams: Promise<{ status?: string; platform?: string; page?: string }>;
 }) {
   const params = await searchParams;
+  // Check if ingestion tables exist (may not be migrated yet)
+  let tablesExist = true;
+  try {
+    await prisma.ingestionJob.count({ take: 0 });
+  } catch {
+    tablesExist = false;
+  }
+
+  if (!tablesExist) {
+    return (
+      <div className="text-center py-16">
+        <h1 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>Ingestion Not Available</h1>
+        <p className="text-sm" style={{ color: "var(--text-secondary)" }}>Database migration required. Run <code>prisma migrate deploy</code> to add ingestion tables.</p>
+      </div>
+    );
+  }
+
   const currentPage = parseInt(params.page || "1", 10);
   const pageSize = 25;
 

@@ -3,6 +3,7 @@
  * Install them if not yet present:
  *   pnpm add -D @testing-library/react @testing-library/jest-dom @testing-library/user-event
  */
+import React from "react";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { PricingSection } from "@/components/marketing/pricing-section";
@@ -13,7 +14,8 @@ import { PricingSection } from "@/components/marketing/pricing-section";
 describe("PricingSection", () => {
   it("renders without crashing", () => {
     render(<PricingSection />);
-    expect(screen.getByText("Pricing")).toBeDefined();
+    // "Pricing" appears both as a badge and in the heading
+    expect(screen.getAllByText("Pricing").length).toBeGreaterThanOrEqual(1);
   });
 
   it("renders exactly three pricing tiers", () => {
@@ -161,7 +163,8 @@ describe("PricingSection", () => {
 
       expect(screen.getByText("5 users")).toBeDefined();
       expect(screen.getByText("AI Content Studio")).toBeDefined();
-      expect(screen.getByText("Advanced analytics")).toBeDefined();
+      // "Advanced analytics" appears in both Free (excluded) and Pro (included) tiers
+      expect(screen.getAllByText("Advanced analytics").length).toBeGreaterThanOrEqual(1);
     });
   });
 

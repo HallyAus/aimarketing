@@ -2,18 +2,20 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // ---------------------------------------------------------------------------
 // Mock dependencies used by the health route
+// vi.hoisted() ensures variables are available when vi.mock factories run
 // ---------------------------------------------------------------------------
-const mockPrisma = {
-  $queryRaw: vi.fn(),
-};
+const { mockPrisma, mockRedisClient } = vi.hoisted(() => ({
+  mockPrisma: {
+    $queryRaw: vi.fn(),
+  },
+  mockRedisClient: {
+    ping: vi.fn(),
+  },
+}));
 
 vi.mock("@/lib/db", () => ({
   prisma: mockPrisma,
 }));
-
-const mockRedisClient = {
-  ping: vi.fn(),
-};
 
 vi.mock("@/lib/redis", () => ({
   redis: mockRedisClient,

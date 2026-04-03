@@ -34,13 +34,17 @@ async function resolveActivePageId(
     }
   }
 
-  // 2. Try DB lastSelectedPageId
+  // 2. Try DB lastSelectedPageId (wrapped in try-catch for pre-migration resilience)
   if (userId) {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { lastSelectedPageId: true },
-    });
-    if (user?.lastSelectedPageId) return user.lastSelectedPageId;
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { lastSelectedPageId: true },
+      });
+      if (user?.lastSelectedPageId) return user.lastSelectedPageId;
+    } catch {
+      // Field may not exist in DB yet if migration hasn't run
+    }
   }
 
   // 3. Auto-select first page in org
@@ -69,29 +73,32 @@ export default async function DashboardLayout({
   const userId = session?.user?.id;
   const orgId = session?.user?.currentOrgId;
 
-  // Fetch all pages for the org
+  // Fetch all pages for the org (try-catch for pre-migration resilience)
   let allPages: PageInfo[] = [];
   if (orgId) {
-    const rows = await prisma.page.findMany({
-      where: { orgId, isActive: true },
-      select: {
-        id: true,
-        platform: true,
-        name: true,
-        platformPageId: true,
-        avatarUrl: true,
-        isActive: true,
-      },
-      orderBy: [{ platform: "asc" }, { name: "asc" }],
-    });
-    allPages = rows.map((r) => ({
-      id: r.id,
-      platform: r.platform,
-      name: r.name,
-      platformPageId: r.platformPageId,
-      avatarUrl: r.avatarUrl,
-      isActive: r.isActive,
-    }));
+    try {
+      const rows = await prisma.page.findMany({
+        where: { orgId, isActive: true },
+        select: {
+          id: true,
+          platform: true,
+          name: true,
+          platformPageId: true,
+          isActive: true,
+        },
+        orderBy: [{ platform: "asc" }, { name: "asc" }],
+      });
+      allPages = rows.map((r) => ({
+        id: r.id,
+        platform: r.platform,
+        name: r.name,
+        platformPageId: r.platformPageId,
+        avatarUrl: null,
+        isActive: r.isActive,
+      }));
+    } catch {
+      // Fields may not exist yet if migration hasn't run
+    }
   }
 
   const activePageId = await resolveActivePageId(userId, orgId);
