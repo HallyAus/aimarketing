@@ -536,13 +536,13 @@ export default function CampaignPostsManager({
 
   /* ---- Sentiment check ---- */
 
-  const checkSentiment = async (postId: string, content: string, imageUrl?: string) => {
+  const checkSentiment = async (postId: string, content: string) => {
     setSentimentLoading((prev) => new Set(prev).add(postId));
     try {
       const res = await fetch("/api/ai/sentiment-check", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content, imageUrl }),
+        body: JSON.stringify({ content, postId }),
       });
       if (res.ok) {
         const result = await res.json();
@@ -847,7 +847,7 @@ export default function CampaignPostsManager({
                       </span>
                     ) : (
                       <button
-                        onClick={() => checkSentiment(post.id, post.content, post.mediaUrls?.[0])}
+                        onClick={() => checkSentiment(post.id, post.content)}
                         disabled={sentimentLoading.has(post.id)}
                         className="text-xs font-semibold px-2.5 py-1 rounded-md"
                         style={{

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
+import { prisma } from "@/lib/db";
 
 let _client: Anthropic | null = null;
 function getClient(): Anthropic {
@@ -14,7 +15,19 @@ export const POST = withErrorHandler(
   withRole("EDITOR", async (req) => {
     const body = await req.json();
     const content = body.content as string | undefined;
-    const imageUrl = body.imageUrl as string | undefined;
+    let imageUrl = body.imageUrl as string | undefined;
+    const postId = body.postId as string | undefined;
+
+    // If postId provided but no imageUrl, fetch image directly from DB
+    if (postId && !imageUrl) {
+      const post = await prisma.post.findUnique({
+        where: { id: postId },
+        select: { mediaUrls: true },
+      });
+      if (post?.mediaUrls?.[0]) {
+        imageUrl = post.mediaUrls[0];
+      }
+    }
 
     if ((!content || content.trim().length === 0) && !imageUrl) {
       return NextResponse.json(

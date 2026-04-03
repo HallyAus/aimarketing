@@ -55,13 +55,13 @@ export default function DraftsPage() {
   const [sentimentLoading, setSentimentLoading] = useState<Set<string>>(new Set());
   const [batchSentimentLoading, setBatchSentimentLoading] = useState(false);
 
-  async function checkDraftSentiment(draftId: string, content: string, imageUrl?: string) {
+  async function checkDraftSentiment(draftId: string, content: string) {
     setSentimentLoading((prev) => new Set(prev).add(draftId));
     try {
       const res = await fetch("/api/ai/sentiment-check", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content, imageUrl }),
+        body: JSON.stringify({ content, postId: draftId }),
       });
       if (!res.ok) return;
       const result = await res.json();
@@ -75,7 +75,7 @@ export default function DraftsPage() {
     setBatchSentimentLoading(true);
     for (const draft of drafts) {
       if (!sentimentScores[draft.id]) {
-        await checkDraftSentiment(draft.id, draft.content, draft.mediaUrls?.[0]);
+        await checkDraftSentiment(draft.id, draft.content);
       }
     }
     setBatchSentimentLoading(false);
@@ -532,7 +532,7 @@ export default function DraftsPage() {
                 })()}
                 {!sentimentScores[draft.id] && (
                   <button
-                    onClick={() => checkDraftSentiment(draft.id, draft.content, draft.mediaUrls?.[0])}
+                    onClick={() => checkDraftSentiment(draft.id, draft.content)}
                     disabled={sentimentLoading.has(draft.id)}
                     className="text-xs"
                     style={{ color: "var(--accent-blue)", background: "none", border: "none", cursor: "pointer", padding: 0 }}
