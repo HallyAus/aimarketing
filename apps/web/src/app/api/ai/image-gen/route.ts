@@ -83,7 +83,7 @@ async function generateCardsHtml(
   brandName?: string,
   themeId?: string,
   contentMemory?: string,
-): Promise<{ cards: Array<{ type: string; caption: string; html: string }> }> {
+): Promise<{ caption: string; cards: Array<{ type: string; html: string }> }> {
   if (!process.env.ANTHROPIC_API_KEY) {
     throw new ZodValidationError("AI service not configured. Set ANTHROPIC_API_KEY.");
   }
@@ -127,16 +127,14 @@ Card types to create (pick ${count} different ones, vary them):
 
 Return a JSON object:
 {
+  "caption": "Ready-to-post social media caption with hashtags (2-3 sentences)",
   "cards": [
     {
       "type": "short description of what this card is",
-      "caption": "A unique social media caption for THIS specific card — must reference the card's content directly. Include hashtags and emoji. 2-3 sentences max.",
       "html": "<!DOCTYPE html>...complete HTML document..."
     }
   ]
 }
-
-IMPORTANT: Each card MUST have its own unique caption that specifically describes what's on THAT card. Do NOT write one generic caption for all cards.
 
 CRITICAL RULES:
 - Each "html" value is a COMPLETE standalone HTML document starting with <!DOCTYPE html>
@@ -157,32 +155,32 @@ CRITICAL RULES:
   const raw = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
 
   // Try standard JSON parse first
+  let caption = "";
+  let htmlCards: Array<{ type: string; html: string }> = [];
+
   try {
     const parsed = JSON.parse(raw);
-    const cards = (parsed.cards ?? []).slice(0, count);
-    return {
-      cards: cards.map((c: { type?: string; caption?: string; html: string }) => ({
-        type: c.type ?? "",
-        caption: c.caption ?? parsed.caption ?? "",
-        html: c.html,
-      })),
-    };
+    caption = parsed.caption ?? "";
+    htmlCards = (parsed.cards ?? []).slice(0, count).map((c: { type?: string; html: string }) => ({
+      type: c.type ?? "",
+      html: c.html,
+    }));
   } catch {
     // JSON parse failed — HTML likely contains unescaped quotes.
-    // Extract HTML blocks manually using <!DOCTYPE html> as delimiters.
+    // Extract HTML blocks manually.
     const htmlBlocks = raw.match(/<!DOCTYPE html>[\s\S]*?<\/html>/gi) ?? [];
-    const captionMatch = raw.match(/"caption"\s*:\s*"([^"]{10,200})"/g) ?? [];
-    const typeMatch = raw.match(/"type"\s*:\s*"([^"]{3,80})"/g) ?? [];
+    const capMatch = raw.match(/"caption"\s*:\s*"([^"]{10,300})"/);
+    caption = capMatch?.[1] ?? "";
 
-    const cards = htmlBlocks.slice(0, count).map((html, i) => {
-      const capStr = captionMatch[i]?.match(/"caption"\s*:\s*"(.+)"/)?.[1] ?? "";
-      const typeStr = typeMatch[i]?.match(/"type"\s*:\s*"(.+)"/)?.[1] ?? `card-${i + 1}`;
-      return { type: typeStr, caption: capStr, html };
-    });
+    htmlCards = htmlBlocks.slice(0, count).map((html, i) => ({
+      type: `card-${i + 1}`,
+      html,
+    }));
 
-    if (cards.length === 0) throw new Error("Failed to parse AI response — no HTML blocks found");
-    return { cards };
+    if (htmlCards.length === 0) throw new Error("Failed to parse AI response — no HTML blocks found");
   }
+
+  return { caption, cards: htmlCards };
 }
 
 /* ── GET: load cached images ───────────────────────────────────── */
@@ -292,7 +290,7 @@ export const POST = withErrorHandler(
 
     // ── Generate HTML cards via Claude ─────────────────────────
     const contentMemory = await getContentMemory(req.orgId);
-    const { cards: generatedCards } = await generateCardsHtml(content, count, width, height, brandName, theme, contentMemory);
+    const { caption: generatedCaption, cards: generatedCards } = await generateCardsHtml(content, count, width, height, brandName, theme, contentMemory);
 
     // ── Render all cards to JPEG ──────────────────────────────
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
@@ -311,7 +309,7 @@ export const POST = withErrorHandler(
             base64,
             html: card.html,
             type: card.type || `card-${i + 1}`,
-            caption: card.caption,
+            caption: generatedCaption,
             prompt: promptSummary,
             expiresAt,
           },
@@ -322,7 +320,7 @@ export const POST = withErrorHandler(
           base64,
           html: card.html,
           type: card.type || `card-${i + 1}`,
-          caption: card.caption,
+          caption: generatedCaption,
           expiresAt: expiresAt.toISOString(),
           createdAt: saved.createdAt.toISOString(),
           width,

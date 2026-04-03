@@ -133,10 +133,10 @@ export default function ImageGenPage() {
       const generated: GeneratedImage[] = data.images ?? [];
       setImages(generated);
       setSelectedImages(new Set(generated.map((img) => img.id)));
-      // Set per-image captions
+      // Pre-fill captions from API response
       const caps: Record<string, string> = {};
       for (const img of generated) {
-        if (img.caption) caps[img.id] = img.caption;
+        caps[img.id] = img.caption || "";
       }
       setCaptions(caps);
       if (data.extractedContent) setExtractedContent(data.extractedContent);
