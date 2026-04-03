@@ -1,5 +1,5 @@
 import satori from "satori";
-import { Resvg } from "@resvg/resvg-js";
+import sharp from "sharp";
 import { getInterFonts } from "./font";
 import type { CardSpec, TemplateName, TemplateProps } from "./types";
 import React from "react";
@@ -57,10 +57,11 @@ export async function renderCardToPng(
     fonts: fonts as any,
   });
 
-  const resvg = new Resvg(svg, {
-    fitTo: { mode: "width", value: width },
-  });
+  // Use Sharp to convert SVG to PNG (works on Vercel serverless)
+  const buffer = await sharp(Buffer.from(svg))
+    .resize(width, height)
+    .png()
+    .toBuffer();
 
-  const pngData = resvg.render();
-  return Buffer.from(pngData.asPng());
+  return buffer;
 }
