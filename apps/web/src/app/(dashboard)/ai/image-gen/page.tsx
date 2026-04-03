@@ -178,7 +178,7 @@ export default function ImageGenPage() {
   function downloadImage(img: GeneratedImage) {
     const a = document.createElement("a");
     a.href = img.base64;
-    a.download = `${img.spec.brandName || "marketing"}-${img.spec.template}.png`;
+    a.download = `${img.spec.brandName || "marketing"}-${img.spec.template}.jpg`;
     a.click();
   }
 

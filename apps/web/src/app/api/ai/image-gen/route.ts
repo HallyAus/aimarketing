@@ -176,7 +176,7 @@ export const POST = withErrorHandler(
       const spec = regenerateSpec as CardSpec;
       const html = generateCardHtml(spec, width, height);
       const buffer = await renderCardToPng(spec, width, height);
-      const base64 = `data:image/png;base64,${buffer.toString("base64")}`;
+      const base64 = `data:image/jpeg;base64,${buffer.toString("base64")}`;
       return NextResponse.json({
         images: [{
           id: `regen_${Date.now()}`,
@@ -210,7 +210,7 @@ export const POST = withErrorHandler(
       specs.map(async (spec, i) => {
         const html = generateCardHtml(spec, width, height);
         const buffer = await renderCardToPng(spec, width, height);
-        const base64 = `data:image/png;base64,${buffer.toString("base64")}`;
+        const base64 = `data:image/jpeg;base64,${buffer.toString("base64")}`;
         return {
           id: `img_${i + 1}_${Date.now()}`,
           base64,

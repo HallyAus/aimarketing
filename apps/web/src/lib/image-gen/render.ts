@@ -597,10 +597,14 @@ export async function renderCardToPng(
   const page = await browser.newPage();
 
   try {
-    await page.setViewport({ width, height, deviceScaleFactor: 2 });
+    await page.setViewport({ width, height, deviceScaleFactor: 1 });
     await page.setContent(html, { waitUntil: "networkidle0", timeout: 15000 });
-    const png = await page.screenshot({ type: "png", clip: { x: 0, y: 0, width, height } });
-    return Buffer.from(png);
+    const img = await page.screenshot({
+      type: "jpeg",
+      quality: 90,
+      clip: { x: 0, y: 0, width, height },
+    });
+    return Buffer.from(img);
   } finally {
     await page.close();
   }
