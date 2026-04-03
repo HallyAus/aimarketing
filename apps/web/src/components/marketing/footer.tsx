@@ -36,6 +36,7 @@ const footerColumns = [
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" },
       { label: "Security", href: "/security" },
+      { label: "Cookie Preferences", href: "#cookie-preferences" },
     ],
   },
 ];
@@ -101,7 +102,20 @@ export function Footer() {
                   };
                   return (
                     <li key={link.label}>
-                      {isInternal ? (
+                      {link.href === "#cookie-preferences" ? (
+                        <button
+                          type="button"
+                          className={linkProps.className}
+                          onClick={() => {
+                            document.cookie =
+                              "adpilot-consent=; path=/; max-age=0; SameSite=Lax";
+                            window.location.reload();
+                          }}
+                          style={{ ...linkProps.style, background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                        >
+                          {link.label}
+                        </button>
+                      ) : isInternal ? (
                         <Link href={link.href} {...linkProps}>
                           {link.label}
                         </Link>

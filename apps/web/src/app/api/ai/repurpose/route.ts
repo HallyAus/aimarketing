@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
+import { withAiUsageTracking } from "@/lib/usage-limits";
 import { z } from "zod";
 
 const repurposeSchema = z.object({
@@ -91,7 +92,7 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
     }
   }).join("\n");
 
-  const response = await getClient().messages.create({
+  const response = await withAiUsageTracking((req as any).orgId, () => getClient().messages.create({
     model: "claude-sonnet-4-6",
     max_tokens: 4096,
     messages: [
@@ -124,7 +125,7 @@ Respond ONLY with valid JSON in this exact format, no other text:
 Make each variation unique with different angles, hooks, or approaches. Ensure content is ready to use as-is.`,
       },
     ],
-  });
+  }));
 
   const text = response.content[0];
   if (text?.type !== "text") {

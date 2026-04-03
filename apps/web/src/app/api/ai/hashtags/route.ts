@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
+import { withAiUsageTracking } from "@/lib/usage-limits";
 import { z } from "zod";
 
 let _client: Anthropic | null = null;
@@ -29,7 +30,7 @@ export const POST = withErrorHandler(
 
     const { topic, platform } = parsed.data;
 
-    const response = await getClient().messages.create({
+    const response = await withAiUsageTracking((req as any).orgId, () => getClient().messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 2048,
       messages: [
@@ -66,7 +67,7 @@ Return this exact JSON structure:
 Generate 8-10 trending, 8-10 niche, 3-5 branded suggestions, and 3-4 ready-to-use groups.`,
         },
       ],
-    });
+    }));
 
     const text = response.content[0];
     if (text?.type !== "text") {

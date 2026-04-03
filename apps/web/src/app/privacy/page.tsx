@@ -26,6 +26,18 @@ export default function PrivacyPage() {
         className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20"
         style={{ background: "var(--bg-primary)", minHeight: "100vh" }}
       >
+        <div
+          className="mb-6 rounded-lg px-4 py-3 text-sm font-medium"
+          style={{
+            background: "var(--bg-tertiary)",
+            color: "var(--text-secondary)",
+            border: "1px solid var(--border-primary)",
+          }}
+        >
+          [DRAFT — REQUIRES LEGAL REVIEW] This privacy policy is a working draft
+          and has not yet been reviewed by a qualified legal professional.
+        </div>
+
         <h1
           className="text-3xl font-bold mb-2"
           style={{ color: "var(--text-primary)" }}
@@ -134,22 +146,39 @@ export default function PrivacyPage() {
             >
               4. Cookies and Tracking
             </h2>
+            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
+              [DRAFT — REQUIRES LEGAL REVIEW]
+            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
-                <strong style={{ color: "var(--text-primary)" }}>Essential cookies:</strong>{" "}
-                We use session cookies for authentication and security. These
-                are required for the platform to function.
+                AdPilot uses a cookie consent banner that appears before any
+                non-essential cookies are loaded (GDPR requirement). You can
+                manage your cookie preferences at any time using the
+                &quot;Cookie Preferences&quot; link in the page footer.
               </p>
               <p>
-                <strong style={{ color: "var(--text-primary)" }}>Analytics cookies:</strong>{" "}
+                <strong style={{ color: "var(--text-primary)" }}>Essential cookies (always on):</strong>{" "}
+                Session cookies for authentication, CSRF protection tokens, and
+                the cookie consent preference itself ({`adpilot-consent`}).
+                These are required for the platform to function and cannot be
+                disabled.
+              </p>
+              <p>
+                <strong style={{ color: "var(--text-primary)" }}>Analytics cookies (opt-in):</strong>{" "}
                 We use PostHog for product analytics and feature management.
+                PostHog is only loaded if you consent to analytics cookies.
                 PostHog data is used to understand how users interact with
-                AdPilot and to improve the product. You can opt out of analytics
-                tracking in your account settings.
+                AdPilot and to improve the product.
               </p>
               <p>
-                We do not use third-party advertising cookies. We do not sell
-                your data to advertisers or data brokers.
+                <strong style={{ color: "var(--text-primary)" }}>Marketing cookies (opt-in):</strong>{" "}
+                Third-party tracking pixels and marketing tools. Currently
+                AdPilot does not use marketing cookies, but this category is
+                reserved for future use and requires your explicit consent.
+              </p>
+              <p>
+                We do not sell your data to advertisers or data brokers. We do
+                not use third-party advertising cookies without your consent.
               </p>
             </div>
           </section>
@@ -184,17 +213,51 @@ export default function PrivacyPage() {
             >
               6. Data Retention
             </h2>
+            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
+              [DRAFT — REQUIRES LEGAL REVIEW]
+            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
+              <p>We retain data for the following periods:</p>
+              <ul className="list-disc ml-5 space-y-1">
+                <li>
+                  <strong style={{ color: "var(--text-primary)" }}>Account data:</strong>{" "}
+                  Retained while your account is active.
+                </li>
+                <li>
+                  <strong style={{ color: "var(--text-primary)" }}>Posts and campaigns:</strong>{" "}
+                  Retained while your account is active; deleted 7 days after
+                  account deletion request (grace period).
+                </li>
+                <li>
+                  <strong style={{ color: "var(--text-primary)" }}>Analytics snapshots:</strong>{" "}
+                  Retained according to your plan tier (Free: 30 days, Pro: 1
+                  year, Agency: 2 years).
+                </li>
+                <li>
+                  <strong style={{ color: "var(--text-primary)" }}>OAuth tokens:</strong>{" "}
+                  Revoked and deleted immediately upon disconnection or account
+                  deletion.
+                </li>
+                <li>
+                  <strong style={{ color: "var(--text-primary)" }}>Invoices and billing records:</strong>{" "}
+                  Anonymized upon account deletion but retained for 7 years per
+                  Australian tax law requirements.
+                </li>
+                <li>
+                  <strong style={{ color: "var(--text-primary)" }}>Audit logs:</strong>{" "}
+                  Retained for 90 days, then anonymized. Anonymized logs may be
+                  retained for security and compliance purposes.
+                </li>
+                <li>
+                  <strong style={{ color: "var(--text-primary)" }}>Backups:</strong>{" "}
+                  Purged within 90 days of data deletion.
+                </li>
+              </ul>
               <p>
-                We retain your account data for as long as your account is
-                active. Analytics data is retained according to your plan tier.
-                Upon account cancellation, we delete your personal data,
-                content, and OAuth tokens within 30 days.
-              </p>
-              <p>
-                Backups containing your data are purged within 90 days of
-                deletion. You can request immediate deletion at any time by
-                contacting{" "}
+                Upon account deletion, we initiate a 7-day grace period. After
+                this period, personal data, content, and OAuth tokens are
+                permanently deleted. You can request immediate deletion at any
+                time by contacting{" "}
                 <a
                   href="mailto:support@adpilot.com.au"
                   style={{ color: "var(--accent-blue)" }}
@@ -235,15 +298,41 @@ export default function PrivacyPage() {
               className="text-xl font-semibold mb-3"
               style={{ color: "var(--text-primary)" }}
             >
-              8. Third-Party Services
+              8. Third-Party Services (Subprocessors)
             </h2>
-            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-              We integrate with social media platforms (Facebook, Instagram,
-              TikTok, LinkedIn, X/Twitter, YouTube, Google Ads, Pinterest,
-              Snapchat), Stripe for payment processing, PostHog for product
-              analytics, and Anthropic (Claude AI) for content generation. Each
-              third-party service has its own privacy policy governing their use
-              of data.
+            <p className="text-sm mb-3" style={{ color: "var(--text-secondary)" }}>
+              [DRAFT — REQUIRES LEGAL REVIEW] We share data with the following
+              third-party service providers (subprocessors) to operate AdPilot:
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm" style={{ color: "var(--text-secondary)" }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid var(--border-primary)" }}>
+                    <th className="text-left py-2 pr-4 font-medium" style={{ color: "var(--text-primary)" }}>Service</th>
+                    <th className="text-left py-2 pr-4 font-medium" style={{ color: "var(--text-primary)" }}>Purpose</th>
+                    <th className="text-left py-2 font-medium" style={{ color: "var(--text-primary)" }}>Location</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y" style={{ borderColor: "var(--border-primary)" }}>
+                  <tr><td className="py-2 pr-4">Vercel</td><td className="py-2 pr-4">Hosting and edge functions</td><td className="py-2">US (global edge)</td></tr>
+                  <tr><td className="py-2 pr-4">Neon (PostgreSQL)</td><td className="py-2 pr-4">Primary database</td><td className="py-2">US</td></tr>
+                  <tr><td className="py-2 pr-4">Stripe</td><td className="py-2 pr-4">Payment processing</td><td className="py-2">US</td></tr>
+                  <tr><td className="py-2 pr-4">Anthropic (Claude AI)</td><td className="py-2 pr-4">AI content generation</td><td className="py-2">US</td></tr>
+                  <tr><td className="py-2 pr-4">Resend</td><td className="py-2 pr-4">Transactional email</td><td className="py-2">US</td></tr>
+                  <tr><td className="py-2 pr-4">PostHog</td><td className="py-2 pr-4">Product analytics (with consent)</td><td className="py-2">US/EU</td></tr>
+                  <tr><td className="py-2 pr-4">Facebook / Instagram (Meta)</td><td className="py-2 pr-4">Social publishing and analytics</td><td className="py-2">US</td></tr>
+                  <tr><td className="py-2 pr-4">LinkedIn (Microsoft)</td><td className="py-2 pr-4">Social publishing and analytics</td><td className="py-2">US</td></tr>
+                  <tr><td className="py-2 pr-4">X / Twitter</td><td className="py-2 pr-4">Social publishing and analytics</td><td className="py-2">US</td></tr>
+                  <tr><td className="py-2 pr-4">TikTok (ByteDance)</td><td className="py-2 pr-4">Social publishing and analytics</td><td className="py-2">US/Singapore</td></tr>
+                  <tr><td className="py-2 pr-4">YouTube (Google)</td><td className="py-2 pr-4">Video publishing and analytics</td><td className="py-2">US</td></tr>
+                  <tr><td className="py-2 pr-4">Pinterest</td><td className="py-2 pr-4">Social publishing and analytics</td><td className="py-2">US</td></tr>
+                  <tr><td className="py-2 pr-4">Google Ads</td><td className="py-2 pr-4">Advertising management</td><td className="py-2">US</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p className="text-sm mt-3" style={{ color: "var(--text-secondary)" }}>
+              Each third-party service has its own privacy policy governing their
+              use of data. We encourage you to review their policies directly.
             </p>
           </section>
 
@@ -255,6 +344,9 @@ export default function PrivacyPage() {
             >
               9. Your Rights
             </h2>
+            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
+              [DRAFT — REQUIRES LEGAL REVIEW]
+            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
                 Regardless of your location, you have the following rights
@@ -262,26 +354,42 @@ export default function PrivacyPage() {
               </p>
               <ul className="list-disc ml-5 space-y-1">
                 <li>
-                  <strong style={{ color: "var(--text-primary)" }}>Access:</strong>{" "}
-                  Request a copy of all personal data we hold about you.
+                  <strong style={{ color: "var(--text-primary)" }}>Access (Data Export):</strong>{" "}
+                  Request a copy of all personal data we hold about you. You can
+                  use the self-service data export in your account settings, which
+                  provides a machine-readable JSON file containing your profile,
+                  posts, analytics, and connection metadata.
                 </li>
                 <li>
                   <strong style={{ color: "var(--text-primary)" }}>Correction:</strong>{" "}
-                  Request correction of inaccurate personal data.
+                  Request correction of inaccurate personal data. You can edit
+                  your name, email, timezone, and locale in your account settings.
                 </li>
                 <li>
                   <strong style={{ color: "var(--text-primary)" }}>Deletion:</strong>{" "}
-                  Request deletion of your personal data. We will delete your
-                  data within 30 days, subject to legal retention obligations.
+                  Request deletion of your personal data. You can initiate account
+                  deletion from your account settings. Accounts are marked for
+                  deletion with a 7-day grace period, after which all personal
+                  data is permanently removed. Invoices are anonymized for tax
+                  compliance.
                 </li>
                 <li>
                   <strong style={{ color: "var(--text-primary)" }}>Portability:</strong>{" "}
                   Request an export of your data in a machine-readable format
-                  (JSON or CSV).
+                  (JSON). Available via the data export feature.
                 </li>
                 <li>
                   <strong style={{ color: "var(--text-primary)" }}>Restriction:</strong>{" "}
                   Request that we limit how we process your data.
+                </li>
+                <li>
+                  <strong style={{ color: "var(--text-primary)" }}>Objection:</strong>{" "}
+                  Object to processing of your personal data where we rely on
+                  legitimate interest as the legal basis.
+                </li>
+                <li>
+                  <strong style={{ color: "var(--text-primary)" }}>Do Not Sell (CCPA):</strong>{" "}
+                  AdPilot does not sell personal data to third parties.
                 </li>
                 <li>
                   <strong style={{ color: "var(--text-primary)" }}>Disconnection:</strong>{" "}
@@ -374,7 +482,42 @@ export default function PrivacyPage() {
               className="text-xl font-semibold mb-3"
               style={{ color: "var(--text-primary)" }}
             >
-              13. Contact
+              13. Children&apos;s Privacy
+            </h2>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+              [DRAFT — REQUIRES LEGAL REVIEW] AdPilot is not directed at
+              children under the age of 16. We do not knowingly collect personal
+              information from children under 16. If we become aware that a
+              child under 16 has provided us with personal data, we will take
+              steps to delete that information promptly.
+            </p>
+          </section>
+
+          {/* 14 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              14. Changes to This Policy
+            </h2>
+            <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+              We may update this privacy policy from time to time. Material
+              changes will be communicated via email at least 30 days before they
+              take effect. The &quot;Last updated&quot; date at the top of this
+              page indicates when the policy was last revised. Continued use of
+              AdPilot after changes take effect constitutes acceptance of the
+              updated policy.
+            </p>
+          </section>
+
+          {/* 15 */}
+          <section>
+            <h2
+              className="text-xl font-semibold mb-3"
+              style={{ color: "var(--text-primary)" }}
+            >
+              15. Contact
             </h2>
             <div className="text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>

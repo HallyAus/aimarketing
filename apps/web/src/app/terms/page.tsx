@@ -26,6 +26,18 @@ export default function TermsPage() {
         className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20"
         style={{ background: "var(--bg-primary)", minHeight: "100vh" }}
       >
+        <div
+          className="mb-6 rounded-lg px-4 py-3 text-sm font-medium"
+          style={{
+            background: "var(--bg-tertiary)",
+            color: "var(--text-secondary)",
+            border: "1px solid var(--border-primary)",
+          }}
+        >
+          [DRAFT — REQUIRES LEGAL REVIEW] These terms of service are a working
+          draft and have not yet been reviewed by a qualified legal professional.
+        </div>
+
         <h1
           className="text-3xl font-bold mb-2"
           style={{ color: "var(--text-primary)" }}
@@ -122,10 +134,14 @@ export default function TermsPage() {
             >
               4. Billing and Cancellation
             </h2>
+            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
+              [DRAFT — REQUIRES LEGAL REVIEW]
+            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
-                Paid subscriptions are billed monthly in advance. You can cancel
-                your subscription at any time from your account settings.
+                Paid subscriptions are billed monthly in advance and
+                automatically renew unless cancelled. You can cancel your
+                subscription at any time from your account settings.
                 Cancellation takes effect at the end of the current billing
                 period — you retain access until then.
               </p>
@@ -133,6 +149,21 @@ export default function TermsPage() {
                 We do not offer prorated refunds for partial months. If you
                 downgrade from a paid plan to Free, you retain access to paid
                 features until the end of your current billing cycle.
+              </p>
+              <p>
+                <strong style={{ color: "var(--text-primary)" }}>Account deletion:</strong>{" "}
+                You may request full account deletion at any time. Upon
+                deletion, your account enters a 7-day grace period during which
+                you can reactivate by logging in. After the grace period, all
+                personal data, content, and connected platform tokens are
+                permanently removed. Billing records are anonymized and retained
+                per tax law requirements.
+              </p>
+              <p>
+                <strong style={{ color: "var(--text-primary)" }}>Price changes:</strong>{" "}
+                We will notify existing subscribers at least 30 days before any
+                price change takes effect. Price changes apply at the start of
+                the next billing cycle after the notice period.
               </p>
             </div>
           </section>
@@ -145,6 +176,9 @@ export default function TermsPage() {
             >
               5. Data Ownership
             </h2>
+            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
+              [DRAFT — REQUIRES LEGAL REVIEW]
+            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
                 <strong style={{ color: "var(--text-primary)" }}>
@@ -152,18 +186,29 @@ export default function TermsPage() {
                 </strong>{" "}
                 All content you create, upload, or generate using AdPilot
                 remains your intellectual property. We do not claim ownership of
-                your content.
+                your content, including AI-generated content created at your
+                direction.
               </p>
               <p>
-                You grant AdPilot a limited license to store, process, and
-                transmit your content solely for the purpose of providing the
-                service (e.g., publishing to connected platforms, generating AI
-                suggestions based on your brand voice).
+                You grant AdPilot a limited, non-exclusive, worldwide license to
+                store, process, and transmit your content solely for the purpose
+                of providing the service (e.g., publishing to connected
+                platforms, generating AI suggestions based on your brand voice).
+                This license terminates when you delete your content or your
+                account.
               </p>
               <p>
-                You can export your data at any time from your dashboard. Upon
-                account deletion, we remove your content and personal data
-                within 30 days.
+                <strong style={{ color: "var(--text-primary)" }}>AdPilot platform IP:</strong>{" "}
+                The AdPilot platform, including its design, features, code, and
+                documentation, is the intellectual property of AdPilot. Your
+                subscription grants you a limited right to use the platform but
+                does not transfer any ownership of platform IP.
+              </p>
+              <p>
+                You can export your data at any time using the self-service data
+                export feature in your account settings. Upon account deletion,
+                we remove your content and personal data within 7 days (grace
+                period) plus 30 days for backup purging.
               </p>
             </div>
           </section>
@@ -192,17 +237,39 @@ export default function TermsPage() {
             >
               7. AI-Generated Content
             </h2>
+            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
+              [DRAFT — REQUIRES LEGAL REVIEW]
+            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
-                AdPilot uses AI (powered by Anthropic's Claude) to assist with
+                AdPilot uses AI (powered by Anthropic&apos;s Claude) to assist with
                 content creation. AI-generated content is provided as
-                suggestions. You are responsible for reviewing, editing, and
-                approving all content before publishing.
+                suggestions only. You are responsible for reviewing, editing,
+                and approving all content before publishing.
               </p>
               <p>
+                <strong style={{ color: "var(--text-primary)" }}>Disclaimer:</strong>{" "}
                 AdPilot does not guarantee that AI-generated content is accurate,
-                original, or suitable for any specific purpose. You assume full
-                responsibility for content published through the platform.
+                factually correct, original, or suitable for any specific
+                purpose. AI-generated content may contain errors, biases, or
+                inaccuracies. You assume full responsibility for all content
+                published through the platform, including any consequences of
+                publishing AI-generated content that may violate platform Terms
+                of Service, applicable laws, or third-party rights.
+              </p>
+              <p>
+                <strong style={{ color: "var(--text-primary)" }}>AI content labeling:</strong>{" "}
+                Some jurisdictions and social media platforms require disclosure
+                when content is AI-generated. AdPilot provides an option to
+                label posts as AI-generated. It is your responsibility to comply
+                with applicable disclosure requirements in your jurisdiction.
+              </p>
+              <p>
+                <strong style={{ color: "var(--text-primary)" }}>Data usage:</strong>{" "}
+                Content you submit for AI processing (prompts, brand voice
+                settings, post content) is sent to Anthropic for processing.
+                AdPilot does not use your content to train AI models. Refer to
+                Anthropic&apos;s privacy policy for their data handling practices.
               </p>
             </div>
           </section>
@@ -215,20 +282,31 @@ export default function TermsPage() {
             >
               8. Uptime and Availability
             </h2>
+            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
+              [DRAFT — REQUIRES LEGAL REVIEW]
+            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
-                We target 99.9% uptime for the AdPilot platform. Scheduled
-                maintenance windows will be communicated in advance via email
-                and our{" "}
+                We target 99.9% uptime for the AdPilot platform, measured
+                monthly. Scheduled maintenance windows will be communicated at
+                least 48 hours in advance via email and our{" "}
                 <Link href="/status" style={{ color: "var(--accent-blue)" }}>
                   status page
                 </Link>
                 .
               </p>
               <p>
+                <strong style={{ color: "var(--text-primary)" }}>Service credits:</strong>{" "}
+                If monthly uptime falls below 99.9% (excluding scheduled
+                maintenance and third-party outages), Pro and Agency plan
+                subscribers may request a service credit for the affected
+                period. Credits are applied to future billing cycles and do not
+                exceed 30% of your monthly subscription fee.
+              </p>
+              <p>
                 We are not liable for downtime caused by third-party platform
-                outages, force majeure events, or circumstances beyond our
-                reasonable control.
+                outages (e.g., Facebook API downtime), force majeure events, or
+                circumstances beyond our reasonable control.
               </p>
             </div>
           </section>

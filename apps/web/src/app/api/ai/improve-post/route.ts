@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { improvePostContent } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
+import { withAiUsageTracking } from "@/lib/usage-limits";
 import { z } from "zod";
 
 const improvePostSchema = z.object({
@@ -17,7 +18,9 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
     throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
   }
 
-  const improved = await improvePostContent(parsed.data);
+  const improved = await withAiUsageTracking(req.orgId, () =>
+    improvePostContent(parsed.data)
+  );
 
   return NextResponse.json({ content: improved });
 }));

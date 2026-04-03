@@ -3,6 +3,7 @@ import { generatePostContent } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { prisma } from "@/lib/db";
+import { withAiUsageTracking } from "@/lib/usage-limits";
 import { z } from "zod";
 
 const generatePostSchema = z.object({
@@ -53,13 +54,15 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
     }
   } catch { /* non-critical */ }
 
-  const content = await generatePostContent({
-    ...rest,
-    topic: rest.topic || customPrompt || "",
-    customPrompt,
-    brandVoicePrompt,
-    businessContext,
-  });
+  const content = await withAiUsageTracking(req.orgId, () =>
+    generatePostContent({
+      ...rest,
+      topic: rest.topic || customPrompt || "",
+      customPrompt,
+      brandVoicePrompt,
+      businessContext,
+    })
+  );
 
   return NextResponse.json({ content });
 }));

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
+import { withAiUsageTracking } from "@/lib/usage-limits";
 import Anthropic from "@anthropic-ai/sdk";
 
 let _client: Anthropic | null = null;
@@ -26,7 +27,7 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
     return NextResponse.json({ error: "No valid target languages", code: "VALIDATION_ERROR", statusCode: 400 }, { status: 400 });
   }
 
-  const response = await getClient().messages.create({
+  const response = await withAiUsageTracking((req as any).orgId, () => getClient().messages.create({
     model: "claude-sonnet-4-6",
     max_tokens: 4096,
     messages: [
@@ -50,7 +51,7 @@ Return ONLY a JSON object with language names as keys and translated text as val
 No explanations, just the JSON.`,
       },
     ],
-  });
+  }));
 
   const text = response.content[0];
   if (text?.type !== "text") throw new Error("No text in AI response");

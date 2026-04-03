@@ -6,6 +6,7 @@ import type { Platform } from "@adpilot/platform-sdk";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
 import { StatusBadge } from "@/components/status-badge";
+import { calculateTokenHealth } from "@/lib/token-health";
 import { FacebookPages } from "./facebook-pages";
 import { BackfillPagesButton } from "./backfill-pages-button";
 import { GbpConnect } from "./gbp-connect";
@@ -101,6 +102,27 @@ export default async function ConnectionsPage({
                     {connection.platformAccountName ?? connection.platformUserId}
                   </p>
                 )}
+                {connection && (() => {
+                  const health = calculateTokenHealth(
+                    platform,
+                    connection.tokenExpiresAt,
+                    connection.status,
+                  );
+                  return (
+                    <div className="flex items-center gap-1.5 mt-1.5">
+                      <span
+                        className="w-2 h-2 rounded-full flex-shrink-0"
+                        style={{ backgroundColor: health.color }}
+                      />
+                      <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
+                        {health.label}
+                        {health.remainingLabel && health.status === "EXPIRING_SOON" && (
+                          <> &middot; {health.remainingLabel} remaining</>
+                        )}
+                      </span>
+                    </div>
+                  );
+                })()}
               </div>
 
               <div className="mt-4 flex gap-2">

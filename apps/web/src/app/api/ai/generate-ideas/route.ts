@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateCampaignIdeas } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
+import { withAiUsageTracking } from "@/lib/usage-limits";
 import { z } from "zod";
 
 const generateIdeasSchema = z.object({
@@ -18,12 +19,14 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
     throw new ZodValidationError(parsed.error.issues.map((i) => i.message).join(", "));
   }
 
-  const ideas = await generateCampaignIdeas({
-    industry: parsed.data.industry,
-    objective: parsed.data.objective,
-    platforms: parsed.data.platforms ?? ["FACEBOOK", "INSTAGRAM"],
-    count: parsed.data.count,
-  });
+  const ideas = await withAiUsageTracking(req.orgId, () =>
+    generateCampaignIdeas({
+      industry: parsed.data.industry,
+      objective: parsed.data.objective,
+      platforms: parsed.data.platforms ?? ["FACEBOOK", "INSTAGRAM"],
+      count: parsed.data.count,
+    })
+  );
 
   return NextResponse.json({ ideas });
 }));
