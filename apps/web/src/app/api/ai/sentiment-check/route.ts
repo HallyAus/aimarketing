@@ -9,12 +9,14 @@ function getClient(): Anthropic {
   return _client;
 }
 
-// POST /api/ai/sentiment-check — sentiment + image analysis + improved version
+// POST /api/ai/sentiment-check — sentiment + vision analysis + improved version
 export const POST = withErrorHandler(
   withRole("EDITOR", async (req) => {
-    const { content, imageUrl } = await req.json();
+    const body = await req.json();
+    const content = body.content as string | undefined;
+    const imageUrl = body.imageUrl as string | undefined;
 
-    if ((!content || typeof content !== "string" || content.trim().length === 0) && !imageUrl) {
+    if ((!content || content.trim().length === 0) && !imageUrl) {
       return NextResponse.json(
         { error: "content or imageUrl is required", code: "VALIDATION_ERROR", statusCode: 400 },
         { status: 400 },
@@ -28,55 +30,59 @@ export const POST = withErrorHandler(
       );
     }
 
-    // Build message content — text + optional image
-    const messageContent: Anthropic.MessageCreateParams["messages"][0]["content"] = [];
+    // Build multimodal message
+    const parts: Anthropic.Messages.ContentBlockParam[] = [];
 
-    // Add image if provided (base64 data URL)
-    if (imageUrl && typeof imageUrl === "string" && imageUrl.startsWith("data:image/")) {
-      const match = imageUrl.match(/^data:(image\/[^;]+);base64,(.+)$/);
-      if (match) {
-        messageContent.push({
-          type: "image",
-          source: {
-            type: "base64",
-            media_type: match[1] as "image/jpeg" | "image/png" | "image/gif" | "image/webp",
-            data: match[2]!,
-          },
-        });
+    // Parse base64 image if provided
+    let hasImage = false;
+    if (imageUrl && imageUrl.length > 200) {
+      try {
+        const dataMatch = imageUrl.match(/^data:(image\/(jpeg|png|gif|webp));base64,(.+)$/);
+        if (dataMatch) {
+          parts.push({
+            type: "image",
+            source: {
+              type: "base64",
+              media_type: dataMatch[1] as "image/jpeg" | "image/png" | "image/gif" | "image/webp",
+              data: dataMatch[3]!,
+            },
+          });
+          hasImage = true;
+        }
+      } catch (e) {
+        console.error("[sentiment-check] Image parse error:", e);
       }
     }
 
-    const hasImage = messageContent.length > 0;
     const textContent = content?.trim() ?? "";
 
-    messageContent.push({
+    parts.push({
       type: "text",
-      text: `Analyze this social media post and write an improved version.
+      text: `You are analyzing a social media post for a marketing platform.
 
-${hasImage ? "I've attached the image that will be posted." : ""}
-${textContent ? `Caption/text: "${textContent}"` : "No caption provided."}
+${hasImage ? "I've attached the IMAGE that will be posted. You can SEE it. Describe what you see and analyze the visual design, text on the image, colors, branding, and messaging." : ""}
+${textContent ? `Caption text: "${textContent}"` : "No caption text provided."}
 
-${hasImage ? `IMPORTANT: You can SEE the attached image. Analyze what's in the image — the design, colors, text on the image, messaging, brand elements. Use what you see to:
-- Score how effective the IMAGE + caption combination is as a social media post
-- Write suggestions that reference the actual image content
-- Write an improved caption that complements what's shown in the image` : ""}
+${hasImage ? `CRITICAL: Look at the actual image. Describe the visual content, any text visible on the image, the design style, colors, and brand elements. Your analysis and improved caption MUST reference what's actually shown in the image. Do NOT write generic marketing text.` : ""}
 
-${!hasImage && textContent.length < 30 ? `The text appears to be a placeholder. Score it low and write a real caption.` : ""}
+${!hasImage && textContent.length < 30 ? "This appears to be placeholder text for an image post. Score it very low and write a proper caption." : ""}
 
 Return ONLY valid JSON (no markdown, no code fences):
 {
   "sentiment": "positive" | "neutral" | "negative",
   "score": 0-100,
-  "imageDescription": "${hasImage ? "Brief description of what you see in the image" : ""}",
-  "suggestions": ["max 3 specific actionable suggestions${hasImage ? " referencing the image content" : ""}"],
-  "improvedVersion": "An improved caption${hasImage ? " that complements the image" : ""} — engaging hooks, CTA, hashtags, emoji. ${hasImage ? "Reference what's actually in the image." : ""}"
+  "imageDescription": "${hasImage ? "What you see in the image — design, text, colors, brand elements" : "no image provided"}",
+  "suggestions": ["max 3 specific suggestions${hasImage ? " that reference the actual image content" : ""}"],
+  "improvedVersion": "An improved caption${hasImage ? " that directly references and complements what's shown in the image" : ""} — engaging hook, CTA, relevant hashtags, emoji"
 }`,
     });
+
+    console.log(`[sentiment-check] hasImage=${hasImage}, textLength=${textContent.length}, imageDataLength=${imageUrl?.length ?? 0}`);
 
     const response = await getClient().messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 2048,
-      messages: [{ role: "user", content: messageContent }],
+      messages: [{ role: "user", content: parts }],
     });
 
     const text = response.content[0];

@@ -91,7 +91,7 @@ export default function CampaignPostsManager({
   const [campaignData, setCampaignData] = useState(initialCampaign);
 
   // Sentiment check state
-  const [sentimentScores, setSentimentScores] = useState<Record<string, { sentiment: string; score: number; suggestions: string[]; improvedVersion: string }>>({});
+  const [sentimentScores, setSentimentScores] = useState<Record<string, { sentiment: string; score: number; suggestions: string[]; improvedVersion: string; imageDescription?: string }>>({});
   const [sentimentLoading, setSentimentLoading] = useState<Set<string>>(new Set());
 
   // FIX 12: Batch schedule modal state
@@ -1020,6 +1020,16 @@ export default function CampaignPostsManager({
                       </div>
                       <span className="text-xs font-bold" style={{ color: "var(--text-primary)" }}>{sentimentScores[post.id]!.score}</span>
                     </div>
+
+                    {/* Image description (proves Claude saw the image) */}
+                    {sentimentScores[post.id]!.imageDescription && sentimentScores[post.id]!.imageDescription !== "no image provided" && (
+                      <div className="px-2.5 py-2" style={{ borderTop: "1px solid var(--border-primary)", background: "var(--bg-tertiary)" }}>
+                        <span className="text-[10px] font-semibold" style={{ color: "var(--text-tertiary)" }}>AI sees: </span>
+                        <span className="text-[10px]" style={{ color: "var(--text-secondary)" }}>
+                          {sentimentScores[post.id]!.imageDescription}
+                        </span>
+                      </div>
+                    )}
 
                     {/* Suggestions */}
                     {sentimentScores[post.id]!.suggestions.length > 0 && (
