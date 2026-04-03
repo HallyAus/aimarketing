@@ -213,6 +213,11 @@ export type EmailVerification = $Result.DefaultSelection<Prisma.$EmailVerificati
  * 
  */
 export type CachedInsight = $Result.DefaultSelection<Prisma.$CachedInsightPayload>
+/**
+ * Model CommunityTopic
+ * 
+ */
+export type CommunityTopic = $Result.DefaultSelection<Prisma.$CommunityTopicPayload>
 
 /**
  * Enums
@@ -1008,6 +1013,16 @@ export class PrismaClient<
     * ```
     */
   get cachedInsight(): Prisma.CachedInsightDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.communityTopic`: Exposes CRUD operations for the **CommunityTopic** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CommunityTopics
+    * const communityTopics = await prisma.communityTopic.findMany()
+    * ```
+    */
+  get communityTopic(): Prisma.CommunityTopicDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1488,7 +1503,8 @@ export namespace Prisma {
     HistoricalPost: 'HistoricalPost',
     HistoricalMetricSnapshot: 'HistoricalMetricSnapshot',
     EmailVerification: 'EmailVerification',
-    CachedInsight: 'CachedInsight'
+    CachedInsight: 'CachedInsight',
+    CommunityTopic: 'CommunityTopic'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1507,7 +1523,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "organization" | "user" | "account" | "session" | "verificationToken" | "membership" | "invitation" | "platformConnection" | "campaign" | "post" | "creative" | "analyticsSnapshot" | "auditLog" | "webhookEvent" | "postTemplate" | "authenticator" | "twoFactorSecret" | "page" | "brandVoice" | "hashtagSet" | "contentTemplate" | "approvalRequest" | "rssFeed" | "webhookRule" | "leadCapture" | "utmLink" | "performanceReport" | "invoice" | "usageRecord" | "paymentMethod" | "apiKey" | "featureFlag" | "systemMetric" | "announcement" | "waitlistEntry" | "ingestionJob" | "historicalPost" | "historicalMetricSnapshot" | "emailVerification" | "cachedInsight"
+      modelProps: "organization" | "user" | "account" | "session" | "verificationToken" | "membership" | "invitation" | "platformConnection" | "campaign" | "post" | "creative" | "analyticsSnapshot" | "auditLog" | "webhookEvent" | "postTemplate" | "authenticator" | "twoFactorSecret" | "page" | "brandVoice" | "hashtagSet" | "contentTemplate" | "approvalRequest" | "rssFeed" | "webhookRule" | "leadCapture" | "utmLink" | "performanceReport" | "invoice" | "usageRecord" | "paymentMethod" | "apiKey" | "featureFlag" | "systemMetric" | "announcement" | "waitlistEntry" | "ingestionJob" | "historicalPost" | "historicalMetricSnapshot" | "emailVerification" | "cachedInsight" | "communityTopic"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4471,6 +4487,80 @@ export namespace Prisma {
           }
         }
       }
+      CommunityTopic: {
+        payload: Prisma.$CommunityTopicPayload<ExtArgs>
+        fields: Prisma.CommunityTopicFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CommunityTopicFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityTopicPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CommunityTopicFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityTopicPayload>
+          }
+          findFirst: {
+            args: Prisma.CommunityTopicFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityTopicPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CommunityTopicFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityTopicPayload>
+          }
+          findMany: {
+            args: Prisma.CommunityTopicFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityTopicPayload>[]
+          }
+          create: {
+            args: Prisma.CommunityTopicCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityTopicPayload>
+          }
+          createMany: {
+            args: Prisma.CommunityTopicCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CommunityTopicCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityTopicPayload>[]
+          }
+          delete: {
+            args: Prisma.CommunityTopicDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityTopicPayload>
+          }
+          update: {
+            args: Prisma.CommunityTopicUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityTopicPayload>
+          }
+          deleteMany: {
+            args: Prisma.CommunityTopicDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CommunityTopicUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CommunityTopicUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityTopicPayload>[]
+          }
+          upsert: {
+            args: Prisma.CommunityTopicUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityTopicPayload>
+          }
+          aggregate: {
+            args: Prisma.CommunityTopicAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCommunityTopic>
+          }
+          groupBy: {
+            args: Prisma.CommunityTopicGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CommunityTopicGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CommunityTopicCountArgs<ExtArgs>
+            result: $Utils.Optional<CommunityTopicCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4607,6 +4697,7 @@ export namespace Prisma {
     historicalMetricSnapshot?: HistoricalMetricSnapshotOmit
     emailVerification?: EmailVerificationOmit
     cachedInsight?: CachedInsightOmit
+    communityTopic?: CommunityTopicOmit
   }
 
   /* Types for Logging */
@@ -4703,6 +4794,7 @@ export namespace Prisma {
     performanceReports: number
     invoices: number
     usageRecords: number
+    communityTopics: number
   }
 
   export type OrganizationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4722,6 +4814,7 @@ export namespace Prisma {
     performanceReports?: boolean | OrganizationCountOutputTypeCountPerformanceReportsArgs
     invoices?: boolean | OrganizationCountOutputTypeCountInvoicesArgs
     usageRecords?: boolean | OrganizationCountOutputTypeCountUsageRecordsArgs
+    communityTopics?: boolean | OrganizationCountOutputTypeCountCommunityTopicsArgs
   }
 
   // Custom InputTypes
@@ -4845,6 +4938,13 @@ export namespace Prisma {
    */
   export type OrganizationCountOutputTypeCountUsageRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UsageRecordWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountCommunityTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityTopicWhereInput
   }
 
 
@@ -5659,6 +5759,7 @@ export namespace Prisma {
     performanceReports?: boolean | Organization$performanceReportsArgs<ExtArgs>
     invoices?: boolean | Organization$invoicesArgs<ExtArgs>
     usageRecords?: boolean | Organization$usageRecordsArgs<ExtArgs>
+    communityTopics?: boolean | Organization$communityTopicsArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["organization"]>
 
@@ -5779,6 +5880,7 @@ export namespace Prisma {
     performanceReports?: boolean | Organization$performanceReportsArgs<ExtArgs>
     invoices?: boolean | Organization$invoicesArgs<ExtArgs>
     usageRecords?: boolean | Organization$usageRecordsArgs<ExtArgs>
+    communityTopics?: boolean | Organization$communityTopicsArgs<ExtArgs>
     _count?: boolean | OrganizationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrganizationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5803,6 +5905,7 @@ export namespace Prisma {
       performanceReports: Prisma.$PerformanceReportPayload<ExtArgs>[]
       invoices: Prisma.$InvoicePayload<ExtArgs>[]
       usageRecords: Prisma.$UsageRecordPayload<ExtArgs>[]
+      communityTopics: Prisma.$CommunityTopicPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6245,6 +6348,7 @@ export namespace Prisma {
     performanceReports<T extends Organization$performanceReportsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$performanceReportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PerformanceReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     invoices<T extends Organization$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Organization$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     usageRecords<T extends Organization$usageRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$usageRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsageRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    communityTopics<T extends Organization$communityTopicsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$communityTopicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityTopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7073,6 +7177,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UsageRecordScalarFieldEnum | UsageRecordScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.communityTopics
+   */
+  export type Organization$communityTopicsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityTopic
+     */
+    select?: CommunityTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityTopic
+     */
+    omit?: CommunityTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityTopicInclude<ExtArgs> | null
+    where?: CommunityTopicWhereInput
+    orderBy?: CommunityTopicOrderByWithRelationInput | CommunityTopicOrderByWithRelationInput[]
+    cursor?: CommunityTopicWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommunityTopicScalarFieldEnum | CommunityTopicScalarFieldEnum[]
   }
 
   /**
@@ -52940,6 +53068,1051 @@ export namespace Prisma {
 
 
   /**
+   * Model CommunityTopic
+   */
+
+  export type AggregateCommunityTopic = {
+    _count: CommunityTopicCountAggregateOutputType | null
+    _min: CommunityTopicMinAggregateOutputType | null
+    _max: CommunityTopicMaxAggregateOutputType | null
+  }
+
+  export type CommunityTopicMinAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    topic: string | null
+    createdAt: Date | null
+  }
+
+  export type CommunityTopicMaxAggregateOutputType = {
+    id: string | null
+    orgId: string | null
+    topic: string | null
+    createdAt: Date | null
+  }
+
+  export type CommunityTopicCountAggregateOutputType = {
+    id: number
+    orgId: number
+    topic: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CommunityTopicMinAggregateInputType = {
+    id?: true
+    orgId?: true
+    topic?: true
+    createdAt?: true
+  }
+
+  export type CommunityTopicMaxAggregateInputType = {
+    id?: true
+    orgId?: true
+    topic?: true
+    createdAt?: true
+  }
+
+  export type CommunityTopicCountAggregateInputType = {
+    id?: true
+    orgId?: true
+    topic?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CommunityTopicAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CommunityTopic to aggregate.
+     */
+    where?: CommunityTopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityTopics to fetch.
+     */
+    orderBy?: CommunityTopicOrderByWithRelationInput | CommunityTopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CommunityTopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityTopics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CommunityTopics
+    **/
+    _count?: true | CommunityTopicCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CommunityTopicMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CommunityTopicMaxAggregateInputType
+  }
+
+  export type GetCommunityTopicAggregateType<T extends CommunityTopicAggregateArgs> = {
+        [P in keyof T & keyof AggregateCommunityTopic]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCommunityTopic[P]>
+      : GetScalarType<T[P], AggregateCommunityTopic[P]>
+  }
+
+
+
+
+  export type CommunityTopicGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityTopicWhereInput
+    orderBy?: CommunityTopicOrderByWithAggregationInput | CommunityTopicOrderByWithAggregationInput[]
+    by: CommunityTopicScalarFieldEnum[] | CommunityTopicScalarFieldEnum
+    having?: CommunityTopicScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CommunityTopicCountAggregateInputType | true
+    _min?: CommunityTopicMinAggregateInputType
+    _max?: CommunityTopicMaxAggregateInputType
+  }
+
+  export type CommunityTopicGroupByOutputType = {
+    id: string
+    orgId: string
+    topic: string
+    createdAt: Date
+    _count: CommunityTopicCountAggregateOutputType | null
+    _min: CommunityTopicMinAggregateOutputType | null
+    _max: CommunityTopicMaxAggregateOutputType | null
+  }
+
+  type GetCommunityTopicGroupByPayload<T extends CommunityTopicGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CommunityTopicGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CommunityTopicGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CommunityTopicGroupByOutputType[P]>
+            : GetScalarType<T[P], CommunityTopicGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CommunityTopicSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    topic?: boolean
+    createdAt?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityTopic"]>
+
+  export type CommunityTopicSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    topic?: boolean
+    createdAt?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityTopic"]>
+
+  export type CommunityTopicSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orgId?: boolean
+    topic?: boolean
+    createdAt?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityTopic"]>
+
+  export type CommunityTopicSelectScalar = {
+    id?: boolean
+    orgId?: boolean
+    topic?: boolean
+    createdAt?: boolean
+  }
+
+  export type CommunityTopicOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgId" | "topic" | "createdAt", ExtArgs["result"]["communityTopic"]>
+  export type CommunityTopicInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+  export type CommunityTopicIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+  export type CommunityTopicIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+
+  export type $CommunityTopicPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CommunityTopic"
+    objects: {
+      organization: Prisma.$OrganizationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      orgId: string
+      topic: string
+      createdAt: Date
+    }, ExtArgs["result"]["communityTopic"]>
+    composites: {}
+  }
+
+  type CommunityTopicGetPayload<S extends boolean | null | undefined | CommunityTopicDefaultArgs> = $Result.GetResult<Prisma.$CommunityTopicPayload, S>
+
+  type CommunityTopicCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CommunityTopicFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CommunityTopicCountAggregateInputType | true
+    }
+
+  export interface CommunityTopicDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CommunityTopic'], meta: { name: 'CommunityTopic' } }
+    /**
+     * Find zero or one CommunityTopic that matches the filter.
+     * @param {CommunityTopicFindUniqueArgs} args - Arguments to find a CommunityTopic
+     * @example
+     * // Get one CommunityTopic
+     * const communityTopic = await prisma.communityTopic.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CommunityTopicFindUniqueArgs>(args: SelectSubset<T, CommunityTopicFindUniqueArgs<ExtArgs>>): Prisma__CommunityTopicClient<$Result.GetResult<Prisma.$CommunityTopicPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CommunityTopic that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CommunityTopicFindUniqueOrThrowArgs} args - Arguments to find a CommunityTopic
+     * @example
+     * // Get one CommunityTopic
+     * const communityTopic = await prisma.communityTopic.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CommunityTopicFindUniqueOrThrowArgs>(args: SelectSubset<T, CommunityTopicFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CommunityTopicClient<$Result.GetResult<Prisma.$CommunityTopicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CommunityTopic that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityTopicFindFirstArgs} args - Arguments to find a CommunityTopic
+     * @example
+     * // Get one CommunityTopic
+     * const communityTopic = await prisma.communityTopic.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CommunityTopicFindFirstArgs>(args?: SelectSubset<T, CommunityTopicFindFirstArgs<ExtArgs>>): Prisma__CommunityTopicClient<$Result.GetResult<Prisma.$CommunityTopicPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CommunityTopic that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityTopicFindFirstOrThrowArgs} args - Arguments to find a CommunityTopic
+     * @example
+     * // Get one CommunityTopic
+     * const communityTopic = await prisma.communityTopic.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CommunityTopicFindFirstOrThrowArgs>(args?: SelectSubset<T, CommunityTopicFindFirstOrThrowArgs<ExtArgs>>): Prisma__CommunityTopicClient<$Result.GetResult<Prisma.$CommunityTopicPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CommunityTopics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityTopicFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CommunityTopics
+     * const communityTopics = await prisma.communityTopic.findMany()
+     * 
+     * // Get first 10 CommunityTopics
+     * const communityTopics = await prisma.communityTopic.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const communityTopicWithIdOnly = await prisma.communityTopic.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CommunityTopicFindManyArgs>(args?: SelectSubset<T, CommunityTopicFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityTopicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CommunityTopic.
+     * @param {CommunityTopicCreateArgs} args - Arguments to create a CommunityTopic.
+     * @example
+     * // Create one CommunityTopic
+     * const CommunityTopic = await prisma.communityTopic.create({
+     *   data: {
+     *     // ... data to create a CommunityTopic
+     *   }
+     * })
+     * 
+     */
+    create<T extends CommunityTopicCreateArgs>(args: SelectSubset<T, CommunityTopicCreateArgs<ExtArgs>>): Prisma__CommunityTopicClient<$Result.GetResult<Prisma.$CommunityTopicPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CommunityTopics.
+     * @param {CommunityTopicCreateManyArgs} args - Arguments to create many CommunityTopics.
+     * @example
+     * // Create many CommunityTopics
+     * const communityTopic = await prisma.communityTopic.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CommunityTopicCreateManyArgs>(args?: SelectSubset<T, CommunityTopicCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CommunityTopics and returns the data saved in the database.
+     * @param {CommunityTopicCreateManyAndReturnArgs} args - Arguments to create many CommunityTopics.
+     * @example
+     * // Create many CommunityTopics
+     * const communityTopic = await prisma.communityTopic.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CommunityTopics and only return the `id`
+     * const communityTopicWithIdOnly = await prisma.communityTopic.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CommunityTopicCreateManyAndReturnArgs>(args?: SelectSubset<T, CommunityTopicCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityTopicPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CommunityTopic.
+     * @param {CommunityTopicDeleteArgs} args - Arguments to delete one CommunityTopic.
+     * @example
+     * // Delete one CommunityTopic
+     * const CommunityTopic = await prisma.communityTopic.delete({
+     *   where: {
+     *     // ... filter to delete one CommunityTopic
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CommunityTopicDeleteArgs>(args: SelectSubset<T, CommunityTopicDeleteArgs<ExtArgs>>): Prisma__CommunityTopicClient<$Result.GetResult<Prisma.$CommunityTopicPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CommunityTopic.
+     * @param {CommunityTopicUpdateArgs} args - Arguments to update one CommunityTopic.
+     * @example
+     * // Update one CommunityTopic
+     * const communityTopic = await prisma.communityTopic.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CommunityTopicUpdateArgs>(args: SelectSubset<T, CommunityTopicUpdateArgs<ExtArgs>>): Prisma__CommunityTopicClient<$Result.GetResult<Prisma.$CommunityTopicPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CommunityTopics.
+     * @param {CommunityTopicDeleteManyArgs} args - Arguments to filter CommunityTopics to delete.
+     * @example
+     * // Delete a few CommunityTopics
+     * const { count } = await prisma.communityTopic.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CommunityTopicDeleteManyArgs>(args?: SelectSubset<T, CommunityTopicDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CommunityTopics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityTopicUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CommunityTopics
+     * const communityTopic = await prisma.communityTopic.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CommunityTopicUpdateManyArgs>(args: SelectSubset<T, CommunityTopicUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CommunityTopics and returns the data updated in the database.
+     * @param {CommunityTopicUpdateManyAndReturnArgs} args - Arguments to update many CommunityTopics.
+     * @example
+     * // Update many CommunityTopics
+     * const communityTopic = await prisma.communityTopic.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CommunityTopics and only return the `id`
+     * const communityTopicWithIdOnly = await prisma.communityTopic.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CommunityTopicUpdateManyAndReturnArgs>(args: SelectSubset<T, CommunityTopicUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityTopicPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CommunityTopic.
+     * @param {CommunityTopicUpsertArgs} args - Arguments to update or create a CommunityTopic.
+     * @example
+     * // Update or create a CommunityTopic
+     * const communityTopic = await prisma.communityTopic.upsert({
+     *   create: {
+     *     // ... data to create a CommunityTopic
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CommunityTopic we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CommunityTopicUpsertArgs>(args: SelectSubset<T, CommunityTopicUpsertArgs<ExtArgs>>): Prisma__CommunityTopicClient<$Result.GetResult<Prisma.$CommunityTopicPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CommunityTopics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityTopicCountArgs} args - Arguments to filter CommunityTopics to count.
+     * @example
+     * // Count the number of CommunityTopics
+     * const count = await prisma.communityTopic.count({
+     *   where: {
+     *     // ... the filter for the CommunityTopics we want to count
+     *   }
+     * })
+    **/
+    count<T extends CommunityTopicCountArgs>(
+      args?: Subset<T, CommunityTopicCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CommunityTopicCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CommunityTopic.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityTopicAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CommunityTopicAggregateArgs>(args: Subset<T, CommunityTopicAggregateArgs>): Prisma.PrismaPromise<GetCommunityTopicAggregateType<T>>
+
+    /**
+     * Group by CommunityTopic.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityTopicGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CommunityTopicGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CommunityTopicGroupByArgs['orderBy'] }
+        : { orderBy?: CommunityTopicGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CommunityTopicGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCommunityTopicGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CommunityTopic model
+   */
+  readonly fields: CommunityTopicFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CommunityTopic.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CommunityTopicClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CommunityTopic model
+   */
+  interface CommunityTopicFieldRefs {
+    readonly id: FieldRef<"CommunityTopic", 'String'>
+    readonly orgId: FieldRef<"CommunityTopic", 'String'>
+    readonly topic: FieldRef<"CommunityTopic", 'String'>
+    readonly createdAt: FieldRef<"CommunityTopic", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CommunityTopic findUnique
+   */
+  export type CommunityTopicFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityTopic
+     */
+    select?: CommunityTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityTopic
+     */
+    omit?: CommunityTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityTopicInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityTopic to fetch.
+     */
+    where: CommunityTopicWhereUniqueInput
+  }
+
+  /**
+   * CommunityTopic findUniqueOrThrow
+   */
+  export type CommunityTopicFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityTopic
+     */
+    select?: CommunityTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityTopic
+     */
+    omit?: CommunityTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityTopicInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityTopic to fetch.
+     */
+    where: CommunityTopicWhereUniqueInput
+  }
+
+  /**
+   * CommunityTopic findFirst
+   */
+  export type CommunityTopicFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityTopic
+     */
+    select?: CommunityTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityTopic
+     */
+    omit?: CommunityTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityTopicInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityTopic to fetch.
+     */
+    where?: CommunityTopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityTopics to fetch.
+     */
+    orderBy?: CommunityTopicOrderByWithRelationInput | CommunityTopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CommunityTopics.
+     */
+    cursor?: CommunityTopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityTopics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CommunityTopics.
+     */
+    distinct?: CommunityTopicScalarFieldEnum | CommunityTopicScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityTopic findFirstOrThrow
+   */
+  export type CommunityTopicFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityTopic
+     */
+    select?: CommunityTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityTopic
+     */
+    omit?: CommunityTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityTopicInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityTopic to fetch.
+     */
+    where?: CommunityTopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityTopics to fetch.
+     */
+    orderBy?: CommunityTopicOrderByWithRelationInput | CommunityTopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CommunityTopics.
+     */
+    cursor?: CommunityTopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityTopics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CommunityTopics.
+     */
+    distinct?: CommunityTopicScalarFieldEnum | CommunityTopicScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityTopic findMany
+   */
+  export type CommunityTopicFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityTopic
+     */
+    select?: CommunityTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityTopic
+     */
+    omit?: CommunityTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityTopicInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityTopics to fetch.
+     */
+    where?: CommunityTopicWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityTopics to fetch.
+     */
+    orderBy?: CommunityTopicOrderByWithRelationInput | CommunityTopicOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CommunityTopics.
+     */
+    cursor?: CommunityTopicWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityTopics.
+     */
+    skip?: number
+    distinct?: CommunityTopicScalarFieldEnum | CommunityTopicScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityTopic create
+   */
+  export type CommunityTopicCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityTopic
+     */
+    select?: CommunityTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityTopic
+     */
+    omit?: CommunityTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityTopicInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CommunityTopic.
+     */
+    data: XOR<CommunityTopicCreateInput, CommunityTopicUncheckedCreateInput>
+  }
+
+  /**
+   * CommunityTopic createMany
+   */
+  export type CommunityTopicCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CommunityTopics.
+     */
+    data: CommunityTopicCreateManyInput | CommunityTopicCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CommunityTopic createManyAndReturn
+   */
+  export type CommunityTopicCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityTopic
+     */
+    select?: CommunityTopicSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityTopic
+     */
+    omit?: CommunityTopicOmit<ExtArgs> | null
+    /**
+     * The data used to create many CommunityTopics.
+     */
+    data: CommunityTopicCreateManyInput | CommunityTopicCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityTopicIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CommunityTopic update
+   */
+  export type CommunityTopicUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityTopic
+     */
+    select?: CommunityTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityTopic
+     */
+    omit?: CommunityTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityTopicInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CommunityTopic.
+     */
+    data: XOR<CommunityTopicUpdateInput, CommunityTopicUncheckedUpdateInput>
+    /**
+     * Choose, which CommunityTopic to update.
+     */
+    where: CommunityTopicWhereUniqueInput
+  }
+
+  /**
+   * CommunityTopic updateMany
+   */
+  export type CommunityTopicUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CommunityTopics.
+     */
+    data: XOR<CommunityTopicUpdateManyMutationInput, CommunityTopicUncheckedUpdateManyInput>
+    /**
+     * Filter which CommunityTopics to update
+     */
+    where?: CommunityTopicWhereInput
+    /**
+     * Limit how many CommunityTopics to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CommunityTopic updateManyAndReturn
+   */
+  export type CommunityTopicUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityTopic
+     */
+    select?: CommunityTopicSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityTopic
+     */
+    omit?: CommunityTopicOmit<ExtArgs> | null
+    /**
+     * The data used to update CommunityTopics.
+     */
+    data: XOR<CommunityTopicUpdateManyMutationInput, CommunityTopicUncheckedUpdateManyInput>
+    /**
+     * Filter which CommunityTopics to update
+     */
+    where?: CommunityTopicWhereInput
+    /**
+     * Limit how many CommunityTopics to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityTopicIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CommunityTopic upsert
+   */
+  export type CommunityTopicUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityTopic
+     */
+    select?: CommunityTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityTopic
+     */
+    omit?: CommunityTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityTopicInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CommunityTopic to update in case it exists.
+     */
+    where: CommunityTopicWhereUniqueInput
+    /**
+     * In case the CommunityTopic found by the `where` argument doesn't exist, create a new CommunityTopic with this data.
+     */
+    create: XOR<CommunityTopicCreateInput, CommunityTopicUncheckedCreateInput>
+    /**
+     * In case the CommunityTopic was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CommunityTopicUpdateInput, CommunityTopicUncheckedUpdateInput>
+  }
+
+  /**
+   * CommunityTopic delete
+   */
+  export type CommunityTopicDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityTopic
+     */
+    select?: CommunityTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityTopic
+     */
+    omit?: CommunityTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityTopicInclude<ExtArgs> | null
+    /**
+     * Filter which CommunityTopic to delete.
+     */
+    where: CommunityTopicWhereUniqueInput
+  }
+
+  /**
+   * CommunityTopic deleteMany
+   */
+  export type CommunityTopicDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CommunityTopics to delete
+     */
+    where?: CommunityTopicWhereInput
+    /**
+     * Limit how many CommunityTopics to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CommunityTopic without action
+   */
+  export type CommunityTopicDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityTopic
+     */
+    select?: CommunityTopicSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityTopic
+     */
+    omit?: CommunityTopicOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityTopicInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -53662,6 +54835,16 @@ export namespace Prisma {
   export type CachedInsightScalarFieldEnum = (typeof CachedInsightScalarFieldEnum)[keyof typeof CachedInsightScalarFieldEnum]
 
 
+  export const CommunityTopicScalarFieldEnum: {
+    id: 'id',
+    orgId: 'orgId',
+    topic: 'topic',
+    createdAt: 'createdAt'
+  };
+
+  export type CommunityTopicScalarFieldEnum = (typeof CommunityTopicScalarFieldEnum)[keyof typeof CommunityTopicScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -54125,6 +55308,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportListRelationFilter
     invoices?: InvoiceListRelationFilter
     usageRecords?: UsageRecordListRelationFilter
+    communityTopics?: CommunityTopicListRelationFilter
   }
 
   export type OrganizationOrderByWithRelationInput = {
@@ -54174,6 +55358,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportOrderByRelationAggregateInput
     invoices?: InvoiceOrderByRelationAggregateInput
     usageRecords?: UsageRecordOrderByRelationAggregateInput
+    communityTopics?: CommunityTopicOrderByRelationAggregateInput
   }
 
   export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
@@ -54226,6 +55411,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportListRelationFilter
     invoices?: InvoiceListRelationFilter
     usageRecords?: UsageRecordListRelationFilter
+    communityTopics?: CommunityTopicListRelationFilter
   }, "id" | "slug" | "stripeCustomerId" | "stripeSubscriptionId">
 
   export type OrganizationOrderByWithAggregationInput = {
@@ -57840,6 +59026,57 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"CachedInsight"> | Date | string
   }
 
+  export type CommunityTopicWhereInput = {
+    AND?: CommunityTopicWhereInput | CommunityTopicWhereInput[]
+    OR?: CommunityTopicWhereInput[]
+    NOT?: CommunityTopicWhereInput | CommunityTopicWhereInput[]
+    id?: StringFilter<"CommunityTopic"> | string
+    orgId?: StringFilter<"CommunityTopic"> | string
+    topic?: StringFilter<"CommunityTopic"> | string
+    createdAt?: DateTimeFilter<"CommunityTopic"> | Date | string
+    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+  }
+
+  export type CommunityTopicOrderByWithRelationInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    topic?: SortOrder
+    createdAt?: SortOrder
+    organization?: OrganizationOrderByWithRelationInput
+  }
+
+  export type CommunityTopicWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    orgId_topic?: CommunityTopicOrgIdTopicCompoundUniqueInput
+    AND?: CommunityTopicWhereInput | CommunityTopicWhereInput[]
+    OR?: CommunityTopicWhereInput[]
+    NOT?: CommunityTopicWhereInput | CommunityTopicWhereInput[]
+    orgId?: StringFilter<"CommunityTopic"> | string
+    topic?: StringFilter<"CommunityTopic"> | string
+    createdAt?: DateTimeFilter<"CommunityTopic"> | Date | string
+    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+  }, "id" | "orgId_topic">
+
+  export type CommunityTopicOrderByWithAggregationInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    topic?: SortOrder
+    createdAt?: SortOrder
+    _count?: CommunityTopicCountOrderByAggregateInput
+    _max?: CommunityTopicMaxOrderByAggregateInput
+    _min?: CommunityTopicMinOrderByAggregateInput
+  }
+
+  export type CommunityTopicScalarWhereWithAggregatesInput = {
+    AND?: CommunityTopicScalarWhereWithAggregatesInput | CommunityTopicScalarWhereWithAggregatesInput[]
+    OR?: CommunityTopicScalarWhereWithAggregatesInput[]
+    NOT?: CommunityTopicScalarWhereWithAggregatesInput | CommunityTopicScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CommunityTopic"> | string
+    orgId?: StringWithAggregatesFilter<"CommunityTopic"> | string
+    topic?: StringWithAggregatesFilter<"CommunityTopic"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"CommunityTopic"> | Date | string
+  }
+
   export type OrganizationCreateInput = {
     id?: string
     name: string
@@ -57887,6 +59124,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateInput = {
@@ -57936,6 +59174,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUpdateInput = {
@@ -57985,6 +59224,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateInput = {
@@ -58034,6 +59274,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateManyInput = {
@@ -62110,6 +63351,54 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CommunityTopicCreateInput = {
+    id?: string
+    topic: string
+    createdAt?: Date | string
+    organization: OrganizationCreateNestedOneWithoutCommunityTopicsInput
+  }
+
+  export type CommunityTopicUncheckedCreateInput = {
+    id?: string
+    orgId: string
+    topic: string
+    createdAt?: Date | string
+  }
+
+  export type CommunityTopicUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organization?: OrganizationUpdateOneRequiredWithoutCommunityTopicsNestedInput
+  }
+
+  export type CommunityTopicUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityTopicCreateManyInput = {
+    id?: string
+    orgId: string
+    topic: string
+    createdAt?: Date | string
+  }
+
+  export type CommunityTopicUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityTopicUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orgId?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -62318,6 +63607,12 @@ export namespace Prisma {
     none?: UsageRecordWhereInput
   }
 
+  export type CommunityTopicListRelationFilter = {
+    every?: CommunityTopicWhereInput
+    some?: CommunityTopicWhereInput
+    none?: CommunityTopicWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -62384,6 +63679,10 @@ export namespace Prisma {
   }
 
   export type UsageRecordOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CommunityTopicOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -65191,6 +66490,32 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type CommunityTopicOrgIdTopicCompoundUniqueInput = {
+    orgId: string
+    topic: string
+  }
+
+  export type CommunityTopicCountOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    topic?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CommunityTopicMaxOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    topic?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CommunityTopicMinOrderByAggregateInput = {
+    id?: SortOrder
+    orgId?: SortOrder
+    topic?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type MembershipCreateNestedManyWithoutOrganizationInput = {
     create?: XOR<MembershipCreateWithoutOrganizationInput, MembershipUncheckedCreateWithoutOrganizationInput> | MembershipCreateWithoutOrganizationInput[] | MembershipUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutOrganizationInput | MembershipCreateOrConnectWithoutOrganizationInput[]
@@ -65303,6 +66628,13 @@ export namespace Prisma {
     connect?: UsageRecordWhereUniqueInput | UsageRecordWhereUniqueInput[]
   }
 
+  export type CommunityTopicCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<CommunityTopicCreateWithoutOrganizationInput, CommunityTopicUncheckedCreateWithoutOrganizationInput> | CommunityTopicCreateWithoutOrganizationInput[] | CommunityTopicUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: CommunityTopicCreateOrConnectWithoutOrganizationInput | CommunityTopicCreateOrConnectWithoutOrganizationInput[]
+    createMany?: CommunityTopicCreateManyOrganizationInputEnvelope
+    connect?: CommunityTopicWhereUniqueInput | CommunityTopicWhereUniqueInput[]
+  }
+
   export type MembershipUncheckedCreateNestedManyWithoutOrganizationInput = {
     create?: XOR<MembershipCreateWithoutOrganizationInput, MembershipUncheckedCreateWithoutOrganizationInput> | MembershipCreateWithoutOrganizationInput[] | MembershipUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutOrganizationInput | MembershipCreateOrConnectWithoutOrganizationInput[]
@@ -65413,6 +66745,13 @@ export namespace Prisma {
     connectOrCreate?: UsageRecordCreateOrConnectWithoutOrganizationInput | UsageRecordCreateOrConnectWithoutOrganizationInput[]
     createMany?: UsageRecordCreateManyOrganizationInputEnvelope
     connect?: UsageRecordWhereUniqueInput | UsageRecordWhereUniqueInput[]
+  }
+
+  export type CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<CommunityTopicCreateWithoutOrganizationInput, CommunityTopicUncheckedCreateWithoutOrganizationInput> | CommunityTopicCreateWithoutOrganizationInput[] | CommunityTopicUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: CommunityTopicCreateOrConnectWithoutOrganizationInput | CommunityTopicCreateOrConnectWithoutOrganizationInput[]
+    createMany?: CommunityTopicCreateManyOrganizationInputEnvelope
+    connect?: CommunityTopicWhereUniqueInput | CommunityTopicWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -65679,6 +67018,20 @@ export namespace Prisma {
     deleteMany?: UsageRecordScalarWhereInput | UsageRecordScalarWhereInput[]
   }
 
+  export type CommunityTopicUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<CommunityTopicCreateWithoutOrganizationInput, CommunityTopicUncheckedCreateWithoutOrganizationInput> | CommunityTopicCreateWithoutOrganizationInput[] | CommunityTopicUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: CommunityTopicCreateOrConnectWithoutOrganizationInput | CommunityTopicCreateOrConnectWithoutOrganizationInput[]
+    upsert?: CommunityTopicUpsertWithWhereUniqueWithoutOrganizationInput | CommunityTopicUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: CommunityTopicCreateManyOrganizationInputEnvelope
+    set?: CommunityTopicWhereUniqueInput | CommunityTopicWhereUniqueInput[]
+    disconnect?: CommunityTopicWhereUniqueInput | CommunityTopicWhereUniqueInput[]
+    delete?: CommunityTopicWhereUniqueInput | CommunityTopicWhereUniqueInput[]
+    connect?: CommunityTopicWhereUniqueInput | CommunityTopicWhereUniqueInput[]
+    update?: CommunityTopicUpdateWithWhereUniqueWithoutOrganizationInput | CommunityTopicUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: CommunityTopicUpdateManyWithWhereWithoutOrganizationInput | CommunityTopicUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: CommunityTopicScalarWhereInput | CommunityTopicScalarWhereInput[]
+  }
+
   export type MembershipUncheckedUpdateManyWithoutOrganizationNestedInput = {
     create?: XOR<MembershipCreateWithoutOrganizationInput, MembershipUncheckedCreateWithoutOrganizationInput> | MembershipCreateWithoutOrganizationInput[] | MembershipUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutOrganizationInput | MembershipCreateOrConnectWithoutOrganizationInput[]
@@ -65901,6 +67254,20 @@ export namespace Prisma {
     update?: UsageRecordUpdateWithWhereUniqueWithoutOrganizationInput | UsageRecordUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: UsageRecordUpdateManyWithWhereWithoutOrganizationInput | UsageRecordUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: UsageRecordScalarWhereInput | UsageRecordScalarWhereInput[]
+  }
+
+  export type CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<CommunityTopicCreateWithoutOrganizationInput, CommunityTopicUncheckedCreateWithoutOrganizationInput> | CommunityTopicCreateWithoutOrganizationInput[] | CommunityTopicUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: CommunityTopicCreateOrConnectWithoutOrganizationInput | CommunityTopicCreateOrConnectWithoutOrganizationInput[]
+    upsert?: CommunityTopicUpsertWithWhereUniqueWithoutOrganizationInput | CommunityTopicUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: CommunityTopicCreateManyOrganizationInputEnvelope
+    set?: CommunityTopicWhereUniqueInput | CommunityTopicWhereUniqueInput[]
+    disconnect?: CommunityTopicWhereUniqueInput | CommunityTopicWhereUniqueInput[]
+    delete?: CommunityTopicWhereUniqueInput | CommunityTopicWhereUniqueInput[]
+    connect?: CommunityTopicWhereUniqueInput | CommunityTopicWhereUniqueInput[]
+    update?: CommunityTopicUpdateWithWhereUniqueWithoutOrganizationInput | CommunityTopicUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: CommunityTopicUpdateManyWithWhereWithoutOrganizationInput | CommunityTopicUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: CommunityTopicScalarWhereInput | CommunityTopicScalarWhereInput[]
   }
 
   export type MembershipCreateNestedManyWithoutUserInput = {
@@ -68240,6 +69607,20 @@ export namespace Prisma {
     update?: XOR<XOR<PageUpdateToOneWithWhereWithoutCachedInsightsInput, PageUpdateWithoutCachedInsightsInput>, PageUncheckedUpdateWithoutCachedInsightsInput>
   }
 
+  export type OrganizationCreateNestedOneWithoutCommunityTopicsInput = {
+    create?: XOR<OrganizationCreateWithoutCommunityTopicsInput, OrganizationUncheckedCreateWithoutCommunityTopicsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutCommunityTopicsInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutCommunityTopicsNestedInput = {
+    create?: XOR<OrganizationCreateWithoutCommunityTopicsInput, OrganizationUncheckedCreateWithoutCommunityTopicsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutCommunityTopicsInput
+    upsert?: OrganizationUpsertWithoutCommunityTopicsInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutCommunityTopicsInput, OrganizationUpdateWithoutCommunityTopicsInput>, OrganizationUncheckedUpdateWithoutCommunityTopicsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -69570,6 +70951,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CommunityTopicCreateWithoutOrganizationInput = {
+    id?: string
+    topic: string
+    createdAt?: Date | string
+  }
+
+  export type CommunityTopicUncheckedCreateWithoutOrganizationInput = {
+    id?: string
+    topic: string
+    createdAt?: Date | string
+  }
+
+  export type CommunityTopicCreateOrConnectWithoutOrganizationInput = {
+    where: CommunityTopicWhereUniqueInput
+    create: XOR<CommunityTopicCreateWithoutOrganizationInput, CommunityTopicUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type CommunityTopicCreateManyOrganizationInputEnvelope = {
+    data: CommunityTopicCreateManyOrganizationInput | CommunityTopicCreateManyOrganizationInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MembershipUpsertWithWhereUniqueWithoutOrganizationInput = {
     where: MembershipWhereUniqueInput
     update: XOR<MembershipUpdateWithoutOrganizationInput, MembershipUncheckedUpdateWithoutOrganizationInput>
@@ -70113,6 +71516,32 @@ export namespace Prisma {
     periodStart?: DateTimeFilter<"UsageRecord"> | Date | string
     periodEnd?: DateTimeFilter<"UsageRecord"> | Date | string
     createdAt?: DateTimeFilter<"UsageRecord"> | Date | string
+  }
+
+  export type CommunityTopicUpsertWithWhereUniqueWithoutOrganizationInput = {
+    where: CommunityTopicWhereUniqueInput
+    update: XOR<CommunityTopicUpdateWithoutOrganizationInput, CommunityTopicUncheckedUpdateWithoutOrganizationInput>
+    create: XOR<CommunityTopicCreateWithoutOrganizationInput, CommunityTopicUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type CommunityTopicUpdateWithWhereUniqueWithoutOrganizationInput = {
+    where: CommunityTopicWhereUniqueInput
+    data: XOR<CommunityTopicUpdateWithoutOrganizationInput, CommunityTopicUncheckedUpdateWithoutOrganizationInput>
+  }
+
+  export type CommunityTopicUpdateManyWithWhereWithoutOrganizationInput = {
+    where: CommunityTopicScalarWhereInput
+    data: XOR<CommunityTopicUpdateManyMutationInput, CommunityTopicUncheckedUpdateManyWithoutOrganizationInput>
+  }
+
+  export type CommunityTopicScalarWhereInput = {
+    AND?: CommunityTopicScalarWhereInput | CommunityTopicScalarWhereInput[]
+    OR?: CommunityTopicScalarWhereInput[]
+    NOT?: CommunityTopicScalarWhereInput | CommunityTopicScalarWhereInput[]
+    id?: StringFilter<"CommunityTopic"> | string
+    orgId?: StringFilter<"CommunityTopic"> | string
+    topic?: StringFilter<"CommunityTopic"> | string
+    createdAt?: DateTimeFilter<"CommunityTopic"> | Date | string
   }
 
   export type MembershipCreateWithoutUserInput = {
@@ -71466,6 +72895,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutMembershipsInput = {
@@ -71514,6 +72944,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutMembershipsInput = {
@@ -71669,6 +73100,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutMembershipsInput = {
@@ -71717,6 +73149,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateWithoutInvitationsInput = {
@@ -71765,6 +73198,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutInvitationsInput = {
@@ -71813,6 +73247,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutInvitationsInput = {
@@ -71962,6 +73397,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutInvitationsInput = {
@@ -72010,6 +73446,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserUpsertWithoutInvitationsSentInput = {
@@ -72149,6 +73586,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutPlatformConnectionsInput = {
@@ -72197,6 +73635,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutPlatformConnectionsInput = {
@@ -72414,6 +73853,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutPlatformConnectionsInput = {
@@ -72462,6 +73902,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserUpsertWithoutConnectionsAddedInput = {
@@ -72617,6 +74058,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutCampaignsInput = {
@@ -72665,6 +74107,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutCampaignsInput = {
@@ -72939,6 +74382,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutCampaignsInput = {
@@ -72987,6 +74431,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PageUpsertWithoutCampaignsInput = {
@@ -73254,6 +74699,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutPostsInput = {
@@ -73302,6 +74748,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutPostsInput = {
@@ -73678,6 +75125,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutPostsInput = {
@@ -73726,6 +75174,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PageUpsertWithoutPostsInput = {
@@ -74022,6 +75471,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutCreativesInput = {
@@ -74070,6 +75520,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutCreativesInput = {
@@ -74134,6 +75585,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutCreativesInput = {
@@ -74182,6 +75634,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PostCreateWithoutAnalyticsInput = {
@@ -74350,6 +75803,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutAuditLogsInput = {
@@ -74398,6 +75852,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutAuditLogsInput = {
@@ -74547,6 +76002,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutAuditLogsInput = {
@@ -74595,6 +76051,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserUpsertWithoutAuditLogsInput = {
@@ -74734,6 +76191,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutPostTemplatesInput = {
@@ -74782,6 +76240,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutPostTemplatesInput = {
@@ -74931,6 +76390,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutPostTemplatesInput = {
@@ -74979,6 +76439,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserUpsertWithoutTemplatesCreatedInput = {
@@ -75470,6 +76931,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutPagesInput = {
@@ -75518,6 +76980,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutPagesInput = {
@@ -76141,6 +77604,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutPagesInput = {
@@ -76189,6 +77653,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PlatformConnectionUpsertWithoutPagesInput = {
@@ -76948,6 +78413,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutContentTemplatesInput = {
@@ -76996,6 +78462,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutContentTemplatesInput = {
@@ -77129,6 +78596,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutContentTemplatesInput = {
@@ -77177,6 +78645,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PostCreateWithoutApprovalRequestInput = {
@@ -77829,6 +79298,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutWebhookRulesInput = {
@@ -77877,6 +79347,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutWebhookRulesInput = {
@@ -78004,6 +79475,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutWebhookRulesInput = {
@@ -78052,6 +79524,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PageUpsertWithoutWebhookRulesInput = {
@@ -78169,6 +79642,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutLeadCapturesInput = {
@@ -78217,6 +79691,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutLeadCapturesInput = {
@@ -78344,6 +79819,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutLeadCapturesInput = {
@@ -78392,6 +79868,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PageUpsertWithoutLeadCapturesInput = {
@@ -78509,6 +79986,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutUtmLinksInput = {
@@ -78557,6 +80035,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutUtmLinksInput = {
@@ -78678,6 +80157,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutUtmLinksInput = {
@@ -78726,6 +80206,7 @@ export namespace Prisma {
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PostUpsertWithoutUtmLinksInput = {
@@ -78837,6 +80318,7 @@ export namespace Prisma {
     utmLinks?: UtmLinkCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutPerformanceReportsInput = {
@@ -78885,6 +80367,7 @@ export namespace Prisma {
     utmLinks?: UtmLinkUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutPerformanceReportsInput = {
@@ -79012,6 +80495,7 @@ export namespace Prisma {
     utmLinks?: UtmLinkUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutPerformanceReportsInput = {
@@ -79060,6 +80544,7 @@ export namespace Prisma {
     utmLinks?: UtmLinkUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type PageUpsertWithoutPerformanceReportsInput = {
@@ -79177,6 +80662,7 @@ export namespace Prisma {
     utmLinks?: UtmLinkCreateNestedManyWithoutOrganizationInput
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutInvoicesInput = {
@@ -79225,6 +80711,7 @@ export namespace Prisma {
     utmLinks?: UtmLinkUncheckedCreateNestedManyWithoutOrganizationInput
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutInvoicesInput = {
@@ -79289,6 +80776,7 @@ export namespace Prisma {
     utmLinks?: UtmLinkUpdateManyWithoutOrganizationNestedInput
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutInvoicesInput = {
@@ -79337,6 +80825,7 @@ export namespace Prisma {
     utmLinks?: UtmLinkUncheckedUpdateManyWithoutOrganizationNestedInput
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationCreateWithoutUsageRecordsInput = {
@@ -79385,6 +80874,7 @@ export namespace Prisma {
     utmLinks?: UtmLinkCreateNestedManyWithoutOrganizationInput
     performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationUncheckedCreateWithoutUsageRecordsInput = {
@@ -79433,6 +80923,7 @@ export namespace Prisma {
     utmLinks?: UtmLinkUncheckedCreateNestedManyWithoutOrganizationInput
     performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
     invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
+    communityTopics?: CommunityTopicUncheckedCreateNestedManyWithoutOrganizationInput
   }
 
   export type OrganizationCreateOrConnectWithoutUsageRecordsInput = {
@@ -79497,6 +80988,7 @@ export namespace Prisma {
     utmLinks?: UtmLinkUpdateManyWithoutOrganizationNestedInput
     performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUpdateManyWithoutOrganizationNestedInput
   }
 
   export type OrganizationUncheckedUpdateWithoutUsageRecordsInput = {
@@ -79545,6 +81037,7 @@ export namespace Prisma {
     utmLinks?: UtmLinkUncheckedUpdateManyWithoutOrganizationNestedInput
     performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
+    communityTopics?: CommunityTopicUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type UserCreateWithoutApiKeysInput = {
@@ -80427,6 +81920,218 @@ export namespace Prisma {
     historicalMetrics?: HistoricalMetricSnapshotUncheckedUpdateManyWithoutPageNestedInput
   }
 
+  export type OrganizationCreateWithoutCommunityTopicsInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: $Enums.Plan
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    billingEmail?: string | null
+    billingCycleAnchor?: Date | string | null
+    defaultTimezone?: string
+    industry?: string | null
+    companySize?: string | null
+    website?: string | null
+    country?: string | null
+    subscriptionStatus?: $Enums.SubscriptionStatus
+    billingCycle?: $Enums.BillingCycle
+    trialEndsAt?: Date | string | null
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    maxUsers?: number
+    maxPlatforms?: number
+    maxPostsPerMonth?: number
+    postsUsedThisMonth?: number
+    postsResetAt?: Date | string | null
+    features?: NullableJsonNullValueInput | InputJsonValue
+    publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    memberships?: MembershipCreateNestedManyWithoutOrganizationInput
+    invitations?: InvitationCreateNestedManyWithoutOrganizationInput
+    platformConnections?: PlatformConnectionCreateNestedManyWithoutOrganizationInput
+    pages?: PageCreateNestedManyWithoutOrganizationInput
+    campaigns?: CampaignCreateNestedManyWithoutOrganizationInput
+    posts?: PostCreateNestedManyWithoutOrganizationInput
+    creatives?: CreativeCreateNestedManyWithoutOrganizationInput
+    auditLogs?: AuditLogCreateNestedManyWithoutOrganizationInput
+    postTemplates?: PostTemplateCreateNestedManyWithoutOrganizationInput
+    contentTemplates?: ContentTemplateCreateNestedManyWithoutOrganizationInput
+    webhookRules?: WebhookRuleCreateNestedManyWithoutOrganizationInput
+    leadCaptures?: LeadCaptureCreateNestedManyWithoutOrganizationInput
+    utmLinks?: UtmLinkCreateNestedManyWithoutOrganizationInput
+    performanceReports?: PerformanceReportCreateNestedManyWithoutOrganizationInput
+    invoices?: InvoiceCreateNestedManyWithoutOrganizationInput
+    usageRecords?: UsageRecordCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutCommunityTopicsInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: $Enums.Plan
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    billingEmail?: string | null
+    billingCycleAnchor?: Date | string | null
+    defaultTimezone?: string
+    industry?: string | null
+    companySize?: string | null
+    website?: string | null
+    country?: string | null
+    subscriptionStatus?: $Enums.SubscriptionStatus
+    billingCycle?: $Enums.BillingCycle
+    trialEndsAt?: Date | string | null
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    maxUsers?: number
+    maxPlatforms?: number
+    maxPostsPerMonth?: number
+    postsUsedThisMonth?: number
+    postsResetAt?: Date | string | null
+    features?: NullableJsonNullValueInput | InputJsonValue
+    publishingPaused?: boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutOrganizationInput
+    platformConnections?: PlatformConnectionUncheckedCreateNestedManyWithoutOrganizationInput
+    pages?: PageUncheckedCreateNestedManyWithoutOrganizationInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutOrganizationInput
+    posts?: PostUncheckedCreateNestedManyWithoutOrganizationInput
+    creatives?: CreativeUncheckedCreateNestedManyWithoutOrganizationInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
+    postTemplates?: PostTemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    contentTemplates?: ContentTemplateUncheckedCreateNestedManyWithoutOrganizationInput
+    webhookRules?: WebhookRuleUncheckedCreateNestedManyWithoutOrganizationInput
+    leadCaptures?: LeadCaptureUncheckedCreateNestedManyWithoutOrganizationInput
+    utmLinks?: UtmLinkUncheckedCreateNestedManyWithoutOrganizationInput
+    performanceReports?: PerformanceReportUncheckedCreateNestedManyWithoutOrganizationInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
+    usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutCommunityTopicsInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutCommunityTopicsInput, OrganizationUncheckedCreateWithoutCommunityTopicsInput>
+  }
+
+  export type OrganizationUpsertWithoutCommunityTopicsInput = {
+    update: XOR<OrganizationUpdateWithoutCommunityTopicsInput, OrganizationUncheckedUpdateWithoutCommunityTopicsInput>
+    create: XOR<OrganizationCreateWithoutCommunityTopicsInput, OrganizationUncheckedCreateWithoutCommunityTopicsInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutCommunityTopicsInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutCommunityTopicsInput, OrganizationUncheckedUpdateWithoutCommunityTopicsInput>
+  }
+
+  export type OrganizationUpdateWithoutCommunityTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    defaultTimezone?: StringFieldUpdateOperationsInput | string
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    companySize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStatus?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    billingCycle?: EnumBillingCycleFieldUpdateOperationsInput | $Enums.BillingCycle
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    maxUsers?: IntFieldUpdateOperationsInput | number
+    maxPlatforms?: IntFieldUpdateOperationsInput | number
+    maxPostsPerMonth?: IntFieldUpdateOperationsInput | number
+    postsUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    postsResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    features?: NullableJsonNullValueInput | InputJsonValue
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
+    invitations?: InvitationUpdateManyWithoutOrganizationNestedInput
+    platformConnections?: PlatformConnectionUpdateManyWithoutOrganizationNestedInput
+    pages?: PageUpdateManyWithoutOrganizationNestedInput
+    campaigns?: CampaignUpdateManyWithoutOrganizationNestedInput
+    posts?: PostUpdateManyWithoutOrganizationNestedInput
+    creatives?: CreativeUpdateManyWithoutOrganizationNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutOrganizationNestedInput
+    postTemplates?: PostTemplateUpdateManyWithoutOrganizationNestedInput
+    contentTemplates?: ContentTemplateUpdateManyWithoutOrganizationNestedInput
+    webhookRules?: WebhookRuleUpdateManyWithoutOrganizationNestedInput
+    leadCaptures?: LeadCaptureUpdateManyWithoutOrganizationNestedInput
+    utmLinks?: UtmLinkUpdateManyWithoutOrganizationNestedInput
+    performanceReports?: PerformanceReportUpdateManyWithoutOrganizationNestedInput
+    invoices?: InvoiceUpdateManyWithoutOrganizationNestedInput
+    usageRecords?: UsageRecordUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutCommunityTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingCycleAnchor?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    defaultTimezone?: StringFieldUpdateOperationsInput | string
+    industry?: NullableStringFieldUpdateOperationsInput | string | null
+    companySize?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    subscriptionStatus?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    billingCycle?: EnumBillingCycleFieldUpdateOperationsInput | $Enums.BillingCycle
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    maxUsers?: IntFieldUpdateOperationsInput | number
+    maxPlatforms?: IntFieldUpdateOperationsInput | number
+    maxPostsPerMonth?: IntFieldUpdateOperationsInput | number
+    postsUsedThisMonth?: IntFieldUpdateOperationsInput | number
+    postsResetAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    features?: NullableJsonNullValueInput | InputJsonValue
+    publishingPaused?: BoolFieldUpdateOperationsInput | boolean
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutOrganizationNestedInput
+    platformConnections?: PlatformConnectionUncheckedUpdateManyWithoutOrganizationNestedInput
+    pages?: PageUncheckedUpdateManyWithoutOrganizationNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutOrganizationNestedInput
+    posts?: PostUncheckedUpdateManyWithoutOrganizationNestedInput
+    creatives?: CreativeUncheckedUpdateManyWithoutOrganizationNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
+    postTemplates?: PostTemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    contentTemplates?: ContentTemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+    webhookRules?: WebhookRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+    leadCaptures?: LeadCaptureUncheckedUpdateManyWithoutOrganizationNestedInput
+    utmLinks?: UtmLinkUncheckedUpdateManyWithoutOrganizationNestedInput
+    performanceReports?: PerformanceReportUncheckedUpdateManyWithoutOrganizationNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
+    usageRecords?: UsageRecordUncheckedUpdateManyWithoutOrganizationNestedInput
+  }
+
   export type MembershipCreateManyOrganizationInput = {
     id?: string
     userId: string
@@ -80649,6 +82354,12 @@ export namespace Prisma {
     value: number
     periodStart: Date | string
     periodEnd: Date | string
+    createdAt?: Date | string
+  }
+
+  export type CommunityTopicCreateManyOrganizationInput = {
+    id?: string
+    topic: string
     createdAt?: Date | string
   }
 
@@ -81360,6 +83071,24 @@ export namespace Prisma {
     value?: IntFieldUpdateOperationsInput | number
     periodStart?: DateTimeFieldUpdateOperationsInput | Date | string
     periodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityTopicUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityTopicUncheckedUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityTopicUncheckedUpdateManyWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    topic?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

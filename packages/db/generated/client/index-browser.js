@@ -710,6 +710,13 @@ exports.Prisma.CachedInsightScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CommunityTopicScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  topic: 'topic',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -925,7 +932,8 @@ exports.Prisma.ModelName = {
   HistoricalPost: 'HistoricalPost',
   HistoricalMetricSnapshot: 'HistoricalMetricSnapshot',
   EmailVerification: 'EmailVerification',
-  CachedInsight: 'CachedInsight'
+  CachedInsight: 'CachedInsight',
+  CommunityTopic: 'CommunityTopic'
 };
 
 /**

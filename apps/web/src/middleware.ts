@@ -152,6 +152,7 @@ export const config = {
     "/email/:path*",
     "/reports/:path*",
     "/tools/:path*",
+    "/community/:path*",
     "/api/:path*",
     "/admin/:path*",
     "/2fa-verify",

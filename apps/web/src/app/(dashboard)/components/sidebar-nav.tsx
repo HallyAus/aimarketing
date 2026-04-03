@@ -127,6 +127,7 @@ const NAV_SECTIONS: NavSection[] = [
   {
     title: "LEADS & CRM",
     items: [
+      { href: "/community", label: "Community Feed", icon: "users", description: "Discover niche content and get AI engagement suggestions" },
       { href: "/leads", label: "Lead Capture", icon: "inbox", description: "Collect and manage leads from forms and social" },
       { href: "/approvals", label: "Approvals", icon: "check", description: "Review and approve posts before they go live" },
       { href: "/settings/crm", label: "CRM", icon: "contact-book", description: "Connect your CRM to sync leads automatically" },

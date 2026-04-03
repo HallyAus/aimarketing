@@ -197,6 +197,7 @@ model Organization {
   performanceReports  PerformanceReport[]
   invoices            Invoice[]
   usageRecords        UsageRecord[]
+  communityTopics     CommunityTopic[]
 
   @@index([deletedAt])
   @@index([plan])
@@ -1031,4 +1032,18 @@ model CachedInsight {
   @@unique([pageId, type])
   @@index([pageId, type])
   @@index([expiresAt])
+}
+
+// ── Community Feed ────────────────────────────────────────────────────
+
+model CommunityTopic {
+  id        String   @id @default(cuid())
+  orgId     String
+  topic     String
+  createdAt DateTime @default(now())
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@unique([orgId, topic])
+  @@index([orgId])
 }
