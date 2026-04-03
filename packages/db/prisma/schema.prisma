@@ -41,6 +41,59 @@ enum ConnectionStatus {
   REVOKED
 }
 
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  BANNED
+  PENDING_VERIFICATION
+  DEACTIVATED
+}
+
+enum SystemRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  TRIALING
+  PAST_DUE
+  CANCELED
+  UNPAID
+  INCOMPLETE
+  PAUSED
+}
+
+enum BillingCycle {
+  MONTHLY
+  ANNUAL
+}
+
+enum InvoiceStatus {
+  DRAFT
+  OPEN
+  PAID
+  VOID
+  UNCOLLECTIBLE
+}
+
+enum UsageMetric {
+  POSTS_PUBLISHED
+  AI_TOKENS_USED
+  API_CALLS
+  MEDIA_STORAGE_MB
+  TEAM_MEMBERS
+  CONNECTED_ACCOUNTS
+}
+
+enum AnnouncementType {
+  INFO
+  WARNING
+  MAINTENANCE
+  FEATURE
+}
+
 enum CampaignObjective {
   AWARENESS
   TRAFFIC
@@ -81,18 +134,35 @@ enum CreativeType {
 // ── Models ───────────────────────────────────────────────────────────────
 
 model Organization {
-  id                   String    @id @default(cuid())
+  id                   String             @id @default(cuid())
   name                 String
-  slug                 String    @unique
-  plan                 Plan      @default(FREE)
-  stripeCustomerId     String?   @unique
-  stripeSubscriptionId String?
+  slug                 String             @unique
+  plan                 Plan               @default(FREE)
+  stripeCustomerId     String?            @unique
+  stripeSubscriptionId String?            @unique
   billingEmail         String?
   billingCycleAnchor   DateTime?
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
-  publishingPaused     Boolean   @default(false)
+  defaultTimezone      String             @default("UTC")
+  industry             String?
+  companySize          String? // "1-10", "11-50", "51-200", "201-500", "500+"
+  website              String?
+  country              String?
+  subscriptionStatus   SubscriptionStatus @default(ACTIVE)
+  billingCycle         BillingCycle       @default(MONTHLY)
+  trialEndsAt          DateTime?
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean            @default(false)
+  maxUsers             Int                @default(1)
+  maxPlatforms         Int                @default(3)
+  maxPostsPerMonth     Int                @default(30)
+  postsUsedThisMonth   Int                @default(0)
+  postsResetAt         DateTime?
+  features             Json? // org-level feature flag overrides
+  publishingPaused     Boolean            @default(false)
   metadata             Json?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
   deletedAt            DateTime?
 
   memberships         Membership[]
@@ -109,21 +179,36 @@ model Organization {
   leadCaptures        LeadCapture[]
   utmLinks            UtmLink[]
   performanceReports  PerformanceReport[]
+  invoices            Invoice[]
+  usageRecords        UsageRecord[]
 
   @@index([deletedAt])
+  @@index([plan])
+  @@index([subscriptionStatus])
+  @@index([createdAt])
 }
 
 model User {
-  id                   String    @id @default(cuid())
-  email                String    @unique
+  id                   String     @id @default(cuid())
+  email                String     @unique
   name                 String?
   avatar               String?
   emailVerified        DateTime?
   password             String? // bcrypt hashed, null for OAuth/magic-link users
-  passwordResetToken   String?   @unique
+  passwordResetToken   String?    @unique
   passwordResetExpires DateTime?
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
+  timezone             String     @default("UTC") // IANA timezone, auto-detected
+  locale               String     @default("en-US")
+  dateFormat           String     @default("auto") // auto | 12h | 24h
+  lastLoginAt          DateTime?
+  lastLoginIp          String?
+  loginCount           Int        @default(0)
+  status               UserStatus @default(ACTIVE)
+  systemRole           SystemRole @default(USER)
+  onboardingComplete   Boolean    @default(false)
+  deletedAt            DateTime?
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
 
   memberships      Membership[]
   invitationsSent  Invitation[]         @relation("InvitedBy")
@@ -135,10 +220,16 @@ model User {
   authenticators   Authenticator[]
   approvalRequests ApprovalRequest[]    @relation("ApprovalRequester")
   approvalReviews  ApprovalRequest[]    @relation("ApprovalReviewer")
+  apiKeys          ApiKey[]
 
   // NextAuth fields
   accounts Account[]
   sessions Session[]
+
+  @@index([status])
+  @@index([systemRole])
+  @@index([createdAt])
+  @@index([deletedAt])
 }
 
 model Account {
@@ -621,4 +712,133 @@ model PerformanceReport {
   page         Page?        @relation(fields: [pageId], references: [id])
 
   @@index([orgId])
+}
+
+// ── Admin & Billing Models ──────────────────────────────────────────────
+
+model Invoice {
+  id                  String        @id @default(cuid())
+  orgId               String
+  stripeInvoiceId     String        @unique
+  stripePaymentIntent String?
+  number              String?
+  status              InvoiceStatus
+  amountDue           Int // cents
+  amountPaid          Int // cents
+  currency            String        @default("usd")
+  hostedInvoiceUrl    String?
+  invoicePdf          String?
+  periodStart         DateTime
+  periodEnd           DateTime
+  dueDate             DateTime?
+  paidAt              DateTime?
+  createdAt           DateTime      @default(now())
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model UsageRecord {
+  id          String      @id @default(cuid())
+  orgId       String
+  metric      UsageMetric
+  value       Int
+  periodStart DateTime
+  periodEnd   DateTime
+  createdAt   DateTime    @default(now())
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@index([orgId, metric, periodStart])
+  @@index([periodStart])
+}
+
+model PaymentMethod {
+  id                    String   @id @default(cuid())
+  orgId                 String
+  stripePaymentMethodId String   @unique
+  type                  String // "card", "bank_account", etc.
+  brand                 String? // "visa", "mastercard", etc.
+  last4                 String?
+  expMonth              Int?
+  expYear               Int?
+  isDefault             Boolean  @default(false)
+  createdAt             DateTime @default(now())
+
+  @@index([orgId])
+}
+
+model ApiKey {
+  id         String    @id @default(cuid())
+  userId     String
+  orgId      String
+  keyHash    String    @unique // bcrypt hash — never store raw key
+  label      String    @default("default")
+  lastUsedAt DateTime?
+  expiresAt  DateTime?
+  isRevoked  Boolean   @default(false)
+  scopes     String[] // ["posts:read", "posts:write", "analytics:read"]
+  createdAt  DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([keyHash])
+  @@index([orgId])
+}
+
+model FeatureFlag {
+  id              String   @id @default(cuid())
+  key             String   @unique // "ai_content_studio", "webhook_automation"
+  name            String
+  description     String?
+  enabled         Boolean  @default(false) // global default
+  enabledForTiers Plan[] // enabled for these tiers
+  enabledForOrgs  String[] // org IDs with override access
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([key])
+}
+
+model SystemMetric {
+  id         String   @id @default(cuid())
+  metric     String // "active_users", "posts_today", "api_latency_p99"
+  value      Float
+  tags       Json? // { "platform": "facebook", "region": "us" }
+  recordedAt DateTime @default(now())
+
+  @@index([metric, recordedAt])
+}
+
+model Announcement {
+  id          String           @id @default(cuid())
+  title       String
+  body        String
+  type        AnnouncementType @default(INFO)
+  isActive    Boolean          @default(true)
+  showFrom    DateTime?
+  showUntil   DateTime?
+  targetTiers Plan[] // empty = all tiers
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model WaitlistEntry {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String?
+  company           String?
+  planInterest      Plan?
+  timezone          String?
+  source            String? // "homepage", "blog", "referral"
+  referralCode      String?
+  convertedAt       DateTime?
+  convertedToUserId String?
+  createdAt         DateTime  @default(now())
+
+  @@index([email])
+  @@index([createdAt])
 }

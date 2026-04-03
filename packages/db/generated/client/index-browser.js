@@ -130,10 +130,27 @@ exports.Prisma.OrganizationScalarFieldEnum = {
   stripeSubscriptionId: 'stripeSubscriptionId',
   billingEmail: 'billingEmail',
   billingCycleAnchor: 'billingCycleAnchor',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
+  defaultTimezone: 'defaultTimezone',
+  industry: 'industry',
+  companySize: 'companySize',
+  website: 'website',
+  country: 'country',
+  subscriptionStatus: 'subscriptionStatus',
+  billingCycle: 'billingCycle',
+  trialEndsAt: 'trialEndsAt',
+  currentPeriodStart: 'currentPeriodStart',
+  currentPeriodEnd: 'currentPeriodEnd',
+  cancelAtPeriodEnd: 'cancelAtPeriodEnd',
+  maxUsers: 'maxUsers',
+  maxPlatforms: 'maxPlatforms',
+  maxPostsPerMonth: 'maxPostsPerMonth',
+  postsUsedThisMonth: 'postsUsedThisMonth',
+  postsResetAt: 'postsResetAt',
+  features: 'features',
   publishingPaused: 'publishingPaused',
   metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'
 };
 
@@ -146,6 +163,16 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   passwordResetToken: 'passwordResetToken',
   passwordResetExpires: 'passwordResetExpires',
+  timezone: 'timezone',
+  locale: 'locale',
+  dateFormat: 'dateFormat',
+  lastLoginAt: 'lastLoginAt',
+  lastLoginIp: 'lastLoginIp',
+  loginCount: 'loginCount',
+  status: 'status',
+  systemRole: 'systemRole',
+  onboardingComplete: 'onboardingComplete',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -479,6 +506,108 @@ exports.Prisma.PerformanceReportScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.InvoiceScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  stripeInvoiceId: 'stripeInvoiceId',
+  stripePaymentIntent: 'stripePaymentIntent',
+  number: 'number',
+  status: 'status',
+  amountDue: 'amountDue',
+  amountPaid: 'amountPaid',
+  currency: 'currency',
+  hostedInvoiceUrl: 'hostedInvoiceUrl',
+  invoicePdf: 'invoicePdf',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  dueDate: 'dueDate',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UsageRecordScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  metric: 'metric',
+  value: 'value',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PaymentMethodScalarFieldEnum = {
+  id: 'id',
+  orgId: 'orgId',
+  stripePaymentMethodId: 'stripePaymentMethodId',
+  type: 'type',
+  brand: 'brand',
+  last4: 'last4',
+  expMonth: 'expMonth',
+  expYear: 'expYear',
+  isDefault: 'isDefault',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ApiKeyScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  orgId: 'orgId',
+  keyHash: 'keyHash',
+  label: 'label',
+  lastUsedAt: 'lastUsedAt',
+  expiresAt: 'expiresAt',
+  isRevoked: 'isRevoked',
+  scopes: 'scopes',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.FeatureFlagScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  name: 'name',
+  description: 'description',
+  enabled: 'enabled',
+  enabledForTiers: 'enabledForTiers',
+  enabledForOrgs: 'enabledForOrgs',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SystemMetricScalarFieldEnum = {
+  id: 'id',
+  metric: 'metric',
+  value: 'value',
+  tags: 'tags',
+  recordedAt: 'recordedAt'
+};
+
+exports.Prisma.AnnouncementScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  body: 'body',
+  type: 'type',
+  isActive: 'isActive',
+  showFrom: 'showFrom',
+  showUntil: 'showUntil',
+  targetTiers: 'targetTiers',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WaitlistEntryScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  name: 'name',
+  company: 'company',
+  planInterest: 'planInterest',
+  timezone: 'timezone',
+  source: 'source',
+  referralCode: 'referralCode',
+  convertedAt: 'convertedAt',
+  convertedToUserId: 'convertedToUserId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -512,6 +641,35 @@ exports.Plan = exports.$Enums.Plan = {
   FREE: 'FREE',
   PRO: 'PRO',
   AGENCY: 'AGENCY'
+};
+
+exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
+  ACTIVE: 'ACTIVE',
+  TRIALING: 'TRIALING',
+  PAST_DUE: 'PAST_DUE',
+  CANCELED: 'CANCELED',
+  UNPAID: 'UNPAID',
+  INCOMPLETE: 'INCOMPLETE',
+  PAUSED: 'PAUSED'
+};
+
+exports.BillingCycle = exports.$Enums.BillingCycle = {
+  MONTHLY: 'MONTHLY',
+  ANNUAL: 'ANNUAL'
+};
+
+exports.UserStatus = exports.$Enums.UserStatus = {
+  ACTIVE: 'ACTIVE',
+  SUSPENDED: 'SUSPENDED',
+  BANNED: 'BANNED',
+  PENDING_VERIFICATION: 'PENDING_VERIFICATION',
+  DEACTIVATED: 'DEACTIVATED'
+};
+
+exports.SystemRole = exports.$Enums.SystemRole = {
+  USER: 'USER',
+  ADMIN: 'ADMIN',
+  SUPER_ADMIN: 'SUPER_ADMIN'
 };
 
 exports.Role = exports.$Enums.Role = {
@@ -576,6 +734,30 @@ exports.CreativeType = exports.$Enums.CreativeType = {
   REEL: 'REEL'
 };
 
+exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
+  DRAFT: 'DRAFT',
+  OPEN: 'OPEN',
+  PAID: 'PAID',
+  VOID: 'VOID',
+  UNCOLLECTIBLE: 'UNCOLLECTIBLE'
+};
+
+exports.UsageMetric = exports.$Enums.UsageMetric = {
+  POSTS_PUBLISHED: 'POSTS_PUBLISHED',
+  AI_TOKENS_USED: 'AI_TOKENS_USED',
+  API_CALLS: 'API_CALLS',
+  MEDIA_STORAGE_MB: 'MEDIA_STORAGE_MB',
+  TEAM_MEMBERS: 'TEAM_MEMBERS',
+  CONNECTED_ACCOUNTS: 'CONNECTED_ACCOUNTS'
+};
+
+exports.AnnouncementType = exports.$Enums.AnnouncementType = {
+  INFO: 'INFO',
+  WARNING: 'WARNING',
+  MAINTENANCE: 'MAINTENANCE',
+  FEATURE: 'FEATURE'
+};
+
 exports.Prisma.ModelName = {
   Organization: 'Organization',
   User: 'User',
@@ -602,7 +784,15 @@ exports.Prisma.ModelName = {
   WebhookRule: 'WebhookRule',
   LeadCapture: 'LeadCapture',
   UtmLink: 'UtmLink',
-  PerformanceReport: 'PerformanceReport'
+  PerformanceReport: 'PerformanceReport',
+  Invoice: 'Invoice',
+  UsageRecord: 'UsageRecord',
+  PaymentMethod: 'PaymentMethod',
+  ApiKey: 'ApiKey',
+  FeatureFlag: 'FeatureFlag',
+  SystemMetric: 'SystemMetric',
+  Announcement: 'Announcement',
+  WaitlistEntry: 'WaitlistEntry'
 };
 
 /**
