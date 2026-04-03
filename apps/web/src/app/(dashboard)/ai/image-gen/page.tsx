@@ -187,10 +187,20 @@ export default function ImageGenPage() {
   /* ── Download ────────────────────────────────────────────── */
 
   function downloadImage(img: GeneratedImage) {
+    // Convert base64 to blob for mobile compatibility
+    const byteString = atob(img.base64.split(",")[1] ?? "");
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+    const blob = new Blob([ab], { type: "image/jpeg" });
+    const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
-    a.href = img.base64;
+    a.href = url;
     a.download = `marketing-${img.type || img.id}.jpg`;
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
   function downloadHtml(img: GeneratedImage) {
@@ -200,7 +210,9 @@ export default function ImageGenPage() {
     const a = document.createElement("a");
     a.href = url;
     a.download = `marketing-${img.type || img.id}.html`;
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
 
