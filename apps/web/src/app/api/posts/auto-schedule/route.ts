@@ -136,8 +136,13 @@ export const POST = withErrorHandler(
     const intervalHours = body.intervalHours ?? DEFAULT_INTERVAL_HOURS;
 
     // Read user timezone from cookie for local time calculations
-    const cookieHeader = req.headers.get("cookie");
-    const userTz = getTimezoneFromCookie(cookieHeader);
+    let userTz = "UTC";
+    try {
+      const cookieHeader = req.headers.get("cookie");
+      userTz = getTimezoneFromCookie(cookieHeader);
+    } catch {
+      // Fallback to UTC if cookie parsing fails
+    }
     const tzOffset = getTzOffsetMinutes(userTz);
 
     // Check if publishing is paused — allow scheduling but return a warning
