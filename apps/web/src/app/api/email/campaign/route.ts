@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
 import Anthropic from "@anthropic-ai/sdk";
+import { getContentMemory } from "@/lib/content-memory";
 
 let _client: Anthropic | null = null;
 function getClient(): Anthropic {
@@ -11,7 +12,7 @@ function getClient(): Anthropic {
 
 // POST /api/email/campaign — create email content via AI or send
 export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
-  const { action, subject, brief, tone, recipients, template, htmlContent } = await req.json();
+  const { action, subject, brief, tone, recipients, template, htmlContent, orgId } = await req.json();
 
   if (action === "generate") {
     if (!brief) {
@@ -24,12 +25,36 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
 
     const isLandingPage = template === "landing-page";
 
+    const contentMemory = await getContentMemory(req.orgId);
+
     const prompt = isLandingPage
       ? `Create a complete, modern landing page based on this brief: ${brief}
 
 ${tone ? `Tone: ${tone}` : "Tone: professional"}
 
-The landing page should be a complete HTML document with inline CSS that can be opened directly in a browser. Make it responsive, modern, and visually appealing.
+DESIGN SYSTEM:
+- Google Fonts: Inter (400,500,600,700,800) — load via link tag
+- Dark premium theme: background #0B0B0F, surfaces #12121A/#1A1A26
+- Accent colors: blue #0066FF, cyan #00D4FF, orange #FF6B35, green #00E676
+- Subtle grid overlay background (linear-gradient lines at 0.04 opacity)
+- Glowing orb effects (absolute positioned divs with filter:blur, opacity 0.2-0.3)
+- Gradient text for hero headlines (-webkit-background-clip: text)
+- Monospace accents for labels/badges (font-family: 'JetBrains Mono', monospace)
+- Glass-morphism cards (rgba backgrounds, backdrop-filter: blur, subtle borders)
+- Smooth scroll behavior
+- Mobile responsive (flexbox, max-width containers, media queries)
+
+SECTIONS TO INCLUDE:
+- Hero with headline, subheadline, CTA button, and floating badge
+- Features/benefits grid (3-4 items with icon boxes)
+- Social proof / stats bar
+- How it works (numbered steps)
+- FAQ accordion section (use details/summary for no-JS)
+- Footer with links and brand
+
+The page must be a complete HTML document. Make it responsive. Use inline styles or a <style> block — no external CSS files.
+
+${contentMemory}
 
 Return ONLY the raw HTML document — no JSON wrapping, no markdown code fences, no explanations. Start with <!DOCTYPE html>.`
       : `Create a professional marketing email based on this brief: ${brief}
@@ -37,18 +62,34 @@ Return ONLY the raw HTML document — no JSON wrapping, no markdown code fences,
 ${subject ? `Subject line suggestion: ${subject}` : ""}
 ${tone ? `Tone: ${tone}` : "Tone: professional"}
 ${template ? `Template style: ${template}` : ""}
+${contentMemory ? `\n${contentMemory}\n` : ""}
+Create a professional marketing email. Use this design system:
 
-Return a JSON object with these keys:
-- "subject": the email subject line
-- "preheader": a short preview text (50-90 chars)
-- "htmlBody": the full HTML email body with inline styles. Use a clean, modern design with a max-width of 600px. Include a header, body content, and footer. Use professional colors.
-- "plainText": plain text version of the email
+EMAIL DESIGN SYSTEM:
+- Max width: 600px, centered with margin: 0 auto
+- All styles MUST be inline (email clients strip <style> blocks)
+- Background: #f5f5f7 for body, #ffffff for content area
+- Font stack: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+- Header: brand color background with white text, 24px padding
+- Body: 32px padding, 16px font-size, #333333 text color, line-height 1.6
+- CTA button: 48px height, 24px horizontal padding, border-radius 6px, brand color background, white text, display:inline-block
+- Footer: #666666 text, 13px font-size, centered, with unsubscribe link placeholder
+- Images: max-width:100%, display:block
+- Use table-based layout for Outlook compatibility (wrap main content in <table> with role="presentation")
+- Include MSO conditional comments for Outlook: <!--[if mso]><table><tr><td><![endif]-->
+- Preheader text: hidden span at top with display:none for email preview
+
+Return a JSON object with:
+- "subject": compelling subject line
+- "preheader": preview text (50-90 chars)
+- "htmlBody": the complete email HTML (table-based, all inline styles, Outlook-safe)
+- "plainText": plain text version
 
 Return ONLY the JSON, no explanations.`;
 
     const response = await getClient().messages.create({
       model: "claude-sonnet-4-6",
-      max_tokens: isLandingPage ? 16384 : 4096,
+      max_tokens: isLandingPage ? 16384 : 8192,
       messages: [{ role: "user", content: prompt }],
     });
 
