@@ -20,13 +20,13 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
 
   // Get posts (optionally filtered by campaign)
+  const pageId = url.searchParams.get("pageId");
   const where: Record<string, unknown> = {
     orgId: req.orgId,
     status: "PUBLISHED",
   };
-  if (campaignId) {
-    where.campaignId = campaignId;
-  }
+  if (campaignId) where.campaignId = campaignId;
+  if (pageId) where.pageId = pageId;
 
   const posts = await prisma.post.findMany({
     where,

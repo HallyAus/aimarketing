@@ -11,7 +11,7 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
 
   // Get post count for this org
   const postCount = await prisma.post.count({
-    where: { orgId: req.orgId, status: "PUBLISHED" },
+    where: { orgId: req.orgId, status: "PUBLISHED", ...(url.searchParams.get("pageId") ? { pageId: url.searchParams.get("pageId") } : {}) },
   });
 
   if (postCount === 0) {

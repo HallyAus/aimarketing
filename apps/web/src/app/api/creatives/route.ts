@@ -15,7 +15,7 @@ function getMediaQueue() {
 // GET /api/creatives — list creatives for current org
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   const creatives = await prisma.creative.findMany({
-    where: { orgId: req.orgId },
+    where: { orgId: req.orgId, ...(new URL(req.url).searchParams.get("pageId") ? { pageId: new URL(req.url).searchParams.get("pageId") } : {}) },
     orderBy: { createdAt: "desc" },
     take: 100,
   });
