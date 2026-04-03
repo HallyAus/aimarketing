@@ -3,174 +3,89 @@
 import { useState, useEffect, useCallback } from "react";
 import { PageHeader } from "@/components/page-header";
 import { ClientAccountBanner, useActiveAccount } from "@/components/client-account-banner";
+import type { CardSpec } from "@/lib/image-gen/types";
 
-/* ------------------------------------------------------------------ */
-/*  Constants                                                          */
-/* ------------------------------------------------------------------ */
+/* ── Constants ──────────────────────────────────────────────── */
 
-const STYLE_PRESETS = [
-  { id: "text-overlay", label: "Text Overlay", description: "Bold text on a gradient background — perfect for announcements, quotes, and CTAs", icon: "type" },
-  { id: "flat-design", label: "Flat Design", description: "Clean, minimal graphics with geometric shapes — ideal for infographics and tips", icon: "layout" },
-  { id: "photo-realistic", label: "Photo Style", description: "Dark cinematic gradient with subtle lighting — great for professional/corporate content", icon: "camera" },
-  { id: "illustration", label: "Illustration", description: "Colorful gradient with decorative elements — perfect for creative/playful brands", icon: "palette" },
-  { id: "3d-render", label: "3D Style", description: "Deep space-inspired gradients with 3D elements — eye-catching for tech content", icon: "box" },
-  { id: "watercolor", label: "Watercolor", description: "Soft pastel gradients — beautiful for lifestyle, wellness, and artistic brands", icon: "droplet" },
+const SIZE_OPTIONS = [
+  { id: "instagram-square", label: "Instagram Square", size: "1080x1080" },
+  { id: "instagram-story", label: "Instagram Story", size: "1080x1920" },
+  { id: "facebook-post", label: "Facebook Post", size: "1200x630" },
+  { id: "twitter-post", label: "Twitter / X Post", size: "1600x900" },
+  { id: "linkedin-post", label: "LinkedIn Post", size: "1200x627" },
+  { id: "tiktok-cover", label: "TikTok Cover", size: "1080x1920" },
+  { id: "youtube-thumbnail", label: "YouTube Thumbnail", size: "1280x720" },
 ];
 
-const SIZE_PRESETS = [
-  { id: "instagram-square", label: "Instagram Square", size: "1080 x 1080" },
-  { id: "instagram-story", label: "Instagram Story", size: "1080 x 1920" },
-  { id: "facebook-post", label: "Facebook Post", size: "1200 x 630" },
-  { id: "twitter-post", label: "Twitter / X Post", size: "1600 x 900" },
-  { id: "linkedin-post", label: "LinkedIn Post", size: "1200 x 627" },
-  { id: "tiktok-cover", label: "TikTok Cover", size: "1080 x 1920" },
-  { id: "youtube-thumbnail", label: "YouTube Thumbnail", size: "1280 x 720" },
-];
+const TEMPLATE_LABELS: Record<string, string> = {
+  "product-showcase": "Product Showcase",
+  announcement: "Announcement",
+  "sale-promo": "Sale / Promo",
+  testimonial: "Testimonial",
+  stats: "Stats",
+  "tips-howto": "Tips / How-to",
+  "before-after": "Before & After",
+  "event-launch": "Event / Launch",
+  "brand-story": "Brand Story",
+  "carousel-card": "Carousel Card",
+};
 
-const COUNT_OPTIONS = [1, 3, 5];
-
-const PLATFORMS = [
+const SCHEDULE_PLATFORMS = [
   { id: "FACEBOOK", label: "Facebook" },
   { id: "INSTAGRAM", label: "Instagram" },
   { id: "LINKEDIN", label: "LinkedIn" },
   { id: "TWITTER_X", label: "Twitter / X" },
 ];
 
-const STYLE_ICONS: Record<string, string> = {
-  type: "T",
-  layout: "▦",
-  camera: "◎",
-  palette: "◐",
-  box: "⬡",
-  droplet: "◉",
-};
-
-/* ------------------------------------------------------------------ */
-/*  Types                                                              */
-/* ------------------------------------------------------------------ */
+/* ── Types ──────────────────────────────────────────────────── */
 
 interface GeneratedImage {
   id: string;
   base64: string;
-  style: string;
-  variation: number;
+  spec: CardSpec;
+  width: number;
+  height: number;
 }
 
-interface Campaign {
-  id: string;
-  name: string;
-}
-
-/* ------------------------------------------------------------------ */
-/*  Page Component                                                     */
-/* ------------------------------------------------------------------ */
+/* ── Page ───────────────────────────────────────────────────── */
 
 export default function ImageGenPage() {
   const activeAccount = useActiveAccount();
 
-  // Input state
+  // Input
   const [urlInput, setUrlInput] = useState("");
   const [prompt, setPrompt] = useState("");
-  const [fetchingUrl, setFetchingUrl] = useState(false);
-
-  // Style / size / count
-  const [style, setStyle] = useState("text-overlay");
-  const [size, setSize] = useState("instagram-square");
+  const [platform, setPlatform] = useState("instagram-square");
   const [count, setCount] = useState(3);
-
-  // Text overlay options
-  const [headline, setHeadline] = useState("");
-  const [subtext, setSubtext] = useState("");
-  const [textPosition, setTextPosition] = useState<"top" | "center" | "bottom">("center");
-  const [textColor, setTextColor] = useState<"white" | "black" | "brand">("white");
-  const [includeBrand, setIncludeBrand] = useState(false);
   const [brandName, setBrandName] = useState("");
 
-  // Generation state
+  // Generation
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState<GeneratedImage[]>([]);
+  const [extractedContent, setExtractedContent] = useState("");
   const [error, setError] = useState("");
 
-  // Scheduling state
+  // Edit/regenerate
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editSpec, setEditSpec] = useState<CardSpec | null>(null);
+  const [regenLoading, setRegenLoading] = useState(false);
+
+  // Selection & scheduling
   const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set());
   const [caption, setCaption] = useState("");
   const [schedulePlatform, setSchedulePlatform] = useState("FACEBOOK");
   const [scheduling, setScheduling] = useState(false);
   const [scheduleSuccess, setScheduleSuccess] = useState("");
-  const [scheduleError, setScheduleError] = useState("");
-  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-
-  // Fetch campaigns on mount
-  const fetchCampaigns = useCallback(async () => {
-    try {
-      const res = await fetch("/api/campaigns");
-      if (res.ok) {
-        const data = await res.json();
-        setCampaigns(data.data ?? []);
-      }
-    } catch {
-      // Silent
-    }
-  }, []);
 
   useEffect(() => {
-    fetchCampaigns();
-  }, [fetchCampaigns]);
-
-  // Auto-set platform from active account
-  useEffect(() => {
-    if (activeAccount?.platform) {
-      setSchedulePlatform(activeAccount.platform);
-    }
+    if (activeAccount?.platform) setSchedulePlatform(activeAccount.platform);
   }, [activeAccount]);
 
-  /* ---------------------------------------------------------------- */
-  /*  URL extraction                                                   */
-  /* ---------------------------------------------------------------- */
+  /* ── Generate ────────────────────────────────────────────── */
 
-  async function extractFromUrl() {
-    if (!urlInput.trim()) return;
-    setFetchingUrl(true);
-    setError("");
-    try {
-      const res = await fetch("/api/ai/url-to-posts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          url: urlInput.trim(),
-          platformIds: ["FACEBOOK"],
-          postsPerPlatform: 1,
-          tone: "professional",
-        }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        const firstPost = data.posts?.[0];
-        if (firstPost?.content) {
-          // Use the first line or first ~80 chars as headline
-          const content = firstPost.content as string;
-          const firstLine = content.split("\n")[0] ?? content;
-          const trimmed = firstLine.length > 80 ? firstLine.substring(0, 77) + "..." : firstLine;
-          setHeadline(trimmed);
-          setPrompt(content);
-        }
-      } else {
-        setError("Could not extract content from URL. Try entering text manually.");
-      }
-    } catch {
-      setError("Failed to fetch URL content.");
-    }
-    setFetchingUrl(false);
-  }
-
-  /* ---------------------------------------------------------------- */
-  /*  Image generation                                                 */
-  /* ---------------------------------------------------------------- */
-
-  async function generateImages() {
-    const displayText = headline.trim() || prompt.trim();
-    if (!displayText) {
-      setError("Enter a headline or text prompt");
+  async function generate() {
+    if (!urlInput.trim() && !prompt.trim()) {
+      setError("Enter a URL or describe what you want");
       return;
     }
     setLoading(true);
@@ -178,44 +93,75 @@ export default function ImageGenPage() {
     setImages([]);
     setSelectedImages(new Set());
     setScheduleSuccess("");
-    setScheduleError("");
+    setExtractedContent("");
 
     try {
       const res = await fetch("/api/ai/image-gen", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prompt: displayText,
-          style,
-          size,
+          url: urlInput.trim() || undefined,
+          prompt: prompt.trim() || undefined,
+          platform,
           count,
-          headline: headline.trim() || undefined,
-          subtext: subtext.trim() || undefined,
-          textPosition,
-          textColor,
-          brandName: includeBrand && brandName.trim() ? brandName.trim() : undefined,
+          brandName: brandName.trim() || undefined,
         }),
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        const generated: GeneratedImage[] = data.images ?? [];
-        setImages(generated);
-        // Auto-select all
-        setSelectedImages(new Set(generated.map((img) => img.id)));
-      } else {
-        const data = await res.json().catch(() => ({}));
-        setError((data as Record<string, string>).error ?? "Failed to generate images");
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        throw new Error((d as Record<string, string>).error ?? "Generation failed");
       }
-    } catch {
-      setError("Failed to generate images. Please try again.");
+
+      const data = await res.json();
+      const generated: GeneratedImage[] = data.images ?? [];
+      setImages(generated);
+      setSelectedImages(new Set(generated.map((img) => img.id)));
+      if (data.extractedContent) setExtractedContent(data.extractedContent);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to generate images");
     }
     setLoading(false);
   }
 
-  /* ---------------------------------------------------------------- */
-  /*  Image selection                                                  */
-  /* ---------------------------------------------------------------- */
+  /* ── Edit & Regenerate single card ───────────────────────── */
+
+  function startEdit(img: GeneratedImage) {
+    setEditingId(img.id);
+    setEditSpec({ ...img.spec });
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setEditSpec(null);
+  }
+
+  async function regenerateCard() {
+    if (!editSpec) return;
+    setRegenLoading(true);
+    try {
+      const res = await fetch("/api/ai/image-gen", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ regenerateSpec: editSpec, platform }),
+      });
+      if (!res.ok) throw new Error("Regeneration failed");
+      const data = await res.json();
+      const newImg = data.images?.[0] as GeneratedImage | undefined;
+      if (newImg) {
+        setImages((prev) =>
+          prev.map((img) => (img.id === editingId ? { ...newImg, id: editingId! } : img)),
+        );
+      }
+      setEditingId(null);
+      setEditSpec(null);
+    } catch {
+      setError("Failed to regenerate card");
+    }
+    setRegenLoading(false);
+  }
+
+  /* ── Selection ───────────────────────────────────────────── */
 
   function toggleImage(id: string) {
     setSelectedImages((prev) => {
@@ -226,41 +172,33 @@ export default function ImageGenPage() {
     });
   }
 
-  function toggleSelectAll() {
-    if (selectedImages.size === images.length) {
-      setSelectedImages(new Set());
-    } else {
-      setSelectedImages(new Set(images.map((img) => img.id)));
-    }
-  }
-
-  /* ---------------------------------------------------------------- */
-  /*  Download helper                                                  */
-  /* ---------------------------------------------------------------- */
+  /* ── Download ────────────────────────────────────────────── */
 
   function downloadImage(img: GeneratedImage) {
     const a = document.createElement("a");
     a.href = img.base64;
-    a.download = `adpilot-${img.style}-v${img.variation}.png`;
+    a.download = `adpilot-${img.spec.template}-${img.id}.png`;
     a.click();
   }
 
-  /* ---------------------------------------------------------------- */
-  /*  Batch scheduling                                                 */
-  /* ---------------------------------------------------------------- */
+  function downloadAll() {
+    images.forEach((img) => {
+      if (selectedImages.has(img.id)) downloadImage(img);
+    });
+  }
+
+  /* ── Schedule ────────────────────────────────────────────── */
 
   async function scheduleSelected() {
     const selected = images.filter((img) => selectedImages.has(img.id));
     if (selected.length === 0) return;
-
     setScheduling(true);
-    setScheduleError("");
     setScheduleSuccess("");
+    setError("");
 
     try {
-      // Build drafts: each selected image becomes a post
       const drafts = selected.map((img) => ({
-        content: caption.trim() || headline.trim() || prompt.trim() || "Image post",
+        content: caption.trim() || img.spec.headline,
         platform: schedulePlatform,
         mediaUrls: [img.base64],
         pageId: activeAccount?.id ?? undefined,
@@ -270,10 +208,7 @@ export default function ImageGenPage() {
       const res = await fetch("/api/posts/auto-schedule", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          drafts,
-          campaignId: campaigns[0]?.id || undefined,
-        }),
+        body: JSON.stringify({ drafts }),
       });
 
       if (!res.ok) {
@@ -282,398 +217,224 @@ export default function ImageGenPage() {
       }
 
       const data = await res.json();
-      const scheduledTimes = (data.scheduled as Array<{ scheduledAt: string }>) ?? [];
-      if (scheduledTimes.length > 0) {
-        const timeList = scheduledTimes
-          .map((s) => new Date(s.scheduledAt).toLocaleString())
-          .join(", ");
-        setScheduleSuccess(
-          `${scheduledTimes.length} post${scheduledTimes.length > 1 ? "s" : ""} scheduled: ${timeList}`,
-        );
-      } else {
-        setScheduleSuccess("Posts scheduled successfully!");
-      }
+      const count = (data.scheduled as unknown[])?.length ?? 0;
+      setScheduleSuccess(`${count} post${count !== 1 ? "s" : ""} scheduled!`);
     } catch (e) {
-      setScheduleError(e instanceof Error ? e.message : "Failed to schedule posts");
+      setError(e instanceof Error ? e.message : "Failed to schedule");
     }
     setScheduling(false);
   }
 
-  /* ---------------------------------------------------------------- */
-  /*  Render                                                           */
-  /* ---------------------------------------------------------------- */
-
-  const hasContent = headline.trim() || prompt.trim();
+  /* ── Render ──────────────────────────────────────────────── */
 
   return (
     <div>
       <PageHeader
         title="AI Image Generator"
-        subtitle="Create multiple styled images from a URL or text prompt, then schedule them as posts"
+        subtitle="Paste a URL or describe your content — AI creates marketing-ready images"
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "AI Studio", href: "/ai" },
           { label: "Image Generator" },
         ]}
       />
-
       <ClientAccountBanner account={activeAccount} />
 
       <div className="space-y-6">
-        {/* ============================================================ */}
-        {/*  INPUT SECTION                                                */}
-        {/* ============================================================ */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Left column: Input + text overlay */}
-          <div className="space-y-4">
-            {/* URL input */}
-            <div className="card">
-              <h3 className="text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
-                Content Source
-              </h3>
-
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>
-                  Paste a URL to extract content for images
+        {/* ── INPUT ────────────────────────────────────────── */}
+        <div className="card">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+                  Paste a URL to extract content
                 </label>
-                <div className="flex gap-2">
-                  <input
-                    type="url"
-                    value={urlInput}
-                    onChange={(e) => setUrlInput(e.target.value)}
-                    placeholder="https://example.com/your-page"
-                    className="flex-1 rounded-md px-3 py-2 text-sm"
-                    style={{
-                      background: "var(--bg-tertiary)",
-                      color: "var(--text-primary)",
-                      border: "1px solid var(--border-primary)",
-                    }}
-                  />
-                  <button
-                    onClick={extractFromUrl}
-                    disabled={fetchingUrl || !urlInput.trim()}
-                    className="btn-secondary text-xs whitespace-nowrap disabled:opacity-50"
-                  >
-                    {fetchingUrl ? "Extracting..." : "Extract"}
-                  </button>
-                </div>
+                <input
+                  type="url"
+                  value={urlInput}
+                  onChange={(e) => setUrlInput(e.target.value)}
+                  placeholder="https://yoursite.com/product-page"
+                  className="w-full"
+                  onKeyDown={(e) => e.key === "Enter" && generate()}
+                />
               </div>
 
-              <div className="mb-2">
-                <label className="block text-sm font-medium mb-1" style={{ color: "var(--text-secondary)" }}>
+              <div>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
                   Or describe what you want
                 </label>
                 <textarea
                   value={prompt}
-                  onChange={(e) => {
-                    setPrompt(e.target.value);
-                    if (!headline) setHeadline(e.target.value.split("\n")[0]?.substring(0, 80) ?? "");
-                  }}
+                  onChange={(e) => setPrompt(e.target.value)}
                   rows={3}
-                  placeholder="e.g. Flash Sale - 50% Off Everything This Weekend"
-                  className="w-full rounded-md px-3 py-2 text-sm"
-                  style={{
-                    background: "var(--bg-tertiary)",
-                    color: "var(--text-primary)",
-                    border: "1px solid var(--border-primary)",
-                  }}
+                  placeholder="e.g. Flash sale on all 3D printers — 30% off this weekend only"
+                  className="w-full"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+                  Brand name (optional)
+                </label>
+                <input
+                  type="text"
+                  value={brandName}
+                  onChange={(e) => setBrandName(e.target.value)}
+                  placeholder="e.g. PrintForge"
+                  className="w-full"
                 />
               </div>
             </div>
 
-            {/* Text Overlay Options */}
-            <div className="card">
-              <h3 className="text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
-                Text Overlay Options
-              </h3>
-
-              <div className="mb-3">
-                <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>
-                  Headline Text
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+                  Platform / Size
                 </label>
-                <input
-                  type="text"
-                  value={headline}
-                  onChange={(e) => setHeadline(e.target.value)}
-                  placeholder="Main headline for the image"
-                  className="w-full rounded-md px-3 py-2 text-sm"
-                  style={{
-                    background: "var(--bg-tertiary)",
-                    color: "var(--text-primary)",
-                    border: "1px solid var(--border-primary)",
-                  }}
-                />
+                <select value={platform} onChange={(e) => setPlatform(e.target.value)} className="w-full">
+                  {SIZE_OPTIONS.map((s) => (
+                    <option key={s.id} value={s.id}>{s.label} ({s.size})</option>
+                  ))}
+                </select>
               </div>
 
-              <div className="mb-3">
-                <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>
-                  Subtext (optional)
+              <div>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>
+                  Number of images
                 </label>
-                <input
-                  type="text"
-                  value={subtext}
-                  onChange={(e) => setSubtext(e.target.value)}
-                  placeholder="e.g. Shop now at printforge.com.au"
-                  className="w-full rounded-md px-3 py-2 text-sm"
-                  style={{
-                    background: "var(--bg-tertiary)",
-                    color: "var(--text-primary)",
-                    border: "1px solid var(--border-primary)",
-                  }}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 mb-3">
-                <div>
-                  <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>
-                    Text Position
-                  </label>
-                  <div className="flex gap-1">
-                    {(["top", "center", "bottom"] as const).map((pos) => (
-                      <button
-                        key={pos}
-                        onClick={() => setTextPosition(pos)}
-                        className="flex-1 px-2 py-1.5 rounded text-xs font-medium capitalize"
-                        style={{
-                          background: textPosition === pos ? "var(--accent-blue-muted)" : "var(--bg-tertiary)",
-                          color: textPosition === pos ? "var(--accent-blue)" : "var(--text-secondary)",
-                          border: `1px solid ${textPosition === pos ? "var(--accent-blue)" : "var(--border-primary)"}`,
-                        }}
-                      >
-                        {pos}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>
-                    Text Color
-                  </label>
-                  <div className="flex gap-1">
-                    {(["white", "black", "brand"] as const).map((c) => (
-                      <button
-                        key={c}
-                        onClick={() => setTextColor(c)}
-                        className="flex-1 px-2 py-1.5 rounded text-xs font-medium capitalize"
-                        style={{
-                          background: textColor === c ? "var(--accent-blue-muted)" : "var(--bg-tertiary)",
-                          color: textColor === c ? "var(--accent-blue)" : "var(--text-secondary)",
-                          border: `1px solid ${textColor === c ? "var(--accent-blue)" : "var(--border-primary)"}`,
-                        }}
-                      >
-                        {c}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  id="include-brand"
-                  checked={includeBrand}
-                  onChange={(e) => setIncludeBrand(e.target.checked)}
-                  className="rounded"
-                />
-                <label htmlFor="include-brand" className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                  Include brand name
-                </label>
-                {includeBrand && (
-                  <input
-                    type="text"
-                    value={brandName}
-                    onChange={(e) => setBrandName(e.target.value)}
-                    placeholder="Brand name"
-                    className="flex-1 rounded-md px-2 py-1 text-xs"
-                    style={{
-                      background: "var(--bg-tertiary)",
-                      color: "var(--text-primary)",
-                      border: "1px solid var(--border-primary)",
-                    }}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Right column: Style + Size + Count + Generate */}
-          <div className="space-y-4">
-            {/* Style Selection */}
-            <div className="card">
-              <h3 className="text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
-                Style
-              </h3>
-              <div className="space-y-2">
-                {STYLE_PRESETS.map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => setStyle(s.id)}
-                    className="w-full flex items-start gap-3 rounded-lg px-3 py-2.5 text-left transition-all"
-                    style={{
-                      background: style === s.id ? "var(--accent-blue-muted)" : "var(--bg-tertiary)",
-                      border: `1px solid ${style === s.id ? "var(--accent-blue)" : "var(--border-primary)"}`,
-                    }}
-                  >
-                    <span
-                      className="text-lg mt-0.5 flex-shrink-0 w-6 text-center"
-                      style={{ color: style === s.id ? "var(--accent-blue)" : "var(--text-tertiary)" }}
+                <div className="flex gap-2">
+                  {[3, 5].map((n) => (
+                    <button
+                      key={n}
+                      onClick={() => setCount(n)}
+                      className="flex-1 py-2 rounded-lg text-sm font-medium transition-colors"
+                      style={{
+                        background: count === n ? "var(--accent-blue-muted)" : "var(--bg-tertiary)",
+                        color: count === n ? "var(--accent-blue)" : "var(--text-secondary)",
+                        border: `1px solid ${count === n ? "var(--accent-blue)" : "var(--border-primary)"}`,
+                      }}
                     >
-                      {STYLE_ICONS[s.icon] ?? "●"}
-                    </span>
-                    <div className="min-w-0">
-                      <div
-                        className="text-sm font-medium"
-                        style={{ color: style === s.id ? "var(--accent-blue)" : "var(--text-primary)" }}
-                      >
-                        {s.label}
-                      </div>
-                      <div className="text-xs mt-0.5" style={{ color: "var(--text-tertiary)" }}>
-                        {s.description}
-                      </div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Size + Count */}
-            <div className="card">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
-                    Platform Size
-                  </label>
-                  <select
-                    value={size}
-                    onChange={(e) => setSize(e.target.value)}
-                    className="w-full rounded-md px-3 py-2 text-sm"
-                    style={{
-                      background: "var(--bg-tertiary)",
-                      color: "var(--text-primary)",
-                      border: "1px solid var(--border-primary)",
-                    }}
-                  >
-                    {SIZE_PRESETS.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.label} ({s.size})
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2" style={{ color: "var(--text-secondary)" }}>
-                    Number of Images
-                  </label>
-                  <select
-                    value={count}
-                    onChange={(e) => setCount(Number(e.target.value))}
-                    className="w-full rounded-md px-3 py-2 text-sm"
-                    style={{
-                      background: "var(--bg-tertiary)",
-                      color: "var(--text-primary)",
-                      border: "1px solid var(--border-primary)",
-                    }}
-                  >
-                    {COUNT_OPTIONS.map((n) => (
-                      <option key={n} value={n}>
-                        {n} image{n > 1 ? "s" : ""}
-                      </option>
-                    ))}
-                  </select>
+                      {n} images
+                    </button>
+                  ))}
                 </div>
               </div>
+
+              <button
+                onClick={generate}
+                disabled={loading || (!urlInput.trim() && !prompt.trim())}
+                className="btn-primary w-full text-sm py-3 disabled:opacity-50"
+              >
+                {loading ? "Generating..." : `Generate ${count} Marketing Images`}
+              </button>
             </div>
-
-            {/* Generate Button */}
-            <button
-              onClick={generateImages}
-              disabled={loading || !hasContent}
-              className="btn-primary text-sm w-full disabled:opacity-50"
-            >
-              {loading ? "Generating..." : `Generate ${count} Image${count > 1 ? "s" : ""}`}
-            </button>
-
-            {error && (
-              <div className="alert-error text-xs rounded-lg px-3 py-2">{error}</div>
-            )}
-
-            <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
-              Images are generated server-side with Sharp. Each variation uses a different color palette.
-            </p>
           </div>
         </div>
 
-        {/* ============================================================ */}
-        {/*  LOADING STATE                                                */}
-        {/* ============================================================ */}
+        {/* ── LOADING ──────────────────────────────────────── */}
         {loading && (
-          <div className="card flex flex-col items-center justify-center py-12">
+          <div className="card flex flex-col items-center justify-center py-16">
             <div
-              className="w-12 h-12 rounded-full border-2 border-t-transparent animate-spin mx-auto mb-3"
+              className="w-12 h-12 rounded-full border-2 border-t-transparent animate-spin mx-auto mb-4"
               style={{ borderColor: "var(--accent-blue)", borderTopColor: "transparent" }}
             />
-            <p className="text-sm" style={{ color: "var(--text-tertiary)" }}>
-              Generating {count} image{count > 1 ? "s" : ""}...
+            <p className="text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
+              AI is designing {count} marketing images...
+            </p>
+            <p className="text-xs mt-1" style={{ color: "var(--text-tertiary)" }}>
+              Analyzing content, choosing templates, rendering PNGs
             </p>
           </div>
         )}
 
-        {/* ============================================================ */}
-        {/*  GENERATED IMAGES GRID                                        */}
-        {/* ============================================================ */}
+        {/* ── ERROR ────────────────────────────────────────── */}
+        {error && (
+          <div className="alert alert-error">
+            {error}
+            <button onClick={() => setError("")} className="ml-auto text-xs underline">Dismiss</button>
+          </div>
+        )}
+
+        {/* ── EXTRACTED CONTENT PREVIEW ────────────────────── */}
+        {extractedContent && !loading && (
+          <details className="card">
+            <summary className="text-xs font-medium cursor-pointer" style={{ color: "var(--text-tertiary)" }}>
+              Extracted content from URL
+            </summary>
+            <pre className="mt-2 text-xs whitespace-pre-wrap overflow-auto max-h-40" style={{ color: "var(--text-secondary)" }}>
+              {extractedContent}
+            </pre>
+          </details>
+        )}
+
+        {/* ── RESULTS GRID ─────────────────────────────────── */}
         {!loading && images.length > 0 && (
           <div>
-            <h3 className="text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
-              Generated Images
-            </h3>
+            <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+              <h3 className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+                Generated Images
+              </h3>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    if (selectedImages.size === images.length) setSelectedImages(new Set());
+                    else setSelectedImages(new Set(images.map((img) => img.id)));
+                  }}
+                  className="text-xs font-medium px-2.5 py-1 rounded"
+                  style={{ background: "var(--accent-blue-muted)", color: "var(--accent-blue)", border: "1px solid var(--accent-blue)" }}
+                >
+                  {selectedImages.size === images.length ? "Deselect All" : "Select All"}
+                </button>
+                <button onClick={downloadAll} disabled={selectedImages.size === 0} className="btn-secondary text-xs disabled:opacity-50">
+                  Download ({selectedImages.size})
+                </button>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {images.map((img) => (
                 <div
                   key={img.id}
-                  className="card p-0 overflow-hidden"
+                  className="rounded-lg overflow-hidden"
                   style={{
                     border: selectedImages.has(img.id)
                       ? "2px solid var(--accent-blue)"
                       : "2px solid var(--border-primary)",
+                    background: "var(--bg-secondary)",
                   }}
                 >
-                  {/* Checkbox overlay */}
-                  <div className="relative">
-                    <img
-                      src={img.base64}
-                      alt={`${img.style} variation ${img.variation}`}
-                      className="w-full object-contain"
-                      style={{ maxHeight: 300 }}
-                    />
-                    <label
-                      className="absolute top-2 left-2 flex items-center gap-1.5 rounded px-2 py-1 cursor-pointer"
-                      style={{ background: "rgba(0,0,0,0.6)" }}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedImages.has(img.id)}
-                        onChange={() => toggleImage(img.id)}
-                        className="rounded"
-                      />
-                      <span className="text-xs text-white">Select</span>
-                    </label>
+                  {/* Image */}
+                  <div
+                    style={{ cursor: "pointer" }}
+                    onClick={() => toggleImage(img.id)}
+                  >
+                    <img src={img.base64} alt={img.spec.headline} className="w-full" />
                   </div>
 
-                  <div className="p-3">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>
-                        {STYLE_PRESETS.find((s) => s.id === img.style)?.label ?? img.style} — v{img.variation}
+                  {/* Card info */}
+                  <div className="p-3 space-y-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span
+                        className="text-[10px] font-semibold px-2 py-0.5 rounded"
+                        style={{ background: "var(--accent-blue-muted)", color: "var(--accent-blue)" }}
+                      >
+                        {TEMPLATE_LABELS[img.spec.template] ?? img.spec.template}
+                      </span>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded" style={{ background: "var(--bg-tertiary)", color: "var(--text-tertiary)" }}>
+                        {img.spec.mood}
                       </span>
                     </div>
-                    <button
-                      onClick={() => downloadImage(img)}
-                      className="btn-secondary text-xs w-full"
-                    >
-                      Download
-                    </button>
+                    <p className="text-xs truncate" style={{ color: "var(--text-secondary)" }}>
+                      {img.spec.headline}
+                    </p>
+                    <div className="flex gap-2">
+                      <button onClick={() => downloadImage(img)} className="btn-secondary text-xs flex-1">
+                        Download
+                      </button>
+                      <button onClick={() => startEdit(img)} className="btn-ghost text-xs flex-1" style={{ color: "var(--accent-blue)" }}>
+                        Edit
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -681,117 +442,155 @@ export default function ImageGenPage() {
           </div>
         )}
 
-        {/* ============================================================ */}
-        {/*  BATCH SCHEDULING SECTION                                     */}
-        {/* ============================================================ */}
+        {/* ── EDIT PANEL ───────────────────────────────────── */}
+        {editingId && editSpec && (
+          <div className="card" style={{ borderColor: "var(--accent-blue)" }}>
+            <h3 className="text-sm font-semibold mb-3" style={{ color: "var(--accent-blue)" }}>
+              Edit & Regenerate
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Headline</label>
+                  <input
+                    value={editSpec.headline}
+                    onChange={(e) => setEditSpec({ ...editSpec, headline: e.target.value })}
+                    className="w-full text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Subtext</label>
+                  <input
+                    value={editSpec.subtext ?? ""}
+                    onChange={(e) => setEditSpec({ ...editSpec, subtext: e.target.value })}
+                    className="w-full text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>CTA</label>
+                  <input
+                    value={editSpec.cta ?? ""}
+                    onChange={(e) => setEditSpec({ ...editSpec, cta: e.target.value })}
+                    className="w-full text-sm"
+                  />
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Template</label>
+                  <select
+                    value={editSpec.template}
+                    onChange={(e) => setEditSpec({ ...editSpec, template: e.target.value as CardSpec["template"] })}
+                    className="w-full text-sm"
+                  >
+                    {Object.entries(TEMPLATE_LABELS).map(([id, label]) => (
+                      <option key={id} value={id}>{label}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Color 1</label>
+                    <input type="color" value={editSpec.palette[0]} onChange={(e) => setEditSpec({ ...editSpec, palette: [e.target.value, editSpec.palette[1]] })} className="w-full h-8" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Color 2</label>
+                    <input type="color" value={editSpec.palette[1]} onChange={(e) => setEditSpec({ ...editSpec, palette: [editSpec.palette[0], e.target.value] })} className="w-full h-8" />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Mood</label>
+                  <div className="flex gap-1 flex-wrap">
+                    {(["bold", "elegant", "playful", "minimal", "warm"] as const).map((m) => (
+                      <button
+                        key={m}
+                        onClick={() => setEditSpec({ ...editSpec, mood: m })}
+                        className="px-2 py-1 rounded text-xs capitalize"
+                        style={{
+                          background: editSpec.mood === m ? "var(--accent-blue-muted)" : "var(--bg-tertiary)",
+                          color: editSpec.mood === m ? "var(--accent-blue)" : "var(--text-tertiary)",
+                          border: `1px solid ${editSpec.mood === m ? "var(--accent-blue)" : "var(--border-primary)"}`,
+                        }}
+                      >
+                        {m}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-2 mt-4">
+              <button onClick={regenerateCard} disabled={regenLoading} className="btn-primary text-sm">
+                {regenLoading ? "Regenerating..." : "Regenerate"}
+              </button>
+              <button onClick={cancelEdit} className="btn-secondary text-sm">Cancel</button>
+            </div>
+          </div>
+        )}
+
+        {/* ── SCHEDULE ─────────────────────────────────────── */}
         {!loading && images.length > 0 && (
           <div className="card">
             <h3 className="text-sm font-semibold mb-3" style={{ color: "var(--text-primary)" }}>
               Schedule as Posts
             </h3>
-
-            {/* Select all toggle */}
-            <div className="flex items-center gap-2 mb-4">
-              <button
-                onClick={toggleSelectAll}
-                className="text-xs font-medium px-2 py-1 rounded"
-                style={{
-                  background: "var(--accent-blue-muted)",
-                  color: "var(--accent-blue)",
-                  border: "1px solid var(--accent-blue)",
-                }}
-              >
-                {selectedImages.size === images.length ? "Deselect All" : "Select All"}
-              </button>
-              <span className="text-xs" style={{ color: "var(--text-tertiary)" }}>
-                {selectedImages.size} of {images.length} selected
-              </span>
-            </div>
-
-            {/* Caption */}
-            <div className="mb-4">
-              <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>
-                Caption (applied to all selected posts)
-              </label>
-              <textarea
-                value={caption}
-                onChange={(e) => setCaption(e.target.value)}
-                rows={3}
-                placeholder="Write a caption for these posts..."
-                className="w-full rounded-md px-3 py-2 text-sm"
-                style={{
-                  background: "var(--bg-tertiary)",
-                  color: "var(--text-primary)",
-                  border: "1px solid var(--border-primary)",
-                }}
-              />
-            </div>
-
-            {/* Platform selector */}
-            <div className="mb-4">
-              <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>
-                Platform
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {PLATFORMS.map((p) => (
-                  <button
-                    key={p.id}
-                    onClick={() => setSchedulePlatform(p.id)}
-                    className="px-3 py-1.5 rounded-lg text-xs font-medium"
-                    style={{
-                      background: schedulePlatform === p.id ? "var(--accent-blue-muted)" : "var(--bg-tertiary)",
-                      color: schedulePlatform === p.id ? "var(--accent-blue)" : "var(--text-secondary)",
-                      border: `1px solid ${schedulePlatform === p.id ? "var(--accent-blue)" : "var(--border-primary)"}`,
-                    }}
-                  >
-                    {p.label}
-                  </button>
-                ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block text-xs font-medium mb-1" style={{ color: "var(--text-secondary)" }}>Caption</label>
+                <textarea
+                  value={caption}
+                  onChange={(e) => setCaption(e.target.value)}
+                  rows={3}
+                  placeholder="Write a caption for these posts..."
+                  className="w-full text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium mb-1.5" style={{ color: "var(--text-secondary)" }}>Platform</label>
+                <div className="flex flex-wrap gap-2">
+                  {SCHEDULE_PLATFORMS.map((p) => (
+                    <button
+                      key={p.id}
+                      onClick={() => setSchedulePlatform(p.id)}
+                      className="px-3 py-1.5 rounded-lg text-xs font-medium"
+                      style={{
+                        background: schedulePlatform === p.id ? "var(--accent-blue-muted)" : "var(--bg-tertiary)",
+                        color: schedulePlatform === p.id ? "var(--accent-blue)" : "var(--text-secondary)",
+                        border: `1px solid ${schedulePlatform === p.id ? "var(--accent-blue)" : "var(--border-primary)"}`,
+                      }}
+                    >
+                      {p.label}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-xs mt-2" style={{ color: "var(--text-tertiary)" }}>
+                  {selectedImages.size} of {images.length} images selected
+                </p>
               </div>
             </div>
-
-            {/* Schedule button */}
             <button
               onClick={scheduleSelected}
               disabled={scheduling || selectedImages.size === 0}
               className="btn-primary text-sm disabled:opacity-50"
             >
-              {scheduling
-                ? "Scheduling..."
-                : `Schedule ${selectedImages.size} Selected Post${selectedImages.size !== 1 ? "s" : ""}`}
+              {scheduling ? "Scheduling..." : `Schedule ${selectedImages.size} Post${selectedImages.size !== 1 ? "s" : ""}`}
             </button>
-
             {scheduleSuccess && (
-              <div
-                className="mt-3 text-xs rounded-lg px-3 py-2"
-                style={{
-                  background: "var(--accent-green-muted, rgba(67, 233, 123, 0.1))",
-                  color: "var(--accent-green, #43e97b)",
-                  border: "1px solid var(--accent-green, #43e97b)",
-                }}
-              >
-                {scheduleSuccess}
-              </div>
-            )}
-
-            {scheduleError && (
-              <div className="alert-error mt-3 text-xs rounded-lg px-3 py-2">
-                {scheduleError}
-              </div>
+              <div className="alert alert-success mt-3 text-sm">{scheduleSuccess}</div>
             )}
           </div>
         )}
 
-        {/* ============================================================ */}
-        {/*  EMPTY STATE                                                  */}
-        {/* ============================================================ */}
+        {/* ── EMPTY STATE ──────────────────────────────────── */}
         {!loading && images.length === 0 && (
-          <div
-            className="card flex flex-col items-center justify-center"
-            style={{ minHeight: 200 }}
-          >
+          <div className="card flex flex-col items-center justify-center py-12">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--text-tertiary)", marginBottom: 12 }}>
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
             <p className="text-sm" style={{ color: "var(--text-tertiary)" }}>
-              Generated images will appear here
+              Paste a URL or describe your content to generate marketing images
             </p>
           </div>
         )}
