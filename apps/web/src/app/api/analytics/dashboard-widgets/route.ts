@@ -8,9 +8,15 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   const url = new URL(req.url);
   const pageId = url.searchParams.get("pageId") || undefined;
   const pageFilter = pageId ? { pageId } : {};
+  const clientTz = url.searchParams.get("tz") || "UTC";
 
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0);
+  // Compute "today" start in the user's timezone
+  const todayStr = new Date().toLocaleDateString("en-CA", { timeZone: clientTz });
+  const midnightUTC = new Date(todayStr + "T00:00:00Z");
+  const sample = new Date();
+  const utcMs = new Date(sample.toLocaleString("en-US", { timeZone: "UTC" })).getTime();
+  const tzMs = new Date(sample.toLocaleString("en-US", { timeZone: clientTz })).getTime();
+  const todayStart = new Date(midnightUTC.getTime() - (tzMs - utcMs));
 
   const [totalPosts, scheduledCount, publishedToday, recentSnapshots] = await Promise.all([
     prisma.post.count({

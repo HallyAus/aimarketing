@@ -8,6 +8,7 @@ import { StatusBadge } from "@/components/status-badge";
 import { ActiveAccountBanner } from "@/components/active-account-banner";
 import { getActiveAccount } from "@/lib/active-account";
 import { getActivePageId, pageWhere } from "@/lib/active-page";
+import { getUserTimezone } from "@/lib/timezone-cookie";
 import { DashboardWidgets } from "./widgets";
 import { DashboardTabs } from "./dashboard-tabs";
 import { QuickPost } from "./quick-post";
@@ -37,39 +38,49 @@ function relativeTime(date: Date): string {
   return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
-function formatTime(date: Date): string {
-  // Use UTC-based formatting on server; client components handle timezone via getUserTimezone()
-  const h = date.getUTCHours();
-  const m = date.getUTCMinutes();
-  const ampm = h >= 12 ? "PM" : "AM";
-  const h12 = h % 12 || 12;
-  return `${h12}:${m.toString().padStart(2, "0")} ${ampm} UTC`;
+function formatTime(date: Date, tz: string): string {
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: tz,
+  });
 }
 
-function isToday(date: Date): boolean {
-  const now = new Date();
-  return (
-    date.getFullYear() === now.getFullYear() &&
-    date.getMonth() === now.getMonth() &&
-    date.getDate() === now.getDate()
-  );
+function isTodayInTz(date: Date, tz: string): boolean {
+  const nowStr = new Date().toLocaleDateString("en-CA", { timeZone: tz });
+  const dateStr = date.toLocaleDateString("en-CA", { timeZone: tz });
+  return nowStr === dateStr;
 }
 
-function isTomorrow(date: Date): boolean {
+function isTomorrowInTz(date: Date, tz: string): boolean {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  return (
-    date.getFullYear() === tomorrow.getFullYear() &&
-    date.getMonth() === tomorrow.getMonth() &&
-    date.getDate() === tomorrow.getDate()
-  );
+  const tomorrowStr = tomorrow.toLocaleDateString("en-CA", { timeZone: tz });
+  const dateStr = date.toLocaleDateString("en-CA", { timeZone: tz });
+  return tomorrowStr === dateStr;
 }
 
-function formatScheduleLabel(date: Date): string {
-  if (isToday(date)) return `Today ${formatTime(date)}`;
-  if (isTomorrow(date)) return `Tomorrow ${formatTime(date)}`;
-  const month = date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", timeZone: "UTC" });
-  return `${month} ${formatTime(date)}`;
+function formatScheduleLabel(date: Date, tz: string): string {
+  if (isTodayInTz(date, tz)) return `Today ${formatTime(date, tz)}`;
+  if (isTomorrowInTz(date, tz)) return `Tomorrow ${formatTime(date, tz)}`;
+  const dayPart = date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", timeZone: tz });
+  return `${dayPart} ${formatTime(date, tz)}`;
+}
+
+/** Compute start of "today" in user's timezone as a UTC Date */
+function getTodayStartInTz(tz: string): Date {
+  const todayStr = new Date().toLocaleDateString("en-CA", { timeZone: tz }); // "2026-04-03"
+  // Create a Date at midnight UTC for that calendar date, then adjust for timezone offset
+  const midnightUTC = new Date(todayStr + "T00:00:00Z");
+  // Get the offset in minutes for this timezone at this moment
+  const sample = new Date();
+  const utcStr = sample.toLocaleString("en-US", { timeZone: "UTC" });
+  const tzStr = sample.toLocaleString("en-US", { timeZone: tz });
+  const utcMs = new Date(utcStr).getTime();
+  const tzMs = new Date(tzStr).getTime();
+  const offsetMs = tzMs - utcMs;
+  return new Date(midnightUTC.getTime() - offsetMs);
 }
 
 /* ── SVG Icons ───────────────────────────────────────────── */
@@ -195,11 +206,10 @@ export default async function DashboardPage() {
     );
   }
 
+  const userTz = await getUserTimezone();
   const now = new Date();
-  const todayStart = new Date(now);
-  todayStart.setHours(0, 0, 0, 0);
-  const yesterdayStart = new Date(todayStart);
-  yesterdayStart.setDate(yesterdayStart.getDate() - 1);
+  const todayStart = getTodayStartInTz(userTz);
+  const yesterdayStart = new Date(todayStart.getTime() - 24 * 60 * 60 * 1000);
   const in48h = new Date(now.getTime() + 48 * 60 * 60 * 1000);
   const in7d = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 
@@ -440,7 +450,7 @@ export default async function DashboardPage() {
                   >
                     <div className="flex-shrink-0 w-[5.5rem] sm:w-[7rem] text-right">
                       <div className="text-xs font-medium" style={{ color: "var(--text-primary)" }}>
-                        {post.scheduledAt ? formatScheduleLabel(post.scheduledAt) : "--"}
+                        {post.scheduledAt ? formatScheduleLabel(post.scheduledAt, userTz) : "--"}
                       </div>
                       <div className="text-[11px] mt-0.5" style={{ color: "var(--accent-amber)" }}>
                         {post.scheduledAt ? relativeTime(post.scheduledAt) : ""}

@@ -112,6 +112,86 @@ export async function GET(
       },
     });
 
+    // Look up the connection we just upserted to get its ID
+    const connection = await prisma.platformConnection.findFirst({
+      where: {
+        orgId: oauthState.orgId,
+        platform: platformKey,
+        platformUserId: tokens.platformUserId,
+      },
+      select: { id: true },
+    });
+
+    // Auto-create a default Page record so the account appears in the selector.
+    // For Facebook, pages are selected separately via /api/platforms/facebook/pages.
+    // For all other platforms, create a page using the account name.
+    if (connection && platformKey !== "FACEBOOK") {
+      await prisma.page.upsert({
+        where: {
+          orgId_platform_platformPageId: {
+            orgId: oauthState.orgId,
+            platform: platformKey,
+            platformPageId: tokens.platformUserId,
+          },
+        },
+        update: {
+          name: tokens.platformAccountName ?? platformKey,
+          accessToken: encrypt(tokens.accessToken, masterKey),
+          isActive: true,
+        },
+        create: {
+          orgId: oauthState.orgId,
+          connectionId: connection.id,
+          platform: platformKey,
+          platformPageId: tokens.platformUserId,
+          name: tokens.platformAccountName ?? platformKey,
+          accessToken: encrypt(tokens.accessToken, masterKey),
+        },
+      });
+    }
+
+    // For Facebook, try to auto-select pages if the token has page access
+    if (connection && platformKey === "FACEBOOK") {
+      try {
+        const userToken = tokens.accessToken;
+        const fbRes = await fetch(
+          `https://graph.facebook.com/v19.0/me/accounts?fields=id,name,access_token&access_token=${encodeURIComponent(userToken)}`
+        );
+        if (fbRes.ok) {
+          const fbData = await fbRes.json();
+          const fbPages = fbData.data ?? [];
+          for (const fbPage of fbPages) {
+            const encryptedToken = encrypt(fbPage.access_token, masterKey);
+            await prisma.page.upsert({
+              where: {
+                orgId_platform_platformPageId: {
+                  orgId: oauthState.orgId,
+                  platform: "FACEBOOK",
+                  platformPageId: fbPage.id,
+                },
+              },
+              update: {
+                name: fbPage.name,
+                accessToken: encryptedToken,
+                isActive: true,
+              },
+              create: {
+                orgId: oauthState.orgId,
+                connectionId: connection.id,
+                platform: "FACEBOOK",
+                platformPageId: fbPage.id,
+                name: fbPage.name,
+                accessToken: encryptedToken,
+              },
+            });
+          }
+        }
+      } catch (e) {
+        console.error("[oauth] Failed to auto-fetch Facebook pages:", e);
+        // Non-critical — user can still select pages manually
+      }
+    }
+
     // Audit log
     await prisma.auditLog.create({
       data: {

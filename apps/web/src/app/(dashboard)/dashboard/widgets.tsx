@@ -56,7 +56,11 @@ export function DashboardWidgets() {
   const fetchMetrics = useCallback(async () => {
     try {
       const pageId = activeAccount?.id;
-      const qs = pageId ? `?pageId=${encodeURIComponent(pageId)}` : "";
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const params = new URLSearchParams();
+      if (pageId) params.set("pageId", pageId);
+      if (tz) params.set("tz", tz);
+      const qs = params.toString() ? `?${params.toString()}` : "";
       const res = await fetch(`/api/analytics/dashboard-widgets${qs}`);
       if (res.ok) {
         const data = await res.json();
