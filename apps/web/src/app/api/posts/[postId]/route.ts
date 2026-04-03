@@ -30,8 +30,8 @@ export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) =>
     );
   }
 
-  // Only editable in DRAFT or REJECTED status
-  if (!["DRAFT", "REJECTED"].includes(existing.status)) {
+  // Editable in DRAFT, REJECTED, or SCHEDULED status
+  if (!["DRAFT", "REJECTED", "SCHEDULED"].includes(existing.status)) {
     return NextResponse.json(
       { error: `Cannot edit post in ${existing.status} status`, code: "INVALID_STATUS", statusCode: 400 },
       { status: 400 }
