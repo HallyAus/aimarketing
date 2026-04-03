@@ -69,13 +69,9 @@ export function PageProvider({
 
   const switchPage = useCallback(
     (pageId: string) => {
-      // 1. Build new URL with ?page= param (preserve other params)
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("page", pageId);
-      router.push(`${pathname}?${params.toString()}`);
-
-      // 2. Update cookie with page JSON for server-side reads
       const page = initialPages.find((p) => p.id === pageId);
+
+      // 1. Update cookie FIRST (so server reads it immediately on next request)
       if (page) {
         setCookie(
           COOKIE_KEY,
@@ -87,23 +83,33 @@ export function PageProvider({
             connectionId: page.platformPageId,
           }),
         );
+        // Also update the legacy cookie for backwards compat
+        setCookie("adpilot-active-page", JSON.stringify({
+          id: page.id,
+          platform: page.platform,
+          name: page.name,
+          type: "page",
+          connectionId: page.platformPageId,
+        }));
       }
 
-      // 3. Persist to user preferences
+      // 2. Dispatch event for client components (backwards compat)
+      window.dispatchEvent(
+        new CustomEvent("account-changed", { detail: page ?? null }),
+      );
+
+      // 3. Persist to user preferences (fire-and-forget)
       fetch("/api/user/preferences", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lastSelectedPageId: pageId }),
-      }).catch(() => {
-        // Silently fail — preference save is best-effort
-      });
+      }).catch(() => {});
 
-      // 4. Dispatch event for other components (backwards compat)
-      window.dispatchEvent(
-        new CustomEvent("account-changed", { detail: page ?? null }),
-      );
+      // 4. Navigate — use router.refresh() to re-fetch server data with new cookie
+      //    This is faster than router.push() because it reuses the current route
+      router.refresh();
     },
-    [router, pathname, searchParams, initialPages],
+    [router, initialPages],
   );
 
   const value = useMemo<PageContextValue>(
