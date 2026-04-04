@@ -5,15 +5,15 @@ import { Footer } from "@/components/marketing/footer";
 import "@/styles/marketing.css";
 
 export const metadata: Metadata = {
-  title: "Security | AdPilot",
+  title: "Security | ReachPilot",
   description:
-    "How AdPilot protects your data. Encryption, OAuth security, infrastructure, compliance, and responsible disclosure.",
+    "How ReachPilot protects your data. Encryption, OAuth security, infrastructure, compliance, and responsible disclosure.",
   openGraph: {
-    title: "Security | AdPilot",
+    title: "Security | ReachPilot",
     description:
-      "How AdPilot protects your data. Encryption, compliance, and infrastructure security.",
+      "How ReachPilot protects your data. Encryption, compliance, and infrastructure security.",
     type: "website",
-    url: "https://adpilot.au/security",
+    url: "https://reachpilot.au/security",
   },
 };
 
@@ -35,16 +35,16 @@ const sections = [
   {
     title: "Infrastructure",
     content: [
-      "AdPilot runs on Vercel and AWS infrastructure with automatic scaling, DDoS protection, and geographic redundancy. Our database layer uses encrypted connections with row-level security.",
+      "ReachPilot runs on Vercel and AWS infrastructure with automatic scaling, DDoS protection, and geographic redundancy. Our database layer uses encrypted connections with row-level security.",
       "We are actively working toward SOC 2 Type II certification. Our infrastructure follows the principle of least privilege, with automated security scanning on every deployment.",
     ],
   },
   {
     title: "Compliance",
     content: [
-      "GDPR: AdPilot complies with the General Data Protection Regulation. EU users can exercise their rights to access, rectification, erasure, data portability, and restriction of processing. We maintain records of processing activities and have designated a data protection contact.",
-      "Australian Privacy Act: As an Australian-built platform, AdPilot complies with the Australian Privacy Principles (APPs). We maintain a transparent privacy policy, collect only necessary personal information, and provide access and correction mechanisms.",
-      "CCPA: California residents have the right to know what personal information we collect, request deletion, and opt out of the sale of personal information. AdPilot does not sell personal data.",
+      "GDPR: ReachPilot complies with the General Data Protection Regulation. EU users can exercise their rights to access, rectification, erasure, data portability, and restriction of processing. We maintain records of processing activities and have designated a data protection contact.",
+      "Australian Privacy Act: As an Australian-built platform, ReachPilot complies with the Australian Privacy Principles (APPs). We maintain a transparent privacy policy, collect only necessary personal information, and provide access and correction mechanisms.",
+      "CCPA: California residents have the right to know what personal information we collect, request deletion, and opt out of the sale of personal information. ReachPilot does not sell personal data.",
     ],
   },
   {
@@ -75,7 +75,7 @@ export default function SecurityPage() {
                 className="marketing-h1 mb-6"
                 style={{ color: "var(--text-primary)" }}
               >
-                Security at AdPilot
+                Security at ReachPilot
               </h1>
               <p
                 className="marketing-body max-w-2xl mx-auto"
@@ -133,15 +133,15 @@ export default function SecurityPage() {
                 className="text-sm mb-4 max-w-lg mx-auto"
                 style={{ color: "var(--text-secondary)" }}
               >
-                If you discover a security vulnerability in AdPilot, please
+                If you discover a security vulnerability in ReachPilot, please
                 report it responsibly. We take all reports seriously and will
                 respond promptly.
               </p>
               <a
-                href="mailto:security@adpilot.com.au"
+                href="mailto:security@reachpilot.com.au"
                 className="btn-cta"
               >
-                security@adpilot.com.au
+                security@reachpilot.com.au
               </a>
               <p
                 className="text-xs mt-4"

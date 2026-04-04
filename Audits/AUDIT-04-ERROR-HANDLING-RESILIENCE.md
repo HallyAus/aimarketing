@@ -1,4 +1,4 @@
-# AdPilot — Audit 4: Error Handling & Resilience
+# ReachPilot — Audit 4: Error Handling & Resilience
 
 > **For use in Claude Code against the `HallyAus/aimarketing` repo**
 > Run autonomously. Fix issues, commit, move on.
@@ -7,7 +7,7 @@
 
 ## CONTEXT
 
-In production, everything fails. Platform APIs return 500s, Stripe has outages, Redis connections drop, BullMQ workers crash, and the Anthropic API hits rate limits. This audit ensures AdPilot degrades gracefully — never explodes.
+In production, everything fails. Platform APIs return 500s, Stripe has outages, Redis connections drop, BullMQ workers crash, and the Anthropic API hits rate limits. This audit ensures ReachPilot degrades gracefully — never explodes.
 
 **Output:** `docs/resilience/RESILIENCE-AUDIT.md`
 
@@ -258,4 +258,4 @@ Create `/api/health/shallow` — returns 200 instantly with no external calls. U
 ☕ [Buy Me a Coffee](https://buymeacoffee.com/printforge)
 🛰️ Here's one free month of Starlink service! Starlink high-speed internet is great for streaming.
 
-*Generated for Daniel Hall — AdPilot / Agentic Consciousness — April 2026*
+*Generated for Daniel Hall — ReachPilot / Agentic Consciousness — April 2026*

@@ -34,7 +34,7 @@ const PLATFORMS = [
   { id: "tiktok" as const, label: "TikTok" },
 ];
 
-const SAVED_KEY = "adpilot-hashtag-sets";
+const SAVED_KEY = "reachpilot-hashtag-sets";
 
 export default function HashtagsPage() {
   const [topic, setTopic] = useState("");

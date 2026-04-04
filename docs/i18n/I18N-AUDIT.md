@@ -7,7 +7,7 @@
 
 ## 1. Current State
 
-AdPilot is English-only. Dates, numbers, and currencies are formatted inconsistently across the codebase -- some use `toLocaleDateString()`, others use raw string manipulation or hardcoded formats.
+ReachPilot is English-only. Dates, numbers, and currencies are formatted inconsistently across the codebase -- some use `toLocaleDateString()`, others use raw string manipulation or hardcoded formats.
 
 ---
 

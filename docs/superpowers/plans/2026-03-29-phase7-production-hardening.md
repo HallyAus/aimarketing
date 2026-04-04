@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Production-harden AdPilot — PostHog feature flag integration, security hardening, email send worker, GitHub Actions CI/CD, additional tests, and comprehensive README.
+**Goal:** Production-harden ReachPilot — PostHog feature flag integration, security hardening, email send worker, GitHub Actions CI/CD, additional tests, and comprehensive README.
 
 **Architecture:** PostHog client-side provider + server-side Node SDK. Security via CSP strengthening, CORS utility, input sanitization. Email worker uses Resend SDK. CI/CD via GitHub Actions (ci.yml for PRs, deploy.yml for main). README documents the full project.
 
@@ -202,7 +202,7 @@ import type { Job } from "bullmq";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const FROM_EMAIL = process.env.EMAIL_FROM ?? "AdPilot <noreply@adpilot.com>";
+const FROM_EMAIL = process.env.EMAIL_FROM ?? "ReachPilot <noreply@reachpilot.com>";
 
 type EmailJobData = {
   type: "invitation" | "token-expired" | "payment-failed" | "weekly-digest";
@@ -212,19 +212,19 @@ type EmailJobData = {
 
 const TEMPLATES: Record<string, (data: Record<string, string>) => { subject: string; html: string }> = {
   invitation: (data) => ({
-    subject: `You've been invited to ${data.orgName} on AdPilot`,
+    subject: `You've been invited to ${data.orgName} on ReachPilot`,
     html: `<p>Hi,</p><p>You've been invited to join <strong>${data.orgName}</strong> as ${data.role}.</p><p><a href="${data.inviteUrl}">Accept Invitation</a></p><p>This link expires in 7 days.</p>`,
   }),
   "token-expired": (data) => ({
-    subject: `${data.platform} connection expired — AdPilot`,
+    subject: `${data.platform} connection expired — ReachPilot`,
     html: `<p>Your <strong>${data.platform}</strong> connection for <strong>${data.orgName}</strong> has expired.</p><p><a href="${data.reconnectUrl}">Reconnect now</a> to continue publishing.</p>`,
   }),
   "payment-failed": (data) => ({
-    subject: "Payment failed — AdPilot",
+    subject: "Payment failed — ReachPilot",
     html: `<p>We couldn't process your payment for <strong>${data.orgName}</strong>.</p><p>Please update your payment method within 3 days to avoid a plan downgrade.</p><p><a href="${data.billingUrl}">Update Payment</a></p>`,
   }),
   "weekly-digest": (data) => ({
-    subject: `Weekly report — ${data.orgName} — AdPilot`,
+    subject: `Weekly report — ${data.orgName} — ReachPilot`,
     html: `<p>Here's your weekly summary for <strong>${data.orgName}</strong>:</p><ul><li>Posts published: ${data.postsPublished}</li><li>Total impressions: ${data.impressions}</li><li>Total engagement: ${data.engagement}</li></ul><p><a href="${data.dashboardUrl}">View Dashboard</a></p>`,
   }),
 };
@@ -371,7 +371,7 @@ jobs:
           username: ${{ secrets.PROXMOX_USER }}
           key: ${{ secrets.PROXMOX_SSH_KEY }}
           script: |
-            cd /opt/adpilot
+            cd /opt/reachpilot
             docker compose -f docker-compose.prod.yml pull web worker
             docker compose -f docker-compose.prod.yml up -d web worker
             docker image prune -f
@@ -457,7 +457,7 @@ git commit -m "test: add sanitization tests for HTML stripping and object saniti
 Create `README.md` at project root:
 
 ```markdown
-# AdPilot
+# ReachPilot
 
 Automated marketing agency SaaS platform. Manage campaigns across Facebook, Instagram, TikTok, LinkedIn, Twitter/X, YouTube, Google Ads, Pinterest, and Snapchat from one dashboard.
 
@@ -494,7 +494,7 @@ Internet -> Cloudflare Edge (CDN, SSL, DDoS) -> Cloudflare Tunnel
 ### Monorepo Structure
 
 ```
-adpilot/
+reachpilot/
 ├── apps/web/           # Next.js frontend + API routes
 ├── apps/worker/        # BullMQ queue consumer
 ├── packages/db/        # Prisma schema (15 models)

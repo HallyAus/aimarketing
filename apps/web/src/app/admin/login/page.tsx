@@ -111,7 +111,7 @@ function AdminLoginContent() {
               className="text-2xl font-bold"
               style={{ color: "var(--text-primary)" }}
             >
-              AdPilot
+              ReachPilot
             </h1>
             <span
               className="text-xs font-semibold uppercase tracking-wider px-2 py-0.5 rounded"

@@ -39,7 +39,7 @@ function generateWeeklyHTML(data: {
     <div style="background:#12121a;border:1px solid #2a2a3d;border-radius:12px;padding:24px;margin-bottom:16px;">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
         <div style="width:32px;height:32px;background:#3b82f6;border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-weight:900;font-size:12px;">AP</div>
-        <span style="color:#e8e8ed;font-weight:700;font-size:16px;">AdPilot Weekly Report</span>
+        <span style="color:#e8e8ed;font-weight:700;font-size:16px;">ReachPilot Weekly Report</span>
       </div>
       <h1 style="color:#e8e8ed;font-size:20px;margin:0 0 4px;">${data.orgName}</h1>
       <p style="color:#8888a0;font-size:13px;margin:0;">${data.period}</p>
@@ -106,7 +106,7 @@ function generateWeeklyHTML(data: {
     </div>
 
     <p style="text-align:center;color:#8888a0;font-size:11px;margin-top:16px;">
-      Sent by AdPilot. Manage your report preferences in Settings.
+      Sent by ReachPilot. Manage your report preferences in Settings.
     </p>
   </div>
 </body>
@@ -217,7 +217,7 @@ export const POST = withErrorHandler(
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            from: process.env.RESEND_FROM_EMAIL || "AdPilot <reports@adpilot.app>",
+            from: process.env.RESEND_FROM_EMAIL || "ReachPilot <reports@reachpilot.app>",
             to: recipients,
             subject: `Weekly Performance Report - ${period}`,
             html,

@@ -1,4 +1,4 @@
-# AdPilot — Audit 2: OAuth Token Lifecycle
+# ReachPilot — Audit 2: OAuth Token Lifecycle
 
 > **For use in Claude Code against the `HallyAus/aimarketing` repo**
 > Run autonomously. Fix issues, commit, move on.
@@ -7,7 +7,7 @@
 
 ## CONTEXT
 
-AdPilot connects to 9 social platforms via OAuth. Each platform has different token expiry rules, refresh flows, and rate limits. If tokens break silently, scheduled posts fail and users see no explanation. This audit ensures every token is encrypted, proactively refreshed, and monitored.
+ReachPilot connects to 9 social platforms via OAuth. Each platform has different token expiry rules, refresh flows, and rate limits. If tokens break silently, scheduled posts fail and users see no explanation. This audit ensures every token is encrypted, proactively refreshed, and monitored.
 
 **Output:** `docs/oauth/OAUTH-AUDIT.md`
 
@@ -423,4 +423,4 @@ When a user re-authenticates (reconnects) an account:
 ☕ [Buy Me a Coffee](https://buymeacoffee.com/printforge)
 🛰️ Here's one free month of Starlink service! Starlink high-speed internet is great for streaming.
 
-*Generated for Daniel Hall — AdPilot / Agentic Consciousness — April 2026*
+*Generated for Daniel Hall — ReachPilot / Agentic Consciousness — April 2026*

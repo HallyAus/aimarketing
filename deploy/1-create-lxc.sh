@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # =============================================================================
-# AdPilot LXC Creation — Run ON Proxmox Host
+# ReachPilot LXC Creation — Run ON Proxmox Host
 # =============================================================================
-# Creates a Debian 12 LXC container with Docker support for AdPilot.
+# Creates a Debian 12 LXC container with Docker support for ReachPilot.
 #
 # Usage:
 #   bash 1-create-lxc.sh
@@ -14,7 +14,7 @@ set -euo pipefail
 # ─── Configuration ────────────────────────────────────────────────────────
 
 CTID="${CTID:-900}"
-HOSTNAME="${HOSTNAME:-adpilot}"
+HOSTNAME="${HOSTNAME:-reachpilot}"
 MEMORY="${MEMORY:-8192}"        # 8GB RAM per spec
 SWAP="${SWAP:-1024}"            # 1GB swap
 CORES="${CORES:-4}"             # 4 cores per spec
@@ -179,7 +179,7 @@ log "Docker installed and UFW configured"
 
 echo ""
 echo "============================================"
-echo -e "${GREEN}  AdPilot LXC Created Successfully${NC}"
+echo -e "${GREEN}  ReachPilot LXC Created Successfully${NC}"
 echo "============================================"
 echo "  CTID:     $CTID"
 echo "  Hostname: $HOSTNAME"
@@ -191,5 +191,5 @@ echo ""
 echo "Next steps:"
 echo "  1. Copy your SSH key:  ssh-copy-id root@${IP:-<IP>}"
 echo "  2. SSH in:             ssh root@${IP:-<IP>}"
-echo "  3. Run setup script:   bash /opt/adpilot/deploy/2-setup-app.sh"
+echo "  3. Run setup script:   bash /opt/reachpilot/deploy/2-setup-app.sh"
 echo "============================================"

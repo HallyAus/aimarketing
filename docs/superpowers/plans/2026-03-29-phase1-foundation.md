@@ -2,20 +2,20 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build the AdPilot monorepo foundation — Turborepo structure, Docker infrastructure, Prisma schema with all models, NextAuth.js v5 authentication, multi-tenant organization/membership system, RBAC middleware, encryption utilities, PlanLimitService with Stripe billing skeleton, and a minimal dashboard shell.
+**Goal:** Build the ReachPilot monorepo foundation — Turborepo structure, Docker infrastructure, Prisma schema with all models, NextAuth.js v5 authentication, multi-tenant organization/membership system, RBAC middleware, encryption utilities, PlanLimitService with Stripe billing skeleton, and a minimal dashboard shell.
 
 **Architecture:** Turborepo monorepo with pnpm workspaces. `apps/web` is Next.js 15 App Router. `apps/worker` is a BullMQ consumer (skeleton only in Phase 1). `packages/db` holds Prisma schema and client. `packages/shared` holds encryption, validators, types, and PlanLimitService. `packages/ui` holds shared shadcn/ui components. Docker Compose provides PostgreSQL 16 and Redis 7 for local dev.
 
 **Tech Stack:** Next.js 15, TypeScript, Tailwind CSS, shadcn/ui, Prisma v6, NextAuth.js v5, BullMQ, Redis, PostgreSQL 16, Stripe, Zod, Vitest, pnpm
 
-**Spec:** `docs/superpowers/specs/2026-03-29-adpilot-foundation-design.md`
+**Spec:** `docs/superpowers/specs/2026-03-29-reachpilot-foundation-design.md`
 
 ---
 
 ## File Structure
 
 ```
-adpilot/
+reachpilot/
 ├── apps/
 │   ├── web/
 │   │   ├── src/
@@ -124,7 +124,7 @@ adpilot/
 
 ```json
 {
-  "name": "adpilot",
+  "name": "reachpilot",
   "private": true,
   "scripts": {
     "build": "turbo build",
@@ -244,7 +244,7 @@ Copy the full env vars template from spec Section 15 with placeholder values. Al
 ```env
 STRIPE_PRO_PRICE_ID=price_xxx
 STRIPE_AGENCY_PRICE_ID=price_xxx
-EMAIL_FROM=AdPilot <noreply@adpilot.com>
+EMAIL_FROM=ReachPilot <noreply@reachpilot.com>
 ```
 
 - [ ] **Step 7: Install dependencies and verify**
@@ -273,7 +273,7 @@ git commit -m "feat: initialize Turborepo monorepo with pnpm workspaces"
 
 ```json
 {
-  "name": "@adpilot/db",
+  "name": "@reachpilot/db",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",
@@ -721,18 +721,18 @@ git commit -m "feat: add Prisma schema with all models, enums, and indexes"
 services:
   db:
     image: postgres:16-alpine
-    container_name: adpilot-db
+    container_name: reachpilot-db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: adpilot
-      POSTGRES_USER: adpilot
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-adpilot_dev_password}
+      POSTGRES_DB: reachpilot
+      POSTGRES_USER: reachpilot
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-reachpilot_dev_password}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U adpilot"]
+      test: ["CMD-SHELL", "pg_isready -U reachpilot"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -743,7 +743,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: adpilot-redis
+    container_name: reachpilot-redis
     restart: unless-stopped
     command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru
     ports:
@@ -771,12 +771,12 @@ Run: `docker compose up -d`
 Expected: Both containers healthy
 
 Run: `docker compose ps`
-Expected: `adpilot-db` and `adpilot-redis` both `Up (healthy)`
+Expected: `reachpilot-db` and `reachpilot-redis` both `Up (healthy)`
 
 - [ ] **Step 3: Create .env.local for dev**
 
 ```env
-DATABASE_URL=postgresql://adpilot:adpilot_dev_password@localhost:5432/adpilot
+DATABASE_URL=postgresql://reachpilot:reachpilot_dev_password@localhost:5432/reachpilot
 REDIS_URL=redis://localhost:6379
 NEXTAUTH_SECRET=dev-secret-change-in-production-min-32-chars
 NEXTAUTH_URL=http://localhost:3000
@@ -816,7 +816,7 @@ git commit -m "feat: add Docker Compose for PostgreSQL and Redis local dev"
 
 ```json
 {
-  "name": "@adpilot/shared",
+  "name": "@reachpilot/shared",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",
@@ -1336,7 +1336,7 @@ git commit -m "feat: add PlanLimitService with plan enforcement and tests"
 
 ```json
 {
-  "name": "@adpilot/ui",
+  "name": "@reachpilot/ui",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",
@@ -1397,7 +1397,7 @@ git commit -m "feat: add UI package skeleton for shared shadcn/ui components"
 
 ```json
 {
-  "name": "@adpilot/web",
+  "name": "@reachpilot/web",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -1409,9 +1409,9 @@ git commit -m "feat: add UI package skeleton for shared shadcn/ui components"
     "test:watch": "vitest watch"
   },
   "dependencies": {
-    "@adpilot/db": "workspace:*",
-    "@adpilot/shared": "workspace:*",
-    "@adpilot/ui": "workspace:*",
+    "@reachpilot/db": "workspace:*",
+    "@reachpilot/shared": "workspace:*",
+    "@reachpilot/ui": "workspace:*",
     "next": "^15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -1468,7 +1468,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
-  transpilePackages: ["@adpilot/db", "@adpilot/shared", "@adpilot/ui"],
+  transpilePackages: ["@reachpilot/db", "@reachpilot/shared", "@reachpilot/ui"],
   headers: async () => [
     {
       source: "/(.*)",
@@ -1543,7 +1543,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AdPilot — Automated Marketing Agency",
+  title: "ReachPilot — Automated Marketing Agency",
   description: "Manage campaigns across all social platforms from one dashboard.",
 };
 
@@ -1572,7 +1572,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <h1 className="text-4xl font-bold mb-4">AdPilot</h1>
+      <h1 className="text-4xl font-bold mb-4">ReachPilot</h1>
       <p className="text-lg text-gray-600 mb-8">
         Automated marketing agency platform
       </p>
@@ -1617,7 +1617,7 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Google from "next-auth/providers/google";
 import Resend from "next-auth/providers/resend";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -1629,7 +1629,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
     Resend({
       apiKey: process.env.RESEND_API_KEY!,
-      from: process.env.EMAIL_FROM ?? "AdPilot <noreply@adpilot.com>",
+      from: process.env.EMAIL_FROM ?? "ReachPilot <noreply@reachpilot.com>",
     }),
   ],
   pages: {
@@ -1731,7 +1731,7 @@ export default function SignInPage() {
     <main className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-sm space-y-6 p-8">
         <div className="text-center">
-          <h1 className="text-2xl font-bold">Sign in to AdPilot</h1>
+          <h1 className="text-2xl font-bold">Sign in to ReachPilot</h1>
           <p className="text-sm text-gray-500 mt-2">
             Manage your marketing campaigns
           </p>
@@ -1857,8 +1857,8 @@ Create `apps/web/src/lib/auth-middleware.ts`:
 
 ```typescript
 import { auth } from "./auth";
-import { prisma } from "@adpilot/db";
-import { ROLE_HIERARCHY } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { ROLE_HIERARCHY } from "@reachpilot/shared";
 import { NextRequest, NextResponse } from "next/server";
 
 type AuthenticatedRequest = NextRequest & {
@@ -2027,8 +2027,8 @@ Create `apps/web/src/app/api/organizations/route.ts`:
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
-import { createOrgSchema, checkPlanLimit } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { createOrgSchema, checkPlanLimit } from "@reachpilot/shared";
 
 // GET /api/organizations — list user's organizations
 export const GET = withErrorHandler(async (req: NextRequest) => {
@@ -2146,8 +2146,8 @@ Create `apps/web/src/app/api/organizations/[orgId]/route.ts`:
 import { NextRequest, NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
-import { updateOrgSchema } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { updateOrgSchema } from "@reachpilot/shared";
 
 // GET /api/organizations/[orgId]
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
@@ -2256,8 +2256,8 @@ Create `apps/web/src/app/api/organizations/[orgId]/members/route.ts`:
 ```typescript
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
-import { prisma } from "@adpilot/db";
-import { updateMemberRoleSchema } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { updateMemberRoleSchema } from "@reachpilot/shared";
 import { ZodValidationError } from "@/lib/api-handler";
 
 // GET /api/organizations/[orgId]/members
@@ -2338,8 +2338,8 @@ Create `apps/web/src/app/api/organizations/[orgId]/invitations/route.ts`:
 ```typescript
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
-import { prisma } from "@adpilot/db";
-import { inviteMemberSchema, checkPlanLimit } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { inviteMemberSchema, checkPlanLimit } from "@reachpilot/shared";
 import { ZodValidationError } from "@/lib/api-handler";
 import { randomBytes } from "crypto";
 
@@ -2431,7 +2431,7 @@ Create `apps/web/src/app/(auth)/invite/[token]/page.tsx`:
 ```tsx
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 
 export default async function InvitePage({
   params,
@@ -2526,7 +2526,7 @@ Create `apps/web/src/app/api/billing/checkout/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { stripe, STRIPE_PLAN_PRICES } from "@/lib/stripe";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 
 // POST /api/billing/checkout — create Stripe Checkout session
 export const POST = withRole("OWNER", async (req) => {
@@ -2579,8 +2579,8 @@ Create `apps/web/src/app/api/webhooks/stripe/route.ts`:
 ```typescript
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
-import { prisma } from "@adpilot/db";
-import type { Plan } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
+import type { Plan } from "@reachpilot/db";
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -2725,7 +2725,7 @@ Create `apps/web/src/app/api/health/db/route.ts`:
 
 ```typescript
 import { NextResponse } from "next/server";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 
 export async function GET() {
   try {
@@ -2780,7 +2780,7 @@ git commit -m "feat: add health check endpoints for app, database, and Redis"
 
 ```json
 {
-  "name": "@adpilot/worker",
+  "name": "@reachpilot/worker",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -2789,8 +2789,8 @@ git commit -m "feat: add health check endpoints for app, database, and Redis"
     "start": "tsx src/index.ts"
   },
   "dependencies": {
-    "@adpilot/db": "workspace:*",
-    "@adpilot/shared": "workspace:*",
+    "@reachpilot/db": "workspace:*",
+    "@reachpilot/shared": "workspace:*",
     "bullmq": "^5.30.0",
     "ioredis": "^5.4.0"
   },
@@ -2874,7 +2874,7 @@ Create `apps/worker/src/index.ts`:
 import { createWorker, queues, connection } from "./queues";
 import type { Job } from "bullmq";
 
-console.log("AdPilot Worker starting...");
+console.log("ReachPilot Worker starting...");
 
 // ── Placeholder processors (implemented in later phases) ─────────────────
 
@@ -2939,13 +2939,13 @@ async function shutdown() {
 process.on("SIGTERM", shutdown);
 process.on("SIGINT", shutdown);
 
-console.log(`AdPilot Worker running with ${workers.length} queue consumers`);
+console.log(`ReachPilot Worker running with ${workers.length} queue consumers`);
 ```
 
 - [ ] **Step 5: Install and verify worker starts**
 
 Run: `pnpm install && cd apps/worker && pnpm dev`
-Expected: Worker starts, logs "AdPilot Worker running with 8 queue consumers"
+Expected: Worker starts, logs "ReachPilot Worker running with 8 queue consumers"
 
 - [ ] **Step 6: Commit**
 
@@ -2989,7 +2989,7 @@ export default async function DashboardLayout({
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <aside className="w-64 border-r bg-gray-50 p-4">
-        <div className="font-bold text-lg mb-8">AdPilot</div>
+        <div className="font-bold text-lg mb-8">ReachPilot</div>
         <nav className="space-y-1">
           <Link href="/dashboard" className="block rounded px-3 py-2 text-sm hover:bg-gray-200">
             Dashboard
@@ -3032,7 +3032,7 @@ Create `apps/web/src/app/(dashboard)/dashboard/page.tsx`:
 ```tsx
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -3089,7 +3089,7 @@ Create `apps/web/src/app/(dashboard)/org-picker/page.tsx`:
 ```tsx
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 import Link from "next/link";
 
 export default async function OrgPickerPage() {
@@ -3212,11 +3212,11 @@ async function main() {
 
   // Create test user
   const user = await prisma.user.upsert({
-    where: { email: "admin@adpilot.dev" },
+    where: { email: "admin@reachpilot.dev" },
     update: {},
     create: {
-      email: "admin@adpilot.dev",
-      name: "AdPilot Admin",
+      email: "admin@reachpilot.dev",
+      name: "ReachPilot Admin",
       emailVerified: new Date(),
     },
   });
@@ -3229,7 +3229,7 @@ async function main() {
       name: "Demo Agency",
       slug: "demo-agency",
       plan: "PRO",
-      billingEmail: "admin@adpilot.dev",
+      billingEmail: "admin@reachpilot.dev",
     },
   });
 
@@ -3271,7 +3271,7 @@ Add to `packages/db/package.json` under the top level:
 - [ ] **Step 3: Run seed**
 
 Run: `cd packages/db && npx prisma db seed`
-Expected: "Seed complete: { user: 'admin@adpilot.dev', org: 'demo-agency' }"
+Expected: "Seed complete: { user: 'admin@reachpilot.dev', org: 'demo-agency' }"
 
 - [ ] **Step 4: Commit**
 
@@ -3379,16 +3379,16 @@ Create `docker-compose.prod.yml`:
 services:
   db:
     image: postgres:16-alpine
-    container_name: adpilot-db
+    container_name: reachpilot-db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: adpilot
-      POSTGRES_USER: adpilot
+      POSTGRES_DB: reachpilot
+      POSTGRES_USER: reachpilot
       POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U adpilot"]
+      test: ["CMD-SHELL", "pg_isready -U reachpilot"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -3404,7 +3404,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: adpilot-redis
+    container_name: reachpilot-redis
     restart: unless-stopped
     command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
     volumes:
@@ -3424,13 +3424,13 @@ services:
       context: .
       dockerfile: Dockerfile
       target: web
-    container_name: adpilot-web
+    container_name: reachpilot-web
     restart: unless-stopped
     ports:
       - "3000:3000"
     env_file: .env
     environment:
-      DATABASE_URL: postgresql://adpilot:${DB_PASSWORD}@db:5432/adpilot
+      DATABASE_URL: postgresql://reachpilot:${DB_PASSWORD}@db:5432/reachpilot
       REDIS_URL: redis://redis:6379
     depends_on:
       db:
@@ -3458,11 +3458,11 @@ services:
       context: .
       dockerfile: Dockerfile
       target: worker
-    container_name: adpilot-worker
+    container_name: reachpilot-worker
     restart: unless-stopped
     env_file: .env
     environment:
-      DATABASE_URL: postgresql://adpilot:${DB_PASSWORD}@db:5432/adpilot
+      DATABASE_URL: postgresql://reachpilot:${DB_PASSWORD}@db:5432/reachpilot
       REDIS_URL: redis://redis:6379
     depends_on:
       db:
@@ -3481,7 +3481,7 @@ services:
 
   cloudflared:
     image: cloudflare/cloudflared:latest
-    container_name: adpilot-tunnel
+    container_name: reachpilot-tunnel
     restart: unless-stopped
     command: tunnel --no-autoupdate run --token ${CF_TUNNEL_TOKEN:-}
     depends_on:
@@ -3601,7 +3601,7 @@ git commit -m "test: add validator tests for org creation, invitations, and role
 
 ```json
 {
-  "name": "@adpilot/platform-sdk",
+  "name": "@reachpilot/platform-sdk",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",
@@ -3612,7 +3612,7 @@ git commit -m "test: add validator tests for org creation, invitations, and role
     "test:watch": "vitest watch"
   },
   "dependencies": {
-    "@adpilot/shared": "workspace:*"
+    "@reachpilot/shared": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.7.0",
@@ -3664,7 +3664,7 @@ Create `apps/web/src/app/api/organizations/switch/route.ts`:
 ```typescript
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 import { cookies } from "next/headers";
 import { encode } from "next-auth/jwt";
 
@@ -3694,7 +3694,7 @@ export async function POST(req: NextRequest) {
   // NextAuth v5 uses the session callback to populate the session from JWT.
   // We set a cookie to signal the desired org, which the JWT callback reads.
   const cookieStore = await cookies();
-  cookieStore.set("adpilot-org-id", orgId, {
+  cookieStore.set("reachpilot-org-id", orgId, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
@@ -3724,7 +3724,7 @@ async jwt({ token, user, trigger }) {
   // Check for org switch cookie
   const { cookies } = await import("next/headers");
   const cookieStore = await cookies();
-  const orgCookie = cookieStore.get("adpilot-org-id");
+  const orgCookie = cookieStore.get("reachpilot-org-id");
 
   if (orgCookie?.value) {
     const membership = await prisma.membership.findUnique({
@@ -3763,7 +3763,7 @@ Update `apps/web/src/app/(dashboard)/org-picker/page.tsx` — replace the non-fu
   "use server";
   const { cookies } = await import("next/headers");
   const cookieStore = await cookies();
-  cookieStore.set("adpilot-org-id", m.organization.id, {
+  cookieStore.set("reachpilot-org-id", m.organization.id, {
     httpOnly: true, secure: process.env.NODE_ENV === "production",
     sameSite: "strict", path: "/", maxAge: 60 * 60 * 24 * 30,
   });
@@ -3796,7 +3796,7 @@ Create `apps/web/src/__tests__/auth-middleware.test.ts`:
 
 ```typescript
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { ROLE_HIERARCHY } from "@adpilot/shared";
+import { ROLE_HIERARCHY } from "@reachpilot/shared";
 
 // Test the role hierarchy logic directly (extracted from withRole)
 function hasMinimumRole(userRole: string, requiredRole: string): boolean {

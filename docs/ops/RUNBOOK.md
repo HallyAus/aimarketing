@@ -1,6 +1,6 @@
-# AdPilot Operational Runbook
+# ReachPilot Operational Runbook
 
-This runbook covers incident response procedures, routine maintenance tasks, and recovery steps for AdPilot infrastructure.
+This runbook covers incident response procedures, routine maintenance tasks, and recovery steps for ReachPilot infrastructure.
 
 ---
 
@@ -44,21 +44,21 @@ Internet -> Cloudflare Edge (CDN, SSL, DDoS)
 3. If the container is running but unresponsive, check disk space:
    ```bash
    df -h
-   docker exec adpilot-db pg_isready -U adpilot
+   docker exec reachpilot-db pg_isready -U reachpilot
    ```
 4. Check for connection exhaustion:
    ```bash
-   docker exec adpilot-db psql -U adpilot -c "SELECT count(*) FROM pg_stat_activity;"
+   docker exec reachpilot-db psql -U reachpilot -c "SELECT count(*) FROM pg_stat_activity;"
    ```
 5. If disk is full, identify and clean up:
    ```bash
-   docker exec adpilot-db psql -U adpilot -c "SELECT pg_size_pretty(pg_database_size('adpilot'));"
+   docker exec reachpilot-db psql -U reachpilot -c "SELECT pg_size_pretty(pg_database_size('reachpilot'));"
    ```
 6. Last resort -- restart the container:
    ```bash
    docker compose restart db
    ```
-7. Verify recovery: `curl https://app.adpilot.io/api/health/db`
+7. Verify recovery: `curl https://app.reachpilot.io/api/health/db`
 
 ---
 
@@ -77,15 +77,15 @@ Internet -> Cloudflare Edge (CDN, SSL, DDoS)
    ```
 2. Verify Redis is responsive:
    ```bash
-   docker exec adpilot-redis redis-cli ping
+   docker exec reachpilot-redis redis-cli ping
    ```
 3. Check memory usage (noeviction policy means Redis rejects writes when full):
    ```bash
-   docker exec adpilot-redis redis-cli info memory | grep used_memory_human
+   docker exec reachpilot-redis redis-cli info memory | grep used_memory_human
    ```
 4. If memory is full, check for stuck queues:
    ```bash
-   docker exec adpilot-redis redis-cli keys "bull:*" | wc -l
+   docker exec reachpilot-redis redis-cli keys "bull:*" | wc -l
    ```
 5. Restart if needed:
    ```bash
@@ -121,7 +121,7 @@ Internet -> Cloudflare Edge (CDN, SSL, DDoS)
 5. If events were missed, replay them from the Stripe dashboard (Events tab -> Resend).
 6. Verify the webhook endpoint is accessible:
    ```bash
-   curl -X POST https://app.adpilot.io/api/stripe/webhook -v
+   curl -X POST https://app.reachpilot.io/api/stripe/webhook -v
    # Should return 400 "Missing stripe-signature header" (not 404 or 500)
    ```
 7. Check application logs for processing errors:
@@ -202,7 +202,7 @@ Internet -> Cloudflare Edge (CDN, SSL, DDoS)
 
 **Response:**
 
-1. Open Vercel dashboard: https://vercel.com/team/adpilot/deployments
+1. Open Vercel dashboard: https://vercel.com/team/reachpilot/deployments
 2. Find the last known good deployment.
 3. Click the three-dot menu -> "Promote to Production".
 4. This is instant; no rebuild required.
@@ -212,7 +212,7 @@ Internet -> Cloudflare Edge (CDN, SSL, DDoS)
 
 ```bash
 # List available images
-docker images | grep adpilot-worker
+docker images | grep reachpilot-worker
 
 # Roll back to previous image
 docker compose -f docker-compose.prod.yml pull worker
@@ -243,7 +243,7 @@ If the Proxmox VM needs to be rebuilt:
    ```
 6. Restore PostgreSQL from backup:
    ```bash
-   docker exec -i adpilot-db psql -U adpilot < backup.sql
+   docker exec -i reachpilot-db psql -U reachpilot < backup.sql
    ```
 7. Run any pending migrations:
    ```bash
@@ -287,10 +287,10 @@ If the Proxmox VM needs to be rebuilt:
 
 ```bash
 # Database size
-docker exec adpilot-db psql -U adpilot -c "SELECT pg_size_pretty(pg_database_size('adpilot'));"
+docker exec reachpilot-db psql -U reachpilot -c "SELECT pg_size_pretty(pg_database_size('reachpilot'));"
 
 # Largest tables
-docker exec adpilot-db psql -U adpilot -c "
+docker exec reachpilot-db psql -U reachpilot -c "
   SELECT relname, pg_size_pretty(pg_total_relation_size(relid))
   FROM pg_catalog.pg_statio_user_tables
   ORDER BY pg_total_relation_size(relid) DESC
@@ -298,15 +298,15 @@ docker exec adpilot-db psql -U adpilot -c "
 "
 
 # Redis memory
-docker exec adpilot-redis redis-cli info memory
+docker exec reachpilot-redis redis-cli info memory
 
 # BullMQ queue sizes
-docker exec adpilot-redis redis-cli keys "bull:*:waiting" | while read key; do
-  echo "$key: $(docker exec adpilot-redis redis-cli llen $key)"
+docker exec reachpilot-redis redis-cli keys "bull:*:waiting" | while read key; do
+  echo "$key: $(docker exec reachpilot-redis redis-cli llen $key)"
 done
 
 # Active connections count
-docker exec adpilot-db psql -U adpilot -c "SELECT count(*) FROM pg_stat_activity WHERE state = 'active';"
+docker exec reachpilot-db psql -U reachpilot -c "SELECT count(*) FROM pg_stat_activity WHERE state = 'active';"
 
 # Check Prisma migration status
 cd packages/db && npx prisma migrate status

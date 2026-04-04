@@ -5,7 +5,7 @@
 
 ## Context
 
-AdPilot offers three subscription tiers (Free, Pro at $49/month, Agency at $299/month) with both monthly and annual billing cycles. We needed a billing provider that supports:
+ReachPilot offers three subscription tiers (Free, Pro at $49/month, Agency at $299/month) with both monthly and annual billing cycles. We needed a billing provider that supports:
 
 - Subscription lifecycle management (trials, upgrades, downgrades, cancellation)
 - Webhook-driven state synchronization (no polling)

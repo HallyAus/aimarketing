@@ -5,15 +5,15 @@ import { Footer } from "@/components/marketing/footer";
 import "@/styles/marketing.css";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | AdPilot",
+  title: "Terms of Service | ReachPilot",
   description:
-    "Terms of service for AdPilot marketing automation platform. Subscription terms, data ownership, and user responsibilities.",
+    "Terms of service for ReachPilot marketing automation platform. Subscription terms, data ownership, and user responsibilities.",
   openGraph: {
-    title: "Terms of Service | AdPilot",
+    title: "Terms of Service | ReachPilot",
     description:
-      "Terms of service for AdPilot — subscription terms, data ownership, and user responsibilities.",
+      "Terms of service for ReachPilot — subscription terms, data ownership, and user responsibilities.",
     type: "website",
-    url: "https://adpilot.au/terms",
+    url: "https://reachpilot.au/terms",
   },
 };
 
@@ -58,12 +58,12 @@ export default function TermsPage() {
               1. Acceptance of Terms
             </h2>
             <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-              By creating an account or using AdPilot, you agree to these Terms
-              of Service. AdPilot is a software-as-a-service (SaaS) marketing
+              By creating an account or using ReachPilot, you agree to these Terms
+              of Service. ReachPilot is a software-as-a-service (SaaS) marketing
               automation platform that enables you to create, schedule, and
               publish content across multiple social media platforms using
               AI-powered tools. If you do not agree to these terms, do not use
-              AdPilot.
+              ReachPilot.
             </p>
           </section>
 
@@ -80,7 +80,7 @@ export default function TermsPage() {
                 You are responsible for maintaining the security of your account
                 credentials and all activity that occurs under your account. You
                 must have authorization to manage any social media accounts you
-                connect to AdPilot.
+                connect to ReachPilot.
               </p>
               <p>
                 You must be at least 18 years old to create an account. If you
@@ -99,7 +99,7 @@ export default function TermsPage() {
               3. Service Plans and Pricing
             </h2>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
-              <p>AdPilot offers the following subscription plans:</p>
+              <p>ReachPilot offers the following subscription plans:</p>
               <ul className="list-disc ml-5 space-y-1">
                 <li>
                   <strong style={{ color: "var(--text-primary)" }}>Free:</strong>{" "}
@@ -184,13 +184,13 @@ export default function TermsPage() {
                 <strong style={{ color: "var(--text-primary)" }}>
                   You own your content.
                 </strong>{" "}
-                All content you create, upload, or generate using AdPilot
+                All content you create, upload, or generate using ReachPilot
                 remains your intellectual property. We do not claim ownership of
                 your content, including AI-generated content created at your
                 direction.
               </p>
               <p>
-                You grant AdPilot a limited, non-exclusive, worldwide license to
+                You grant ReachPilot a limited, non-exclusive, worldwide license to
                 store, process, and transmit your content solely for the purpose
                 of providing the service (e.g., publishing to connected
                 platforms, generating AI suggestions based on your brand voice).
@@ -198,9 +198,9 @@ export default function TermsPage() {
                 account.
               </p>
               <p>
-                <strong style={{ color: "var(--text-primary)" }}>AdPilot platform IP:</strong>{" "}
-                The AdPilot platform, including its design, features, code, and
-                documentation, is the intellectual property of AdPilot. Your
+                <strong style={{ color: "var(--text-primary)" }}>ReachPilot platform IP:</strong>{" "}
+                The ReachPilot platform, including its design, features, code, and
+                documentation, is the intellectual property of ReachPilot. Your
                 subscription grants you a limited right to use the platform but
                 does not transfer any ownership of platform IP.
               </p>
@@ -223,9 +223,9 @@ export default function TermsPage() {
             </h2>
             <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
               You agree to comply with the terms of service of all connected
-              social media platforms. AdPilot is not responsible for account
+              social media platforms. ReachPilot is not responsible for account
               suspensions, content removal, or other actions taken by third-party
-              platforms as a result of content you publish through AdPilot.
+              platforms as a result of content you publish through ReachPilot.
             </p>
           </section>
 
@@ -242,14 +242,14 @@ export default function TermsPage() {
             </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
-                AdPilot uses AI (powered by Anthropic&apos;s Claude) to assist with
+                ReachPilot uses AI (powered by Anthropic&apos;s Claude) to assist with
                 content creation. AI-generated content is provided as
                 suggestions only. You are responsible for reviewing, editing,
                 and approving all content before publishing.
               </p>
               <p>
                 <strong style={{ color: "var(--text-primary)" }}>Disclaimer:</strong>{" "}
-                AdPilot does not guarantee that AI-generated content is accurate,
+                ReachPilot does not guarantee that AI-generated content is accurate,
                 factually correct, original, or suitable for any specific
                 purpose. AI-generated content may contain errors, biases, or
                 inaccuracies. You assume full responsibility for all content
@@ -260,7 +260,7 @@ export default function TermsPage() {
               <p>
                 <strong style={{ color: "var(--text-primary)" }}>AI content labeling:</strong>{" "}
                 Some jurisdictions and social media platforms require disclosure
-                when content is AI-generated. AdPilot provides an option to
+                when content is AI-generated. ReachPilot provides an option to
                 label posts as AI-generated. It is your responsibility to comply
                 with applicable disclosure requirements in your jurisdiction.
               </p>
@@ -268,7 +268,7 @@ export default function TermsPage() {
                 <strong style={{ color: "var(--text-primary)" }}>Data usage:</strong>{" "}
                 Content you submit for AI processing (prompts, brand voice
                 settings, post content) is sent to Anthropic for processing.
-                AdPilot does not use your content to train AI models. Refer to
+                ReachPilot does not use your content to train AI models. Refer to
                 Anthropic&apos;s privacy policy for their data handling practices.
               </p>
             </div>
@@ -287,7 +287,7 @@ export default function TermsPage() {
             </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
-                We target 99.9% uptime for the AdPilot platform, measured
+                We target 99.9% uptime for the ReachPilot platform, measured
                 monthly. Scheduled maintenance windows will be communicated at
                 least 48 hours in advance via email and our{" "}
                 <Link href="/status" style={{ color: "var(--accent-blue)" }}>
@@ -324,7 +324,7 @@ export default function TermsPage() {
               <Link href="/privacy" style={{ color: "var(--accent-blue)" }}>
                 Privacy Policy
               </Link>
-              . By connecting social media accounts, you authorize AdPilot to
+              . By connecting social media accounts, you authorize ReachPilot to
               access platform APIs on your behalf using OAuth 2.0 with PKCE.
             </p>
           </section>
@@ -338,7 +338,7 @@ export default function TermsPage() {
               10. Limitation of Liability
             </h2>
             <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-              AdPilot is provided "as is" without warranties of any kind, either
+              ReachPilot is provided "as is" without warranties of any kind, either
               express or implied. We are not liable for any indirect, incidental,
               special, consequential, or punitive damages arising from the use
               of our platform, including but not limited to failed post
@@ -364,7 +364,7 @@ export default function TermsPage() {
               </p>
               <p>
                 We reserve the right to suspend or terminate accounts that
-                violate these terms, engage in abusive behavior, or use AdPilot
+                violate these terms, engage in abusive behavior, or use ReachPilot
                 to publish content that violates applicable law.
               </p>
             </div>
@@ -380,7 +380,7 @@ export default function TermsPage() {
             </h2>
             <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
               These terms are governed by the laws of New South Wales, Australia.
-              Any disputes arising from these terms or your use of AdPilot will
+              Any disputes arising from these terms or your use of ReachPilot will
               be resolved in the courts of New South Wales, Australia. Nothing in
               these terms limits your rights under mandatory consumer protection
               laws in your jurisdiction.
@@ -398,7 +398,7 @@ export default function TermsPage() {
             <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
               We may update these terms from time to time. Material changes will
               be communicated via email at least 30 days before they take effect.
-              Continued use of AdPilot after changes take effect constitutes
+              Continued use of ReachPilot after changes take effect constitutes
               acceptance of the updated terms.
             </p>
           </section>
@@ -414,10 +414,10 @@ export default function TermsPage() {
             <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
               For questions about these terms, contact us at{" "}
               <a
-                href="mailto:support@adpilot.com.au"
+                href="mailto:support@reachpilot.com.au"
                 style={{ color: "var(--accent-blue)" }}
               >
-                support@adpilot.com.au
+                support@reachpilot.com.au
               </a>
               .
             </p>

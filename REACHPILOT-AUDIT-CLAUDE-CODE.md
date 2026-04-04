@@ -1,4 +1,4 @@
-# AdPilot Website — Full Audit, Fix & Improvement Prompt
+# ReachPilot Website — Full Audit, Fix & Improvement Prompt
 
 > **For use in Claude Code against the `HallyAus/aimarketing` repo**
 > Run this prompt autonomously. Do not ask questions — make decisions, implement, commit, and move on.
@@ -7,11 +7,11 @@
 
 ## CONTEXT
 
-You are auditing and improving the **AdPilot** website — an AI marketing agency (NOT a SaaS platform) built with Next.js App Router, Prisma, Redis, BullMQ, and deployed on Vercel.
+You are auditing and improving the **ReachPilot** website — an AI marketing agency (NOT a SaaS platform) built with Next.js App Router, Prisma, Redis, BullMQ, and deployed on Vercel.
 
 - **Repo:** `HallyAus/aimarketing`
 - **Live URL:** https://aimarketing-danieljhall-mecoms-projects.vercel.app/
-- **Brand:** AdPilot — AI-powered full-service marketing agency
+- **Brand:** ReachPilot — AI-powered full-service marketing agency
 - **Design palette:** Violet/mint dual-accent
 - **Pricing model:** Retainer-based agency pricing ($4,900 / $9,800 / Custom per month) — NOT SaaS subscription pricing
 - **Target audience:** Australian SMBs and mid-market businesses who want AI-powered marketing done for them
@@ -65,11 +65,11 @@ The footer links to these pages that all return 404:
 - Be SEO-ready with proper metadata (`generateMetadata`)
 
 **Content guidelines per page:**
-- **About:** AdPilot story, mission (AI-powered marketing done right), team section (Daniel Hall as founder + "Our AI Team" section), Australian-built positioning
-- **Contact:** Contact form (name, email, company, message, budget range dropdown), direct email (hello@adpilot.com.au as placeholder), phone, office hours (AEST), embedded map or location reference (Central Coast, NSW)
+- **About:** ReachPilot story, mission (AI-powered marketing done right), team section (Daniel Hall as founder + "Our AI Team" section), Australian-built positioning
+- **Contact:** Contact form (name, email, company, message, budget range dropdown), direct email (hello@reachpilot.com.au as placeholder), phone, office hours (AEST), embedded map or location reference (Central Coast, NSW)
 - **Blog:** Blog index page with placeholder for 3-5 seed articles about AI marketing. Create the dynamic route `blog/[slug]/page.tsx` too. Articles should be stored as MDX or in a `/content` directory
 - **Careers:** "We're not hiring right now but always looking for talented people" page with a general application form or email CTA
-- **Docs:** API/integration documentation landing page — even if minimal, it should explain what AdPilot offers for integrations
+- **Docs:** API/integration documentation landing page — even if minimal, it should explain what ReachPilot offers for integrations
 - **Privacy:** Full Australian Privacy Act compliant privacy policy for a marketing agency handling client data and social media accounts
 - **Terms:** Terms of service covering agency-client relationship, IP ownership of created content, payment terms, liability
 - **Security:** Security practices page — data encryption, OAuth handling, SOC 2 aspirations, responsible disclosure policy
@@ -78,7 +78,7 @@ The footer links to these pages that all return 404:
 
 ### 1.2 — Positioning Mismatch: SaaS vs Agency
 
-The live site currently presents AdPilot as a **SaaS platform** with self-serve pricing ($0/$49/$299). This is WRONG. AdPilot is a **full-service AI marketing agency**.
+The live site currently presents ReachPilot as a **SaaS platform** with self-serve pricing ($0/$49/$299). This is WRONG. ReachPilot is a **full-service AI marketing agency**.
 
 **Action — Rewrite the following:**
 
@@ -275,10 +275,10 @@ headers: [
 ### 5.1 — Copy Audit
 
 Review ALL copy on the site for:
-- Consistency — "AdPilot" capitalisation, no "Adpilot" or "adpilot"
+- Consistency — "ReachPilot" capitalisation, no "Adpilot" or "reachpilot"
 - Tone — professional but approachable, Australian English (colour, organisation, optimise)
 - Claims — remove or soften any unverifiable claims ("500+ businesses" if not true)
-- Agency language — every reference should frame AdPilot as a team doing work FOR the client, not a tool the client uses themselves
+- Agency language — every reference should frame ReachPilot as a team doing work FOR the client, not a tool the client uses themselves
 - Grammar and spelling — fix everything
 
 ### 5.2 — FAQ Section
@@ -313,7 +313,7 @@ Each post: 800-1200 words, real insights, proper frontmatter (title, date, autho
 ### 6.1 — README
 
 Rewrite `README.md` to include:
-- Project overview (what AdPilot is)
+- Project overview (what ReachPilot is)
 - Tech stack
 - Local development setup instructions
 - Environment variables documentation
@@ -384,4 +384,4 @@ Before committing the final changes, verify:
 
 ---
 
-*Generated for Daniel Hall — AdPilot / Agentic Consciousness — April 2026*
+*Generated for Daniel Hall — ReachPilot / Agentic Consciousness — April 2026*

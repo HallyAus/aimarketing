@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { sanitizeHtml } from "@adpilot/shared";
+import { sanitizeHtml } from "@reachpilot/shared";
 
 interface SchedulePostBody {
   content: string;

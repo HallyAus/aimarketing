@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from "react";
  * GDPR-compliant: no non-essential cookies/scripts are loaded until
  * the user gives explicit consent.
  *
- * Preferences are stored in the `adpilot-consent` cookie (not
+ * Preferences are stored in the `reachpilot-consent` cookie (not
  * localStorage — cookies are accessible server-side for conditional
  * script loading).
  *
@@ -24,7 +24,7 @@ export interface ConsentPreferences {
   marketing: boolean;
 }
 
-const COOKIE_NAME = "adpilot-consent";
+const COOKIE_NAME = "reachpilot-consent";
 const COOKIE_MAX_AGE = 365 * 24 * 60 * 60; // 1 year in seconds
 
 function readConsent(): ConsentPreferences | null {
@@ -48,7 +48,7 @@ function writeConsent(prefs: ConsentPreferences) {
 /** Dispatch a custom event so providers.tsx can react to consent changes */
 function dispatchConsentEvent(prefs: ConsentPreferences) {
   window.dispatchEvent(
-    new CustomEvent("adpilot-consent-change", { detail: prefs }),
+    new CustomEvent("reachpilot-consent-change", { detail: prefs }),
   );
 }
 
@@ -119,7 +119,7 @@ export function CookieConsent() {
             >
               We use cookies to improve your experience. Essential cookies are
               required for the platform to function. Analytics cookies help us
-              understand how you use AdPilot. You can manage your preferences at
+              understand how you use ReachPilot. You can manage your preferences at
               any time.
             </p>
             <div className="flex flex-wrap gap-3">
@@ -196,7 +196,7 @@ export function CookieConsent() {
                     className="text-xs"
                     style={{ color: "var(--text-tertiary)" }}
                   >
-                    PostHog product analytics to help us improve AdPilot.
+                    PostHog product analytics to help us improve ReachPilot.
                   </p>
                 </div>
                 <input

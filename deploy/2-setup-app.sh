@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # =============================================================================
-# AdPilot App Setup — Run INSIDE the LXC
+# ReachPilot App Setup — Run INSIDE the LXC
 # =============================================================================
 # Clones the repo, generates secrets, configures .env, builds and starts
 # the entire stack (web + worker + postgres + redis).
 #
 # Usage:
 #   bash 2-setup-app.sh
-#   bash 2-setup-app.sh --domain adpilot.yourdomain.com
+#   bash 2-setup-app.sh --domain reachpilot.yourdomain.com
 #   GITHUB_TOKEN=ghp_xxx bash 2-setup-app.sh   # for private repos
 # =============================================================================
 
@@ -16,7 +16,7 @@ set -euo pipefail
 # ─── Configuration ────────────────────────────────────────────────────────
 
 REPO_URL="${REPO_URL:-https://github.com/HallyAus/aimarketing.git}"
-PROJECT_NAME="adpilot"
+PROJECT_NAME="reachpilot"
 INSTALL_DIR="/opt/${PROJECT_NAME}"
 BRANCH="${BRANCH:-main}"
 DOMAIN="${DOMAIN:-}"
@@ -92,7 +92,7 @@ log "Writing .env file..."
 
 cat > "$ENV_FILE" << EOF
 # ═══════════════════════════════════════════════════════════════════════
-# AdPilot Production Environment
+# ReachPilot Production Environment
 # Generated: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
 # ═══════════════════════════════════════════════════════════════════════
 
@@ -101,7 +101,7 @@ NEXT_PUBLIC_APP_URL=${APP_URL}
 NODE_ENV=production
 
 # Database (internal Docker network)
-DATABASE_URL=postgresql://adpilot:${DB_PASSWORD}@db:5432/adpilot
+DATABASE_URL=postgresql://reachpilot:${DB_PASSWORD}@db:5432/reachpilot
 DB_PASSWORD=${DB_PASSWORD}
 
 # Redis (internal Docker network)
@@ -150,15 +150,15 @@ SNAPCHAT_CLIENT_SECRET=
 R2_ACCOUNT_ID=
 R2_ACCESS_KEY_ID=
 R2_SECRET_ACCESS_KEY=
-R2_BUCKET_NAME=adpilot-media
+R2_BUCKET_NAME=reachpilot-media
 R2_PUBLIC_URL=
 
 # Resend (Email)
 RESEND_API_KEY=
-EMAIL_FROM=AdPilot <noreply@adpilot.com>
+EMAIL_FROM=ReachPilot <noreply@reachpilot.com>
 
 # Axiom (Logging)
-AXIOM_DATASET=adpilot
+AXIOM_DATASET=reachpilot
 AXIOM_TOKEN=
 
 # Stripe (Billing)
@@ -188,7 +188,7 @@ warn "IMPORTANT: Edit .env to add your API keys (Google, Facebook, Stripe, etc.)
 
 # ─── Build and Start ──────────────────────────────────────────────────────
 
-log "Building and starting AdPilot..."
+log "Building and starting ReachPilot..."
 
 # Start infrastructure first
 docker compose -f docker-compose.prod.yml up -d db redis
@@ -197,7 +197,7 @@ sleep 10
 
 # Check if DB is ready
 for i in {1..30}; do
-    if docker compose -f docker-compose.prod.yml exec -T db pg_isready -U adpilot &>/dev/null; then
+    if docker compose -f docker-compose.prod.yml exec -T db pg_isready -U reachpilot &>/dev/null; then
         break
     fi
     sleep 2
@@ -239,7 +239,7 @@ fi
 
 echo ""
 echo "============================================"
-echo -e "${GREEN}  AdPilot Deployed Successfully${NC}"
+echo -e "${GREEN}  ReachPilot Deployed Successfully${NC}"
 echo "============================================"
 echo "  Location:    ${INSTALL_DIR}"
 echo "  URL:         ${APP_URL}"

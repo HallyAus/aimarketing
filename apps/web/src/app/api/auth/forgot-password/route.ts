@@ -46,9 +46,9 @@ export async function POST(req: Request) {
       const resetUrl = `${appUrl}/reset-password/${token}`;
 
       await resend.emails.send({
-        from: process.env.EMAIL_FROM || "AdPilot <onboarding@resend.dev>",
+        from: process.env.EMAIL_FROM || "ReachPilot <onboarding@resend.dev>",
         to: email,
-        subject: "Reset your AdPilot password",
+        subject: "Reset your ReachPilot password",
         html: `
           <h2>Reset your password</h2>
           <p>Click the link below to reset your password. This link expires in 1 hour.</p>

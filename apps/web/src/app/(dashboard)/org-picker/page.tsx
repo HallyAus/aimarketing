@@ -43,7 +43,7 @@ export default async function OrgPickerPage() {
             "use server";
             const { cookies: getCookies } = await import("next/headers");
             const cookieStore = await getCookies();
-            cookieStore.set("adpilot-org-id", m.organization.id, {
+            cookieStore.set("reachpilot-org-id", m.organization.id, {
               httpOnly: true,
               secure: process.env.NODE_ENV === "production",
               sameSite: "strict",

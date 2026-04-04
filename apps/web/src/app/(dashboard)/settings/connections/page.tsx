@@ -1,8 +1,8 @@
 import { getSessionOrg } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { PLATFORM_CONFIGS } from "@adpilot/platform-sdk";
-import type { Platform } from "@adpilot/platform-sdk";
+import { PLATFORM_CONFIGS } from "@reachpilot/platform-sdk";
+import type { Platform } from "@reachpilot/platform-sdk";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
 import { StatusBadge } from "@/components/status-badge";

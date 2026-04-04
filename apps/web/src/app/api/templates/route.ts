@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { createTemplateSchema, sanitizeHtml } from "@adpilot/shared";
+import { createTemplateSchema, sanitizeHtml } from "@reachpilot/shared";
 
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   const url = new URL(req.url);

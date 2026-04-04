@@ -6,15 +6,15 @@ import { ContactForm } from "./contact-form";
 import "@/styles/marketing.css";
 
 export const metadata: Metadata = {
-  title: "Contact Us | AdPilot",
+  title: "Contact Us | ReachPilot",
   description:
-    "Get in touch with the AdPilot team. We respond within 24 hours across all timezones.",
+    "Get in touch with the ReachPilot team. We respond within 24 hours across all timezones.",
   openGraph: {
-    title: "Contact Us | AdPilot",
+    title: "Contact Us | ReachPilot",
     description:
-      "Get in touch with the AdPilot team. We respond within 24 hours across all timezones.",
+      "Get in touch with the ReachPilot team. We respond within 24 hours across all timezones.",
     type: "website",
-    url: "https://adpilot.au/contact",
+    url: "https://reachpilot.au/contact",
   },
 };
 
@@ -43,7 +43,7 @@ export default function ContactPage() {
                 className="marketing-body max-w-2xl mx-auto"
                 style={{ color: "var(--text-secondary)" }}
               >
-                Have a question about AdPilot? Want to discuss which plan is
+                Have a question about ReachPilot? Want to discuss which plan is
                 right for your business? We're here to help.
               </p>
             </div>
@@ -63,11 +63,11 @@ export default function ContactPage() {
                   Email Support
                 </h3>
                 <a
-                  href="mailto:support@adpilot.com.au"
+                  href="mailto:support@reachpilot.com.au"
                   className="text-sm font-medium"
                   style={{ color: "var(--accent-blue)" }}
                 >
-                  support@adpilot.com.au
+                  support@reachpilot.com.au
                 </a>
                 <p
                   className="text-xs mt-2"
@@ -113,11 +113,11 @@ export default function ContactPage() {
                   Security Issues
                 </h3>
                 <a
-                  href="mailto:security@adpilot.com.au"
+                  href="mailto:security@reachpilot.com.au"
                   className="text-sm font-medium"
                   style={{ color: "var(--accent-blue)" }}
                 >
-                  security@adpilot.com.au
+                  security@reachpilot.com.au
                 </a>
                 <p
                   className="text-xs mt-2"

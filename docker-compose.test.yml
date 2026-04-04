@@ -3,24 +3,24 @@ version: "3.8"
 services:
   postgres-test:
     image: postgres:16-alpine
-    container_name: adpilot-test-db
+    container_name: reachpilot-test-db
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_USER: adpilot_test
-      POSTGRES_PASSWORD: adpilot_test_pw
-      POSTGRES_DB: adpilot_test
+      POSTGRES_USER: reachpilot_test
+      POSTGRES_PASSWORD: reachpilot_test_pw
+      POSTGRES_DB: reachpilot_test
     volumes:
       - postgres_test_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U adpilot_test -d adpilot_test"]
+      test: ["CMD-SHELL", "pg_isready -U reachpilot_test -d reachpilot_test"]
       interval: 5s
       timeout: 5s
       retries: 5
 
   redis-test:
     image: redis:7-alpine
-    container_name: adpilot-test-redis
+    container_name: reachpilot-test-redis
     ports:
       - "6380:6379"
     healthcheck:

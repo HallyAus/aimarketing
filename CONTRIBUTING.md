@@ -1,6 +1,6 @@
-# Contributing to AdPilot
+# Contributing to ReachPilot
 
-Thank you for your interest in contributing to AdPilot. This guide covers the conventions and requirements for contributing to the codebase.
+Thank you for your interest in contributing to ReachPilot. This guide covers the conventions and requirements for contributing to the codebase.
 
 ---
 
@@ -109,7 +109,7 @@ security: rotate encryption key and re-encrypt all tokens
 
 1. Node.js built-ins (`crypto`, `path`)
 2. External packages (`next/server`, `stripe`)
-3. Internal packages (`@adpilot/shared`, `@adpilot/db`)
+3. Internal packages (`@reachpilot/shared`, `@reachpilot/db`)
 4. Relative imports (`@/lib/...`, `./...`)
 
 ### General Rules
@@ -174,7 +174,7 @@ Before requesting review, confirm:
 ## Monorepo Structure
 
 ```
-adpilot/
+reachpilot/
   apps/
     web/          # Next.js 15 frontend + API routes
     worker/       # BullMQ queue consumer
@@ -190,9 +190,9 @@ Use Turborepo for builds: `pnpm build` builds all packages in dependency order.
 To run commands in a specific package:
 
 ```bash
-pnpm --filter @adpilot/web dev
-pnpm --filter @adpilot/db db:generate
-pnpm test --filter @adpilot/shared
+pnpm --filter @reachpilot/web dev
+pnpm --filter @reachpilot/db db:generate
+pnpm test --filter @reachpilot/shared
 ```
 
 ---

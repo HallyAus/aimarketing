@@ -1,8 +1,8 @@
 import type { Job } from "bullmq";
-import { prisma } from "@adpilot/db";
-import { encrypt, decrypt } from "@adpilot/shared";
-import { getAdapter } from "@adpilot/platform-sdk";
-import type { Platform } from "@adpilot/platform-sdk";
+import { prisma } from "@reachpilot/db";
+import { encrypt, decrypt } from "@reachpilot/shared";
+import { getAdapter } from "@reachpilot/platform-sdk";
+import type { Platform } from "@reachpilot/platform-sdk";
 
 const PROACTIVE_REFRESH_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 

@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { sanitizeHtml, decrypt, publishNowSchema } from "@adpilot/shared";
-import { publishPost } from "@adpilot/platform-sdk";
+import { sanitizeHtml, decrypt, publishNowSchema } from "@reachpilot/shared";
+import { publishPost } from "@reachpilot/platform-sdk";
 
 // POST /api/posts/publish-now
 // Immediately publishes a post to the specified platform

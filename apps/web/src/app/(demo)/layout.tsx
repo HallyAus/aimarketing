@@ -2,9 +2,9 @@ import { DemoSidebarNav } from "./components/demo-sidebar-nav";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AdPilot Demo — See What's Possible",
+  title: "ReachPilot Demo — See What's Possible",
   description:
-    "Explore the AdPilot marketing platform with realistic demo data. No sign-up required.",
+    "Explore the ReachPilot marketing platform with realistic demo data. No sign-up required.",
   robots: { index: true, follow: true },
 };
 

@@ -1,4 +1,4 @@
-import { encrypt, decrypt } from "@adpilot/shared";
+import { encrypt, decrypt } from "@reachpilot/shared";
 
 const EXPIRY_BUFFER_MS = 5 * 60 * 1000; // 5 minutes
 const PROACTIVE_REFRESH_MS = 7 * 24 * 60 * 60 * 1000; // 7 days

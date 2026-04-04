@@ -8,7 +8,7 @@ import { prisma } from "@/lib/db";
  */
 export async function getActivePageId(orgId: string): Promise<string | null> {
   const cookieStore = await cookies();
-  const raw = cookieStore.get("adpilot-active-page")?.value;
+  const raw = cookieStore.get("reachpilot-active-page")?.value;
   if (!raw || raw === "all") return null;
   try {
     const decoded = decodeURIComponent(raw);

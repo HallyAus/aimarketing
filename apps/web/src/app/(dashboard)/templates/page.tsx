@@ -8,7 +8,7 @@ import { EmptyState } from "@/components/empty-state";
 import { ActiveAccountBanner } from "@/components/active-account-banner";
 import { getActiveAccount } from "@/lib/active-account";
 import { getActivePageId, pageWhere } from "@/lib/active-page";
-import type { Platform } from "@adpilot/db";
+import type { Platform } from "@reachpilot/db";
 
 export const metadata: Metadata = {
   title: "Post Templates",

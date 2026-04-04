@@ -15,12 +15,12 @@ const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "AdPilot",
+    name: "ReachPilot",
     description:
       "AI-powered marketing automation platform — manage campaigns across 9 social platforms from one dashboard. Auto-detect timezones, collaborate across teams, and publish everywhere.",
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
-    url: "https://adpilot.app",
+    url: "https://reachpilot.app",
     offers: [
       {
         "@type": "Offer",
@@ -48,8 +48,8 @@ const jsonLd = [
     ],
     creator: {
       "@type": "Organization",
-      name: "AdPilot",
-      url: "https://adpilot.app",
+      name: "ReachPilot",
+      url: "https://reachpilot.app",
       foundingDate: "2026",
       founder: { "@type": "Person", name: "Daniel Hall" },
     },
@@ -68,23 +68,23 @@ const jsonLd = [
     mainEntity: [
       {
         "@type": "Question",
-        name: "What platforms does AdPilot support?",
+        name: "What platforms does ReachPilot support?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "AdPilot supports 9 major platforms: Facebook, Instagram, TikTok, LinkedIn, Twitter/X, YouTube, Google Ads, Pinterest, and Snapchat.",
+          text: "ReachPilot supports 9 major platforms: Facebook, Instagram, TikTok, LinkedIn, Twitter/X, YouTube, Google Ads, Pinterest, and Snapchat.",
         },
       },
       {
         "@type": "Question",
-        name: "How does AdPilot handle timezones?",
+        name: "How does ReachPilot handle timezones?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "AdPilot auto-detects your timezone on signup — no setup needed. All scheduled posts display in your local time. Teams across different timezones each see times in their own timezone automatically.",
+          text: "ReachPilot auto-detects your timezone on signup — no setup needed. All scheduled posts display in your local time. Teams across different timezones each see times in their own timezone automatically.",
         },
       },
       {
         "@type": "Question",
-        name: "Can I try AdPilot for free?",
+        name: "Can I try ReachPilot for free?",
         acceptedAnswer: {
           "@type": "Answer",
           text: "Yes! The Free plan includes 1 user, 3 platforms, and 30 posts per month — no credit card required.",

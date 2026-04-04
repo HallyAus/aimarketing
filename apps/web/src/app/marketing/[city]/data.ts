@@ -34,7 +34,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "200,000+ businesses",
       digitalAdSpend: "$2.1B annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Sydney Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Sydney Businesses | ReachPilot",
     metaDescription:
       "AI-powered marketing automation built for Sydney businesses. Automate content, scheduling, and analytics across 9 platforms. Start free today.",
     heroSubtitle:
@@ -60,7 +60,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "180,000+ businesses",
       digitalAdSpend: "$1.8B annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Melbourne Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Melbourne Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Melbourne businesses. Publish across 9 platforms, automate scheduling, and grow faster. Free plan available.",
     heroSubtitle:
@@ -86,7 +86,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "120,000+ businesses",
       digitalAdSpend: "$850M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Brisbane Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Brisbane Businesses | ReachPilot",
     metaDescription:
       "Brisbane marketing automation powered by AI. Automate content across 9 platforms, smart scheduling, and analytics. Start your free trial.",
     heroSubtitle:
@@ -112,7 +112,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "95,000+ businesses",
       digitalAdSpend: "$620M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Perth Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Perth Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Perth and WA businesses. Reach audiences across vast distances with automated 9-platform publishing. Start free.",
     heroSubtitle:
@@ -138,7 +138,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "70,000+ businesses",
       digitalAdSpend: "$380M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Adelaide Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Adelaide Businesses | ReachPilot",
     metaDescription:
       "AI-powered marketing automation for Adelaide businesses. From Barossa wineries to Lot Fourteen tech. Automate 9 platforms free.",
     heroSubtitle:
@@ -164,7 +164,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "45,000+ businesses",
       digitalAdSpend: "$280M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Gold Coast Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Gold Coast Businesses | ReachPilot",
     metaDescription:
       "Marketing automation for Gold Coast tourism, fitness, and lifestyle businesses. AI-powered content across 9 platforms. Start free today.",
     heroSubtitle:
@@ -190,7 +190,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "30,000+ businesses",
       digitalAdSpend: "$180M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Canberra Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Canberra Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Canberra's government, defense, and education sectors. Professional multi-platform publishing. Start free.",
     heroSubtitle:
@@ -216,7 +216,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "22,000+ businesses",
       digitalAdSpend: "$120M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Newcastle Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Newcastle Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Newcastle NSW businesses. From Honeysuckle to Merewether, automate content across 9 platforms. Start free.",
     heroSubtitle:
@@ -242,7 +242,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "15,000+ businesses",
       digitalAdSpend: "$65M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Hobart Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Hobart Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Hobart and Tasmania businesses. Reach global audiences from Australia's southernmost capital. Start free.",
     heroSubtitle:
@@ -268,7 +268,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "10,000+ businesses",
       digitalAdSpend: "$45M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Darwin Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Darwin Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Darwin and NT businesses. Reach audiences across the Top End with automated 9-platform publishing. Start free.",
     heroSubtitle:
@@ -294,7 +294,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "35,000+ businesses",
       digitalAdSpend: "$160M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Sunshine Coast Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Sunshine Coast Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Sunshine Coast businesses. Compete with city agencies from Noosa to Caloundra. Automate 9 platforms free.",
     heroSubtitle:
@@ -320,7 +320,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "18,000+ businesses",
       digitalAdSpend: "$85M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Wollongong Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Wollongong Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Wollongong and Illawarra businesses. Automate content across 9 platforms and grow beyond the Gong. Start free.",
     heroSubtitle:
@@ -346,7 +346,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "16,000+ businesses",
       digitalAdSpend: "$75M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Geelong Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Geelong Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Geelong businesses. From the waterfront to the Great Ocean Road, automate 9 platforms. Start free today.",
     heroSubtitle:
@@ -372,7 +372,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "12,000+ businesses",
       digitalAdSpend: "$55M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Cairns Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Cairns Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Cairns tourism and hospitality businesses. Reach visitors across 9 platforms before they arrive. Start free.",
     heroSubtitle:
@@ -398,7 +398,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "14,000+ businesses",
       digitalAdSpend: "$60M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Townsville Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Townsville Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Townsville and North QLD businesses. Reach defence, mining, and education sectors. Automate 9 platforms free.",
     heroSubtitle:
@@ -424,7 +424,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "11,000+ businesses",
       digitalAdSpend: "$40M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Toowoomba Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Toowoomba Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Toowoomba and Darling Downs businesses. Reach regional audiences across 9 platforms. Start your free trial.",
     heroSubtitle:
@@ -450,7 +450,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "8,000+ businesses",
       digitalAdSpend: "$30M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Ballarat Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Ballarat Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Ballarat businesses. From Sovereign Hill to Sturt Street, automate content across 9 platforms. Start free.",
     heroSubtitle:
@@ -476,7 +476,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "8,500+ businesses",
       digitalAdSpend: "$32M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Bendigo Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Bendigo Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Bendigo businesses. Compete with city agencies from central Victoria. Automate 9 platforms. Start free.",
     heroSubtitle:
@@ -502,7 +502,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "20,000+ businesses",
       digitalAdSpend: "$90M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Central Coast Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Central Coast Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Central Coast NSW businesses. From Gosford to Terrigal, automate content across 9 platforms. Start free.",
     heroSubtitle:
@@ -528,7 +528,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "6,000+ businesses",
       digitalAdSpend: "$22M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Launceston Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Launceston Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Launceston and northern Tasmania businesses. Reach tourists and locals across 9 platforms. Start free.",
     heroSubtitle:
@@ -554,7 +554,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "9,000+ businesses",
       digitalAdSpend: "$35M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Mackay Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Mackay Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Mackay and Bowen Basin businesses. Reach mining, agriculture, and tourism markets. Start free today.",
     heroSubtitle:
@@ -580,7 +580,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "7,000+ businesses",
       digitalAdSpend: "$25M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Rockhampton Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Rockhampton Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Rockhampton and Central QLD businesses. Reach audiences across the beef capital. Automate 9 platforms free.",
     heroSubtitle:
@@ -606,7 +606,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "5,500+ businesses",
       digitalAdSpend: "$20M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Bunbury Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Bunbury Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Bunbury and WA South West businesses. Reach Perth and beyond with automated 9-platform publishing. Start free.",
     heroSubtitle:
@@ -632,7 +632,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "6,500+ businesses",
       digitalAdSpend: "$25M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Mandurah Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Mandurah Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Mandurah businesses. Reach the Peel region across 9 platforms with AI-powered content. Start free today.",
     heroSubtitle:
@@ -658,7 +658,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "5,000+ businesses",
       digitalAdSpend: "$18M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Wagga Wagga Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Wagga Wagga Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Wagga Wagga and Riverina businesses. Reach rural and regional audiences across 9 platforms. Start free.",
     heroSubtitle:
@@ -684,7 +684,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "4,500+ businesses",
       digitalAdSpend: "$16M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Albury-Wodonga Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Albury-Wodonga Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Albury-Wodonga businesses. Bridge the border with automated 9-platform marketing. Start your free trial.",
     heroSubtitle:
@@ -710,7 +710,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "4,000+ businesses",
       digitalAdSpend: "$14M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Mildura Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Mildura Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Mildura and Sunraysia businesses. Market your produce, wine, and tourism across 9 platforms. Start free.",
     heroSubtitle:
@@ -736,7 +736,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "3,800+ businesses",
       digitalAdSpend: "$12M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Shepparton Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Shepparton Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Shepparton and Goulburn Valley businesses. Market your produce and services across 9 platforms. Start free.",
     heroSubtitle:
@@ -762,7 +762,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "4,500+ businesses",
       digitalAdSpend: "$15M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Gladstone Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Gladstone Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Gladstone businesses. Reach the industrial and LNG workforce across 9 platforms. Start your free trial.",
     heroSubtitle:
@@ -788,7 +788,7 @@ export const CITIES: Record<string, CityData> = {
       businesses: "4,000+ businesses",
       digitalAdSpend: "$13M annual digital ad spend",
     },
-    metaTitle: "Marketing Automation for Hervey Bay Businesses | AdPilot",
+    metaTitle: "Marketing Automation for Hervey Bay Businesses | ReachPilot",
     metaDescription:
       "AI marketing automation for Hervey Bay businesses. From whale watching to aged care, automate your marketing across 9 platforms. Free.",
     heroSubtitle:

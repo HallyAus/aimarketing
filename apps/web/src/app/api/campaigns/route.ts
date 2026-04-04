@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { createCampaignSchema, checkPlanLimit, sanitizeHtml } from "@adpilot/shared";
+import { createCampaignSchema, checkPlanLimit, sanitizeHtml } from "@reachpilot/shared";
 
 // GET /api/campaigns — list campaigns for current org
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {

@@ -1,4 +1,4 @@
-# AdPilot Cost & Usage Audit
+# ReachPilot Cost & Usage Audit
 
 > Generated 2026-04-03 as part of Audit 05.
 
@@ -191,7 +191,7 @@ Usage is tracked in the existing `UsageRecord` table with the `AI_TOKENS_USED` m
 - 1,000 users: 700 Free, 230 Pro, 70 Agency = $32,000/mo (conservative $15K)
 - 10,000 users: 7,000 Free, 2,300 Pro, 700 Agency = $322,000/mo (conservative $200K)
 
-**Conclusion:** AdPilot's cost structure scales favorably. Anthropic API is the largest variable cost but stays under 1% of revenue at scale thanks to tier-based usage limits.
+**Conclusion:** ReachPilot's cost structure scales favorably. Anthropic API is the largest variable cost but stays under 1% of revenue at scale thanks to tier-based usage limits.
 
 ---
 

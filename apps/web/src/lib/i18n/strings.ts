@@ -2,7 +2,7 @@
  * Centralized UI Strings
  *
  * This file contains common UI labels, messages, and status text used across
- * AdPilot. It serves as a lightweight precursor to a full i18n solution.
+ * ReachPilot. It serves as a lightweight precursor to a full i18n solution.
  *
  * Convention: keys follow the pattern `section.element` for easy future
  * migration to next-intl or i18next JSON message files.

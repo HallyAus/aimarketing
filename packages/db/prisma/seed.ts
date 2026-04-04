@@ -6,11 +6,11 @@ async function main() {
   console.log("Seeding database...");
 
   const user = await prisma.user.upsert({
-    where: { email: "admin@adpilot.dev" },
+    where: { email: "admin@reachpilot.dev" },
     update: {},
     create: {
-      email: "admin@adpilot.dev",
-      name: "AdPilot Admin",
+      email: "admin@reachpilot.dev",
+      name: "ReachPilot Admin",
       emailVerified: new Date(),
     },
   });
@@ -22,7 +22,7 @@ async function main() {
       name: "Demo Agency",
       slug: "demo-agency",
       plan: "PRO",
-      billingEmail: "admin@adpilot.dev",
+      billingEmail: "admin@reachpilot.dev",
     },
   });
 

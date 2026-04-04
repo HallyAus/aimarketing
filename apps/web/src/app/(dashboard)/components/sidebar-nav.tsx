@@ -158,7 +158,7 @@ const NAV_SECTIONS: NavSection[] = [
   },
 ];
 
-const STORAGE_KEY = "adpilot-sidebar-collapsed";
+const STORAGE_KEY = "reachpilot-sidebar-collapsed";
 
 function isActive(pathname: string, href: string): boolean {
   if (href === "/dashboard") return pathname === "/dashboard";
@@ -256,14 +256,14 @@ export function SidebarNav() {
         </div>
         {(!collapsed || isMobile) && (
           <span className="text-sm font-bold tracking-tight text-[var(--text-primary)]">
-            AdPilot
+            ReachPilot
           </span>
         )}
       </div>
 
       {/* Get Started link for new users (before nav sections) */}
       {mounted && (() => {
-        try { if (localStorage.getItem("adpilot-onboarding-complete")) return null; } catch { return null; }
+        try { if (localStorage.getItem("reachpilot-onboarding-complete")) return null; } catch { return null; }
         return (
           <div className="px-3 mb-1">
             <Link
@@ -346,7 +346,7 @@ export function SidebarNav() {
             AP
           </div>
           <span className="text-sm font-bold text-[var(--text-primary)]">
-            AdPilot
+            ReachPilot
           </span>
         </div>
         <div className="flex items-center gap-2">

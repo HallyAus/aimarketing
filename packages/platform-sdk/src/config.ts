@@ -63,13 +63,12 @@ function buildConfigs(): Record<Platform, PlatformConfig> {
     authorizeUrl: "https://www.linkedin.com/oauth/v2/authorization",
     tokenUrl: "https://www.linkedin.com/oauth/v2/accessToken",
     scopes: [
-      "r_liteprofile",
-      "r_organization_social",
-      "w_organization_social",
-      "rw_organization_admin",
+      "openid",
+      "profile",
+      "w_member_social",
     ],
     tokenExpirySeconds: 60 * 60 * 24 * 60, // 60 days
-    refreshTokenExpiryDays: 365,
+    refreshTokenExpiryDays: undefined, // No refresh tokens with 3-legged OAuth
     usesPkce: false,
   },
   TWITTER_X: {

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withAuth } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { decrypt } from "@adpilot/shared";
+import { decrypt } from "@reachpilot/shared";
 import { getCachedOrFetch } from "@/lib/connection-cache";
 
 interface FacebookPage {
@@ -140,7 +140,7 @@ export const POST = withErrorHandler(
     }
 
     const masterKey = process.env.MASTER_ENCRYPTION_KEY!;
-    const { encrypt } = await import("@adpilot/shared");
+    const { encrypt } = await import("@reachpilot/shared");
 
     // Store selected pages and their encrypted tokens in the connection metadata
     const selectedPages = body.selectedPages.map((page) => ({

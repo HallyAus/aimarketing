@@ -10,7 +10,7 @@ export interface ClientActiveAccount {
   connectionId: string;
 }
 
-const STORAGE_KEY = "adpilot-active-account";
+const STORAGE_KEY = "reachpilot-active-account";
 
 const PLATFORM_LABELS: Record<string, string> = {
   FACEBOOK: "Facebook",
@@ -54,7 +54,7 @@ export function useActiveAccount() {
 
 function clearFilter() {
   localStorage.setItem(STORAGE_KEY, "all");
-  document.cookie = `adpilot-active-page=${encodeURIComponent("all")};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`;
+  document.cookie = `reachpilot-active-page=${encodeURIComponent("all")};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`;
   window.dispatchEvent(new CustomEvent("account-changed", { detail: null }));
 }
 

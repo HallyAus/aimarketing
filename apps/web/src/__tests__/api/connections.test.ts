@@ -43,7 +43,7 @@ vi.mock("@/lib/api-handler", () => ({
   },
 }));
 
-vi.mock("@adpilot/shared", () => ({
+vi.mock("@reachpilot/shared", () => ({
   decrypt: vi.fn(() => "decrypted-token"),
   encrypt: vi.fn(() => "encrypted-token"),
 }));

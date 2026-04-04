@@ -12,7 +12,7 @@ const schema = z.object({
 async function fetchPageText(url: string): Promise<string> {
   try {
     const res = await fetch(url, {
-      headers: { "User-Agent": "AdPilot/1.0 (Keyword Analyzer)" },
+      headers: { "User-Agent": "ReachPilot/1.0 (Keyword Analyzer)" },
       signal: AbortSignal.timeout(10000),
     });
     const html = await res.text();

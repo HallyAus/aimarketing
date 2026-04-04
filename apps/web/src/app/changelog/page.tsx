@@ -4,14 +4,14 @@ import { Footer } from "@/components/marketing/footer";
 import "@/styles/marketing.css";
 
 export const metadata: Metadata = {
-  title: "Changelog | AdPilot",
+  title: "Changelog | ReachPilot",
   description:
-    "What's new in AdPilot. Product updates, new features, and improvements.",
+    "What's new in ReachPilot. Product updates, new features, and improvements.",
   openGraph: {
-    title: "Changelog | AdPilot",
-    description: "What's new in AdPilot. Product updates and improvements.",
+    title: "Changelog | ReachPilot",
+    description: "What's new in ReachPilot. Product updates and improvements.",
     type: "website",
-    url: "https://adpilot.au/changelog",
+    url: "https://reachpilot.au/changelog",
   },
 };
 
@@ -53,7 +53,7 @@ const entries = [
     tag: "Improvement",
     tagColor: "#22c55e",
     description:
-      "AdPilot now automatically detects your timezone on first login using the Intl API. All dashboard times display in your local timezone, and scheduled posts account for DST transitions automatically.",
+      "ReachPilot now automatically detects your timezone on first login using the Intl API. All dashboard times display in your local timezone, and scheduled posts account for DST transitions automatically.",
     highlights: [
       "Automatic timezone detection via Intl API",
       "DST-aware scheduling — no more off-by-one-hour posts",
@@ -68,7 +68,7 @@ const entries = [
     tag: "New Feature",
     tagColor: "var(--accent-blue)",
     description:
-      "Invite team members, assign roles, and set up approval workflows. Content can now be drafted, reviewed, and approved before publishing — all within AdPilot.",
+      "Invite team members, assign roles, and set up approval workflows. Content can now be drafted, reviewed, and approved before publishing — all within ReachPilot.",
     highlights: [
       "Team invitations with role-based access (Admin, Editor, Viewer)",
       "Content approval workflows with one-click approve/reject",
@@ -79,11 +79,11 @@ const entries = [
   {
     version: "v1.0",
     date: "January 28, 2026",
-    title: "AdPilot Public Beta Launch",
+    title: "ReachPilot Public Beta Launch",
     tag: "Launch",
     tagColor: "#f59e0b",
     description:
-      "AdPilot launches in public beta. AI-powered content creation, 9-platform publishing, smart scheduling, and unified analytics — all from one dashboard. Free, Pro ($49/mo), and Agency ($299/mo) plans available from day one.",
+      "ReachPilot launches in public beta. AI-powered content creation, 9-platform publishing, smart scheduling, and unified analytics — all from one dashboard. Free, Pro ($49/mo), and Agency ($299/mo) plans available from day one.",
     highlights: [
       "AI Content Studio powered by Claude",
       "Publishing to Facebook, Instagram, TikTok, LinkedIn, X, YouTube, Google Ads, Pinterest, and Snapchat",
@@ -118,7 +118,7 @@ export default function ChangelogPage() {
                 className="marketing-body"
                 style={{ color: "var(--text-secondary)" }}
               >
-                Product updates, new features, and improvements to AdPilot.
+                Product updates, new features, and improvements to ReachPilot.
               </p>
             </div>
 

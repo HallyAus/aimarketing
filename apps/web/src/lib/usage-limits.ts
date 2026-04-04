@@ -1,5 +1,5 @@
 /**
- * Tier-based usage limits for AdPilot.
+ * Tier-based usage limits for ReachPilot.
  *
  * Each organization has a plan (FREE, PRO, AGENCY) stored on the Organization
  * model.  This module defines the hard limits per plan and exposes helpers that

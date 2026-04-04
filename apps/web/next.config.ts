@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@adpilot/db", "@adpilot/shared", "@adpilot/ui", "@adpilot/platform-sdk"],
+  transpilePackages: ["@reachpilot/db", "@reachpilot/shared", "@reachpilot/ui", "@reachpilot/platform-sdk"],
   serverExternalPackages: ["@prisma/client", "prisma", "sharp", "@sparticuz/chromium", "puppeteer-core"],
   headers: async () => [
     {

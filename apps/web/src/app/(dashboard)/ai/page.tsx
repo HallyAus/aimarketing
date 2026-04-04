@@ -807,7 +807,7 @@ function CreateImageTab() {
         {imageUrl && (
           <a
             href={imageUrl}
-            download="adpilot-image.png"
+            download="reachpilot-image.png"
             className="mt-2 inline-block text-sm"
             style={{ color: "var(--accent-blue)" }}
           >

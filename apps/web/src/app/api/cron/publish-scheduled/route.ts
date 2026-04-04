@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { decrypt } from "@adpilot/shared";
-import { publishPost } from "@adpilot/platform-sdk";
+import { decrypt } from "@reachpilot/shared";
+import { publishPost } from "@reachpilot/platform-sdk";
 
 // Vercel Cron calls this every 5 minutes to publish due posts
 // Secured by CRON_SECRET header

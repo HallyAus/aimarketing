@@ -76,7 +76,7 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   return new NextResponse(csv, {
     headers: {
       "Content-Type": "text/csv",
-      "Content-Disposition": `attachment; filename="adpilot-analytics-${new Date().toISOString().split("T")[0]}.csv"`,
+      "Content-Disposition": `attachment; filename="reachpilot-analytics-${new Date().toISOString().split("T")[0]}.csv"`,
     },
   });
 }));

@@ -23,7 +23,7 @@ async function fetchRedditPosts(topic: string, limit = 10): Promise<RedditPost[]
     // Search Reddit for the topic across all subreddits
     const url = `https://www.reddit.com/search.json?q=${encodeURIComponent(topic)}&sort=hot&t=week&limit=${limit}`;
     const res = await fetch(url, {
-      headers: { "User-Agent": "AdPilot/1.0 (community-feed)" },
+      headers: { "User-Agent": "ReachPilot/1.0 (community-feed)" },
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) return [];
@@ -50,7 +50,7 @@ async function fetchWebContent(topic: string): Promise<WebResult[]> {
     // Try Reddit RSS as a fallback source for blog-like content
     const url = `https://www.reddit.com/r/all/search.json?q=${encodeURIComponent(topic)}&sort=relevance&t=month&limit=5`;
     const res = await fetch(url, {
-      headers: { "User-Agent": "AdPilot/1.0 (community-feed)" },
+      headers: { "User-Agent": "ReachPilot/1.0 (community-feed)" },
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) return [];

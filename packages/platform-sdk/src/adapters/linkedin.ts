@@ -36,11 +36,10 @@ export class LinkedinAdapter implements PlatformAdapter {
     const accessToken = data.access_token as string;
     const expiresIn = (data.expires_in as number) ?? this.config.tokenExpirySeconds ?? 5184000;
 
-    // Get user info from LinkedIn
-    const meResponse = await fetch("https://api.linkedin.com/v2/me", {
+    // Get user info from LinkedIn userinfo endpoint (OpenID Connect)
+    const meResponse = await fetch("https://api.linkedin.com/v2/userinfo", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "X-Restli-Protocol-Version": "2.0.0",
       },
     });
 
@@ -49,10 +48,9 @@ export class LinkedinAdapter implements PlatformAdapter {
 
     if (meResponse.ok) {
       const me = (await meResponse.json()) as Record<string, unknown>;
-      platformUserId = me.id as string;
-      const firstName = (me.localizedFirstName as string) ?? "";
-      const lastName = (me.localizedLastName as string) ?? "";
-      platformAccountName = `${firstName} ${lastName}`.trim() || undefined;
+      platformUserId = (me.sub as string) ?? "";
+      const name = (me.name as string) ?? "";
+      platformAccountName = name || undefined;
     }
 
     return {
@@ -86,10 +84,9 @@ export class LinkedinAdapter implements PlatformAdapter {
   }
 
   async validateToken(accessToken: string): Promise<boolean> {
-    const response = await fetch("https://api.linkedin.com/v2/me", {
+    const response = await fetch("https://api.linkedin.com/v2/userinfo", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "X-Restli-Protocol-Version": "2.0.0",
       },
     });
     return response.ok;

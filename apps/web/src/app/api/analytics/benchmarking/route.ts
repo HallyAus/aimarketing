@@ -24,7 +24,7 @@ async function fetchUrlContent(url: string): Promise<string> {
   try {
     const normalizedUrl = url.startsWith("http") ? url : `https://${url}`;
     const res = await fetch(normalizedUrl, {
-      headers: { "User-Agent": "Mozilla/5.0 (compatible; AdPilot/1.0; Content Analysis Bot)" },
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; ReachPilot/1.0; Content Analysis Bot)" },
       signal: AbortSignal.timeout(10000),
     });
     if (!res.ok) return `Could not fetch URL (status ${res.status}). Analyzing based on the URL/handle provided.`;

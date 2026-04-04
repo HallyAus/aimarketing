@@ -1,4 +1,4 @@
-# AdPilot Resilience Audit
+# ReachPilot Resilience Audit
 
 > Generated 2026-04-03
 

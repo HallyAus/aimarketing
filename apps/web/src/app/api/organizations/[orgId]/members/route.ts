@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { updateMemberRoleSchema } from "@adpilot/shared";
+import { updateMemberRoleSchema } from "@reachpilot/shared";
 
 // GET /api/organizations/[orgId]/members
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {

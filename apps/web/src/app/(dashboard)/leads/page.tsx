@@ -138,9 +138,9 @@ export default function LeadsPage() {
   );
 
   // Generate embeddable form HTML
-  const embedCode = `<!-- AdPilot Lead Capture Form -->
-<div id="adpilot-lead-form">
-  <form id="adpilot-form" style="max-width:400px;font-family:system-ui,sans-serif;">
+  const embedCode = `<!-- ReachPilot Lead Capture Form -->
+<div id="reachpilot-lead-form">
+  <form id="reachpilot-form" style="max-width:400px;font-family:system-ui,sans-serif;">
     <div style="margin-bottom:12px;">
       <label style="display:block;font-size:14px;margin-bottom:4px;color:#333;">Name *</label>
       <input type="text" name="name" required style="width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:6px;font-size:14px;" />
@@ -156,14 +156,14 @@ export default function LeadsPage() {
     <button type="submit" style="width:100%;padding:10px;background:#3b82f6;color:white;border:none;border-radius:6px;font-size:14px;cursor:pointer;">
       Get Started
     </button>
-    <p id="adpilot-msg" style="margin-top:8px;font-size:13px;display:none;"></p>
+    <p id="reachpilot-msg" style="margin-top:8px;font-size:13px;display:none;"></p>
   </form>
 </div>
 <script>
-document.getElementById('adpilot-form').addEventListener('submit', async function(e) {
+document.getElementById('reachpilot-form').addEventListener('submit', async function(e) {
   e.preventDefault();
   const form = e.target;
-  const msg = document.getElementById('adpilot-msg');
+  const msg = document.getElementById('reachpilot-msg');
   try {
     const res = await fetch('${typeof window !== "undefined" ? window.location.origin : ""}/api/leads', {
       method: 'POST',
@@ -233,7 +233,7 @@ document.getElementById('adpilot-form').addEventListener('submit', async functio
             </button>
           </div>
           <p className="text-sm mb-3" style={{ color: "var(--text-tertiary)" }}>
-            Paste this HTML/JS snippet into any webpage to capture leads directly into AdPilot.
+            Paste this HTML/JS snippet into any webpage to capture leads directly into ReachPilot.
           </p>
           <pre
             className="text-xs overflow-auto p-4 rounded-lg"

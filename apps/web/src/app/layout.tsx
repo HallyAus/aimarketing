@@ -28,22 +28,22 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "AdPilot | AI-Powered Marketing Automation",
-    template: "%s | AdPilot",
+    default: "ReachPilot | AI-Powered Marketing Automation",
+    template: "%s | ReachPilot",
   },
   description: "Automate your marketing campaigns across every social platform. AI-powered scheduling, analytics, and campaign management from one dashboard.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://adpilot.app"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://reachpilot.app"),
   alternates: { canonical: "./" },
   openGraph: {
-    title: "AdPilot | AI-Powered Marketing Automation",
+    title: "ReachPilot | AI-Powered Marketing Automation",
     description: "Automate your marketing campaigns across every social platform.",
-    siteName: "AdPilot",
+    siteName: "ReachPilot",
     type: "website",
     images: [{ url: "/icon-1024.png", width: 1024, height: 1024 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AdPilot | AI-Powered Marketing Automation",
+    title: "ReachPilot | AI-Powered Marketing Automation",
     description: "Automate your marketing campaigns across every social platform.",
   },
   icons: {

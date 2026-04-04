@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db";
 import type { Platform } from "@/lib/db";
-import { decrypt } from "@adpilot/shared";
+import { decrypt } from "@reachpilot/shared";
 import type { IngestionPage, IngestionJobRecord, IngestionResult } from "./types";
 import { ingestFacebook } from "./facebook";
 import { ingestInstagram } from "./instagram";

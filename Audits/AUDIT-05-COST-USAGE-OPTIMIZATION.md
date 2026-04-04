@@ -1,4 +1,4 @@
-# AdPilot — Audit 5: Cost & Usage Optimization
+# ReachPilot — Audit 5: Cost & Usage Optimization
 
 > **For use in Claude Code against the `HallyAus/aimarketing` repo**
 > Run autonomously. Analyze, optimize, document, commit.
@@ -7,7 +7,7 @@
 
 ## CONTEXT
 
-SaaS margins die when costs aren't controlled. AdPilot pays for: Vercel compute, Anthropic API tokens, PostgreSQL hosting, Redis, and social platform API quotas. This audit maps every cost center, projects costs at scale, and implements optimizations.
+SaaS margins die when costs aren't controlled. ReachPilot pays for: Vercel compute, Anthropic API tokens, PostgreSQL hosting, Redis, and social platform API quotas. This audit maps every cost center, projects costs at scale, and implements optimizations.
 
 **Output:** `docs/costs/COST-AUDIT.md` with projections at 100 / 1,000 / 10,000 users.
 
@@ -187,4 +187,4 @@ Fill in real estimates based on the audit findings.
 ☕ [Buy Me a Coffee](https://buymeacoffee.com/printforge)
 🛰️ Here's one free month of Starlink service! Starlink high-speed internet is great for streaming.
 
-*Generated for Daniel Hall — AdPilot / Agentic Consciousness — April 2026*
+*Generated for Daniel Hall — ReachPilot / Agentic Consciousness — April 2026*

@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Printforge Pro — Expanded Marketing Pack (Part 1: FB + TikTok 1-25)</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0A0A10;
+  --dark: #12121A;
+  --surface: #1A1A26;
+  --blue: #0066FF;
+  --cyan: #00D4FF;
+  --orange: #FF6B35;
+  --green: #00E676;
+  --purple: #8B5CF6;
+  --red: #FF4D4D;
+  --white: #F5F5F7;
+  --gray: #7A7A8E;
+  --lgray: #B0B0C0;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#07070A; color:var(--white); font-family:'DM Sans',sans-serif; padding:20px; }
+
+/* Nav */
+.nav { position:sticky; top:0; z-index:100; background:rgba(7,7,10,0.92); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.05); padding:14px 24px; margin:-20px -20px 40px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.nav .t { font-family:'Sora'; font-weight:700; font-size:14px; margin-right:16px; background:linear-gradient(135deg,var(--blue),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.nav a { font-size:11px; font-family:'JetBrains Mono'; letter-spacing:1px; text-transform:uppercase; color:var(--gray); text-decoration:none; padding:6px 12px; border-radius:6px; border:1px solid transparent; transition:all 0.2s; }
+.nav a:hover { color:var(--cyan); border-color:rgba(0,212,255,0.2); background:rgba(0,212,255,0.05); }
+.nav .c { margin-left:auto; font-family:'JetBrains Mono'; font-size:11px; color:var(--gray); opacity:0.5; }
+
+/* Section */
+.section { max-width:1400px; margin:0 auto 60px; }
+.sec-head { display:flex; align-items:center; gap:14px; margin-bottom:10px; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.04); }
+.sec-head .icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; }
+.sec-head h2 { font-family:'Sora'; font-size:22px; font-weight:700; }
+.sec-head .cnt { font-family:'JetBrains Mono'; font-size:11px; color:var(--gray); margin-left:auto; }
+
+.row { display:flex; flex-wrap:wrap; gap:20px; margin-top:20px; align-items:flex-start; }
+.card { position:relative; }
+.card .lbl { font-family:'JetBrains Mono'; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray); margin-bottom:6px; display:flex; justify-content:space-between; }
+.card .lbl .d { opacity:0.5; }
+
+/* Shared */
+.grad { background:linear-gradient(135deg,var(--blue),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.grad-o { background:linear-gradient(135deg,var(--orange),#FFB347); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.grad-g { background:linear-gradient(135deg,var(--green),#69F0AE); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.grad-p { background:linear-gradient(135deg,var(--purple),#C084FC); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.orb { position:absolute; border-radius:50%; filter:blur(60px); pointer-events:none; }
+.grid-o { position:absolute; inset:0; background-image:linear-gradient(rgba(0,102,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,102,255,0.04) 1px,transparent 1px); background-size:28px 28px; pointer-events:none; }
+.badge { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:16px; font-family:'JetBrains Mono'; font-size:9px; letter-spacing:2px; text-transform:uppercase; width:fit-content; }
+.badge.c { background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); color:var(--cyan); }
+.badge.o { background:rgba(255,107,53,0.08); border:1px solid rgba(255,107,53,0.2); color:var(--orange); }
+.badge.g { background:rgba(0,230,118,0.08); border:1px solid rgba(0,230,118,0.2); color:var(--green); }
+.badge.p { background:rgba(139,92,246,0.08); border:1px solid rgba(139,92,246,0.2); color:var(--purple); }
+.badge .dot { width:5px; height:5px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.cta { display:inline-flex; align-items:center; gap:8px; background:var(--blue); color:white; font-weight:600; padding:10px 20px; border-radius:6px; font-size:12px; }
+.cta-sm { padding:8px 16px; font-size:11px; }
+
+/* Dark card base */
+.dk { position:relative; overflow:hidden; border-radius:4px; background:var(--black); }
+.dk > .ct { position:relative; z-index:2; height:100%; }
+
+/* ============================================
+   FACEBOOK PROFILE PICTURES
+   ============================================ */
+
+/* Square profile 170×170 (rendered at 340px for 2x) */
+.fp { width:170px; height:170px; }
+.fp > .ct { display:flex; align-items:center; justify-content:center; text-align:center; padding:16px; }
+.fp .initials { font-family:'Sora'; font-size:64px; font-weight:900; line-height:1; }
+.fp .sub { font-family:'JetBrains Mono'; font-size:7px; letter-spacing:2px; text-transform:uppercase; color:var(--gray); margin-top:4px; }
+
+/* Circular profile */
+.fpc { width:170px; height:170px; border-radius:50%; }
+.fpc > .ct { display:flex; align-items:center; justify-content:center; text-align:center; padding:16px; border-radius:50%; height:100%; }
+
+/* FB Cover variations */
+.fbc { width:560px; height:210px; }
+.fbc > .ct { padding:0 40px; display:flex; align-items:center; height:100%; }
+
+/* ============================================
+   TIKTOK BASE
+   ============================================ */
+.tt { width:270px; height:480px; border-radius:4px; }
+.tt > .ct { padding:24px 20px; display:flex; flex-direction:column; height:100%; }
+
+/* TikTok text styles */
+.tt-hook { font-family:'Sora'; font-size:22px; font-weight:800; line-height:1.15; }
+.tt-sub { font-size:12px; color:var(--gray); line-height:1.5; }
+.tt-handle { font-family:'JetBrains Mono'; font-size:9px; color:var(--gray); text-align:center; }
+.tt-tag { font-family:'JetBrains Mono'; font-size:9px; letter-spacing:2px; text-transform:uppercase; }
+.tt-big { font-family:'Sora'; font-size:28px; font-weight:800; line-height:1.1; }
+.tt-med { font-family:'Sora'; font-size:18px; font-weight:700; line-height:1.3; }
+.tt-emoji { font-size:36px; text-align:center; margin-bottom:12px; }
+.tt-list { display:flex; flex-direction:column; gap:6px; font-size:11px; }
+.tt-list span { color:var(--lgray); }
+.tt-vs { display:flex; flex-direction:column; height:100%; }
+.tt-vs-top, .tt-vs-bot { flex:1; display:flex; flex-direction:column; justify-content:center; padding:20px; }
+.tt-center { display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; height:100%; }
+.tt-num { position:absolute; top:16px; right:18px; font-family:'JetBrains Mono'; font-size:10px; color:var(--gray); opacity:0.4; }
+.tt-series { position:absolute; top:16px; left:20px; }
+.tt-bottom { margin-top:auto; text-align:center; }
+.tt-mid { margin:auto 0; }
+
+/* Crossed out text */
+.cross { text-decoration:line-through; text-decoration-thickness:2px; opacity:0.4; }
+.cross.r { color:var(--red); text-decoration-color:var(--red); }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="t">Printforge Pro — Expanded Pack (Part 1)</span>
+  <a href="#fb-profiles">FB Profiles</a>
+  <a href="#fb-extra">FB Extra</a>
+  <a href="#tt-new">TikTok 1-25</a>
+  <span class="c">40+ new assets</span>
+</div>
+
+<!-- ============================================================
+     FACEBOOK PROFILE PICTURES — 6 VARIATIONS
+     ============================================================ -->
+<div class="section" id="fb-profiles">
+  <div class="sec-head">
+    <div class="icon" style="background:#1877F2">f</div>
+    <h2>Facebook Profile Pictures</h2>
+    <span class="cnt">6 variations</span>
+  </div>
+
+  <div class="row">
+    <!-- FP1: Bold initials -->
+    <div class="card">
+      <div class="lbl">PFP 1: Bold Initials <span class="d">170×170</span></div>
+      <div class="dk fp" style="background:linear-gradient(135deg,#0B0B18,#001133)">
+        <div class="orb" style="width:120px;height:120px;background:var(--blue);top:-20px;right:-20px;opacity:0.3;filter:blur(40px)"></div>
+        <div class="ct">
+          <div>
+            <div class="initials grad">PF</div>
+            <div class="sub">Printforge</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FP2: Icon mark -->
+    <div class="card">
+      <div class="lbl">PFP 2: Logo Mark <span class="d">170×170</span></div>
+      <div class="dk fp" style="background:var(--blue)">
+        <div class="ct">
+          <div>
+            <div style="font-family:'Sora';font-size:72px;font-weight:900;color:white;line-height:1">P</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FP3: Gradient circle -->
+    <div class="card">
+      <div class="lbl">PFP 3: Circle Gradient <span class="d">170×170</span></div>
+      <div class="dk fpc" style="background:linear-gradient(135deg,var(--blue),var(--cyan))">
+        <div class="ct">
+          <div style="font-family:'Sora';font-size:56px;font-weight:900;color:white">PF</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FP4: Dark minimal -->
+    <div class="card">
+      <div class="lbl">PFP 4: Dark Minimal <span class="d">170×170</span></div>
+      <div class="dk fp" style="background:#0B0B14">
+        <div class="orb" style="width:100px;height:100px;background:var(--cyan);bottom:-20px;left:-20px;opacity:0.2;filter:blur(40px)"></div>
+        <div class="ct">
+          <div>
+            <div style="font-family:'Sora';font-size:14px;font-weight:800;color:var(--white);letter-spacing:2px">PRINTFORGE</div>
+            <div style="font-family:'Sora';font-size:14px;font-weight:800;letter-spacing:2px" class="grad">PRO</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FP5: Stacked badge -->
+    <div class="card">
+      <div class="lbl">PFP 5: Badge Style <span class="d">170×170</span></div>
+      <div class="dk fp" style="background:linear-gradient(160deg,#0D0D1A,#0A1428)">
+        <div class="ct">
+          <div style="border:2px solid rgba(0,102,255,0.3);border-radius:16px;padding:16px 20px;text-align:center">
+            <div style="font-family:'Sora';font-size:28px;font-weight:900;line-height:1" class="grad">PF</div>
+            <div style="font-family:'JetBrains Mono';font-size:7px;letter-spacing:2px;color:var(--gray);margin-top:6px">PRINTFORGE PRO</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FP6: 3D themed -->
+    <div class="card">
+      <div class="lbl">PFP 6: Maker Themed <span class="d">170×170</span></div>
+      <div class="dk fp" style="background:linear-gradient(160deg,#0B0B14,#001A0D)">
+        <div class="orb" style="width:100px;height:100px;background:var(--green);bottom:-10px;right:-10px;opacity:0.15;filter:blur(40px)"></div>
+        <div class="ct">
+          <div>
+            <div style="font-size:32px;margin-bottom:4px">🔧</div>
+            <div style="font-family:'Sora';font-size:11px;font-weight:700;color:var(--white)">PRINTFORGE</div>
+            <div style="font-family:'Sora';font-size:11px;font-weight:700" class="grad">PRO</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     EXTRA FACEBOOK ASSETS — 6
+     ============================================================ -->
+<div class="section" id="fb-extra">
+  <div class="sec-head">
+    <div class="icon" style="background:#1877F2">f</div>
+    <h2>Facebook — Extra Assets</h2>
+    <span class="cnt">6 assets</span>
+  </div>
+
+  <div class="row">
+    <!-- FB Cover: Printforge Pro brand -->
+    <div class="card">
+      <div class="lbl">Cover: Brand <span class="d">820×312</span></div>
+      <div class="dk fbc" style="background:radial-gradient(ellipse 70% 50% at 50% 55%,rgba(0,80,220,0.2),transparent),#0A0A12">
+        <div class="ct" style="justify-content:center;text-align:center;flex-direction:column;gap:12px">
+          <div style="font-family:'JetBrains Mono';font-size:11px;letter-spacing:4px;color:var(--orange)">🚀 NOW LIVE</div>
+          <div style="font-family:'Sora';font-size:42px;font-weight:900;line-height:0.95;filter:drop-shadow(0 0 30px rgba(0,100,255,0.3))" class="grad">Printforge<br>Pro</div>
+          <div style="font-size:13px;color:var(--gray)">Business management, built for makers.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- FB Cover: Feature focused -->
+    <div class="card">
+      <div class="lbl">Cover: Features <span class="d">820×312</span></div>
+      <div class="dk fbc" style="background:linear-gradient(135deg,#0B0B18,#0A1428,#0B0B18)">
+        <div class="grid-o"></div>
+        <div class="ct" style="gap:32px">
+          <div style="flex:1">
+            <div style="font-family:'Sora';font-size:26px;font-weight:800;line-height:1.1;margin-bottom:8px">Everything your<br>print shop needs.<br><span class="grad">One platform.</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:11px;color:var(--lgray)">
+            <div style="display:flex;align-items:center;gap:8px"><span style="color:var(--cyan)">✓</span> Cost Calculator</div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="color:var(--cyan)">✓</span> Smart Quoting</div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="color:var(--cyan)">✓</span> Kanban Job Board</div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="color:var(--cyan)">✓</span> Xero Invoicing</div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="color:var(--cyan)">✓</span> 🇦🇺 Aussie Made</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- FB Ad: Retargeting -->
+    <div class="card">
+      <div class="lbl">Ad: Retargeting <span class="d">1200×628</span></div>
+      <div class="dk" style="width:480px;height:252px;background:linear-gradient(135deg,#0B0B14,#001133)">
+        <div class="grid-o"></div>
+        <div class="ct" style="padding:28px 32px;display:flex;flex-direction:column;height:100%">
+          <div class="badge o"><span class="dot" style="background:var(--orange)"></span> Still thinking?</div>
+          <div style="font-family:'Sora';font-size:22px;font-weight:700;margin:auto 0;line-height:1.2">You checked out<br>Printforge Pro.<br><span class="grad">Here's why you should sign up.</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:11px;color:var(--gray)">Free to start · No credit card</div>
+            <div class="cta cta-sm">Sign Up Free →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FB Ad: Pain point -->
+    <div class="card">
+      <div class="lbl">Ad: Pain Point <span class="d">1200×628</span></div>
+      <div class="dk" style="width:480px;height:252px;background:linear-gradient(135deg,#0B0B14,#1A0A0A)">
+        <div class="ct" style="padding:28px 32px;display:flex;flex-direction:column;height:100%;justify-content:center">
+          <div style="font-family:'Sora';font-size:20px;font-weight:700;line-height:1.3;margin-bottom:14px">
+            <span style="color:var(--red);text-decoration:line-through;text-decoration-thickness:2px">Quoting from spreadsheets</span><br>
+            <span style="color:var(--red);text-decoration:line-through;text-decoration-thickness:2px">Losing track of jobs</span><br>
+            <span style="color:var(--red);text-decoration:line-through;text-decoration-thickness:2px">Manual invoicing</span><br>
+            <span class="grad" style="font-size:24px">Printforge Pro handles all of it.</span>
+          </div>
+          <div class="cta cta-sm" style="align-self:flex-start">Sign Up Free →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- FB post: Testimonial -->
+    <div class="card">
+      <div class="lbl">Post: Testimonial <span class="d">1200×628</span></div>
+      <div class="dk" style="width:480px;height:252px;background:linear-gradient(160deg,#0B0B14,#0A1225)">
+        <div class="ct" style="padding:28px 32px;display:flex;flex-direction:column;height:100%;justify-content:center">
+          <div style="font-family:'Sora';font-size:42px;color:var(--blue);opacity:0.3;line-height:1;margin-bottom:-8px">"</div>
+          <div style="font-family:'Sora';font-size:18px;font-weight:500;font-style:italic;color:var(--lgray);line-height:1.5;margin-bottom:16px">Finally something built for how we actually work. Quoting used to be my least favourite part of the business.</div>
+          <div style="font-size:12px;color:var(--gray)"><strong style="color:var(--white)">Print shop owner</strong> · Melbourne, AU</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FB post: Australian made -->
+    <div class="card">
+      <div class="lbl">Post: Aussie Made <span class="d">1200×628</span></div>
+      <div class="dk" style="width:480px;height:252px;background:linear-gradient(135deg,#0B0B14,#0A1A10)">
+        <div class="ct" style="padding:28px 32px;display:flex;flex-direction:column;height:100%;justify-content:center;text-align:center;align-items:center">
+          <div style="font-size:42px;margin-bottom:12px">🇦🇺</div>
+          <div style="font-family:'Sora';font-size:24px;font-weight:700;line-height:1.2;margin-bottom:8px">Proudly built in<br><span class="grad">Australia.</span></div>
+          <div style="font-size:12px;color:var(--gray);max-width:340px;line-height:1.5">GST, AUD, Xero, and workflows designed for how Aussie print shops actually run. No workarounds.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TIKTOK — 25 NEW POSTS (1-25)
+     ============================================================ -->
+<div class="section" id="tt-new">
+  <div class="sec-head">
+    <div class="icon" style="background:#000;border:1px solid rgba(255,255,255,0.1)">TT</div>
+    <h2>TikTok — New Content (1-25)</h2>
+    <span class="cnt">25 assets</span>
+  </div>
+
+  <!-- Row 1 -->
+  <div class="row">
+    <!-- TT01: Hook - spreadsheet pain -->
+    <div class="card">
+      <div class="lbl">TT01: Hook <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:linear-gradient(180deg,#0D0D1A,#000)">
+        <div class="orb" style="width:180px;height:180px;background:var(--blue);top:20%;left:-30px;opacity:0.2"></div>
+        <div class="ct">
+          <div class="badge o"><span class="dot" style="background:var(--orange)"></span> 3D Printing</div>
+          <div class="tt-mid" style="text-align:center">
+            <div class="tt-hook">POV: A customer asks for a quote and you open<br><br><span style="color:var(--red)">this spreadsheet</span></div>
+            <div style="font-size:42px;margin-top:16px">💀</div>
+          </div>
+          <div class="tt-handle">@printforgeau</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT02: This or That -->
+    <div class="card">
+      <div class="lbl">TT02: This or That <span class="d">1080×1920</span></div>
+      <div class="dk tt">
+        <div class="tt-vs ct">
+          <div class="tt-vs-top" style="background:rgba(255,60,60,0.06);border-bottom:2px solid rgba(255,60,60,0.15);text-align:center">
+            <div class="tt-tag" style="color:var(--red);margin-bottom:8px">❌ This</div>
+            <div class="tt-med">5 different apps<br>to run your<br>print shop</div>
+          </div>
+          <div class="tt-vs-bot" style="background:rgba(0,230,118,0.04);text-align:center">
+            <div class="tt-tag" style="color:var(--green);margin-bottom:8px">✓ That</div>
+            <div class="tt-med"><span class="grad">One platform</span><br>that does<br>everything</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT03: 3 reasons -->
+    <div class="card">
+      <div class="lbl">TT03: 3 Reasons <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:linear-gradient(160deg,#0B0B18,#0A0820)">
+        <div class="grid-o"></div>
+        <div class="ct" style="text-align:center">
+          <div class="tt-tag" style="color:var(--cyan)">3 Reasons Why</div>
+          <div class="tt-mid">
+            <div class="tt-big" style="margin-bottom:24px">Your 3D print shop needs<br><span class="grad">real software</span></div>
+            <div style="display:flex;flex-direction:column;gap:14px;text-align:left">
+              <div style="display:flex;gap:10px;align-items:flex-start">
+                <div style="font-family:'Sora';font-size:20px;font-weight:800;color:var(--cyan);min-width:28px">1.</div>
+                <div style="font-size:13px;color:var(--lgray)">Spreadsheets don't calculate true cost per part</div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start">
+                <div style="font-family:'Sora';font-size:20px;font-weight:800;color:var(--cyan);min-width:28px">2.</div>
+                <div style="font-size:13px;color:var(--lgray)">You lose jobs when they fall through the cracks</div>
+              </div>
+              <div style="display:flex;gap:10px;align-items:flex-start">
+                <div style="font-family:'Sora';font-size:20px;font-weight:800;color:var(--cyan);min-width:28px">3.</div>
+                <div style="font-size:13px;color:var(--lgray)">Manual invoicing wastes hours every week</div>
+              </div>
+            </div>
+          </div>
+          <div class="tt-bottom">
+            <div class="cta cta-sm" style="margin-bottom:6px">Sign Up Free →</div>
+            <div class="tt-handle">crm.printforge.com.au</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT04: Did you know -->
+    <div class="card">
+      <div class="lbl">TT04: Did You Know <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:#0B0B14">
+        <div class="orb" style="width:160px;height:160px;background:var(--purple);top:30%;right:-30px;opacity:0.15"></div>
+        <div class="ct" style="text-align:center">
+          <div class="tt-tag" style="color:var(--purple)">💡 Did You Know</div>
+          <div class="tt-mid">
+            <div class="tt-big">Most 3D print shops<br><span class="grad-o">undercharge</span><br>by 20-40%</div>
+            <div class="tt-sub" style="margin-top:16px;max-width:220px;margin-left:auto;margin-right:auto">Because they forget to factor in machine wear, power costs, and failed prints.</div>
+          </div>
+          <div class="tt-bottom">
+            <div style="font-family:'Sora';font-size:13px;font-weight:600;color:var(--cyan);margin-bottom:4px">Printforge Pro fixes this.</div>
+            <div class="tt-handle">crm.printforge.com.au</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT05: Unpopular opinion -->
+    <div class="card">
+      <div class="lbl">TT05: Unpopular Opinion <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:var(--dark)">
+        <div class="ct" style="text-align:center">
+          <div class="tt-tag" style="color:var(--orange)">🔥 Unpopular Opinion</div>
+          <div class="tt-mid">
+            <div class="tt-big">If you can't tell a customer your<br><span class="grad">exact cost per part</span><br>in 30 seconds...</div>
+            <div class="tt-sub" style="margin-top:16px">you're running a hobby,<br>not a business.</div>
+          </div>
+          <div class="tt-bottom">
+            <div style="font-size:11px;color:var(--gray)">Agree? 👇 Comment below</div>
+            <div class="tt-handle" style="margin-top:6px">@printforgeau</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2 -->
+  <div class="row">
+    <!-- TT06: Day in the life -->
+    <div class="card">
+      <div class="lbl">TT06: Day in the Life <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:linear-gradient(180deg,rgba(0,102,255,0.08),#0A0A10 40%)">
+        <div class="ct">
+          <div class="tt-tag" style="color:var(--cyan)">📅 Day in the Life</div>
+          <div class="tt-mid" style="text-align:center">
+            <div class="tt-hook">Running a 3D print shop<br>with <span class="grad">Printforge Pro</span></div>
+            <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px;text-align:left">
+              <div style="font-size:12px;color:var(--lgray)"><span style="color:var(--cyan)">8:00</span> — Check kanban board for today's jobs</div>
+              <div style="font-size:12px;color:var(--lgray)"><span style="color:var(--cyan)">8:15</span> — Quote comes in, done in 5 min</div>
+              <div style="font-size:12px;color:var(--lgray)"><span style="color:var(--cyan)">10:00</span> — Drag job to "printing" column</div>
+              <div style="font-size:12px;color:var(--lgray)"><span style="color:var(--cyan)">14:00</span> — Job done → 1-click Xero invoice</div>
+              <div style="font-size:12px;color:var(--lgray)"><span style="color:var(--cyan)">14:02</span> — Customer pays. Done. 🎉</div>
+            </div>
+          </div>
+          <div class="tt-handle">@printforgeau</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT07: Things I wish I knew -->
+    <div class="card">
+      <div class="lbl">TT07: Things I Wish <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:#0B0B14">
+        <div class="grid-o"></div>
+        <div class="ct" style="text-align:center">
+          <div class="tt-tag" style="color:var(--green)">💭 Things I Wish I Knew</div>
+          <div class="tt-mid">
+            <div class="tt-hook">Before starting my 3D print business</div>
+            <div style="margin-top:20px;display:flex;flex-direction:column;gap:12px;text-align:left">
+              <div style="font-size:12px;color:var(--lgray)"><span style="color:var(--green)">✓</span> Your filament cost is only 30% of total cost</div>
+              <div style="font-size:12px;color:var(--lgray)"><span style="color:var(--green)">✓</span> Time is your biggest hidden expense</div>
+              <div style="font-size:12px;color:var(--lgray)"><span style="color:var(--green)">✓</span> Failed prints need to be factored in</div>
+              <div style="font-size:12px;color:var(--lgray)"><span style="color:var(--green)">✓</span> Professional quoting wins more jobs</div>
+              <div style="font-size:12px;color:var(--lgray)"><span style="color:var(--green)">✓</span> A real system saves hours every week</div>
+            </div>
+          </div>
+          <div class="tt-bottom">
+            <div style="font-size:11px;color:var(--cyan)">Printforge Pro handles all of this ☝️</div>
+            <div class="tt-handle" style="margin-top:4px">@printforgeau</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT08: Comment bait -->
+    <div class="card">
+      <div class="lbl">TT08: Comment Bait <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:var(--dark)">
+        <div class="ct tt-center">
+          <div class="tt-emoji">🤔</div>
+          <div class="tt-big">What's the hardest part of running a 3D print business?</div>
+          <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px;width:100%">
+            <div style="background:rgba(0,102,255,0.08);border:1px solid rgba(0,102,255,0.15);border-radius:10px;padding:12px;font-size:12px;text-align:center">A) Quoting accurately</div>
+            <div style="background:rgba(0,102,255,0.08);border:1px solid rgba(0,102,255,0.15);border-radius:10px;padding:12px;font-size:12px;text-align:center">B) Tracking jobs</div>
+            <div style="background:rgba(0,102,255,0.08);border:1px solid rgba(0,102,255,0.15);border-radius:10px;padding:12px;font-size:12px;text-align:center">C) Getting paid on time</div>
+            <div style="background:rgba(0,102,255,0.08);border:1px solid rgba(0,102,255,0.15);border-radius:10px;padding:12px;font-size:12px;text-align:center">D) All of the above 😅</div>
+          </div>
+          <div class="tt-handle" style="margin-top:auto">Drop your answer 👇</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT09: Storytime -->
+    <div class="card">
+      <div class="lbl">TT09: Storytime <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:linear-gradient(160deg,#0B0B14,#0A1225)">
+        <div class="ct" style="text-align:center">
+          <div class="tt-tag" style="color:var(--orange)">📖 Storytime</div>
+          <div class="tt-mid">
+            <div class="tt-hook">I was quoting a $200 job<br><br>Then I calculated the <span style="color:var(--red)">real cost</span><br><br>It was $180 in materials alone</div>
+            <div style="font-size:36px;margin-top:16px">😳</div>
+            <div class="tt-sub" style="margin-top:12px">That's when I realised I needed proper costing software.</div>
+          </div>
+          <div class="tt-bottom">
+            <div style="font-size:11px;color:var(--cyan)">Now I use Printforge Pro</div>
+            <div class="tt-handle" style="margin-top:4px">@printforgeau</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT10: Myth busting -->
+    <div class="card">
+      <div class="lbl">TT10: Myth Busting <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:#0B0B14">
+        <div class="ct" style="text-align:center">
+          <div class="tt-tag" style="color:var(--red)">🚫 Myth vs Reality</div>
+          <div class="tt-mid">
+            <div style="font-family:'Sora';font-size:16px;font-weight:600;color:var(--red);text-decoration:line-through;text-decoration-thickness:2px;margin-bottom:16px">"I just need to charge more than the filament costs"</div>
+            <div class="tt-big"><span class="grad">Reality:</span></div>
+            <div class="tt-sub" style="margin-top:12px;font-size:13px;line-height:1.6">
+              You need to factor in:<br>
+              ⚡ Electricity<br>
+              ⏱️ Print time<br>
+              🔧 Machine wear<br>
+              ❌ Failed print rate<br>
+              💰 Your actual profit margin
+            </div>
+          </div>
+          <div class="tt-bottom">
+            <div class="cta cta-sm" style="margin-bottom:6px">Calculate True Costs →</div>
+            <div class="tt-handle">crm.printforge.com.au</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 3 -->
+  <div class="row">
+    <!-- TT11: Green flag / Red flag -->
+    <div class="card">
+      <div class="lbl">TT11: Green/Red Flags <span class="d">1080×1920</span></div>
+      <div class="dk tt">
+        <div class="tt-vs ct">
+          <div class="tt-vs-top" style="background:rgba(255,60,60,0.05);border-bottom:2px solid rgba(255,60,60,0.12)">
+            <div class="tt-tag" style="color:var(--red);margin-bottom:10px">🚩 Red Flags</div>
+            <div class="tt-list">
+              <span>Quoting from memory</span>
+              <span>Jobs on sticky notes</span>
+              <span>Invoicing in Word docs</span>
+              <span>"I'll figure out the cost later"</span>
+            </div>
+          </div>
+          <div class="tt-vs-bot" style="background:rgba(0,230,118,0.03)">
+            <div class="tt-tag" style="color:var(--green);margin-bottom:10px">🟢 Green Flags</div>
+            <div class="tt-list">
+              <span>Automated cost calculator</span>
+              <span>Kanban job board</span>
+              <span>1-click Xero invoicing</span>
+              <span>Knowing your profit per job</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT12: The math -->
+    <div class="card">
+      <div class="lbl">TT12: The Math <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:var(--dark)">
+        <div class="ct" style="text-align:center">
+          <div class="tt-tag" style="color:var(--cyan)">🧮 Let's Do The Math</div>
+          <div class="tt-mid">
+            <div style="display:flex;flex-direction:column;gap:8px;text-align:left;font-family:'JetBrains Mono';font-size:12px">
+              <div style="color:var(--lgray)">Filament cost: <span style="color:var(--white)">$4.20</span></div>
+              <div style="color:var(--lgray)">Print time (6h): <span style="color:var(--white)">$3.00</span></div>
+              <div style="color:var(--lgray)">Electricity: <span style="color:var(--white)">$0.90</span></div>
+              <div style="color:var(--lgray)">Machine wear: <span style="color:var(--white)">$1.50</span></div>
+              <div style="color:var(--lgray)">Failed print rate: <span style="color:var(--white)">$0.80</span></div>
+              <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:8px;margin-top:4px">
+                <span style="color:var(--white)">True cost: </span><span style="color:var(--cyan);font-weight:700">$10.40</span>
+              </div>
+              <div style="margin-top:4px;color:var(--red)">You charged: $8.00 💀</div>
+            </div>
+          </div>
+          <div class="tt-bottom">
+            <div style="font-size:12px;font-weight:600;color:var(--cyan)">Stop guessing. Start calculating.</div>
+            <div class="tt-handle" style="margin-top:4px">@printforgeau</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT13: Workflow comparison -->
+    <div class="card">
+      <div class="lbl">TT13: Old vs New <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:#0B0B14">
+        <div class="ct" style="text-align:center">
+          <div class="tt-tag" style="color:var(--orange)">⚡ Speed Run</div>
+          <div class="tt-mid">
+            <div class="tt-big" style="margin-bottom:20px">Quoting a job</div>
+            <div style="display:flex;flex-direction:column;gap:12px;text-align:left">
+              <div style="padding:10px 14px;background:rgba(255,60,60,0.06);border-radius:8px;border-left:3px solid var(--red)">
+                <div style="font-size:10px;color:var(--red);font-family:'JetBrains Mono';letter-spacing:1px;margin-bottom:4px">OLD WAY — 45 MIN</div>
+                <div style="font-size:11px;color:var(--lgray)">Open Excel → find template → Google filament prices → guess time → calculate manually → format in Word → email as PDF</div>
+              </div>
+              <div style="padding:10px 14px;background:rgba(0,230,118,0.04);border-radius:8px;border-left:3px solid var(--green)">
+                <div style="font-size:10px;color:var(--green);font-family:'JetBrains Mono';letter-spacing:1px;margin-bottom:4px">PRINTFORGE PRO — 5 MIN</div>
+                <div style="font-size:11px;color:var(--lgray)">Select material → set parameters → costs auto-calculated → send branded quote → done ✓</div>
+              </div>
+            </div>
+          </div>
+          <div class="tt-handle" style="margin-top:auto">@printforgeau</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT14: Checklist -->
+    <div class="card">
+      <div class="lbl">TT14: Checklist <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:linear-gradient(160deg,#0B0B18,#001133)">
+        <div class="ct" style="text-align:center">
+          <div class="tt-tag" style="color:var(--cyan)">✅ Print Shop Checklist</div>
+          <div class="tt-mid">
+            <div class="tt-hook" style="margin-bottom:20px">Is your print shop<br><span class="grad">business-ready?</span></div>
+            <div style="display:flex;flex-direction:column;gap:10px;text-align:left">
+              <div style="font-size:12px;color:var(--lgray)">☐ Know true cost per part?</div>
+              <div style="font-size:12px;color:var(--lgray)">☐ Professional branded quotes?</div>
+              <div style="font-size:12px;color:var(--lgray)">☐ Job tracking system?</div>
+              <div style="font-size:12px;color:var(--lgray)">☐ Automated invoicing?</div>
+              <div style="font-size:12px;color:var(--lgray)">☐ Xero/accounting integration?</div>
+              <div style="font-size:12px;color:var(--lgray)">☐ All in one platform?</div>
+            </div>
+            <div style="margin-top:16px;font-size:12px;color:var(--cyan);font-weight:600">Printforge Pro ✓ all boxes</div>
+          </div>
+          <div class="tt-handle" style="margin-top:auto">crm.printforge.com.au</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT15: Stop scrolling -->
+    <div class="card">
+      <div class="lbl">TT15: Stop Scroll <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:radial-gradient(circle at center,rgba(255,107,53,0.12),var(--black) 60%)">
+        <div class="ct tt-center">
+          <div style="font-family:'Sora';font-size:14px;font-weight:600;color:var(--orange);margin-bottom:24px">⚠️ STOP SCROLLING</div>
+          <div class="tt-big">If you run a<br>3D print shop<br><br><span class="grad">this is for you.</span></div>
+          <div class="tt-sub" style="margin-top:20px">Free business management software.<br>Built specifically for 3D printing businesses.<br>Australian made. 🇦🇺</div>
+          <div class="tt-handle" style="margin-top:auto">Link in bio 👆</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 4 -->
+  <div class="row">
+    <!-- TT16: Feature drop -->
+    <div class="card">
+      <div class="lbl">TT16: Feature Drop <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:linear-gradient(160deg,#0B0B18,#0A0820)">
+        <div class="ct" style="text-align:center">
+          <div class="badge p"><span class="dot" style="background:var(--purple)"></span> Feature Spotlight</div>
+          <div class="tt-mid">
+            <div style="font-size:40px;margin-bottom:12px">📊</div>
+            <div class="tt-big">Kanban<br><span class="grad-p">Job Board</span></div>
+            <div class="tt-sub" style="margin-top:12px">Drag jobs between columns.<br>See every job at a glance.<br>Never lose track of a print again.</div>
+          </div>
+          <div class="tt-bottom">
+            <div class="cta cta-sm" style="background:var(--purple);margin-bottom:6px">Try It Free →</div>
+            <div class="tt-handle">@printforgeau</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT17: Feature drop 2 -->
+    <div class="card">
+      <div class="lbl">TT17: Feature: Cost Calc <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:linear-gradient(160deg,#0B0B18,#001A0D)">
+        <div class="ct" style="text-align:center">
+          <div class="badge g"><span class="dot"></span> Feature Spotlight</div>
+          <div class="tt-mid">
+            <div style="font-size:40px;margin-bottom:12px">💰</div>
+            <div class="tt-big">Smart<br><span class="grad-g">Cost Calculator</span></div>
+            <div class="tt-sub" style="margin-top:12px">Filament + print time + power<br>+ machine wear + profit margin<br>= your real price per part.</div>
+          </div>
+          <div class="tt-bottom">
+            <div class="cta cta-sm" style="background:var(--green);color:var(--black);margin-bottom:6px">Calculate Free →</div>
+            <div class="tt-handle">@printforgeau</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT18: Feature: Xero -->
+    <div class="card">
+      <div class="lbl">TT18: Feature: Xero <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:linear-gradient(160deg,#0B0B18,#0A1428)">
+        <div class="ct" style="text-align:center">
+          <div class="badge c"><span class="dot"></span> Feature Spotlight</div>
+          <div class="tt-mid">
+            <div style="font-size:40px;margin-bottom:12px">🧾</div>
+            <div class="tt-big">1-Click<br><span class="grad">Xero Invoicing</span></div>
+            <div class="tt-sub" style="margin-top:12px">Quote approved?<br>One click → invoice in Xero.<br>GST calculated. Customer synced.</div>
+          </div>
+          <div class="tt-bottom">
+            <div class="cta cta-sm" style="margin-bottom:6px">Connect Xero Free →</div>
+            <div class="tt-handle">@printforgeau</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT19: Relatable -->
+    <div class="card">
+      <div class="lbl">TT19: Relatable <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:var(--dark)">
+        <div class="ct tt-center">
+          <div class="tt-emoji">😤</div>
+          <div class="tt-med" style="color:var(--lgray)">
+            When you spend<br><strong style="color:var(--white)">45 minutes</strong><br>building a quote<br><br>and the customer<br>says<br><br><strong style="color:var(--orange);font-size:24px">"actually nah"</strong>
+          </div>
+          <div class="tt-handle" style="margin-top:auto">@printforgeau · At least it only takes 5 min now 😅</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT20: Aussie pride -->
+    <div class="card">
+      <div class="lbl">TT20: Aussie Pride <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:linear-gradient(160deg,#0B0B14,#0A1A10)">
+        <div class="ct tt-center">
+          <div style="font-size:56px;margin-bottom:16px">🇦🇺</div>
+          <div class="tt-big">Built in Australia<br>for<br><span class="grad">Australian makers.</span></div>
+          <div class="tt-sub" style="margin-top:16px">GST native. AUD native.<br>Xero native. No workarounds.<br><br>Because Aussie print shops<br>deserve Aussie software.</div>
+          <div class="tt-handle" style="margin-top:auto">@printforgeau</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 5 -->
+  <div class="row">
+    <!-- TT21: Conversation screenshot style -->
+    <div class="card">
+      <div class="lbl">TT21: Fake DM <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:#0B0B14">
+        <div class="ct" style="justify-content:center">
+          <div class="tt-tag" style="color:var(--gray);text-align:center;margin-bottom:16px">Messages</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="align-self:flex-start;background:var(--surface);border-radius:14px 14px 14px 4px;padding:10px 14px;max-width:80%;font-size:12px;color:var(--lgray)">Hey can I get a quote for 20x of these brackets?</div>
+            <div style="align-self:flex-end;background:var(--blue);border-radius:14px 14px 4px 14px;padding:10px 14px;max-width:80%;font-size:12px">Sure! Give me 5 minutes</div>
+            <div style="align-self:flex-start;background:var(--surface);border-radius:14px 14px 14px 4px;padding:10px 14px;max-width:80%;font-size:12px;color:var(--lgray)">Wow that was fast. Looks super professional too 👀</div>
+            <div style="align-self:flex-end;background:var(--blue);border-radius:14px 14px 4px 14px;padding:10px 14px;max-width:80%;font-size:12px">Printforge Pro makes it easy 😎</div>
+            <div style="align-self:flex-start;background:var(--surface);border-radius:14px 14px 14px 4px;padding:10px 14px;max-width:80%;font-size:12px;color:var(--lgray)">Let's go ahead. Can you invoice me?</div>
+            <div style="align-self:flex-end;background:var(--blue);border-radius:14px 14px 4px 14px;padding:10px 14px;max-width:80%;font-size:12px">Done ✓ Check your email</div>
+          </div>
+          <div style="text-align:center;margin-top:auto;font-size:11px;color:var(--cyan)">Quote → Invoice in under 10 min</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT22: Starter pack -->
+    <div class="card">
+      <div class="lbl">TT22: Starter Pack <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:var(--dark)">
+        <div class="ct" style="text-align:center">
+          <div class="tt-tag" style="color:var(--orange)">The "I Run A 3D Print Shop" Starter Pack</div>
+          <div class="tt-mid">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+              <div style="background:rgba(255,60,60,0.06);border-radius:10px;padding:14px;font-size:11px;color:var(--lgray)">📊 37 tabs in Excel</div>
+              <div style="background:rgba(255,60,60,0.06);border-radius:10px;padding:14px;font-size:11px;color:var(--lgray)">📱 Customer DMs everywhere</div>
+              <div style="background:rgba(255,60,60,0.06);border-radius:10px;padding:14px;font-size:11px;color:var(--lgray)">📝 Quotes in Word docs</div>
+              <div style="background:rgba(255,60,60,0.06);border-radius:10px;padding:14px;font-size:11px;color:var(--lgray)">🤷 "I think it costs about..."</div>
+              <div style="background:rgba(255,60,60,0.06);border-radius:10px;padding:14px;font-size:11px;color:var(--lgray)">⏰ 45 min per quote</div>
+              <div style="background:rgba(255,60,60,0.06);border-radius:10px;padding:14px;font-size:11px;color:var(--lgray)">💸 "Where's my money?"</div>
+            </div>
+          </div>
+          <div class="tt-bottom">
+            <div style="font-size:12px;font-weight:600;color:var(--cyan)">Sound familiar? 👀</div>
+            <div class="tt-handle" style="margin-top:4px">@printforgeau · There's a better way</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT23: Number hook -->
+    <div class="card">
+      <div class="lbl">TT23: Number Hook <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:radial-gradient(circle at center,rgba(0,102,255,0.12),var(--black) 60%)">
+        <div class="ct tt-center">
+          <div style="font-family:'Sora';font-size:80px;font-weight:900" class="grad">5</div>
+          <div style="font-family:'Sora';font-size:14px;font-weight:400;color:var(--gray);margin-bottom:24px">minutes</div>
+          <div class="tt-big">That's all it takes<br>to send a<br><span class="grad">professional quote</span></div>
+          <div class="tt-sub" style="margin-top:16px">With true cost calculation,<br>your branding, and Xero ready.</div>
+          <div class="tt-handle" style="margin-top:auto">crm.printforge.com.au</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT24: Would you rather -->
+    <div class="card">
+      <div class="lbl">TT24: Would You Rather <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:#0B0B14">
+        <div class="ct" style="text-align:center">
+          <div class="tt-tag" style="color:var(--purple)">🤔 Would You Rather</div>
+          <div class="tt-mid">
+            <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px">
+              <div style="background:rgba(255,60,60,0.06);border:1px solid rgba(255,60,60,0.12);border-radius:12px;padding:18px;font-family:'Sora';font-size:14px;font-weight:600;line-height:1.4">
+                Spend <span style="color:var(--red)">45 minutes</span><br>on every quote
+              </div>
+              <div style="font-family:'Sora';font-size:14px;font-weight:700;color:var(--gray)">— or —</div>
+              <div style="background:rgba(0,230,118,0.04);border:1px solid rgba(0,230,118,0.12);border-radius:12px;padding:18px;font-family:'Sora';font-size:14px;font-weight:600;line-height:1.4">
+                Have it done in <span style="color:var(--green)">5 minutes</span><br>with true costs calculated
+              </div>
+            </div>
+          </div>
+          <div class="tt-bottom">
+            <div style="font-size:11px;color:var(--gray)">Comment A or B 👇</div>
+            <div class="tt-handle" style="margin-top:4px">@printforgeau</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TT25: Free announcement -->
+    <div class="card">
+      <div class="lbl">TT25: It's Free <span class="d">1080×1920</span></div>
+      <div class="dk tt" style="background:radial-gradient(circle at center,rgba(0,230,118,0.1),var(--black) 60%)">
+        <div class="ct tt-center">
+          <div class="badge g"><span class="dot"></span> Announcement</div>
+          <div style="margin:auto 0">
+            <div style="font-family:'Sora';font-size:64px;font-weight:900" class="grad-g">$0</div>
+            <div class="tt-big" style="margin-top:12px">Printforge Pro<br>is <span class="grad-g">free to start.</span></div>
+            <div class="tt-sub" style="margin-top:12px">No credit card. No trial limit.<br>Just sign up and start managing<br>your print shop properly.</div>
+          </div>
+          <div class="cta cta-sm" style="background:var(--green);color:var(--black);margin-bottom:6px">Sign Up Free →</div>
+          <div class="tt-handle">crm.printforge.com.au</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:30px;color:var(--gray);font-size:11px;border-top:1px solid rgba(255,255,255,0.04);margin-top:20px">
+  Part 1 of 2 · Continues in Part 2 with TikTok 26-50
+</div>
+
+</body>
+</html>

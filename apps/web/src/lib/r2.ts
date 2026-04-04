@@ -9,7 +9,7 @@ export const r2 = new S3Client({
   },
 });
 
-export const R2_BUCKET = process.env.R2_BUCKET_NAME ?? "adpilot-media";
+export const R2_BUCKET = process.env.R2_BUCKET_NAME ?? "reachpilot-media";
 export const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL ?? "";
 
 export async function uploadToR2(

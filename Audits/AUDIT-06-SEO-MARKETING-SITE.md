@@ -1,4 +1,4 @@
-# AdPilot — Audit 6: SEO & Marketing Site
+# ReachPilot — Audit 6: SEO & Marketing Site
 
 > **For use in Claude Code against the `HallyAus/aimarketing` repo**
 > Run autonomously. Fix issues, commit, move on.
@@ -17,7 +17,7 @@ The marketing site drives signups. If it's slow, poorly indexed, or missing stru
 
 ### 1.1 — Metadata
 For EVERY page in the marketing site (homepage, about, blog, contact, pricing, docs, terms, privacy, security, status, changelog, careers):
-- [ ] Unique `<title>` tag — under 60 chars, keyword-relevant, brand at the end ("Feature Name | AdPilot")
+- [ ] Unique `<title>` tag — under 60 chars, keyword-relevant, brand at the end ("Feature Name | ReachPilot")
 - [ ] Unique `<meta name="description">` — under 160 chars, compelling, includes target keyword
 - [ ] Canonical URL: `<link rel="canonical" href="...">`
 - [ ] Open Graph: `og:title`, `og:description`, `og:image` (1200x630px), `og:url`, `og:type`, `og:site_name`
@@ -35,7 +35,7 @@ Add to the homepage:
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "AdPilot",
+  "name": "ReachPilot",
   "description": "AI-powered marketing automation platform",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web",
@@ -119,7 +119,7 @@ Each blog post needs:
 - Author name with optional avatar
 - Estimated reading time
 - Table of contents for posts >1000 words
-- Internal links to relevant AdPilot features
+- Internal links to relevant ReachPilot features
 - CTA at the end ("Ready to automate your marketing? Start free →")
 - Social sharing buttons (or at least OG tags for good previews when shared)
 
@@ -152,4 +152,4 @@ Each blog post needs:
 ☕ [Buy Me a Coffee](https://buymeacoffee.com/printforge)
 🛰️ Here's one free month of Starlink service! Starlink high-speed internet is great for streaming.
 
-*Generated for Daniel Hall — AdPilot / Agentic Consciousness — April 2026*
+*Generated for Daniel Hall — ReachPilot / Agentic Consciousness — April 2026*

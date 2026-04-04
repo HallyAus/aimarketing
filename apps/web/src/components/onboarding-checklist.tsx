@@ -29,7 +29,7 @@ export function OnboardingChecklist({
   // Persist dismissal in localStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("adpilot_onboarding_dismissed");
+      const stored = localStorage.getItem("reachpilot_onboarding_dismissed");
       if (stored === "true") setDismissed(true);
     }
   }, []);
@@ -37,7 +37,7 @@ export function OnboardingChecklist({
   function handleDismiss() {
     setDismissed(true);
     if (typeof window !== "undefined") {
-      localStorage.setItem("adpilot_onboarding_dismissed", "true");
+      localStorage.setItem("reachpilot_onboarding_dismissed", "true");
     }
   }
 

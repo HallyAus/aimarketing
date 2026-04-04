@@ -1,8 +1,8 @@
 // ---------------------------------------------------------------------------
-// Branded HTML email templates for AdPilot
+// Branded HTML email templates for ReachPilot
 // ---------------------------------------------------------------------------
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.adpilot.com";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.reachpilot.com";
 const ACCENT = "#7c3aed";
 
 // ---------------------------------------------------------------------------
@@ -19,13 +19,13 @@ function layout(body: string): string {
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08)">
         <!-- Header -->
         <tr><td style="background:${ACCENT};padding:24px 32px">
-          <span style="font-size:22px;font-weight:700;color:#ffffff;letter-spacing:-.3px">AdPilot</span>
+          <span style="font-size:22px;font-weight:700;color:#ffffff;letter-spacing:-.3px">ReachPilot</span>
         </td></tr>
         <!-- Body -->
         <tr><td style="padding:32px">${body}</td></tr>
         <!-- Footer -->
         <tr><td style="padding:16px 32px;border-top:1px solid #e4e4e7;font-size:12px;color:#a1a1aa;text-align:center">
-          &copy; ${new Date().getFullYear()} AdPilot. All rights reserved.
+          &copy; ${new Date().getFullYear()} ReachPilot. All rights reserved.
         </td></tr>
       </table>
     </td></tr>
@@ -70,7 +70,7 @@ export function adminCreatedUserEmail({
   const html = layout(
     paragraph(`${greeting}`) +
       paragraph(
-        `${adminName} has created an account for you${orgLine} on AdPilot. To get started, set up your password using the link below.`,
+        `${adminName} has created an account for you${orgLine} on ReachPilot. To get started, set up your password using the link below.`,
       ) +
       button("Set Up Your Account", setupUrl) +
       paragraph(
@@ -81,10 +81,10 @@ export function adminCreatedUserEmail({
       ),
   );
 
-  const text = `${greeting}\n\n${adminName} has created an AdPilot account for you${orgName ? ` at ${orgName}` : ""}. Set up your password: ${setupUrl}\n\nEmail: ${email}\n\nThis link expires in 24 hours.`;
+  const text = `${greeting}\n\n${adminName} has created an ReachPilot account for you${orgName ? ` at ${orgName}` : ""}. Set up your password: ${setupUrl}\n\nEmail: ${email}\n\nThis link expires in 24 hours.`;
 
   return {
-    subject: `You have been invited to AdPilot${orgName ? ` — ${orgName}` : ""}`,
+    subject: `You have been invited to ReachPilot${orgName ? ` — ${orgName}` : ""}`,
     html,
     text,
   };
@@ -115,7 +115,7 @@ export function teamInviteEmail({
 
   const html = layout(
     paragraph(
-      `<strong>${inviterName}</strong> has invited you to join <strong>${orgName}</strong> on AdPilot as a <strong>${role}</strong>.`,
+      `<strong>${inviterName}</strong> has invited you to join <strong>${orgName}</strong> on ReachPilot as a <strong>${role}</strong>.`,
     ) +
       msgBlock +
       button("Accept Invitation", inviteUrl) +
@@ -124,10 +124,10 @@ export function teamInviteEmail({
       ),
   );
 
-  const text = `${inviterName} has invited you to join ${orgName} on AdPilot as a ${role}.${message ? `\n\nMessage: ${message}` : ""}\n\nAccept: ${inviteUrl}\n\nThis invitation expires in 7 days.`;
+  const text = `${inviterName} has invited you to join ${orgName} on ReachPilot as a ${role}.${message ? `\n\nMessage: ${message}` : ""}\n\nAccept: ${inviteUrl}\n\nThis invitation expires in 7 days.`;
 
   return {
-    subject: `${inviterName} invited you to ${orgName} on AdPilot`,
+    subject: `${inviterName} invited you to ${orgName} on ReachPilot`,
     html,
     text,
   };
@@ -155,7 +155,7 @@ export function emailVerificationEmail({ name, token }: EmailVerificationInput) 
 
   const text = `${greeting}\n\nVerify your email: ${verifyUrl}\n\nThis link expires in 24 hours.`;
 
-  return { subject: "Verify your AdPilot email", html, text };
+  return { subject: "Verify your ReachPilot email", html, text };
 }
 
 // ---------------------------------------------------------------------------
@@ -182,7 +182,7 @@ export function passwordResetEmail({ name, token }: PasswordResetInput) {
 
   const text = `${greeting}\n\nReset your password: ${resetUrl}\n\nThis link expires in 1 hour.`;
 
-  return { subject: "Reset your AdPilot password", html, text };
+  return { subject: "Reset your ReachPilot password", html, text };
 }
 
 // ---------------------------------------------------------------------------
@@ -214,7 +214,7 @@ export function inviteAcceptedNotification({
   const text = `Hi ${inviterName},\n\n${displayName} (${acceptedEmail}) has accepted your invitation and joined ${orgName}.\n\nDashboard: ${dashboardUrl}`;
 
   return {
-    subject: `${displayName} joined ${orgName} on AdPilot`,
+    subject: `${displayName} joined ${orgName} on ReachPilot`,
     html,
     text,
   };

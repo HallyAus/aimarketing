@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import type { Platform } from "@/lib/db";
-import { getWebhookVerifier } from "@adpilot/platform-sdk";
+import { getWebhookVerifier } from "@reachpilot/platform-sdk";
 import { createHash } from "crypto";
 
 export async function POST(

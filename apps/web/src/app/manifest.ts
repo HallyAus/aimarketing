@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "AdPilot",
-    short_name: "AdPilot",
+    name: "ReachPilot",
+    short_name: "ReachPilot",
     description: "AI-powered marketing automation across every social platform",
     start_url: "/dashboard",
     display: "standalone",

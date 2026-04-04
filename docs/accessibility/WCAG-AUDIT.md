@@ -1,4 +1,4 @@
-# AdPilot WCAG 2.1 AA Accessibility Audit
+# ReachPilot WCAG 2.1 AA Accessibility Audit
 
 **Date:** April 3, 2026
 **Scope:** Full application (marketing site, dashboard, admin, auth forms)
@@ -8,7 +8,7 @@
 
 ## Summary
 
-AdPilot's codebase had a solid accessibility foundation. This audit identified and fixed 12 high-impact issues across keyboard navigation, screen reader support, form labeling, and motion preferences. The remaining items are lower priority and documented below for future work.
+ReachPilot's codebase had a solid accessibility foundation. This audit identified and fixed 12 high-impact issues across keyboard navigation, screen reader support, form labeling, and motion preferences. The remaining items are lower priority and documented below for future work.
 
 ---
 

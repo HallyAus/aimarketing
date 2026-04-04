@@ -1,4 +1,4 @@
-# AdPilot Compliance Audit
+# ReachPilot Compliance Audit
 
 > **[DRAFT — REQUIRES LEGAL REVIEW]**
 > Generated: April 3, 2026
@@ -33,10 +33,10 @@
 |---|---|---|
 | Right to Know | Implemented | Data export API provides all collected personal information |
 | Right to Delete | Implemented | Account deletion API with 7-day grace period |
-| Right to Opt-Out of Sale | Compliant | AdPilot does not sell personal data |
+| Right to Opt-Out of Sale | Compliant | ReachPilot does not sell personal data |
 | Right to Non-Discrimination | Compliant | No service degradation for exercising privacy rights |
 | Privacy Policy Disclosure | Implemented (DRAFT) | `/privacy` page includes CCPA section |
-| "Do Not Sell" Link | N/A | AdPilot does not sell data; disclosure included in privacy policy |
+| "Do Not Sell" Link | N/A | ReachPilot does not sell data; disclosure included in privacy policy |
 | Financial Incentive Notice | N/A | No financial incentives offered for data collection |
 
 **Overall CCPA Status: Substantially compliant. Formal legal review required.**
@@ -120,7 +120,7 @@ The following items require review by a qualified legal professional before prod
 ### Consent Management
 - **Cookie Consent Banner**: `cookie-consent.tsx` — shows before non-essential scripts load
 - **Granular Consent**: Essential (always on), Analytics (PostHog), Marketing (optional)
-- **Consent Storage**: `adpilot-consent` cookie with 1-year expiry
+- **Consent Storage**: `reachpilot-consent` cookie with 1-year expiry
 - **Revocable Consent**: "Cookie Preferences" link in footer
 - **Conditional Loading**: PostHog only initialized when analytics consent is given
 

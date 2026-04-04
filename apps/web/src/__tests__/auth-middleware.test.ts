@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { ROLE_HIERARCHY } from "@adpilot/shared";
+import { ROLE_HIERARCHY } from "@reachpilot/shared";
 
 function hasMinimumRole(userRole: string, requiredRole: string): boolean {
   const userLevel = ROLE_HIERARCHY[userRole] ?? -1;

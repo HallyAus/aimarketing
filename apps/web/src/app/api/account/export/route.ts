@@ -181,7 +181,7 @@ export const POST = withErrorHandler(async (req) => {
 
   const exportData = {
     exportedAt: new Date().toISOString(),
-    format: "AdPilot Data Export v1",
+    format: "ReachPilot Data Export v1",
     profile: user,
     memberships,
     posts,
@@ -205,7 +205,7 @@ export const POST = withErrorHandler(async (req) => {
 
   return NextResponse.json(exportData, {
     headers: {
-      "Content-Disposition": `attachment; filename="adpilot-data-export-${userId}.json"`,
+      "Content-Disposition": `attachment; filename="reachpilot-data-export-${userId}.json"`,
       "Content-Type": "application/json",
     },
   });

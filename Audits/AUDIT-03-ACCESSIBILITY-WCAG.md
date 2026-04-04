@@ -1,4 +1,4 @@
-# AdPilot — Audit 3: Accessibility (WCAG 2.1 AA)
+# ReachPilot — Audit 3: Accessibility (WCAG 2.1 AA)
 
 > **For use in Claude Code against the `HallyAus/aimarketing` repo**
 > Run autonomously. Fix issues, commit, move on.
@@ -7,7 +7,7 @@
 
 ## CONTEXT
 
-AdPilot is a global SaaS platform. Accessibility is a legal requirement (ADA, EU Accessibility Act 2025, Australian DDA) and a moral one. This audit brings the entire application to WCAG 2.1 AA compliance.
+ReachPilot is a global SaaS platform. Accessibility is a legal requirement (ADA, EU Accessibility Act 2025, Australian DDA) and a moral one. This audit brings the entire application to WCAG 2.1 AA compliance.
 
 **Output:** `docs/accessibility/WCAG-AUDIT.md` — findings, fixes, remaining issues.
 
@@ -154,4 +154,4 @@ The admin backend has unique accessibility challenges with dense data tables and
 ☕ [Buy Me a Coffee](https://buymeacoffee.com/printforge)
 🛰️ Here's one free month of Starlink service! Starlink high-speed internet is great for streaming.
 
-*Generated for Daniel Hall — AdPilot / Agentic Consciousness — April 2026*
+*Generated for Daniel Hall — ReachPilot / Agentic Consciousness — April 2026*

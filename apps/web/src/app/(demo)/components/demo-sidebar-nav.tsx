@@ -57,7 +57,7 @@ export function DemoSidebarNav() {
           className="text-sm font-bold tracking-tight"
           style={{ color: "var(--text-primary)" }}
         >
-          AdPilot
+          ReachPilot
         </span>
         <span
           className="ml-auto inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider"
@@ -146,7 +146,7 @@ export function DemoSidebarNav() {
           className="text-[11px] font-medium"
           style={{ color: "var(--text-tertiary)" }}
         >
-          AdPilot Demo v1.0
+          ReachPilot Demo v1.0
         </div>
       </div>
     </>
@@ -182,7 +182,7 @@ export function DemoSidebarNav() {
             AP
           </div>
           <span className="text-sm font-bold" style={{ color: "var(--text-primary)" }}>
-            AdPilot
+            ReachPilot
           </span>
           <span
             className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase"

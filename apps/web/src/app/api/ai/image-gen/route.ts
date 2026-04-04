@@ -29,7 +29,7 @@ async function extractUrlContent(url: string): Promise<string> {
   try {
     const res = await fetch(url, {
       headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; AdPilot/1.0; +https://adpilot.co)",
+        "User-Agent": "Mozilla/5.0 (compatible; ReachPilot/1.0; +https://reachpilot.co)",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
       },
       signal: AbortSignal.timeout(15000),

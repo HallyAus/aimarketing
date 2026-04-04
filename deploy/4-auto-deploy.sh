@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# AdPilot Auto-Deploy — Run INSIDE the LXC
+# ReachPilot Auto-Deploy — Run INSIDE the LXC
 # =============================================================================
 # Checks GitHub for new commits every 5 minutes, pulls and rebuilds if changed.
 #
@@ -11,19 +11,19 @@
 
 set -euo pipefail
 
-APP_DIR="/opt/adpilot"
+APP_DIR="/opt/reachpilot"
 BRANCH="${BRANCH:-main}"
-LOCK_FILE="/tmp/adpilot-deploy.lock"
+LOCK_FILE="/tmp/reachpilot-deploy.lock"
 LOG_PREFIX="[$(date '+%Y-%m-%d %H:%M:%S')]"
 
 # ─── Install Mode ─────────────────────────────────────────────────────────
 
 if [[ "${1:-}" == "--install" ]]; then
     SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
-    LOG_PATH="/var/log/adpilot-deploy.log"
+    LOG_PATH="/var/log/reachpilot-deploy.log"
     CRON_LINE="*/5 * * * * ${SCRIPT_PATH} >> ${LOG_PATH} 2>&1"
 
-    (crontab -l 2>/dev/null | grep -v "adpilot.*auto-deploy\|${SCRIPT_PATH}"; echo "$CRON_LINE") | crontab -
+    (crontab -l 2>/dev/null | grep -v "reachpilot.*auto-deploy\|${SCRIPT_PATH}"; echo "$CRON_LINE") | crontab -
 
     echo "Auto-deploy cron installed"
     echo "  Script: ${SCRIPT_PATH}"
@@ -64,8 +64,8 @@ echo "${LOG_PREFIX} Changes detected: ${LOCAL:0:8} -> ${REMOTE:0:8}"
 # ─── Tag current images for rollback ─────────────────────────────────────
 
 echo "${LOG_PREFIX} Tagging current images as 'previous' for rollback..."
-docker tag "$(docker compose -f docker-compose.prod.yml images web -q 2>/dev/null)" adpilot-web:previous 2>/dev/null || true
-docker tag "$(docker compose -f docker-compose.prod.yml images worker -q 2>/dev/null)" adpilot-worker:previous 2>/dev/null || true
+docker tag "$(docker compose -f docker-compose.prod.yml images web -q 2>/dev/null)" reachpilot-web:previous 2>/dev/null || true
+docker tag "$(docker compose -f docker-compose.prod.yml images worker -q 2>/dev/null)" reachpilot-worker:previous 2>/dev/null || true
 
 # ─── Deploy ───────────────────────────────────────────────────────────────
 
@@ -92,10 +92,10 @@ if [[ "$STATUS" == "200" ]]; then
     echo "${LOG_PREFIX} Deploy complete. App healthy."
 else
     echo "${LOG_PREFIX} WARNING: App returned ${STATUS} after deploy. Rolling back..."
-    if docker image inspect adpilot-web:previous &>/dev/null; then
+    if docker image inspect reachpilot-web:previous &>/dev/null; then
         docker compose -f docker-compose.prod.yml stop web worker
-        docker tag adpilot-web:previous "$(docker compose -f docker-compose.prod.yml images web --format '{{.Repository}}:{{.Tag}}' 2>/dev/null | head -1)" 2>/dev/null || true
-        docker tag adpilot-worker:previous "$(docker compose -f docker-compose.prod.yml images worker --format '{{.Repository}}:{{.Tag}}' 2>/dev/null | head -1)" 2>/dev/null || true
+        docker tag reachpilot-web:previous "$(docker compose -f docker-compose.prod.yml images web --format '{{.Repository}}:{{.Tag}}' 2>/dev/null | head -1)" 2>/dev/null || true
+        docker tag reachpilot-worker:previous "$(docker compose -f docker-compose.prod.yml images worker --format '{{.Repository}}:{{.Tag}}' 2>/dev/null | head -1)" 2>/dev/null || true
         docker compose -f docker-compose.prod.yml up -d web worker
         echo "${LOG_PREFIX} Rolled back to previous images. Check logs!"
     else

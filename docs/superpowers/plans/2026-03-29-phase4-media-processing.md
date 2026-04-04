@@ -8,7 +8,7 @@
 
 **Tech Stack:** Next.js 15 API routes, @aws-sdk/client-s3 (R2-compatible), Sharp (image processing), Prisma (Creative model exists), BullMQ, Vitest
 
-**Spec:** `docs/superpowers/specs/2026-03-29-adpilot-foundation-design.md` — Section 4 (Creative model)
+**Spec:** `docs/superpowers/specs/2026-03-29-reachpilot-foundation-design.md` — Section 4 (Creative model)
 
 ---
 
@@ -57,7 +57,7 @@ export const r2 = new S3Client({
   },
 });
 
-export const R2_BUCKET = process.env.R2_BUCKET_NAME ?? "adpilot-media";
+export const R2_BUCKET = process.env.R2_BUCKET_NAME ?? "reachpilot-media";
 export const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL ?? "";
 
 export async function uploadToR2(
@@ -130,8 +130,8 @@ Create `apps/web/src/app/api/creatives/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
-import { PLAN_LIMITS, ALLOWED_MIME_TYPES } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { PLAN_LIMITS, ALLOWED_MIME_TYPES } from "@reachpilot/shared";
 import { uploadToR2 } from "@/lib/r2";
 import { Queue } from "bullmq";
 import { redis } from "@/lib/redis";
@@ -244,8 +244,8 @@ Create `apps/web/src/app/api/creatives/[creativeId]/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
-import { updateCreativeSchema } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { updateCreativeSchema } from "@reachpilot/shared";
 import { deleteFromR2 } from "@/lib/r2";
 
 // GET /api/creatives/[creativeId]
@@ -363,7 +363,7 @@ export const r2 = new S3Client({
   },
 });
 
-export const R2_BUCKET = process.env.R2_BUCKET_NAME ?? "adpilot-media";
+export const R2_BUCKET = process.env.R2_BUCKET_NAME ?? "reachpilot-media";
 export const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL ?? "";
 
 export async function getFromR2(key: string): Promise<Buffer> {
@@ -399,7 +399,7 @@ Create `apps/worker/src/processors/media-process.ts`:
 ```typescript
 import type { Job } from "bullmq";
 import sharp from "sharp";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 import { getFromR2, putToR2 } from "../r2";
 
 const THUMBNAIL_WIDTH = 400;

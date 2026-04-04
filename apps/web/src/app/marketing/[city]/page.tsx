@@ -18,7 +18,7 @@ export async function generateMetadata({
   const city = getCityData(slug);
   if (!city) return {};
 
-  const canonicalUrl = `https://adpilot.au/marketing/${slug}`;
+  const canonicalUrl = `https://reachpilot.au/marketing/${slug}`;
 
   return {
     title: city.metaTitle,
@@ -30,7 +30,7 @@ export async function generateMetadata({
       title: city.metaTitle,
       description: city.metaDescription,
       url: canonicalUrl,
-      siteName: "AdPilot",
+      siteName: "ReachPilot",
       locale: "en_AU",
       type: "website",
     },
@@ -188,11 +188,11 @@ function getLocalReasons(cityName: string, state: string, slug: string) {
     },
     {
       title: `Compete with capital city agencies`,
-      text: `You don't need a big-city agency to run big-city marketing. AdPilot gives ${cityName} businesses the same AI-powered tools used by agencies in Sydney and Melbourne.`,
+      text: `You don't need a big-city agency to run big-city marketing. ReachPilot gives ${cityName} businesses the same AI-powered tools used by agencies in Sydney and Melbourne.`,
     },
     {
       title: `Built for ${state} business conditions`,
-      text: `From local regulations to seasonal trends, AdPilot's AI understands the ${state} market and helps you create content that resonates with local audiences.`,
+      text: `From local regulations to seasonal trends, ReachPilot's AI understands the ${state} market and helps you create content that resonates with local audiences.`,
     },
   ];
 }
@@ -204,7 +204,7 @@ export default async function CityPage({ params }: CityPageProps) {
   if (!city) notFound();
 
   const reasons = getLocalReasons(city.name, city.state, slug);
-  const canonicalUrl = `https://adpilot.au/marketing/${slug}`;
+  const canonicalUrl = `https://reachpilot.au/marketing/${slug}`;
 
   const webPageSchema = {
     "@context": "https://schema.org",
@@ -219,13 +219,13 @@ export default async function CityPage({ params }: CityPageProps) {
           "@type": "ListItem",
           position: 1,
           name: "Home",
-          item: "https://adpilot.au",
+          item: "https://reachpilot.au",
         },
         {
           "@type": "ListItem",
           position: 2,
           name: "Marketing",
-          item: "https://adpilot.au/marketing",
+          item: "https://reachpilot.au/marketing",
         },
         {
           "@type": "ListItem",
@@ -240,7 +240,7 @@ export default async function CityPage({ params }: CityPageProps) {
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: `AdPilot - ${city.name}`,
+    name: `ReachPilot - ${city.name}`,
     description: city.description,
     url: canonicalUrl,
     address: {
@@ -262,7 +262,7 @@ export default async function CityPage({ params }: CityPageProps) {
   const softwareSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "AdPilot",
+    name: "ReachPilot",
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     description:
@@ -421,7 +421,7 @@ export default async function CityPage({ params }: CityPageProps) {
 
             <h2 className="text-2xl sm:text-3xl font-bold mb-8">
               Why {city.name} businesses choose{" "}
-              <span style={{ color: "var(--accent-blue)" }}>AdPilot</span>
+              <span style={{ color: "var(--accent-blue)" }}>ReachPilot</span>
             </h2>
 
             <div className="grid sm:grid-cols-3 gap-6">
@@ -714,7 +714,7 @@ export default async function CityPage({ params }: CityPageProps) {
                 className="mb-6"
                 style={{ color: "var(--text-secondary)" }}
               >
-                AdPilot is built for Australian businesses by Australians. Your
+                ReachPilot is built for Australian businesses by Australians. Your
                 data stays onshore, your content is optimised for local audiences,
                 and our support team understands your market.
               </p>
@@ -783,7 +783,7 @@ export default async function CityPage({ params }: CityPageProps) {
               className="text-lg mb-8 max-w-2xl mx-auto"
               style={{ color: "var(--text-secondary)" }}
             >
-              Join thousands of businesses using AdPilot to automate
+              Join thousands of businesses using ReachPilot to automate
               their marketing across 9 platforms. Start with our free plan — no
               credit card required.
             </p>

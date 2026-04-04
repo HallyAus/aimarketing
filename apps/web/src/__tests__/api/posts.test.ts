@@ -43,7 +43,7 @@ vi.mock("@/lib/api-handler", () => ({
   },
 }));
 
-vi.mock("@adpilot/shared", () => ({
+vi.mock("@reachpilot/shared", () => ({
   updatePostSchema: {
     safeParse: vi.fn((data: any) => {
       if (!data.version && data.version !== 0) {

@@ -108,7 +108,7 @@ export function Footer() {
                           className={linkProps.className}
                           onClick={() => {
                             document.cookie =
-                              "adpilot-consent=; path=/; max-age=0; SameSite=Lax";
+                              "reachpilot-consent=; path=/; max-age=0; SameSite=Lax";
                             window.location.reload();
                           }}
                           style={{ ...linkProps.style, background: "none", border: "none", cursor: "pointer", padding: 0 }}
@@ -147,10 +147,10 @@ export function Footer() {
                 backgroundClip: "text",
               }}
             >
-              AdPilot
+              ReachPilot
             </span>
             <span className="text-sm" style={{ color: "var(--text-tertiary)" }}>
-              &copy; {new Date().getFullYear()} AdPilot. All rights reserved.
+              &copy; {new Date().getFullYear()} ReachPilot. All rights reserved.
             </span>
           </div>
 
@@ -170,9 +170,9 @@ export function Footer() {
             {/* Social icons */}
             <div className="flex items-center gap-2">
               {[
-                { icon: <TwitterIcon />, href: "https://twitter.com/adpilot", label: "Twitter" },
-                { icon: <LinkedInIcon />, href: "https://linkedin.com/company/adpilot", label: "LinkedIn" },
-                { icon: <GitHubIcon />, href: "https://github.com/adpilot", label: "GitHub" },
+                { icon: <TwitterIcon />, href: "https://twitter.com/reachpilot", label: "Twitter" },
+                { icon: <LinkedInIcon />, href: "https://linkedin.com/company/reachpilot", label: "LinkedIn" },
+                { icon: <GitHubIcon />, href: "https://github.com/reachpilot", label: "GitHub" },
               ].map((social) => (
                 <a
                   key={social.label}

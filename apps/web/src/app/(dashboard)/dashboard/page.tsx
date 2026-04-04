@@ -216,7 +216,7 @@ export default async function DashboardPage({
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
         <EmptyState
           icon={<RocketIcon />}
-          title="Welcome to AdPilot"
+          title="Welcome to ReachPilot"
           description="Create your first organization to get started."
           action={<Link href="/onboarding" className="btn-primary">Get Started</Link>}
         />
@@ -503,7 +503,7 @@ export default async function DashboardPage({
         >
           <div>
             <h2 className="text-base font-bold mb-1" style={{ color: "var(--text-primary)" }}>
-              Welcome to AdPilot! Let&apos;s set up your account.
+              Welcome to ReachPilot! Let&apos;s set up your account.
             </h2>
             <p className="text-sm m-0" style={{ color: "var(--text-secondary)" }}>
               Connect your social accounts and create your first campaign in minutes.

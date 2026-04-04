@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db";
 import { getSessionOrg } from "@/lib/auth";
-import { PLAN_LIMITS } from "@adpilot/shared";
+import { PLAN_LIMITS } from "@reachpilot/shared";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
 

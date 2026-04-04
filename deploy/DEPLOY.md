@@ -1,4 +1,4 @@
-# AdPilot Deployment Guide
+# ReachPilot Deployment Guide
 
 ## Full deployment: LXC creation to running app in 5 commands
 
@@ -21,9 +21,9 @@ This creates LXC **900** with:
 ssh root@<LXC-IP>
 
 # Clone and set up
-git clone https://github.com/HallyAus/aimarketing.git /opt/adpilot
-cd /opt/adpilot
-bash deploy/2-setup-app.sh --domain adpilot.yourdomain.com
+git clone https://github.com/HallyAus/aimarketing.git /opt/reachpilot
+cd /opt/reachpilot
+bash deploy/2-setup-app.sh --domain reachpilot.yourdomain.com
 ```
 
 This will:
@@ -38,9 +38,9 @@ This will:
 ```bash
 # Get your tunnel token from https://one.dash.cloudflare.com
 # Networks > Tunnels > Create > Docker > Copy token
-# Add hostname: yourdomain.com → http://adpilot-web:3000
+# Add hostname: yourdomain.com → http://reachpilot-web:3000
 
-CF_TUNNEL_TOKEN="eyJ..." bash deploy/3-setup-tunnel.sh --domain adpilot.yourdomain.com
+CF_TUNNEL_TOKEN="eyJ..." bash deploy/3-setup-tunnel.sh --domain reachpilot.yourdomain.com
 ```
 
 ### Step 4: Set up auto-deploy (inside LXC)
@@ -63,10 +63,10 @@ Daily pg_dump at 2am with R2 upload (if configured).
 
 ## Edit API Keys
 
-After setup, edit `/opt/adpilot/.env` with your actual credentials:
+After setup, edit `/opt/reachpilot/.env` with your actual credentials:
 
 ```bash
-nano /opt/adpilot/.env
+nano /opt/reachpilot/.env
 ```
 
 Required for production:
@@ -78,7 +78,7 @@ Required for production:
 
 After editing, rebuild:
 ```bash
-cd /opt/adpilot
+cd /opt/reachpilot
 docker compose -f docker-compose.prod.yml up -d --build web worker
 ```
 
@@ -105,7 +105,7 @@ docker compose -f docker-compose.prod.yml up -d --build web worker
 docker compose -f docker-compose.prod.yml run --rm web sh -c "npx prisma migrate deploy --schema=/app/packages/db/prisma/schema.prisma"
 
 # Database shell
-docker compose -f docker-compose.prod.yml exec db psql -U adpilot -d adpilot
+docker compose -f docker-compose.prod.yml exec db psql -U reachpilot -d reachpilot
 
 # Manual backup
 bash deploy/5-backup.sh --upload
@@ -120,9 +120,9 @@ curl http://localhost:3000/api/health
 Internet → Cloudflare Edge (CDN, DDoS, SSL)
   → Cloudflare Tunnel (encrypted, no open ports)
     → LXC 900 (Debian 12, Docker)
-      → adpilot-web     (Next.js 15, port 3000)
-      → adpilot-worker  (BullMQ, 8 queues)
-      → adpilot-db      (PostgreSQL 16)
-      → adpilot-redis   (Redis 7)
-      → adpilot-tunnel  (cloudflared)
+      → reachpilot-web     (Next.js 15, port 3000)
+      → reachpilot-worker  (BullMQ, 8 queues)
+      → reachpilot-db      (PostgreSQL 16)
+      → reachpilot-redis   (Redis 7)
+      → reachpilot-tunnel  (cloudflared)
 ```

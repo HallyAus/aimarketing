@@ -5,15 +5,15 @@ import { Footer } from "@/components/marketing/footer";
 import "@/styles/marketing.css";
 
 export const metadata: Metadata = {
-  title: "About AdPilot | AI-Powered Marketing Automation",
+  title: "About ReachPilot | AI-Powered Marketing Automation",
   description:
-    "AdPilot is on a mission to make AI-powered marketing accessible to every business, everywhere. Built in Australia for the world.",
+    "ReachPilot is on a mission to make AI-powered marketing accessible to every business, everywhere. Built in Australia for the world.",
   openGraph: {
-    title: "About AdPilot | AI-Powered Marketing Automation",
+    title: "About ReachPilot | AI-Powered Marketing Automation",
     description:
       "Making AI-powered marketing accessible to every business, everywhere.",
     type: "website",
-    url: "https://adpilot.au/about",
+    url: "https://reachpilot.au/about",
   },
 };
 
@@ -68,7 +68,7 @@ export default function AboutPage() {
               className="marketing-label mb-4"
               style={{ color: "var(--accent-blue)" }}
             >
-              About AdPilot
+              About ReachPilot
             </p>
             <h1
               className="marketing-h1 mb-6"
@@ -82,7 +82,7 @@ export default function AboutPage() {
               style={{ color: "var(--text-secondary)" }}
             >
               We believe every business — from solo founders to growing agencies
-              — deserves access to intelligent marketing automation. AdPilot
+              — deserves access to intelligent marketing automation. ReachPilot
               puts the power of AI-driven content creation, scheduling, and
               analytics into one platform anyone can use.
             </p>
@@ -104,14 +104,14 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-4 marketing-body">
                 <p style={{ color: "var(--text-secondary)" }}>
-                  AdPilot was born out of frustration. Founder Daniel Hall was
+                  ReachPilot was born out of frustration. Founder Daniel Hall was
                   managing social media across multiple projects, switching
                   between five dashboards, copying content between platforms, and
                   losing track of what was scheduled where. The existing tools
                   were either too expensive or too limited.
                 </p>
                 <p style={{ color: "var(--text-secondary)" }}>
-                  Built in Australia, AdPilot was global from day one. Operating
+                  Built in Australia, ReachPilot was global from day one. Operating
                   across Australian, Asian, European, and American timezones
                   meant timezone handling wasn't an afterthought — it was a core
                   requirement from the first line of code.
@@ -146,7 +146,7 @@ export default function AboutPage() {
                 className="marketing-body max-w-2xl mx-auto"
                 style={{ color: "var(--text-secondary)" }}
               >
-                AdPilot combines Claude AI with deep platform integrations to
+                ReachPilot combines Claude AI with deep platform integrations to
                 deliver marketing automation that actually understands your
                 brand.
               </p>

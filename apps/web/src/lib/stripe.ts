@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { STRIPE_PLAN_PRICE_IDS } from "@adpilot/shared";
+import { STRIPE_PLAN_PRICE_IDS } from "@reachpilot/shared";
 
 let _stripe: Stripe | null = null;
 
@@ -12,5 +12,5 @@ export function getStripe(): Stripe {
   return _stripe;
 }
 
-/** @deprecated Use STRIPE_PLAN_PRICE_IDS from @adpilot/shared directly */
+/** @deprecated Use STRIPE_PLAN_PRICE_IDS from @reachpilot/shared directly */
 export const STRIPE_PLAN_PRICES = STRIPE_PLAN_PRICE_IDS;

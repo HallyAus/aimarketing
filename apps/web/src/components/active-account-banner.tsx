@@ -16,8 +16,8 @@ const PLATFORM_LABELS: Record<string, string> = {
 };
 
 function clearFilter() {
-  localStorage.setItem("adpilot-active-account", "all");
-  document.cookie = `adpilot-active-page=${encodeURIComponent("all")};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`;
+  localStorage.setItem("reachpilot-active-account", "all");
+  document.cookie = `reachpilot-active-page=${encodeURIComponent("all")};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`;
   window.dispatchEvent(new CustomEvent("account-changed", { detail: null }));
   // Force page reload to re-run server queries
   window.location.reload();

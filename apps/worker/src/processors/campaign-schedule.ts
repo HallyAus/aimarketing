@@ -1,6 +1,6 @@
 import type { Job } from "bullmq";
 import { Queue } from "bullmq";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 import { connection } from "../queues";
 
 const publishQueue = new Queue("campaign:publish", { connection });

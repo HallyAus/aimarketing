@@ -1,4 +1,4 @@
-# AdPilot Full Audit Report — 2026-03-30
+# ReachPilot Full Audit Report — 2026-03-30
 
 **Audited by:** 7 parallel agents (Frontend Design, Security, Code Quality, SEO/Performance, Database/API, Platform SDK, Deployment/DevOps)
 
@@ -6,7 +6,7 @@
 
 ## Executive Summary
 
-AdPilot has strong architectural foundations — Server Component-first Next.js, proper OAuth with PKCE, AES-256-GCM encryption, org-scoped Prisma queries, and a clean monorepo structure. However, it is **not production-ready**. There are critical security gaps (auth disabled, no rate limiting, unauthenticated Redis), missing infrastructure (no Prisma migrations, no `.dockerignore`, no error tracking), and significant frontend gaps (broken dark theme on 4 pages, no mobile navigation, zero shared components).
+ReachPilot has strong architectural foundations — Server Component-first Next.js, proper OAuth with PKCE, AES-256-GCM encryption, org-scoped Prisma queries, and a clean monorepo structure. However, it is **not production-ready**. There are critical security gaps (auth disabled, no rate limiting, unauthenticated Redis), missing infrastructure (no Prisma migrations, no `.dockerignore`, no error tracking), and significant frontend gaps (broken dark theme on 4 pages, no mobile navigation, zero shared components).
 
 ### Finding Counts
 

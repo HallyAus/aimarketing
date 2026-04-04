@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { createWebhookRuleSchema, updateWebhookRuleSchema } from "@adpilot/shared";
+import { createWebhookRuleSchema, updateWebhookRuleSchema } from "@reachpilot/shared";
 
 // GET /api/webhooks/rules — list webhook rules for current org
 // Optional: ?trigger=AUTO_REPLY to filter by trigger type

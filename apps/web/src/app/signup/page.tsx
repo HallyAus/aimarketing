@@ -6,15 +6,15 @@ import { SignupForm } from "./signup-form";
 import "@/styles/marketing.css";
 
 export const metadata: Metadata = {
-  title: "Join the Waitlist | AdPilot",
+  title: "Join the Waitlist | ReachPilot",
   description:
-    "Get early access to AdPilot — AI-powered marketing automation for businesses everywhere. Free to start.",
+    "Get early access to ReachPilot — AI-powered marketing automation for businesses everywhere. Free to start.",
   openGraph: {
-    title: "Join the Waitlist | AdPilot",
+    title: "Join the Waitlist | ReachPilot",
     description:
-      "Get early access to AdPilot — AI-powered marketing automation for businesses everywhere.",
+      "Get early access to ReachPilot — AI-powered marketing automation for businesses everywhere.",
     type: "website",
-    url: "https://adpilot.au/signup",
+    url: "https://reachpilot.au/signup",
   },
 };
 

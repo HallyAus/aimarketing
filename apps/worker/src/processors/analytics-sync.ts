@@ -1,7 +1,7 @@
 import type { Job } from "bullmq";
-import { prisma } from "@adpilot/db";
-import { PlatformClient } from "@adpilot/platform-sdk";
-import type { Platform } from "@adpilot/platform-sdk";
+import { prisma } from "@reachpilot/db";
+import { PlatformClient } from "@reachpilot/platform-sdk";
+import type { Platform } from "@reachpilot/platform-sdk";
 
 export async function processAnalyticsSync(job: Job): Promise<void> {
   const { type } = job.data as { type?: string };

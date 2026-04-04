@@ -15,7 +15,7 @@ async function fetchUrlContent(url: string): Promise<string> {
     const res = await fetch(normalizedUrl, {
       headers: {
         "User-Agent":
-          "Mozilla/5.0 (compatible; AdPilot/1.0; Content Analysis Bot)",
+          "Mozilla/5.0 (compatible; ReachPilot/1.0; Content Analysis Bot)",
       },
       signal: AbortSignal.timeout(10000),
     });

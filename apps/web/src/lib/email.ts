@@ -50,7 +50,7 @@ async function getResend(): Promise<import("resend").Resend | null> {
 // Public API
 // ---------------------------------------------------------------------------
 
-const DEFAULT_FROM = "AdPilot <onboarding@resend.dev>";
+const DEFAULT_FROM = "ReachPilot <onboarding@resend.dev>";
 
 /**
  * Send an email via Resend. Falls back to logging the email when no

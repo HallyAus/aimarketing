@@ -70,7 +70,7 @@ export function TestimonialsSection() {
             className="text-base sm:text-lg max-w-2xl mx-auto"
             style={{ color: "var(--text-secondary)" }}
           >
-            AdPilot is in public beta. Join thousands of teams already automating their marketing.
+            ReachPilot is in public beta. Join thousands of teams already automating their marketing.
           </p>
         </div>
 

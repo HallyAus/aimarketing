@@ -1,5 +1,5 @@
 {
-  "name": "adpilot",
+  "name": "reachpilot",
   "private": true,
   "scripts": {
     "build": "turbo build",

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { checkPlanLimit } from "@adpilot/shared";
-import { getAdapter, type Platform } from "@adpilot/platform-sdk";
-import { encrypt } from "@adpilot/shared";
+import { checkPlanLimit } from "@reachpilot/shared";
+import { getAdapter, type Platform } from "@reachpilot/platform-sdk";
+import { encrypt } from "@reachpilot/shared";
 import { cookies } from "next/headers";
 
 export async function GET(
@@ -61,7 +61,7 @@ export async function GET(
     });
     const encryptedState = encrypt(oauthStateJson, process.env.MASTER_ENCRYPTION_KEY!);
 
-    cookieStore.set("adpilot-oauth-state", encryptedState, {
+    cookieStore.set("reachpilot-oauth-state", encryptedState, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax", // Must be lax for OAuth redirects

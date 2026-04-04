@@ -3,7 +3,7 @@ import { relativeTime } from "../components/relative-time";
 import { UserFilters } from "./components/user-filters";
 import { Pagination } from "./components/pagination";
 import Link from "next/link";
-import type { Prisma } from "@adpilot/db";
+import type { Prisma } from "@reachpilot/db";
 
 const PAGE_SIZE = 25;
 

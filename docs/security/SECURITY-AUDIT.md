@@ -1,4 +1,4 @@
-# AdPilot Security Audit Report
+# ReachPilot Security Audit Report
 
 **Date:** 2026-04-03
 **Auditor:** Automated (Claude Code)

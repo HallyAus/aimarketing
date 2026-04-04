@@ -14,11 +14,11 @@ const BLOG_SLUGS = [
   "manage-9-social-platforms",
   "ai-generated-content-sounds-human",
   "scheduling-posts-across-timezones",
-  "why-we-built-adpilot",
+  "why-we-built-reachpilot",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://adpilot.app";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://reachpilot.app";
   const now = new Date("2026-04-03");
 
   const staticPages: MetadataRoute.Sitemap = [

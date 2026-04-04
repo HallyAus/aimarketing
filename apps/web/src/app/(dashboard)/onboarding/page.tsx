@@ -35,7 +35,7 @@ export default async function OnboardingPage() {
   return (
     <div className="max-w-lg mx-auto mt-8">
       <PageHeader
-        title="Welcome to AdPilot!"
+        title="Welcome to ReachPilot!"
         subtitle={
           allDone
             ? "You're all set! Start managing your campaigns."

@@ -2,7 +2,7 @@ import { rateLimitAwareFetch } from "../rate-limiter";
 import { PlatformError } from "../errors";
 import type { PublishPayload, PublishResult } from "./index";
 
-const LINKEDIN_API_BASE = "https://api.linkedin.com/v2";
+const LINKEDIN_API_BASE = "https://api.linkedin.com";
 
 interface LinkedInApiError {
   message?: string;
@@ -10,8 +10,9 @@ interface LinkedInApiError {
   serviceErrorCode?: number;
 }
 
-interface UgcPostResponse {
+interface PostResponse {
   id?: string;
+  "x-restli-id"?: string;
 }
 
 function classifyLinkedInError(
@@ -46,51 +47,46 @@ function classifyLinkedInError(
 }
 
 /**
- * Build a LinkedIn UGC post body.
+ * Build a LinkedIn Posts API body.
  *
- * For text-only: shareCommentary with no media
- * For image posts: reference image URLs as ARTICLE shares (LinkedIn requires
- * pre-registered image assets for native images, so we use article shares
- * with thumbnail URLs as a simpler approach)
+ * Uses the v2 Posts API (replaces deprecated UGC Posts API).
+ * For text-only: commentary only.
+ * For image posts: uses ARTICLE distribution with thumbnail URLs.
  */
-function buildUgcPostBody(
+function buildPostBody(
   authorUrn: string,
   content: string,
   mediaUrls?: string[]
 ): Record<string, unknown> {
-  const shareMediaCategory =
-    mediaUrls && mediaUrls.length > 0 ? "ARTICLE" : "NONE";
-
-  const media =
-    mediaUrls && mediaUrls.length > 0
-      ? mediaUrls.map((url) => ({
-          status: "READY",
-          originalUrl: url,
-          description: { text: content.substring(0, 200) },
-        }))
-      : [];
-
-  return {
+  const body: Record<string, unknown> = {
     author: authorUrn,
+    commentary: content,
+    visibility: "PUBLIC",
+    distribution: {
+      feedDistribution: "MAIN_FEED",
+      targetEntities: [],
+      thirdPartyDistributionChannels: [],
+    },
     lifecycleState: "PUBLISHED",
-    specificContent: {
-      "com.linkedin.ugc.ShareContent": {
-        shareCommentary: { text: content },
-        shareMediaCategory,
-        ...(media.length > 0 ? { media } : {}),
-      },
-    },
-    visibility: {
-      "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
-    },
   };
+
+  if (mediaUrls && mediaUrls.length > 0) {
+    body.content = {
+      article: {
+        source: mediaUrls[0],
+        title: content.substring(0, 200),
+        description: content.substring(0, 200),
+      },
+    };
+  }
+
+  return body;
 }
 
 /**
- * Publish a post to LinkedIn.
+ * Publish a post to LinkedIn using the Posts API.
  *
- * Uses the UGC Posts API (v2/ugcPosts) with the author's person URN.
- * The platformUserId should be the LinkedIn member/organization ID.
+ * The platformUserId should be the LinkedIn member sub (from userinfo).
  */
 export async function publishToLinkedin(
   payload: PublishPayload
@@ -98,21 +94,20 @@ export async function publishToLinkedin(
   const { content, mediaUrls, accessToken, platformUserId } = payload;
 
   try {
-    // Construct the author URN — prefer organization if the ID looks like one,
-    // otherwise assume it's a person
     const authorUrn = platformUserId.startsWith("urn:")
       ? platformUserId
       : `urn:li:person:${platformUserId}`;
 
-    const body = buildUgcPostBody(authorUrn, content, mediaUrls);
+    const body = buildPostBody(authorUrn, content, mediaUrls);
 
     const response = await rateLimitAwareFetch(
-      `${LINKEDIN_API_BASE}/ugcPosts`,
+      `${LINKEDIN_API_BASE}/rest/posts`,
       {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
+          "LinkedIn-Version": "202401",
           "X-Restli-Protocol-Version": "2.0.0",
         },
         body: JSON.stringify(body),
@@ -120,9 +115,8 @@ export async function publishToLinkedin(
       "LINKEDIN"
     );
 
-    const responseBody = (await response.json()) as UgcPostResponse & LinkedInApiError;
-
     if (!response.ok) {
+      const responseBody = (await response.json()) as LinkedInApiError;
       const { message, retryable } = classifyLinkedInError(
         response.status,
         responseBody
@@ -133,14 +127,15 @@ export async function publishToLinkedin(
       return { success: false, error: message };
     }
 
-    // LinkedIn returns the post URN as the id (e.g., "urn:li:share:12345")
-    const postUrn = responseBody.id;
-    const shareId = postUrn?.split(":").pop();
+    // Posts API returns the post URN in the x-restli-id header
+    const postUrn =
+      response.headers.get("x-restli-id") ??
+      ((await response.json().catch(() => ({}))) as PostResponse).id;
 
     return {
       success: true,
       platformPostId: postUrn ?? undefined,
-      url: shareId
+      url: postUrn
         ? `https://www.linkedin.com/feed/update/${postUrn}`
         : undefined,
     };

@@ -36,7 +36,7 @@ export async function POST(req: Request) {
 
     // Try TOTP code first
     const totp = new TOTP({
-      issuer: "AdPilot",
+      issuer: "ReachPilot",
       label: userEmail ?? "",
       algorithm: "SHA1",
       digits: 6,

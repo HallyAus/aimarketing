@@ -99,7 +99,7 @@ export function Navbar() {
                 backgroundClip: "text",
               }}
             >
-              AdPilot
+              ReachPilot
             </a>
 
             {/* Desktop Nav */}

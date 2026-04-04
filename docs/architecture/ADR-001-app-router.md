@@ -5,7 +5,7 @@
 
 ## Context
 
-AdPilot is a multi-tenant SaaS with complex per-page data scoping, authentication gates, nested layouts (marketing site, auth flows, dashboard, admin panel), and server-side data fetching requirements. We needed a full-stack React framework that supports:
+ReachPilot is a multi-tenant SaaS with complex per-page data scoping, authentication gates, nested layouts (marketing site, auth flows, dashboard, admin panel), and server-side data fetching requirements. We needed a full-stack React framework that supports:
 
 - Server Components for zero-JS data fetching in dashboard views
 - Nested layouts that persist state (e.g., sidebar, active page selector)

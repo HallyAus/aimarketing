@@ -1,4 +1,4 @@
-# AdPilot
+# ReachPilot
 
 AI-powered marketing automation SaaS platform. Manage campaigns across Facebook, Instagram, TikTok, LinkedIn, Twitter/X, YouTube, Google Ads, Pinterest, and Snapchat from one dashboard. Built in Australia, used by teams worldwide.
 
@@ -36,7 +36,7 @@ Internet -> Cloudflare Edge (CDN, SSL, DDoS)
 ### Monorepo Structure
 
 ```
-adpilot/
+reachpilot/
 ├── apps/web/               # Next.js frontend + API routes
 ├── apps/worker/            # BullMQ queue consumer
 ├── packages/db/            # Prisma schema (27 models)
@@ -167,8 +167,8 @@ npx prisma db seed
 pnpm test
 
 # Run specific package tests
-pnpm test --filter=@adpilot/shared
-pnpm test --filter=@adpilot/web
+pnpm test --filter=@reachpilot/shared
+pnpm test --filter=@reachpilot/web
 ```
 
 ## Contributing

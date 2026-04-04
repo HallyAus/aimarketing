@@ -1,4 +1,4 @@
-# AdPilot — Audit 8: Onboarding & User Experience
+# ReachPilot — Audit 8: Onboarding & User Experience
 
 > **For use in Claude Code against the `HallyAus/aimarketing` repo**
 > Run autonomously. Fix issues, commit, move on.
@@ -7,7 +7,7 @@
 
 ## CONTEXT
 
-Signup-to-first-post conversion rate determines whether AdPilot grows or dies. If users don't connect an account and publish within the first session, they probably never will. This audit maps the entire user journey, fixes friction points, and builds the onboarding flow.
+Signup-to-first-post conversion rate determines whether ReachPilot grows or dies. If users don't connect an account and publish within the first session, they probably never will. This audit maps the entire user journey, fixes friction points, and builds the onboarding flow.
 
 **Output:** `docs/ux/ONBOARDING-AUDIT.md`
 
@@ -38,7 +38,7 @@ Map every step from landing page to first dashboard view:
 
 Create `/onboarding` with a multi-step flow:
 
-**Step 1: "Welcome to AdPilot" (5 seconds)**
+**Step 1: "Welcome to ReachPilot" (5 seconds)**
 - Personalized: "Hey [name], let's get your marketing on autopilot."
 - One CTA: "Let's go →"
 
@@ -206,4 +206,4 @@ When a user clicks "Cancel Subscription":
 ☕ [Buy Me a Coffee](https://buymeacoffee.com/printforge)
 🛰️ Here's one free month of Starlink service! Starlink high-speed internet is great for streaming.
 
-*Generated for Daniel Hall — AdPilot / Agentic Consciousness — April 2026*
+*Generated for Daniel Hall — ReachPilot / Agentic Consciousness — April 2026*

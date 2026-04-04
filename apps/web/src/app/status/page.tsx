@@ -4,14 +4,14 @@ import { Footer } from "@/components/marketing/footer";
 import "@/styles/marketing.css";
 
 export const metadata: Metadata = {
-  title: "System Status | AdPilot",
+  title: "System Status | ReachPilot",
   description:
-    "Current operational status of AdPilot services. Uptime, incidents, and service health.",
+    "Current operational status of ReachPilot services. Uptime, incidents, and service health.",
   openGraph: {
-    title: "System Status | AdPilot",
-    description: "Current operational status of AdPilot services.",
+    title: "System Status | ReachPilot",
+    description: "Current operational status of ReachPilot services.",
     type: "website",
-    url: "https://adpilot.au/status",
+    url: "https://reachpilot.au/status",
   },
 };
 

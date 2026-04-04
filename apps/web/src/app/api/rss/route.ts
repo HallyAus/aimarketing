@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { createRssFeedSchema, updateRssFeedSchema } from "@adpilot/shared";
+import { createRssFeedSchema, updateRssFeedSchema } from "@reachpilot/shared";
 
 // GET /api/rss — list RSS feeds for current org
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {

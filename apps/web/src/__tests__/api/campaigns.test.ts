@@ -43,7 +43,7 @@ vi.mock("@/lib/api-handler", () => ({
   },
 }));
 
-vi.mock("@adpilot/shared", () => ({
+vi.mock("@reachpilot/shared", () => ({
   createCampaignSchema: {
     safeParse: vi.fn((data: any) => {
       if (!data.name || !data.objective) {

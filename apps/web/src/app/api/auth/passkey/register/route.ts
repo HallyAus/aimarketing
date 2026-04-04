@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { generateRegistrationOptions } from "@simplewebauthn/server";
 
-const rpName = "AdPilot";
+const rpName = "ReachPilot";
 const rpID = process.env.NEXT_PUBLIC_RP_ID || "localhost";
 
 export async function POST() {

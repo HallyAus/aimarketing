@@ -1,13 +1,13 @@
 # Claude Code Prompt: Automated Marketing Agency SaaS Platform
 
-## Project Codename: **AdPilot** (or user's preferred name)
+## Project Codename: **ReachPilot** (or user's preferred name)
 
 ---
 
 ## MASTER PROMPT — Paste this into Claude Code
 
 ```
-You are building AdPilot — a production-ready, multi-tenant automated marketing agency SaaS platform. This is a serious commercial product, not a prototype. Every decision must be production-grade: secure, scalable, observable, and legally compliant with platform TOS.
+You are building ReachPilot — a production-ready, multi-tenant automated marketing agency SaaS platform. This is a serious commercial product, not a prototype. Every decision must be production-grade: secure, scalable, observable, and legally compliant with platform TOS.
 
 ## Architecture Overview
 
@@ -26,7 +26,7 @@ You are building AdPilot — a production-ready, multi-tenant automated marketin
 
 ### Monorepo Structure (Turborepo)
 ```
-adpilot/
+reachpilot/
 ├── apps/
 │   ├── web/                    # Next.js 15 frontend + API routes
 │   ├── orchestrator/           # FastAPI campaign orchestration service
@@ -303,7 +303,7 @@ GitHub Actions workflow:
 ### 5.5 White-Label Support (Future)
 - Custom domain per organization
 - Custom branding (logo, colors)
-- Remove AdPilot branding on higher plans
+- Remove ReachPilot branding on higher plans
 
 ---
 
@@ -443,18 +443,18 @@ Below is the skill-creator methodology applied to identify the **10 custom skill
 
 ```env
 # App
-NEXT_PUBLIC_APP_URL=https://adpilot.yourdomain.com
+NEXT_PUBLIC_APP_URL=https://reachpilot.yourdomain.com
 NODE_ENV=production
 
 # Database
-DATABASE_URL=postgresql://adpilot:PASSWORD@localhost:5432/adpilot
+DATABASE_URL=postgresql://reachpilot:PASSWORD@localhost:5432/reachpilot
 
 # Redis
 REDIS_URL=redis://localhost:6379
 
 # Auth
 NEXTAUTH_SECRET=generate-with-openssl-rand-base64-32
-NEXTAUTH_URL=https://adpilot.yourdomain.com
+NEXTAUTH_URL=https://reachpilot.yourdomain.com
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 
@@ -495,14 +495,14 @@ SNAPCHAT_CLIENT_SECRET=
 R2_ACCOUNT_ID=
 R2_ACCESS_KEY_ID=
 R2_SECRET_ACCESS_KEY=
-R2_BUCKET_NAME=adpilot-media
+R2_BUCKET_NAME=reachpilot-media
 R2_PUBLIC_URL=
 
 # Resend (Email)
 RESEND_API_KEY=
 
 # Axiom (Logging)
-AXIOM_DATASET=adpilot
+AXIOM_DATASET=reachpilot
 AXIOM_TOKEN=
 
 # Stripe (Billing)

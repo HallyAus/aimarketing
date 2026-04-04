@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/app/admin/components/admin-auth";
 import { z } from "zod";
-import type { Prisma } from "@adpilot/db";
+import type { Prisma } from "@reachpilot/db";
 
 const querySchema = z.object({
   q: z.string().optional(),

@@ -13,16 +13,16 @@ vi.mock("@/lib/db", () => ({
   },
 }));
 
-vi.mock("@adpilot/shared", () => ({
+vi.mock("@reachpilot/shared", () => ({
   decrypt: vi.fn(() => "decrypted-token"),
 }));
 
-vi.mock("@adpilot/platform-sdk", () => ({
+vi.mock("@reachpilot/platform-sdk", () => ({
   publishPost: vi.fn(),
 }));
 
 import { prisma } from "@/lib/db";
-import { publishPost } from "@adpilot/platform-sdk";
+import { publishPost } from "@reachpilot/platform-sdk";
 
 // ── Helpers ──────────────────────────────────────────────────────────
 

@@ -20,18 +20,6 @@ importers:
 
   apps/web:
     dependencies:
-      '@adpilot/db':
-        specifier: workspace:*
-        version: link:../../packages/db
-      '@adpilot/platform-sdk':
-        specifier: workspace:*
-        version: link:../../packages/platform-sdk
-      '@adpilot/shared':
-        specifier: workspace:*
-        version: link:../../packages/shared
-      '@adpilot/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@anthropic-ai/sdk':
         specifier: ^0.80.0
         version: 0.80.0(zod@3.25.76)
@@ -47,6 +35,18 @@ importers:
       '@prisma/adapter-neon':
         specifier: ^6.19.3
         version: 6.19.3
+      '@reachpilot/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@reachpilot/platform-sdk':
+        specifier: workspace:*
+        version: link:../../packages/platform-sdk
+      '@reachpilot/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
+      '@reachpilot/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@simplewebauthn/browser':
         specifier: ^9.0.1
         version: 9.0.1
@@ -180,18 +180,18 @@ importers:
 
   apps/worker:
     dependencies:
-      '@adpilot/db':
-        specifier: workspace:*
-        version: link:../../packages/db
-      '@adpilot/platform-sdk':
-        specifier: workspace:*
-        version: link:../../packages/platform-sdk
-      '@adpilot/shared':
-        specifier: workspace:*
-        version: link:../../packages/shared
       '@aws-sdk/client-s3':
         specifier: ^3.1019.0
         version: 3.1019.0
+      '@reachpilot/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@reachpilot/platform-sdk':
+        specifier: workspace:*
+        version: link:../../packages/platform-sdk
+      '@reachpilot/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       bullmq:
         specifier: ^5.30.0
         version: 5.71.1
@@ -248,10 +248,10 @@ importers:
 
   packages/platform-sdk:
     dependencies:
-      '@adpilot/db':
+      '@reachpilot/db':
         specifier: workspace:*
         version: link:../db
-      '@adpilot/shared':
+      '@reachpilot/shared':
         specifier: workspace:*
         version: link:../shared
     devDependencies:

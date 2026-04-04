@@ -1,5 +1,5 @@
 {
-  "name": "@adpilot/platform-sdk",
+  "name": "@reachpilot/platform-sdk",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",
@@ -10,8 +10,8 @@
     "test:watch": "vitest watch"
   },
   "dependencies": {
-    "@adpilot/db": "workspace:*",
-    "@adpilot/shared": "workspace:*"
+    "@reachpilot/db": "workspace:*",
+    "@reachpilot/shared": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.19.37",

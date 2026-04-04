@@ -8,7 +8,7 @@
 
 ## Summary
 
-Comprehensive documentation created for the AdPilot project covering architecture decisions, API endpoints, database schema, operational procedures, and contribution guidelines.
+Comprehensive documentation created for the ReachPilot project covering architecture decisions, API endpoints, database schema, operational procedures, and contribution guidelines.
 
 ---
 

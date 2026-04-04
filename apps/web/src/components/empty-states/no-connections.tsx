@@ -24,7 +24,7 @@ export function NoConnections() {
     <EmptyState
       icon={<ConnectionIcon />}
       title="Connect your social accounts to get started"
-      description="Link your Facebook, Instagram, LinkedIn, or other platforms so AdPilot can publish and manage your content."
+      description="Link your Facebook, Instagram, LinkedIn, or other platforms so ReachPilot can publish and manage your content."
       action={
         <Link href="/settings/connections" className="btn-primary text-sm">
           Connect Account

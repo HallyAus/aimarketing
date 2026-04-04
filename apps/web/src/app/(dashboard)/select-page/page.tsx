@@ -52,7 +52,7 @@ export default async function SelectPagePage() {
     const page = pages[0];
     // Set cookie
     const cookieStore = await cookies();
-    cookieStore.set("adpilot-active-page", JSON.stringify({
+    cookieStore.set("reachpilot-active-page", JSON.stringify({
       id: page.id,
       platform: page.platform,
       name: page.name,

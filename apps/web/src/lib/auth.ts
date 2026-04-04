@@ -83,7 +83,7 @@ const nextAuth = NextAuth({
 
     Resend({
       apiKey: process.env.RESEND_API_KEY,
-      from: process.env.EMAIL_FROM || "AdPilot <noreply@adpilot.co>",
+      from: process.env.EMAIL_FROM || "ReachPilot <noreply@reachpilot.co>",
     }),
 
     // Google OAuth — add GOOGLE_CLIENT_ID + GOOGLE_CLIENT_SECRET to enable

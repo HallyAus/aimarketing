@@ -95,7 +95,7 @@ export default function BusinessProfilePage() {
   if (loading) {
     return (
       <div>
-        <PageHeader title="Business Profile" subtitle="Tell AdPilot about your business — AI uses this to create more relevant content" breadcrumbs={[{ label: "Home", href: "/dashboard" }, { label: "Settings", href: "/settings" }, { label: "Business Profile" }]} />
+        <PageHeader title="Business Profile" subtitle="Tell ReachPilot about your business — AI uses this to create more relevant content" breadcrumbs={[{ label: "Home", href: "/dashboard" }, { label: "Settings", href: "/settings" }, { label: "Business Profile" }]} />
         <div className="animate-pulse space-y-4">
           {[1, 2, 3].map((i) => <div key={i} className="h-10 rounded-md" style={{ background: "var(--bg-tertiary)" }} />)}
         </div>
@@ -107,7 +107,7 @@ export default function BusinessProfilePage() {
     <div>
       <PageHeader
         title="Business Profile"
-        subtitle="Tell AdPilot about your business — AI uses this to create more relevant content"
+        subtitle="Tell ReachPilot about your business — AI uses this to create more relevant content"
         breadcrumbs={[
           { label: "Home", href: "/dashboard" },
           { label: "Settings", href: "/settings" },

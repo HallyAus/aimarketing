@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/db";
 import { relativeTime } from "../components/relative-time";
 import { InviteFilters } from "./invite-filters";
-import type { Prisma } from "@adpilot/db";
+import type { Prisma } from "@reachpilot/db";
 
 const PAGE_SIZE = 25;
 

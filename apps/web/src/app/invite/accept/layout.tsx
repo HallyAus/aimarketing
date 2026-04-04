@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Accept Invitation | AdPilot",
+  title: "Accept Invitation | ReachPilot",
 };
 
 export default function InviteAcceptLayout({

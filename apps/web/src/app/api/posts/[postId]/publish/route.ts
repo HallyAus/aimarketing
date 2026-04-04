@@ -1,10 +1,10 @@
-import { decrypt } from "@adpilot/shared";
+import { decrypt } from "@reachpilot/shared";
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { isValidTransition } from "@adpilot/shared";
-import { publishPost } from "@adpilot/platform-sdk";
+import { isValidTransition } from "@reachpilot/shared";
+import { publishPost } from "@reachpilot/platform-sdk";
 
 // POST /api/posts/[postId]/publish — publish an existing post immediately
 export const POST = withErrorHandler(withRole("EDITOR", async (req, context) => {

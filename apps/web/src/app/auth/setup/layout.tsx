@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Account Setup | AdPilot",
+  title: "Account Setup | ReachPilot",
 };
 
 export default function SetupLayout({

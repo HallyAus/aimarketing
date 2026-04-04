@@ -1,4 +1,4 @@
-# AdPilot Session Log — March 30 – April 3, 2026
+# ReachPilot Session Log — March 30 – April 3, 2026
 
 ## Session Stats
 - **Duration:** ~4 sessions across 4 days
@@ -23,7 +23,7 @@
 - 79 tests passing, pushed to GitHub
 
 ### Session 2 (Mar 30-31): Agency Site + Features
-- Built complete AdPilot Agency Site (adpilot-site) — 6 pages, 18 components, 74 tests
+- Built complete ReachPilot Agency Site (reachpilot-site) — 6 pages, 18 components, 74 tests
 - Deployed agency site to Vercel
 - Built Prisma migration system
 - Built Stripe seeding script

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Stripe Product & Price Seeding Script
 #
-# Creates AdPilot Free/Pro/Agency products with monthly and annual prices.
+# Creates ReachPilot Free/Pro/Agency products with monthly and annual prices.
 # Idempotent — safe to run multiple times.
 #
 # Usage:

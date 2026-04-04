@@ -8,7 +8,7 @@
 
 **Tech Stack:** Next.js 15 API routes, packages/platform-sdk (TypeScript), Prisma (PlatformConnection model already exists), AES-256-GCM encryption (already in packages/shared), BullMQ (worker queues already defined), Vitest + MSW for testing
 
-**Spec:** `docs/superpowers/specs/2026-03-29-adpilot-foundation-design.md` — Section 6 (Platform Connection System)
+**Spec:** `docs/superpowers/specs/2026-03-29-reachpilot-foundation-design.md` — Section 6 (Platform Connection System)
 
 **Depends on:** Phase 1 Foundation (complete)
 
@@ -423,7 +423,7 @@ Run: `cd packages/platform-sdk && pnpm test`
 Create `packages/platform-sdk/src/token-manager.ts`:
 
 ```typescript
-import { encrypt, decrypt } from "@adpilot/shared";
+import { encrypt, decrypt } from "@reachpilot/shared";
 
 const EXPIRY_BUFFER_MS = 5 * 60 * 1000; // 5 minutes
 const PROACTIVE_REFRESH_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
@@ -453,9 +453,9 @@ export class TokenManager {
 }
 ```
 
-- [ ] **Step 5: Add dependency on @adpilot/shared and export**
+- [ ] **Step 5: Add dependency on @reachpilot/shared and export**
 
-Add `"@adpilot/shared": "workspace:*"` to `packages/platform-sdk/package.json` dependencies (should already be there from Phase 1).
+Add `"@reachpilot/shared": "workspace:*"` to `packages/platform-sdk/package.json` dependencies (should already be there from Phase 1).
 
 Add to `packages/platform-sdk/src/index.ts`:
 
@@ -1074,10 +1074,10 @@ Create `apps/web/src/app/api/platforms/[platform]/authorize/route.ts`:
 ```typescript
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { prisma } from "@adpilot/db";
-import { checkPlanLimit } from "@adpilot/shared";
-import { getAdapter, type Platform } from "@adpilot/platform-sdk";
-import { encrypt } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { checkPlanLimit } from "@reachpilot/shared";
+import { getAdapter, type Platform } from "@reachpilot/platform-sdk";
+import { encrypt } from "@reachpilot/shared";
 import { cookies } from "next/headers";
 
 export async function GET(
@@ -1135,7 +1135,7 @@ export async function GET(
     });
     const encryptedState = encrypt(oauthStateJson, process.env.MASTER_ENCRYPTION_KEY!);
 
-    cookieStore.set("adpilot-oauth-state", encryptedState, {
+    cookieStore.set("reachpilot-oauth-state", encryptedState, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax", // Must be lax for OAuth redirects
@@ -1159,9 +1159,9 @@ Create `apps/web/src/app/api/platforms/[platform]/callback/route.ts`:
 
 ```typescript
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@adpilot/db";
-import { encrypt, decrypt } from "@adpilot/shared";
-import { getAdapter, type Platform } from "@adpilot/platform-sdk";
+import { prisma } from "@reachpilot/db";
+import { encrypt, decrypt } from "@reachpilot/shared";
+import { getAdapter, type Platform } from "@reachpilot/platform-sdk";
 import { cookies } from "next/headers";
 
 export async function GET(
@@ -1188,7 +1188,7 @@ export async function GET(
 
   // Retrieve and DECRYPT OAuth state from cookie
   const cookieStore = await cookies();
-  const stateCookie = cookieStore.get("adpilot-oauth-state");
+  const stateCookie = cookieStore.get("reachpilot-oauth-state");
   if (!stateCookie?.value) {
     return NextResponse.redirect(
       new URL("/dashboard/settings/connections?error=invalid_state", req.url)
@@ -1220,7 +1220,7 @@ export async function GET(
   }
 
   // Clear the state cookie
-  cookieStore.delete("adpilot-oauth-state");
+  cookieStore.delete("reachpilot-oauth-state");
 
   try {
     const adapter = getAdapter(platformKey);
@@ -1325,9 +1325,9 @@ Create `apps/web/src/app/api/platforms/[platform]/disconnect/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
-import { decrypt } from "@adpilot/shared";
-import { getAdapter, type Platform } from "@adpilot/platform-sdk";
+import { prisma } from "@reachpilot/db";
+import { decrypt } from "@reachpilot/shared";
+import { getAdapter, type Platform } from "@reachpilot/platform-sdk";
 
 export const POST = withErrorHandler(withRole("ADMIN", async (req, context) => {
   const { platform } = await context.params;
@@ -1467,8 +1467,8 @@ Create `apps/web/src/app/api/webhooks/[platform]/route.ts`:
 
 ```typescript
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@adpilot/db";
-import { getWebhookVerifier } from "@adpilot/platform-sdk/src/webhook-verifiers";
+import { prisma } from "@reachpilot/db";
+import { getWebhookVerifier } from "@reachpilot/platform-sdk/src/webhook-verifiers";
 import { createHash } from "crypto";
 
 export async function POST(
@@ -1569,10 +1569,10 @@ Create `apps/worker/src/processors/token-refresh.ts`:
 
 ```typescript
 import type { Job } from "bullmq";
-import { prisma } from "@adpilot/db";
-import { encrypt, decrypt } from "@adpilot/shared";
-import { getAdapter } from "@adpilot/platform-sdk";
-import type { Platform } from "@adpilot/platform-sdk";
+import { prisma } from "@reachpilot/db";
+import { encrypt, decrypt } from "@reachpilot/shared";
+import { getAdapter } from "@reachpilot/platform-sdk";
+import type { Platform } from "@reachpilot/platform-sdk";
 
 const PROACTIVE_REFRESH_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
@@ -1660,10 +1660,10 @@ Create `apps/worker/src/processors/token-health-check.ts`:
 
 ```typescript
 import type { Job } from "bullmq";
-import { prisma } from "@adpilot/db";
-import { decrypt } from "@adpilot/shared";
-import { getAdapter } from "@adpilot/platform-sdk";
-import type { Platform } from "@adpilot/platform-sdk";
+import { prisma } from "@reachpilot/db";
+import { decrypt } from "@reachpilot/shared";
+import { getAdapter } from "@reachpilot/platform-sdk";
+import type { Platform } from "@reachpilot/platform-sdk";
 
 export async function processTokenHealthCheck(job: Job): Promise<void> {
   const masterKey = process.env.MASTER_ENCRYPTION_KEY!;
@@ -1742,9 +1742,9 @@ Replace `apps/web/src/app/(dashboard)/settings/connections/page.tsx`:
 ```tsx
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
-import { PLATFORM_CONFIGS } from "@adpilot/platform-sdk";
-import type { Platform } from "@adpilot/platform-sdk";
+import { prisma } from "@reachpilot/db";
+import { PLATFORM_CONFIGS } from "@reachpilot/platform-sdk";
+import type { Platform } from "@reachpilot/platform-sdk";
 
 const PLATFORM_ORDER: Platform[] = [
   "FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X",
@@ -1895,8 +1895,8 @@ This is the Layer 1 lazy-refresh mechanism from the spec. The PlatformClient wra
 Create `packages/platform-sdk/src/client.ts`:
 
 ```typescript
-import { prisma } from "@adpilot/db";
-import { encrypt, decrypt } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { encrypt, decrypt } from "@reachpilot/shared";
 import { getAdapter } from "./adapters";
 import { TokenManager } from "./token-manager";
 import type { Platform, OAuthTokens } from "./types";

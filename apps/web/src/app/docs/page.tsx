@@ -5,15 +5,15 @@ import { Footer } from "@/components/marketing/footer";
 import "@/styles/marketing.css";
 
 export const metadata: Metadata = {
-  title: "Documentation | AdPilot",
+  title: "Documentation | ReachPilot",
   description:
-    "AdPilot platform documentation. Getting started guides, API overview, platform integrations, webhooks, and timezone handling.",
+    "ReachPilot platform documentation. Getting started guides, API overview, platform integrations, webhooks, and timezone handling.",
   openGraph: {
-    title: "Documentation | AdPilot",
+    title: "Documentation | ReachPilot",
     description:
-      "AdPilot platform documentation — guides, API reference, and integration docs.",
+      "ReachPilot platform documentation — guides, API reference, and integration docs.",
     type: "website",
-    url: "https://adpilot.au/docs",
+    url: "https://reachpilot.au/docs",
   },
 };
 
@@ -25,12 +25,12 @@ const sections = [
       {
         title: "Create Your Account",
         description:
-          "Sign up for AdPilot and configure your workspace. Choose your plan, set your timezone, and invite team members.",
+          "Sign up for ReachPilot and configure your workspace. Choose your plan, set your timezone, and invite team members.",
       },
       {
         title: "Connect Your First Platform",
         description:
-          "Link a social media account using OAuth. AdPilot requests minimal permissions and uses PKCE for secure authorization.",
+          "Link a social media account using OAuth. ReachPilot requests minimal permissions and uses PKCE for secure authorization.",
       },
       {
         title: "Create and Schedule Content",
@@ -61,7 +61,7 @@ const sections = [
       {
         title: "Endpoints",
         description:
-          "RESTful API with JSON request and response bodies. Base URL: https://api.adpilot.au/v1. Full OpenAPI spec coming soon.",
+          "RESTful API with JSON request and response bodies. Base URL: https://api.reachpilot.au/v1. Full OpenAPI spec coming soon.",
       },
       {
         title: "SDKs",
@@ -138,7 +138,7 @@ const sections = [
       {
         title: "Verification",
         description:
-          "Each webhook includes an X-AdPilot-Signature header (HMAC-SHA256) for payload verification. Signing secret available in your dashboard.",
+          "Each webhook includes an X-ReachPilot-Signature header (HMAC-SHA256) for payload verification. Signing secret available in your dashboard.",
       },
     ],
   },
@@ -149,12 +149,12 @@ const sections = [
       {
         title: "Automatic Detection",
         description:
-          "AdPilot detects your timezone using the Intl API on first login. All times in the dashboard display in your local timezone.",
+          "ReachPilot detects your timezone using the Intl API on first login. All times in the dashboard display in your local timezone.",
       },
       {
         title: "Scheduling Across Timezones",
         description:
-          "Schedule posts for specific times in any timezone. AdPilot stores schedules with IANA timezone identifiers and handles DST transitions automatically.",
+          "Schedule posts for specific times in any timezone. ReachPilot stores schedules with IANA timezone identifiers and handles DST transitions automatically.",
       },
       {
         title: "Team Timezone Support",
@@ -194,7 +194,7 @@ export default function DocsPage() {
                 className="marketing-body max-w-2xl mx-auto"
                 style={{ color: "var(--text-secondary)" }}
               >
-                Everything you need to get started with AdPilot, integrate with
+                Everything you need to get started with ReachPilot, integrate with
                 our API, and connect your platforms.
               </p>
             </div>

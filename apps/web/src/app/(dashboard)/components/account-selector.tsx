@@ -15,8 +15,8 @@ interface ActiveAccount {
   connectionId: string;
 }
 
-const STORAGE_KEY = "adpilot-active-account";
-const COOKIE_KEY = "adpilot-active-page";
+const STORAGE_KEY = "reachpilot-active-account";
+const COOKIE_KEY = "reachpilot-active-page";
 
 /* ------------------------------------------------------------------ */
 /*  Platform colors & icons                                            */

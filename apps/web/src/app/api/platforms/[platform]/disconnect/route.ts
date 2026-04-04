@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { decrypt } from "@adpilot/shared";
-import { getAdapter, type Platform } from "@adpilot/platform-sdk";
+import { decrypt } from "@reachpilot/shared";
+import { getAdapter, type Platform } from "@reachpilot/platform-sdk";
 
 export const POST = withErrorHandler(withRole("ADMIN", async (req, context) => {
   const platform = (await context.params).platform!;

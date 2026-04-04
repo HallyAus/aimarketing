@@ -5,15 +5,15 @@ import { Footer } from "@/components/marketing/footer";
 import "@/styles/marketing.css";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | AdPilot",
+  title: "Privacy Policy | ReachPilot",
   description:
-    "Learn how AdPilot collects, uses, and protects your data. Covers GDPR, Australian Privacy Act, and CCPA compliance.",
+    "Learn how ReachPilot collects, uses, and protects your data. Covers GDPR, Australian Privacy Act, and CCPA compliance.",
   openGraph: {
-    title: "Privacy Policy | AdPilot",
+    title: "Privacy Policy | ReachPilot",
     description:
-      "How AdPilot collects, uses, and protects your data across all jurisdictions.",
+      "How ReachPilot collects, uses, and protects your data across all jurisdictions.",
     type: "website",
-    url: "https://adpilot.au/privacy",
+    url: "https://reachpilot.au/privacy",
   },
 };
 
@@ -60,7 +60,7 @@ export default function PrivacyPage() {
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
                 <strong style={{ color: "var(--text-primary)" }}>Account information:</strong>{" "}
-                When you create an AdPilot account, we collect your name, email
+                When you create an ReachPilot account, we collect your name, email
                 address, company name (if provided), and timezone.
               </p>
               <p>
@@ -73,7 +73,7 @@ export default function PrivacyPage() {
               </p>
               <p>
                 <strong style={{ color: "var(--text-primary)" }}>Usage data:</strong>{" "}
-                We collect information about how you interact with AdPilot,
+                We collect information about how you interact with ReachPilot,
                 including features used, content created, posts scheduled, and
                 analytics viewed. This helps us improve the platform.
               </p>
@@ -96,7 +96,7 @@ export default function PrivacyPage() {
             </h2>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
-                We use your information to provide and improve AdPilot's
+                We use your information to provide and improve ReachPilot's
                 marketing automation services, including: generating AI-powered
                 content, publishing to connected social media platforms,
                 collecting and displaying analytics, managing your subscription,
@@ -151,7 +151,7 @@ export default function PrivacyPage() {
             </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
-                AdPilot uses a cookie consent banner that appears before any
+                ReachPilot uses a cookie consent banner that appears before any
                 non-essential cookies are loaded (GDPR requirement). You can
                 manage your cookie preferences at any time using the
                 &quot;Cookie Preferences&quot; link in the page footer.
@@ -159,7 +159,7 @@ export default function PrivacyPage() {
               <p>
                 <strong style={{ color: "var(--text-primary)" }}>Essential cookies (always on):</strong>{" "}
                 Session cookies for authentication, CSRF protection tokens, and
-                the cookie consent preference itself ({`adpilot-consent`}).
+                the cookie consent preference itself ({`reachpilot-consent`}).
                 These are required for the platform to function and cannot be
                 disabled.
               </p>
@@ -168,12 +168,12 @@ export default function PrivacyPage() {
                 We use PostHog for product analytics and feature management.
                 PostHog is only loaded if you consent to analytics cookies.
                 PostHog data is used to understand how users interact with
-                AdPilot and to improve the product.
+                ReachPilot and to improve the product.
               </p>
               <p>
                 <strong style={{ color: "var(--text-primary)" }}>Marketing cookies (opt-in):</strong>{" "}
                 Third-party tracking pixels and marketing tools. Currently
-                AdPilot does not use marketing cookies, but this category is
+                ReachPilot does not use marketing cookies, but this category is
                 reserved for future use and requires your explicit consent.
               </p>
               <p>
@@ -259,10 +259,10 @@ export default function PrivacyPage() {
                 permanently deleted. You can request immediate deletion at any
                 time by contacting{" "}
                 <a
-                  href="mailto:support@adpilot.com.au"
+                  href="mailto:support@reachpilot.com.au"
                   style={{ color: "var(--accent-blue)" }}
                 >
-                  support@adpilot.com.au
+                  support@reachpilot.com.au
                 </a>
                 .
               </p>
@@ -279,7 +279,7 @@ export default function PrivacyPage() {
             </h2>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
-                AdPilot is built in Australia and serves users globally. User
+                ReachPilot is built in Australia and serves users globally. User
                 data is primarily stored in US-based data centers via Vercel and
                 AWS. International data transfers are protected using Standard
                 Contractual Clauses (SCCs) where applicable.
@@ -302,7 +302,7 @@ export default function PrivacyPage() {
             </h2>
             <p className="text-sm mb-3" style={{ color: "var(--text-secondary)" }}>
               [DRAFT — REQUIRES LEGAL REVIEW] We share data with the following
-              third-party service providers (subprocessors) to operate AdPilot:
+              third-party service providers (subprocessors) to operate ReachPilot:
             </p>
             <div className="overflow-x-auto">
               <table className="w-full text-sm" style={{ color: "var(--text-secondary)" }}>
@@ -389,7 +389,7 @@ export default function PrivacyPage() {
                 </li>
                 <li>
                   <strong style={{ color: "var(--text-primary)" }}>Do Not Sell (CCPA):</strong>{" "}
-                  AdPilot does not sell personal data to third parties.
+                  ReachPilot does not sell personal data to third parties.
                 </li>
                 <li>
                   <strong style={{ color: "var(--text-primary)" }}>Disconnection:</strong>{" "}
@@ -411,7 +411,7 @@ export default function PrivacyPage() {
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
                 If you are in the EEA, our legal bases for processing your data
-                are: contract performance (providing the AdPilot service),
+                are: contract performance (providing the ReachPilot service),
                 legitimate interest (improving our product), and consent (where
                 applicable, such as marketing emails).
               </p>
@@ -420,10 +420,10 @@ export default function PrivacyPage() {
                 erasure, data portability, and objection to processing — by
                 contacting{" "}
                 <a
-                  href="mailto:privacy@adpilot.com.au"
+                  href="mailto:privacy@reachpilot.com.au"
                   style={{ color: "var(--accent-blue)" }}
                 >
-                  privacy@adpilot.com.au
+                  privacy@reachpilot.com.au
                 </a>
                 .
               </p>
@@ -439,7 +439,7 @@ export default function PrivacyPage() {
               11. Australian Privacy Act
             </h2>
             <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-              AdPilot complies with the Australian Privacy Principles (APPs)
+              ReachPilot complies with the Australian Privacy Principles (APPs)
               under the Privacy Act 1988 (Cth). We collect only necessary
               personal information, maintain a transparent privacy policy, and
               provide access and correction mechanisms. If you believe we have
@@ -460,16 +460,16 @@ export default function PrivacyPage() {
               <p>
                 California residents have the right to know what personal
                 information we collect, request deletion of that information,
-                and opt out of the sale of personal information. AdPilot does
+                and opt out of the sale of personal information. ReachPilot does
                 not sell personal data.
               </p>
               <p>
                 To exercise your CCPA rights, contact{" "}
                 <a
-                  href="mailto:privacy@adpilot.com.au"
+                  href="mailto:privacy@reachpilot.com.au"
                   style={{ color: "var(--accent-blue)" }}
                 >
-                  privacy@adpilot.com.au
+                  privacy@reachpilot.com.au
                 </a>
                 .
               </p>
@@ -485,7 +485,7 @@ export default function PrivacyPage() {
               13. Children&apos;s Privacy
             </h2>
             <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-              [DRAFT — REQUIRES LEGAL REVIEW] AdPilot is not directed at
+              [DRAFT — REQUIRES LEGAL REVIEW] ReachPilot is not directed at
               children under the age of 16. We do not knowingly collect personal
               information from children under 16. If we become aware that a
               child under 16 has provided us with personal data, we will take
@@ -506,7 +506,7 @@ export default function PrivacyPage() {
               changes will be communicated via email at least 30 days before they
               take effect. The &quot;Last updated&quot; date at the top of this
               page indicates when the policy was last revised. Continued use of
-              AdPilot after changes take effect constitutes acceptance of the
+              ReachPilot after changes take effect constitutes acceptance of the
               updated policy.
             </p>
           </section>
@@ -523,20 +523,20 @@ export default function PrivacyPage() {
               <p>
                 For privacy inquiries, contact us at{" "}
                 <a
-                  href="mailto:privacy@adpilot.com.au"
+                  href="mailto:privacy@reachpilot.com.au"
                   style={{ color: "var(--accent-blue)" }}
                 >
-                  privacy@adpilot.com.au
+                  privacy@reachpilot.com.au
                 </a>
                 .
               </p>
               <p className="mt-2">
                 For security issues, contact{" "}
                 <a
-                  href="mailto:security@adpilot.com.au"
+                  href="mailto:security@reachpilot.com.au"
                   style={{ color: "var(--accent-blue)" }}
                 >
-                  security@adpilot.com.au
+                  security@reachpilot.com.au
                 </a>
                 .
               </p>

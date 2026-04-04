@@ -1,4 +1,4 @@
-# AdPilot SEO & Marketing Site Audit
+# ReachPilot SEO & Marketing Site Audit
 
 > Generated 2026-04-03 as part of Audit 06.
 
@@ -8,8 +8,8 @@
 
 ### Root Layout (`apps/web/src/app/layout.tsx`)
 
-- [x] Default title: `"AdPilot | AI-Powered Marketing Automation"` (47 chars -- good)
-- [x] Title template: `"%s | AdPilot"` -- all child pages get the brand suffix
+- [x] Default title: `"ReachPilot | AI-Powered Marketing Automation"` (47 chars -- good)
+- [x] Title template: `"%s | ReachPilot"` -- all child pages get the brand suffix
 - [x] Default description: present, 131 chars (under 160)
 - [x] `metadataBase` configured with `NEXT_PUBLIC_APP_URL`
 - [x] Canonical URL: `alternates.canonical: "./"` -- auto-canonical on every page
@@ -25,27 +25,27 @@ Every marketing page exports a unique `metadata` object:
 | Page | Title | Description | OG | Status |
 |---|---|---|---|---|
 | Homepage (`/`) | Default from layout | Default from layout | From layout | OK |
-| About (`/about`) | "About AdPilot \| AI-Powered..." | 131 chars | Yes | OK |
-| Blog (`/blog`) | "Blog \| AdPilot" | 123 chars | Yes | OK |
+| About (`/about`) | "About ReachPilot \| AI-Powered..." | 131 chars | Yes | OK |
+| Blog (`/blog`) | "Blog \| ReachPilot" | 123 chars | Yes | OK |
 | Blog posts (`/blog/[slug]`) | Dynamic `generateMetadata` | Dynamic | Yes | OK |
-| Contact (`/contact`) | "Contact Us \| AdPilot" | 88 chars | Yes | OK |
-| Careers (`/careers`) | "Careers \| AdPilot" | 86 chars | Yes | OK |
-| Changelog (`/changelog`) | "Changelog \| AdPilot" | 66 chars | Yes | OK |
-| Docs (`/docs`) | "Documentation \| AdPilot" | 118 chars | Yes | OK |
+| Contact (`/contact`) | "Contact Us \| ReachPilot" | 88 chars | Yes | OK |
+| Careers (`/careers`) | "Careers \| ReachPilot" | 86 chars | Yes | OK |
+| Changelog (`/changelog`) | "Changelog \| ReachPilot" | 66 chars | Yes | OK |
+| Docs (`/docs`) | "Documentation \| ReachPilot" | 118 chars | Yes | OK |
 | Marketing (`/marketing`) | Unique | Unique | Yes | OK |
 | Marketing/[city] | Dynamic `generateMetadata` | Dynamic per city | Yes | OK |
-| Privacy (`/privacy`) | "Privacy Policy \| AdPilot" | 108 chars | Yes | OK |
-| Security (`/security`) | "Security \| AdPilot" | 107 chars | Yes | OK |
-| Signup (`/signup`) | "Join the Waitlist \| AdPilot" | 96 chars | Yes | OK |
-| Status (`/status`) | "System Status \| AdPilot" | 81 chars | Yes | OK |
-| Terms (`/terms`) | "Terms of Service \| AdPilot" | 111 chars | Yes | OK |
+| Privacy (`/privacy`) | "Privacy Policy \| ReachPilot" | 108 chars | Yes | OK |
+| Security (`/security`) | "Security \| ReachPilot" | 107 chars | Yes | OK |
+| Signup (`/signup`) | "Join the Waitlist \| ReachPilot" | 96 chars | Yes | OK |
+| Status (`/status`) | "System Status \| ReachPilot" | 81 chars | Yes | OK |
+| Terms (`/terms`) | "Terms of Service \| ReachPilot" | 111 chars | Yes | OK |
 
 ### Findings
 
 - All 15+ marketing pages have unique titles and descriptions.
 - All are under 60 chars (title) and 160 chars (description).
 - OG tags present on every page (title, description, type, url).
-- **Minor issue:** Some OG URLs use `adpilot.au` while `metadataBase` is `adpilot.app`. These should be consistent but are not blocking since Next.js resolves relative OG URLs from `metadataBase`.
+- **Minor issue:** Some OG URLs use `reachpilot.au` while `metadataBase` is `reachpilot.app`. These should be consistent but are not blocking since Next.js resolves relative OG URLs from `metadataBase`.
 - **Missing:** `twitter:image` is not set per-page (falls back to layout's `icon-1024.png`). A 1200x630 OG image would be better for social sharing.
 
 ---
@@ -83,7 +83,7 @@ Every marketing page exports a unique `metadata` object:
 ### SoftwareApplication Schema
 
 - [x] `@type: "SoftwareApplication"`
-- [x] `name: "AdPilot"`
+- [x] `name: "ReachPilot"`
 - [x] `description` present (meaningful, includes keywords)
 - [x] `applicationCategory: "BusinessApplication"`
 - [x] `operatingSystem: "Web"`
@@ -91,7 +91,7 @@ Every marketing page exports a unique `metadata` object:
 - [x] Pro/Agency offers include `priceSpecification` with monthly billing
 - [x] `creator` Organization with `founder` Person
 - [x] `featureList` with 6 features
-- [x] `url` set to `https://adpilot.app`
+- [x] `url` set to `https://reachpilot.app`
 
 ### FAQPage Schema
 
@@ -161,7 +161,7 @@ No `<img>` or `<Image>` tags found in marketing components. The marketing site u
 
 ### Minor Issues (Low Priority)
 
-1. **OG URL inconsistency** -- Some pages hardcode `adpilot.au` in OG URLs while `metadataBase` is `adpilot.app`. Not blocking but should be unified.
+1. **OG URL inconsistency** -- Some pages hardcode `reachpilot.au` in OG URLs while `metadataBase` is `reachpilot.app`. Not blocking but should be unified.
 2. **OG image aspect ratio** -- Current OG image is 1024x1024 (square). Social platforms prefer 1200x630. Create a dedicated OG image.
 3. **`alt="AI Generated"`** in image-gen page could include the prompt text for better accessibility.
 

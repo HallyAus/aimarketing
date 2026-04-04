@@ -8,7 +8,7 @@
 
 **Tech Stack:** Next.js 15 API routes, Prisma (Campaign + Post models already exist), BullMQ, PlatformClient from packages/platform-sdk, Zod, Vitest
 
-**Spec:** `docs/superpowers/specs/2026-03-29-adpilot-foundation-design.md` — Sections 4 (Campaign/Post models), 7 (BullMQ queues)
+**Spec:** `docs/superpowers/specs/2026-03-29-reachpilot-foundation-design.md` — Sections 4 (Campaign/Post models), 7 (BullMQ queues)
 
 **Depends on:** Phase 1 (foundation) + Phase 2 (platform connections)
 
@@ -157,8 +157,8 @@ Create `apps/web/src/app/api/campaigns/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
-import { createCampaignSchema, checkPlanLimit } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { createCampaignSchema, checkPlanLimit } from "@reachpilot/shared";
 
 // GET /api/campaigns — list campaigns for current org
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
@@ -226,8 +226,8 @@ Create `apps/web/src/app/api/campaigns/[campaignId]/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
-import { updateCampaignSchema } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { updateCampaignSchema } from "@reachpilot/shared";
 
 // GET /api/campaigns/[campaignId]
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
@@ -366,8 +366,8 @@ Create `apps/web/src/app/api/campaigns/[campaignId]/posts/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
-import { createPostSchema, checkPlanLimit } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { createPostSchema, checkPlanLimit } from "@reachpilot/shared";
 
 // GET /api/campaigns/[campaignId]/posts
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
@@ -461,8 +461,8 @@ Create `apps/web/src/app/api/posts/[postId]/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
-import { updatePostSchema } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { updatePostSchema } from "@reachpilot/shared";
 
 // PATCH /api/posts/[postId] — optimistic concurrency
 export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) => {
@@ -545,8 +545,8 @@ Create `apps/web/src/app/api/posts/[postId]/approve/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
-import { isValidTransition } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { isValidTransition } from "@reachpilot/shared";
 
 // POST /api/posts/[postId]/approve — ADMIN+ only
 export const POST = withErrorHandler(withRole("ADMIN", async (req, context) => {
@@ -602,8 +602,8 @@ Create `apps/web/src/app/api/posts/[postId]/reject/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
-import { isValidTransition, rejectPostSchema } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { isValidTransition, rejectPostSchema } from "@reachpilot/shared";
 
 // POST /api/posts/[postId]/reject — ADMIN+ only
 export const POST = withErrorHandler(withRole("ADMIN", async (req, context) => {
@@ -677,7 +677,7 @@ Create `apps/web/src/app/api/campaigns/[campaignId]/publish/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 import { Queue } from "bullmq";
 import { redis } from "@/lib/redis";
 
@@ -786,7 +786,7 @@ Create `apps/worker/src/processors/campaign-schedule.ts`:
 ```typescript
 import type { Job } from "bullmq";
 import { Queue } from "bullmq";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 import { connection } from "../queues";
 
 const publishQueue = new Queue("campaign:publish", { connection });
@@ -854,9 +854,9 @@ Create `apps/worker/src/processors/campaign-publish.ts`:
 
 ```typescript
 import type { Job } from "bullmq";
-import { prisma } from "@adpilot/db";
-import { PlatformClient } from "@adpilot/platform-sdk";
-import type { Platform } from "@adpilot/platform-sdk";
+import { prisma } from "@reachpilot/db";
+import { PlatformClient } from "@reachpilot/platform-sdk";
+import type { Platform } from "@reachpilot/platform-sdk";
 
 export async function processCampaignPublish(job: Job): Promise<void> {
   const { postId, orgId, platform } = job.data as {

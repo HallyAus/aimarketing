@@ -14,7 +14,7 @@ export const blogPosts: BlogPost[] = [
     title: "5 Ways AI Is Changing Social Media Marketing in 2026",
     description:
       "From predictive analytics to automated content creation, AI is reshaping how businesses approach social media. Here are the five biggest shifts happening right now.",
-    author: "AdPilot Team",
+    author: "ReachPilot Team",
     date: "2026-03-28",
     readTime: "5 min read",
     content: `The social media landscape in 2026 looks nothing like it did even two years ago. AI has moved from a nice-to-have curiosity to the backbone of serious marketing operations. If you're still scheduling posts manually and guessing at optimal times, you're leaving real results on the table.
@@ -46,7 +46,7 @@ The bottom line: AI isn't replacing marketers. It's eliminating the busywork so 
     title: "How to Manage 9 Social Platforms Without Losing Your Mind",
     description:
       "Managing Facebook, Instagram, TikTok, LinkedIn, X, YouTube, Google Ads, Pinterest, and Snapchat from one dashboard. Here's the workflow that actually works.",
-    author: "AdPilot Team",
+    author: "ReachPilot Team",
     date: "2026-03-21",
     readTime: "6 min read",
     content: `Nine platforms. Nine algorithms. Nine sets of best practices. Nine content formats. If you're managing all of them manually, you're either burning out or doing a mediocre job on most of them. Neither outcome is acceptable when your business depends on social media presence.
@@ -89,7 +89,7 @@ The businesses that thrive on social media in 2026 aren't the ones with the bigg
       "The Complete Guide to AI-Generated Content That Actually Sounds Human",
     description:
       "Most AI content is obvious. Here's how to use AI as a writing partner to produce content that connects with real people.",
-    author: "AdPilot Team",
+    author: "ReachPilot Team",
     date: "2026-03-14",
     readTime: "7 min read",
     content: `You can spot bad AI content from a mile away. It's the blog post that opens with "In today's fast-paced digital landscape." It's the social caption packed with buzzwords but empty of meaning. It's the email that sounds like it was written by a thesaurus that gained sentience.
@@ -134,7 +134,7 @@ AI doesn't make content creation effortless. It makes it efficient — which fre
       "Scheduling Posts Across Timezones: Why Most Tools Get It Wrong",
     description:
       "Your audience spans the globe. Your scheduling tool probably doesn't account for that. Here's how timezone-aware publishing actually works.",
-    author: "AdPilot Team",
+    author: "ReachPilot Team",
     date: "2026-03-07",
     readTime: "5 min read",
     content: `You schedule a post for 9 AM. But 9 AM where? If your audience spans New York, London, Tokyo, and Sydney, that single scheduled post is hitting four very different moments in your followers' days. Most scheduling tools treat timezones as an afterthought. That's a problem.
@@ -172,15 +172,15 @@ Build your content calendar around audience timezones, not your own. Use tools t
 Your content deserves to be seen when your audience is actually looking. Timezone-aware scheduling makes that possible without requiring you to set five alarms across three time zones.`,
   },
   {
-    slug: "why-we-built-adpilot",
+    slug: "why-we-built-reachpilot",
     title:
-      "Why We Built AdPilot: From Side Project to Global Marketing Platform",
+      "Why We Built ReachPilot: From Side Project to Global Marketing Platform",
     description:
-      "The story of how AdPilot started as a frustration with existing tools and grew into a platform serving businesses worldwide.",
-    author: "AdPilot Team",
+      "The story of how ReachPilot started as a frustration with existing tools and grew into a platform serving businesses worldwide.",
+    author: "ReachPilot Team",
     date: "2026-02-28",
     readTime: "6 min read",
-    content: `AdPilot started the way most good tools start: with frustration. Daniel Hall was managing social media for multiple projects, juggling between five different dashboards, copying and pasting content between platforms, and losing track of what was scheduled where. The existing tools were either too expensive for small teams or too limited for serious multi-platform management.
+    content: `ReachPilot started the way most good tools start: with frustration. Daniel Hall was managing social media for multiple projects, juggling between five different dashboards, copying and pasting content between platforms, and losing track of what was scheduled where. The existing tools were either too expensive for small teams or too limited for serious multi-platform management.
 
 ## The Problem That Wouldn't Go Away
 
@@ -190,23 +190,23 @@ What was missing was a tool that combined genuine AI intelligence with multi-pla
 
 ## Building in Australia, for the World
 
-AdPilot was built in Australia, which turned out to be an unexpected advantage. Operating across Australian, Asian, European, and American timezones from day one meant timezone handling wasn't an afterthought — it was a core requirement from the first line of code.
+ReachPilot was built in Australia, which turned out to be an unexpected advantage. Operating across Australian, Asian, European, and American timezones from day one meant timezone handling wasn't an afterthought — it was a core requirement from the first line of code.
 
 The global perspective shaped every decision. The platform supports nine social networks because businesses everywhere use different platform mixes. Pricing is in USD because our users span every continent. The AI content engine understands cultural nuances because a post that works in New York might land differently in Singapore.
 
 ## The AI Difference
 
-When we integrated Claude AI into AdPilot, the product transformed. Instead of just scheduling posts, users could generate entire content calendars. Instead of manually adapting content for each platform, AI handled the adaptation while preserving brand voice. Instead of guessing at performance, AI analyzed patterns across all nine platforms and surfaced actionable insights.
+When we integrated Claude AI into ReachPilot, the product transformed. Instead of just scheduling posts, users could generate entire content calendars. Instead of manually adapting content for each platform, AI handled the adaptation while preserving brand voice. Instead of guessing at performance, AI analyzed patterns across all nine platforms and surfaced actionable insights.
 
 The key insight was that AI shouldn't replace the marketer — it should handle the 80% of work that's mechanical so humans can focus on the 20% that's creative and strategic.
 
 ## What We Believe
 
-We built AdPilot on a simple belief: every business deserves great marketing, regardless of team size or budget. A solo founder should have access to the same AI-powered tools as a Fortune 500 marketing department. That's why we offer a genuine free tier — not a crippled trial, but a real plan that lets small businesses publish content across multiple platforms without paying a cent.
+We built ReachPilot on a simple belief: every business deserves great marketing, regardless of team size or budget. A solo founder should have access to the same AI-powered tools as a Fortune 500 marketing department. That's why we offer a genuine free tier — not a crippled trial, but a real plan that lets small businesses publish content across multiple platforms without paying a cent.
 
 ## Where We're Headed
 
-AdPilot is still early. We're expanding our AI capabilities, adding deeper analytics, building webhook integrations for custom workflows, and growing our platform support. The vision is a single dashboard where any business, anywhere in the world, can manage their entire social media presence with AI as their co-pilot.
+ReachPilot is still early. We're expanding our AI capabilities, adding deeper analytics, building webhook integrations for custom workflows, and growing our platform support. The vision is a single dashboard where any business, anywhere in the world, can manage their entire social media presence with AI as their co-pilot.
 
 We're building this in public, learning from every user, and shipping improvements every week. If you've ever wished social media management was simpler, smarter, and more affordable — that's exactly what we're building.`,
   },

@@ -5,7 +5,7 @@
 
 ## Context
 
-AdPilot manages relational data across 27+ models with complex relationships (organizations, memberships, platform connections, pages, posts, campaigns, analytics snapshots, billing records). We needed:
+ReachPilot manages relational data across 27+ models with complex relationships (organizations, memberships, platform connections, pages, posts, campaigns, analytics snapshots, billing records). We needed:
 
 - A relational database that handles JSON columns (audience config, raw platform payloads), array fields (scopes, media URLs, tags), and decimal precision for financial data.
 - An ORM that provides type-safe queries, migration management, and works well in a TypeScript monorepo.
@@ -15,7 +15,7 @@ AdPilot manages relational data across 27+ models with complex relationships (or
 
 Use **PostgreSQL 16** as the primary database and **Prisma ORM v6** as the data access layer.
 
-The schema lives in `packages/db/prisma/schema.prisma` and is shared across the web app and worker via the `@adpilot/db` package. Prisma Client is generated into `packages/db/generated/client`.
+The schema lives in `packages/db/prisma/schema.prisma` and is shared across the web app and worker via the `@reachpilot/db` package. Prisma Client is generated into `packages/db/generated/client`.
 
 ## Consequences
 

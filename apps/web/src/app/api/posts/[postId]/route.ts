@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { updatePostSchema, sanitizeHtml } from "@adpilot/shared";
+import { updatePostSchema, sanitizeHtml } from "@reachpilot/shared";
 
 // PATCH /api/posts/[postId] — optimistic concurrency
 export const PATCH = withErrorHandler(withRole("EDITOR", async (req, context) => {

@@ -47,11 +47,11 @@ export default async function SettingsPage() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <div>
             <div style={labelStyle}>Platform Name</div>
-            <div style={valueStyle}>AdPilot</div>
+            <div style={valueStyle}>ReachPilot</div>
           </div>
           <div>
             <div style={labelStyle}>Support Email</div>
-            <div style={valueStyle}>{process.env.SUPPORT_EMAIL || "support@adpilot.co"}</div>
+            <div style={valueStyle}>{process.env.SUPPORT_EMAIL || "support@reachpilot.co"}</div>
           </div>
           <div>
             <div style={labelStyle}>Environment</div>

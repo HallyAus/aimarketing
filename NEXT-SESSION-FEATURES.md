@@ -1,4 +1,4 @@
-# AdPilot — Next Session Feature Specs
+# ReachPilot — Next Session Feature Specs
 
 ## Feature 1: Sentiment Auto-Apply to Post Creation
 

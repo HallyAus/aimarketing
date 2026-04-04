@@ -4,9 +4,9 @@ import { useState } from "react";
 
 const faqs = [
   {
-    question: "What platforms does AdPilot support?",
+    question: "What platforms does ReachPilot support?",
     answer:
-      "AdPilot supports 9 major platforms: Facebook, Instagram, TikTok, LinkedIn, Twitter/X, YouTube, Google Ads, Pinterest, and Snapchat. Connect all your accounts and manage them from a single dashboard.",
+      "ReachPilot supports 9 major platforms: Facebook, Instagram, TikTok, LinkedIn, Twitter/X, YouTube, Google Ads, Pinterest, and Snapchat. Connect all your accounts and manage them from a single dashboard.",
   },
   {
     question: "How does the AI content generation work?",
@@ -14,14 +14,14 @@ const faqs = [
       "Our AI Content Studio is powered by Claude AI. It learns your brand voice from your existing content and generates on-brand posts, ad copy, and captions. You can generate from scratch, improve existing copy, or create variations for A/B testing. All content is editable before publishing.",
   },
   {
-    question: "Can I try AdPilot for free?",
+    question: "Can I try ReachPilot for free?",
     answer:
       "Yes! Our Free plan includes 1 user, 3 platforms, and 30 posts per month — no credit card required. You can upgrade to Pro or Agency at any time as your needs grow.",
   },
   {
     question: "How does team collaboration work?",
     answer:
-      "AdPilot offers role-based access control so you can assign different permissions to team members. Content approval workflows let managers review and approve posts before they go live. Full audit trails track every change for accountability.",
+      "ReachPilot offers role-based access control so you can assign different permissions to team members. Content approval workflows let managers review and approve posts before they go live. Full audit trails track every change for accountability.",
   },
   {
     question: "Is my data secure?",
@@ -34,27 +34,27 @@ const faqs = [
       "Yes. On Pro and Agency plans, you can connect multiple accounts per platform. This is perfect for agencies managing multiple clients or businesses with multiple brand pages.",
   },
   {
-    question: "What analytics does AdPilot provide?",
+    question: "What analytics does ReachPilot provide?",
     answer:
-      "AdPilot provides real-time analytics across all connected platforms, including engagement rates, reach, impressions, click-through rates, and audience demographics. Pro and Agency plans include advanced analytics with custom reports and trend analysis.",
+      "ReachPilot provides real-time analytics across all connected platforms, including engagement rates, reach, impressions, click-through rates, and audience demographics. Pro and Agency plans include advanced analytics with custom reports and trend analysis.",
   },
   {
     question: "Do you offer global support?",
     answer:
-      "AdPilot is built in Australia and used by teams worldwide. We offer support across all timezones with response within 24 hours. Pro and Agency plans include priority and dedicated support.",
+      "ReachPilot is built in Australia and used by teams worldwide. We offer support across all timezones with response within 24 hours. Pro and Agency plans include priority and dedicated support.",
   },
   {
-    question: "How does AdPilot handle timezones?",
+    question: "How does ReachPilot handle timezones?",
     answer:
-      "AdPilot auto-detects your timezone the moment you sign up — no setup needed. All scheduled posts display in your local time. If you have a team spread across timezones, each member sees times in their own timezone automatically. Our Smart Scheduling AI also considers your audience\'s timezones to recommend optimal posting windows.",
+      "ReachPilot auto-detects your timezone the moment you sign up — no setup needed. All scheduled posts display in your local time. If you have a team spread across timezones, each member sees times in their own timezone automatically. Our Smart Scheduling AI also considers your audience\'s timezones to recommend optimal posting windows.",
   },
   {
     question: "Can I schedule posts for a different timezone?",
     answer:
-      "Yes. Your timezone is auto-detected but you can override it anytime. You can also set audience timezones per platform so AdPilot optimizes posting times for when your followers are actually online.",
+      "Yes. Your timezone is auto-detected but you can override it anytime. You can also set audience timezones per platform so ReachPilot optimizes posting times for when your followers are actually online.",
   },
   {
-    question: "Does AdPilot support teams across timezones?",
+    question: "Does ReachPilot support teams across timezones?",
     answer:
       "Absolutely. Each team member sees the content calendar in their own local timezone. A post scheduled for \'9:00 AM\' shows each person the correct time in their timezone. No confusion, no manual conversion.",
   },

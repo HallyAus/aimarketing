@@ -8,7 +8,7 @@
 
 **Tech Stack:** Next.js 15 App Router (server components + server actions), Tailwind CSS, Prisma
 
-**Spec:** `docs/superpowers/specs/2026-03-29-adpilot-foundation-design.md` — Section 14 item 6
+**Spec:** `docs/superpowers/specs/2026-03-29-reachpilot-foundation-design.md` — Section 14 item 6
 
 ---
 
@@ -108,8 +108,8 @@ Create `apps/web/src/app/api/templates/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
-import { createTemplateSchema } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { createTemplateSchema } from "@reachpilot/shared";
 
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   const templates = await prisma.postTemplate.findMany({
@@ -144,8 +144,8 @@ Create `apps/web/src/app/api/templates/[templateId]/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
-import { updateTemplateSchema } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { updateTemplateSchema } from "@reachpilot/shared";
 
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
   const { templateId } = await context.params;
@@ -215,7 +215,7 @@ Create `apps/web/src/app/(dashboard)/campaigns/page.tsx`:
 ```tsx
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 import Link from "next/link";
 
 const STATUS_COLORS: Record<string, string> = {
@@ -301,7 +301,7 @@ Create `apps/web/src/app/(dashboard)/campaigns/new/page.tsx`:
 ```tsx
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 
 const OBJECTIVES = ["AWARENESS", "TRAFFIC", "ENGAGEMENT", "CONVERSIONS", "LEADS"];
 const PLATFORMS = ["FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X", "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT"];
@@ -412,7 +412,7 @@ Create `apps/web/src/app/(dashboard)/campaigns/[campaignId]/page.tsx`:
 ```tsx
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 import Link from "next/link";
 
 const POST_STATUS_COLORS: Record<string, string> = {
@@ -531,7 +531,7 @@ Create `apps/web/src/app/(dashboard)/campaigns/[campaignId]/posts/new/page.tsx`:
 ```tsx
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 
 export default async function NewPostPage({
   params,
@@ -645,7 +645,7 @@ Create `apps/web/src/app/(dashboard)/calendar/page.tsx`:
 ```tsx
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 
 const PLATFORM_COLORS: Record<string, string> = {
   FACEBOOK: "border-l-blue-600",
@@ -797,7 +797,7 @@ Create `apps/web/src/app/(dashboard)/templates/page.tsx`:
 ```tsx
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 import Link from "next/link";
 
 export default async function TemplatesPage() {
@@ -942,7 +942,7 @@ Create `apps/web/src/app/(dashboard)/onboarding/page.tsx`:
 ```tsx
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 import Link from "next/link";
 
 export default async function OnboardingPage() {
@@ -972,7 +972,7 @@ export default async function OnboardingPage() {
 
   return (
     <div className="max-w-lg mx-auto mt-8">
-      <h1 className="text-2xl font-bold mb-2">Welcome to AdPilot!</h1>
+      <h1 className="text-2xl font-bold mb-2">Welcome to ReachPilot!</h1>
       <p className="text-gray-500 mb-8">
         {allDone
           ? "You're all set! Start managing your campaigns."

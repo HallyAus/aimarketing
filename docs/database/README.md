@@ -1,4 +1,4 @@
-# AdPilot Database Schema Documentation
+# ReachPilot Database Schema Documentation
 
 **Database:** PostgreSQL 16
 **ORM:** Prisma v6
@@ -8,7 +8,7 @@
 
 ## Models Overview
 
-AdPilot has 27 models organized into logical groups.
+ReachPilot has 27 models organized into logical groups.
 
 ### Core Models
 

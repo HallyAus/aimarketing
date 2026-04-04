@@ -121,7 +121,7 @@ export default function UrlToPostsPage() {
     // Read the active account at save time for pageId/pageName
     let currentAccount: { id: string; name: string } | null = null;
     try {
-      const stored = localStorage.getItem("adpilot-active-account");
+      const stored = localStorage.getItem("reachpilot-active-account");
       if (stored && stored !== "all") {
         currentAccount = JSON.parse(stored);
       }

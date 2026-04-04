@@ -31,7 +31,7 @@ export interface ActivePageResult {
  *
  * Resolution order:
  *   1. URL searchParams `?page=`
- *   2. Cookie `adpilot-active-page`
+ *   2. Cookie `reachpilot-active-page`
  *   3. DB `User.lastSelectedPageId`
  *   4. Redirect to `/select-page`
  */
@@ -50,7 +50,7 @@ export async function getActivePageServer(
 
   // 2. Try cookie
   const cookieStore = await cookies();
-  const raw = cookieStore.get("adpilot-active-page")?.value;
+  const raw = cookieStore.get("reachpilot-active-page")?.value;
   if (raw && raw !== "all") {
     try {
       const decoded = decodeURIComponent(raw);

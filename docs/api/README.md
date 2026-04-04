@@ -1,8 +1,8 @@
-# AdPilot API Documentation
+# ReachPilot API Documentation
 
 All API endpoints live under `/api/` and are implemented as Next.js App Router route handlers. Unless noted otherwise, all authenticated endpoints require a valid NextAuth.js session cookie.
 
-**Base URL:** `https://app.adpilot.io/api` (production) or `http://localhost:3000/api` (development)
+**Base URL:** `https://app.reachpilot.io/api` (production) or `http://localhost:3000/api` (development)
 
 ---
 

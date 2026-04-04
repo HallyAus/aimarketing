@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { prisma } from "@/lib/db";
-import { Prisma } from "@adpilot/db";
+import { Prisma } from "@reachpilot/db";
 import { z } from "zod";
 
 const createSchema = z.object({
@@ -84,7 +84,7 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
 
   // For embed forms, use the first org (or a specific org ID from header)
   if (!orgId) {
-    const headerOrgId = req.headers.get("x-adpilot-org");
+    const headerOrgId = req.headers.get("x-reachpilot-org");
     if (headerOrgId) {
       orgId = headerOrgId;
     } else {

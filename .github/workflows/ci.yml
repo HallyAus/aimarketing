@@ -55,19 +55,19 @@ jobs:
       postgres:
         image: postgres:16-alpine
         env:
-          POSTGRES_USER: adpilot_test
-          POSTGRES_PASSWORD: adpilot_test_pw
-          POSTGRES_DB: adpilot_test
+          POSTGRES_USER: reachpilot_test
+          POSTGRES_PASSWORD: reachpilot_test_pw
+          POSTGRES_DB: reachpilot_test
         ports:
           - 5433:5432
         options: >-
-          --health-cmd "pg_isready -U adpilot_test"
+          --health-cmd "pg_isready -U reachpilot_test"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
 
     env:
-      DATABASE_URL: postgresql://adpilot_test:adpilot_test_pw@localhost:5433/adpilot_test
+      DATABASE_URL: postgresql://reachpilot_test:reachpilot_test_pw@localhost:5433/reachpilot_test
 
     steps:
       - uses: actions/checkout@v4

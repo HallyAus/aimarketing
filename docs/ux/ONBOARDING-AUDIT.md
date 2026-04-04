@@ -1,4 +1,4 @@
-# AdPilot Onboarding UX Audit
+# ReachPilot Onboarding UX Audit
 
 > Based on AUDIT-08-ONBOARDING-UX.md -- findings and implementation status.
 

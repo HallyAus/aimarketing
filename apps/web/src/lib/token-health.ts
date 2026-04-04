@@ -6,7 +6,7 @@
  * to proactively refresh expiring tokens.
  */
 
-import type { Platform } from "@adpilot/platform-sdk";
+import type { Platform } from "@reachpilot/platform-sdk";
 
 // ---------------------------------------------------------------------------
 // Types

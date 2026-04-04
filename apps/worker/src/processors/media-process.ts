@@ -1,6 +1,6 @@
 import type { Job } from "bullmq";
 import sharp from "sharp";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 import { getFromR2, putToR2 } from "../r2";
 
 const THUMBNAIL_WIDTH = 400;

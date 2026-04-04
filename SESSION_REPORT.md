@@ -1,7 +1,7 @@
-# AdPilot Session Report
+# ReachPilot Session Report
 
 **Date:** 2026-03-29 → 2026-03-30
-**Project:** AdPilot — Automated Marketing Agency SaaS
+**Project:** ReachPilot — Automated Marketing Agency SaaS
 **Repo:** github.com/HallyAus/aimarketing
 
 ---
@@ -158,7 +158,7 @@ Built a complete, production-deployed marketing agency SaaS platform from scratc
 ## File Structure
 
 ```
-adpilot/ (112 commits, 173 files, 26,599 lines)
+reachpilot/ (112 commits, 173 files, 26,599 lines)
 ├── apps/web/          — Next.js 15 App Router (90+ files)
 ├── apps/worker/       — BullMQ consumer (10 files, 7 processors)
 ├── packages/db/       — Prisma schema (15 models)

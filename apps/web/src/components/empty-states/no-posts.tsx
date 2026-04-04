@@ -24,7 +24,7 @@ export function NoPosts() {
     <EmptyState
       icon={<PostIcon />}
       title="No posts yet"
-      description="Create your first post with AI. AdPilot can generate, schedule, and publish content for you automatically."
+      description="Create your first post with AI. ReachPilot can generate, schedule, and publish content for you automatically."
       action={
         <div className="flex items-center gap-3">
           <Link href="/campaigns/new" className="btn-primary text-sm">

@@ -18,7 +18,7 @@ Adopt a **page-scoped architecture** where each connected social media page/acco
 
 Key implementation:
 
-- **Active Page Selection:** Users select their active page via a cookie (`adpilot-active-page`). The `getActivePageId()` helper in `apps/web/src/lib/active-page.ts` resolves this server-side.
+- **Active Page Selection:** Users select their active page via a cookie (`reachpilot-active-page`). The `getActivePageId()` helper in `apps/web/src/lib/active-page.ts` resolves this server-side.
 - **Data Scoping:** The `pageWhere()` helper returns a Prisma `where` clause fragment. When a page is selected, all queries are filtered to that page. When "All Accounts" is selected, queries return org-wide data.
 - **Page-Owned Models:** Posts, campaigns, brand voices, hashtag sets, content templates, RSS feeds, webhook rules, lead captures, performance reports, ingestion jobs, and historical data all belong to a specific page.
 - **Organization as Container:** The Organization owns pages (through PlatformConnections) and handles billing, team membership, and plan limits.

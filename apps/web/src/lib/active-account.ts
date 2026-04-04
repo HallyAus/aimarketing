@@ -10,7 +10,7 @@ export interface ActiveAccount {
 
 export async function getActiveAccount(): Promise<ActiveAccount | null> {
   const cookieStore = await cookies();
-  const raw = cookieStore.get("adpilot-active-page")?.value;
+  const raw = cookieStore.get("reachpilot-active-page")?.value;
   if (!raw || raw === "all") return null; // null means "all accounts"
   try {
     const decoded = decodeURIComponent(raw);

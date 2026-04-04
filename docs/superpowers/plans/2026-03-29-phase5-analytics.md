@@ -8,7 +8,7 @@
 
 **Tech Stack:** Next.js 15 API routes, Prisma (AnalyticsSnapshot model exists), BullMQ, PlatformClient, Vitest
 
-**Spec:** `docs/superpowers/specs/2026-03-29-adpilot-foundation-design.md` — Sections 4 (AnalyticsSnapshot), 7 (analytics:sync queue)
+**Spec:** `docs/superpowers/specs/2026-03-29-reachpilot-foundation-design.md` — Sections 4 (AnalyticsSnapshot), 7 (analytics:sync queue)
 
 ---
 
@@ -43,9 +43,9 @@ Create `apps/worker/src/processors/analytics-sync.ts`:
 
 ```typescript
 import type { Job } from "bullmq";
-import { prisma } from "@adpilot/db";
-import { PlatformClient } from "@adpilot/platform-sdk";
-import type { Platform } from "@adpilot/platform-sdk";
+import { prisma } from "@reachpilot/db";
+import { PlatformClient } from "@reachpilot/platform-sdk";
+import type { Platform } from "@reachpilot/platform-sdk";
 
 export async function processAnalyticsSync(job: Job): Promise<void> {
   const { type } = job.data as { type?: string };
@@ -191,7 +191,7 @@ Create `apps/web/src/app/api/analytics/overview/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 
 // GET /api/analytics/overview — org-wide aggregated metrics
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
@@ -284,7 +284,7 @@ Create `apps/web/src/app/api/analytics/campaigns/[campaignId]/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 
 // GET /api/analytics/campaigns/[campaignId] — per-campaign metrics
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
@@ -368,7 +368,7 @@ Create `apps/web/src/app/api/analytics/export/route.ts`:
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 
 // GET /api/analytics/export — CSV export of analytics data
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
@@ -434,7 +434,7 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   return new NextResponse(csv, {
     headers: {
       "Content-Type": "text/csv",
-      "Content-Disposition": `attachment; filename="adpilot-analytics-${new Date().toISOString().split("T")[0]}.csv"`,
+      "Content-Disposition": `attachment; filename="reachpilot-analytics-${new Date().toISOString().split("T")[0]}.csv"`,
     },
   });
 }));
@@ -461,7 +461,7 @@ Create `apps/web/src/app/(dashboard)/analytics/page.tsx`:
 ```tsx
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@adpilot/db";
+import { prisma } from "@reachpilot/db";
 
 export default async function AnalyticsPage() {
   const session = await auth();

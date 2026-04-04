@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { isValidTransition, sanitizeHtml } from "@adpilot/shared";
+import { isValidTransition, sanitizeHtml } from "@reachpilot/shared";
 import { getTimezoneFromCookie } from "@/lib/timezone";
 import { logger } from "@/lib/logger";
 

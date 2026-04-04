@@ -9,7 +9,7 @@ import { processAnalyticsSync } from "./processors/analytics-sync";
 import { processEmailSend } from "./processors/email-send";
 import { processIngestion } from "./processors/ingestion";
 
-console.log("AdPilot Worker starting...");
+console.log("ReachPilot Worker starting...");
 
 // ── Placeholder processors (implemented in later phases) ─────────────────
 
@@ -81,4 +81,4 @@ async function shutdown() {
 process.on("SIGTERM", shutdown);
 process.on("SIGINT", shutdown);
 
-console.log(`AdPilot Worker running with ${workers.length} queue consumers`);
+console.log(`ReachPilot Worker running with ${workers.length} queue consumers`);

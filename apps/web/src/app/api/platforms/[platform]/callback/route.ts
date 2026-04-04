@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { encrypt, decrypt } from "@adpilot/shared";
-import { getAdapter, type Platform } from "@adpilot/platform-sdk";
+import { encrypt, decrypt } from "@reachpilot/shared";
+import { getAdapter, type Platform } from "@reachpilot/platform-sdk";
 import { cookies } from "next/headers";
 
 export async function GET(
@@ -28,7 +28,7 @@ export async function GET(
 
   // Retrieve and DECRYPT OAuth state from cookie
   const cookieStore = await cookies();
-  const stateCookie = cookieStore.get("adpilot-oauth-state");
+  const stateCookie = cookieStore.get("reachpilot-oauth-state");
   if (!stateCookie?.value) {
     return NextResponse.redirect(
       new URL("/settings/connections?error=invalid_state", req.url)
@@ -60,7 +60,7 @@ export async function GET(
   }
 
   // Clear the state cookie
-  cookieStore.delete("adpilot-oauth-state");
+  cookieStore.delete("reachpilot-oauth-state");
 
   try {
     const adapter = getAdapter(platformKey);

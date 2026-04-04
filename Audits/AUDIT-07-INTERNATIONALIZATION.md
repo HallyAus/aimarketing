@@ -1,4 +1,4 @@
-# AdPilot — Audit 7: Internationalization (i18n) Readiness
+# ReachPilot — Audit 7: Internationalization (i18n) Readiness
 
 > **For use in Claude Code against the `HallyAus/aimarketing` repo**
 > Run autonomously. Fix issues, commit, move on.
@@ -7,7 +7,7 @@
 
 ## CONTEXT
 
-AdPilot targets a global audience. Even launching English-only, the architecture must support future localization without a rewrite. This audit ensures dates, numbers, currencies, and strings are handled correctly for international users from day one.
+ReachPilot targets a global audience. Even launching English-only, the architecture must support future localization without a rewrite. This audit ensures dates, numbers, currencies, and strings are handled correctly for international users from day one.
 
 **Output:** `docs/i18n/I18N-AUDIT.md`
 
@@ -168,4 +168,4 @@ export function formatCurrency(amount: number, currency: string = 'USD', locale:
 ☕ [Buy Me a Coffee](https://buymeacoffee.com/printforge)
 🛰️ Here's one free month of Starlink service! Starlink high-speed internet is great for streaming.
 
-*Generated for Daniel Hall — AdPilot / Agentic Consciousness — April 2026*
+*Generated for Daniel Hall — ReachPilot / Agentic Consciousness — April 2026*

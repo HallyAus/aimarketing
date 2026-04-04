@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { isValidTransition, rejectPostSchema } from "@adpilot/shared";
+import { isValidTransition, rejectPostSchema } from "@reachpilot/shared";
 
 // POST /api/posts/[postId]/reject — ADMIN+ only
 export const POST = withErrorHandler(withRole("ADMIN", async (req, context) => {

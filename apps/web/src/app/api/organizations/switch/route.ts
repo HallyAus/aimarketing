@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   }
 
   const cookieStore = await cookies();
-  cookieStore.set("adpilot-org-id", orgId, {
+  cookieStore.set("reachpilot-org-id", orgId, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",

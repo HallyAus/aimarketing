@@ -1,5 +1,5 @@
-import { prisma } from "@adpilot/db";
-import { encrypt, decrypt } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { encrypt, decrypt } from "@reachpilot/shared";
 import { getAdapter } from "./adapters";
 import { TokenManager } from "./token-manager";
 import { PlatformError } from "./errors";

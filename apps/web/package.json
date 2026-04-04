@@ -1,5 +1,5 @@
 {
-  "name": "@adpilot/web",
+  "name": "@reachpilot/web",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -14,10 +14,10 @@
     "precheck": "bash ../../scripts/pre-push-check.sh"
   },
   "dependencies": {
-    "@adpilot/db": "workspace:*",
-    "@adpilot/platform-sdk": "workspace:*",
-    "@adpilot/shared": "workspace:*",
-    "@adpilot/ui": "workspace:*",
+    "@reachpilot/db": "workspace:*",
+    "@reachpilot/platform-sdk": "workspace:*",
+    "@reachpilot/shared": "workspace:*",
+    "@reachpilot/ui": "workspace:*",
     "@anthropic-ai/sdk": "^0.80.0",
     "@auth/prisma-adapter": "^2.7.0",
     "@aws-sdk/client-s3": "^3.1019.0",

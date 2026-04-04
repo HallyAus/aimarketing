@@ -1,5 +1,5 @@
 import { auth } from "./auth";
-import { ROLE_HIERARCHY } from "@adpilot/shared";
+import { ROLE_HIERARCHY } from "@reachpilot/shared";
 import { NextRequest, NextResponse } from "next/server";
 
 type AuthenticatedRequest = NextRequest & {

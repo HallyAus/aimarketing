@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/page-header";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Demo Campaigns — AdPilot",
+  title: "Demo Campaigns — ReachPilot",
   robots: { index: true },
 };
 

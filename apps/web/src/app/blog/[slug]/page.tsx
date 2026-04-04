@@ -19,13 +19,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(slug);
   if (!post) return { title: "Post Not Found" };
   return {
-    title: `${post.title} | AdPilot Blog`,
+    title: `${post.title} | ReachPilot Blog`,
     description: post.description,
     openGraph: {
       title: post.title,
       description: post.description,
       type: "article",
-      url: `https://adpilot.au/blog/${post.slug}`,
+      url: `https://reachpilot.au/blog/${post.slug}`,
       publishedTime: post.date,
       authors: [post.author],
     },
@@ -184,7 +184,7 @@ export default async function BlogPostPage({ params }: Props) {
                   className="text-sm mb-4"
                   style={{ color: "var(--text-secondary)" }}
                 >
-                  Join thousands of businesses using AdPilot to manage their
+                  Join thousands of businesses using ReachPilot to manage their
                   social media with AI.
                 </p>
                 <Link href="/signup" className="btn-cta">

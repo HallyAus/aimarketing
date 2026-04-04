@@ -5,7 +5,7 @@
 
 ## Context
 
-AdPilot requires background job processing for:
+ReachPilot requires background job processing for:
 
 - Publishing posts to social platforms at scheduled times
 - Syncing analytics data from platform APIs

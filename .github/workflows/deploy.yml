@@ -55,7 +55,7 @@ jobs:
           username: ${{ secrets.PROXMOX_USER }}
           key: ${{ secrets.PROXMOX_SSH_KEY }}
           script: |
-            cd /opt/adpilot
+            cd /opt/reachpilot
             docker compose -f docker-compose.prod.yml pull web worker
             docker compose -f docker-compose.prod.yml exec web npx prisma migrate deploy
             docker compose -f docker-compose.prod.yml up -d web worker

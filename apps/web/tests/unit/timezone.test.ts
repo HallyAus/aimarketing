@@ -384,7 +384,7 @@ describe("getTimezoneFromCookie", () => {
   });
 
   it("extracts timezone from cookie header", () => {
-    const header = "session=abc; adpilot-timezone=America%2FNew_York; other=val";
+    const header = "session=abc; reachpilot-timezone=America%2FNew_York; other=val";
     expect(getTimezoneFromCookie(header)).toBe("America/New_York");
   });
 

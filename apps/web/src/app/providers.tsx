@@ -43,9 +43,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       }
     };
 
-    window.addEventListener("adpilot-consent-change", handleConsentChange);
+    window.addEventListener("reachpilot-consent-change", handleConsentChange);
     return () => {
-      window.removeEventListener("adpilot-consent-change", handleConsentChange);
+      window.removeEventListener("reachpilot-consent-change", handleConsentChange);
     };
   }, []);
 

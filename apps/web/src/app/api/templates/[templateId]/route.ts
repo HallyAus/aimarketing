@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { updateTemplateSchema, sanitizeHtml } from "@adpilot/shared";
+import { updateTemplateSchema, sanitizeHtml } from "@reachpilot/shared";
 
 export const GET = withErrorHandler(withRole("VIEWER", async (req, context) => {
   const templateId = (await context.params).templateId!;

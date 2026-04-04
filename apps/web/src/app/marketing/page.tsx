@@ -3,18 +3,18 @@ import Link from "next/link";
 import { CITIES, CITIES_BY_STATE, STATES } from "./[city]/data";
 
 export const metadata: Metadata = {
-  title: "Marketing Automation for Australian Businesses | AdPilot",
+  title: "Marketing Automation for Australian Businesses | ReachPilot",
   description:
-    "AI-powered marketing automation for businesses across Australia. Find AdPilot in your city — Sydney, Melbourne, Brisbane, Perth, Adelaide, and 25+ more locations.",
+    "AI-powered marketing automation for businesses across Australia. Find ReachPilot in your city — Sydney, Melbourne, Brisbane, Perth, Adelaide, and 25+ more locations.",
   alternates: {
-    canonical: "https://adpilot.au/marketing",
+    canonical: "https://reachpilot.au/marketing",
   },
   openGraph: {
-    title: "Marketing Automation for Australian Businesses | AdPilot",
+    title: "Marketing Automation for Australian Businesses | ReachPilot",
     description:
-      "AI-powered marketing automation for businesses across Australia. Find AdPilot in your city.",
-    url: "https://adpilot.au/marketing",
-    siteName: "AdPilot",
+      "AI-powered marketing automation for businesses across Australia. Find ReachPilot in your city.",
+    url: "https://reachpilot.au/marketing",
+    siteName: "ReachPilot",
     locale: "en_AU",
     type: "website",
   },
@@ -55,7 +55,7 @@ export default function MarketingIndexPage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-6">
-              AdPilot for{" "}
+              ReachPilot for{" "}
               <span style={{ color: "var(--accent-blue)" }}>Australian</span>{" "}
               Businesses
             </h1>
@@ -65,7 +65,7 @@ export default function MarketingIndexPage() {
               style={{ color: "var(--text-secondary)" }}
             >
               AI-powered marketing automation tailored for every major city
-              across Australia. Find your city and discover how AdPilot can grow
+              across Australia. Find your city and discover how ReachPilot can grow
               your business.
             </p>
           </div>
@@ -177,7 +177,7 @@ export default function MarketingIndexPage() {
             className="mb-6"
             style={{ color: "var(--text-secondary)" }}
           >
-            AdPilot works for every Australian business, no matter where you are.
+            ReachPilot works for every Australian business, no matter where you are.
             Start your free trial today.
           </p>
           <Link

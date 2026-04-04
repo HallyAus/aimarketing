@@ -1,14 +1,14 @@
-# AdPilot — Foundation Design Spec
+# ReachPilot — Foundation Design Spec
 
 **Date:** 2026-03-29
 **Status:** Approved
-**Scope:** Full system architecture for AdPilot, an automated marketing agency SaaS platform
+**Scope:** Full system architecture for ReachPilot, an automated marketing agency SaaS platform
 
 ---
 
 ## 1. Overview
 
-AdPilot is a production-ready, multi-tenant marketing agency SaaS platform that enables agencies to connect client social media accounts and manage campaigns across 9 platform connections from a single dashboard.
+ReachPilot is a production-ready, multi-tenant marketing agency SaaS platform that enables agencies to connect client social media accounts and manage campaigns across 9 platform connections from a single dashboard.
 
 **Canonical platform list (9 connections):**
 - **Meta** (2 connections): Facebook (via Meta Business), Instagram (via Meta Business, requires linked FB Page)
@@ -60,7 +60,7 @@ Note: Facebook and Instagram share a Meta OAuth flow but are stored as separate 
 ## 3. Monorepo Structure
 
 ```
-adpilot/
+reachpilot/
 ├── apps/
 │   ├── web/                    # Next.js 15 App Router
 │   └── worker/                 # Standalone BullMQ worker process
@@ -298,7 +298,7 @@ Single Node.js process (`apps/worker`) consuming from Redis-backed queues. Share
 - Redis sliding window per platform per connection
 - Check before each platform API call in the SDK; if at limit, delay the BullMQ job with calculated wait time
 - Platform limits stored in config (e.g., TikTok 600 publishes/day, Twitter per-endpoint windows)
-- These two layers are independent — Layer 1 protects AdPilot, Layer 2 protects platform API quotas
+- These two layers are independent — Layer 1 protects ReachPilot, Layer 2 protects platform API quotas
 
 ### Circuit breaker (deferred to Phase 7 — Production Hardening)
 Design documented here for reference, built during hardening phase:
@@ -503,18 +503,18 @@ All required environment variables:
 
 ```env
 # App
-NEXT_PUBLIC_APP_URL=https://adpilot.yourdomain.com
+NEXT_PUBLIC_APP_URL=https://reachpilot.yourdomain.com
 NODE_ENV=production
 
 # Database
-DATABASE_URL=postgresql://adpilot:PASSWORD@localhost:5432/adpilot
+DATABASE_URL=postgresql://reachpilot:PASSWORD@localhost:5432/reachpilot
 
 # Redis
 REDIS_URL=redis://localhost:6379
 
 # Auth
 NEXTAUTH_SECRET=generate-with-openssl-rand-base64-32
-NEXTAUTH_URL=https://adpilot.yourdomain.com
+NEXTAUTH_URL=https://reachpilot.yourdomain.com
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 
@@ -555,14 +555,14 @@ SNAPCHAT_CLIENT_SECRET=
 R2_ACCOUNT_ID=
 R2_ACCESS_KEY_ID=
 R2_SECRET_ACCESS_KEY=
-R2_BUCKET_NAME=adpilot-media
+R2_BUCKET_NAME=reachpilot-media
 R2_PUBLIC_URL=
 
 # Resend (Email)
 RESEND_API_KEY=
 
 # Axiom (Logging)
-AXIOM_DATASET=adpilot
+AXIOM_DATASET=reachpilot
 AXIOM_TOKEN=
 
 # Stripe (Billing)

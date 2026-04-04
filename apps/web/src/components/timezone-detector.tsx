@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { detectBrowserTimezone } from "@/lib/timezone";
 
-const COOKIE_NAME = "adpilot-timezone";
+const COOKIE_NAME = "reachpilot-timezone";
 const COOKIE_MAX_AGE = 31536000; // 1 year in seconds
 
 /**

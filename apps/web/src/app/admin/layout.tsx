@@ -8,7 +8,7 @@ import { SessionProvider } from "next-auth/react";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Admin | AdPilot",
+  title: "Admin | ReachPilot",
   robots: { index: false, follow: false },
 };
 

@@ -1,6 +1,6 @@
 import type { Job } from "bullmq";
-import { prisma } from "@adpilot/db";
-import { decrypt } from "@adpilot/shared";
+import { prisma } from "@reachpilot/db";
+import { decrypt } from "@reachpilot/shared";
 
 // ── Ingestion Job Processor ─────────────────────────────────────────────
 //

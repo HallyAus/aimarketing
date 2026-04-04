@@ -32,7 +32,7 @@ vi.mock("@/lib/api-handler", () => ({
   },
 }));
 
-vi.mock("@adpilot/shared", () => ({
+vi.mock("@reachpilot/shared", () => ({
   sanitizeHtml: (s: string) => s,
   isValidTransition: () => true,
 }));

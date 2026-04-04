@@ -1,5 +1,5 @@
 {
-  "name": "@adpilot/worker",
+  "name": "@reachpilot/worker",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,9 +9,9 @@
     "start": "tsx src/index.ts"
   },
   "dependencies": {
-    "@adpilot/db": "workspace:*",
-    "@adpilot/platform-sdk": "workspace:*",
-    "@adpilot/shared": "workspace:*",
+    "@reachpilot/db": "workspace:*",
+    "@reachpilot/platform-sdk": "workspace:*",
+    "@reachpilot/shared": "workspace:*",
     "@aws-sdk/client-s3": "^3.1019.0",
     "bullmq": "^5.30.0",
     "ioredis": "^5.4.0",

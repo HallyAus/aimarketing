@@ -5,7 +5,7 @@ import type {
   Role,
   Platform,
   PostStatus,
-} from "@adpilot/db";
+} from "@reachpilot/db";
 
 // ---------------------------------------------------------------------------
 // User factory

@@ -276,7 +276,7 @@ function SignInContent() {
       <Card>
         <Header
           subtitle="Manage your marketing campaigns"
-          title="Welcome to AdPilot"
+          title="Welcome to ReachPilot"
         />
 
         {/* Tab toggle */}

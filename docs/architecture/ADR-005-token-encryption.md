@@ -5,7 +5,7 @@
 
 ## Context
 
-AdPilot stores OAuth access tokens and refresh tokens for up to 9 social platforms per organization. These tokens grant publishing and analytics read access to user accounts. A database breach exposing plaintext tokens would allow an attacker to post content and read analytics on behalf of every connected account.
+ReachPilot stores OAuth access tokens and refresh tokens for up to 9 social platforms per organization. These tokens grant publishing and analytics read access to user accounts. A database breach exposing plaintext tokens would allow an attacker to post content and read analytics on behalf of every connected account.
 
 We needed application-level encryption that:
 

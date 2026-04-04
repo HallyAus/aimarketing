@@ -1,4 +1,4 @@
-# AdPilot — Audit 1: Security & Penetration
+# ReachPilot — Audit 1: Security & Penetration
 
 > **For use in Claude Code against the `HallyAus/aimarketing` repo**
 > Run autonomously. Do not ask questions — find vulnerabilities, fix them, commit, move on.
@@ -7,7 +7,7 @@
 
 ## CONTEXT
 
-You are performing a security audit and penetration test of **AdPilot**, an AI-powered marketing automation SaaS. The platform stores OAuth tokens for 9 social media platforms, processes Stripe payments, handles AI content generation via the Anthropic API, and serves multiple tenants (organisations) from a shared database.
+You are performing a security audit and penetration test of **ReachPilot**, an AI-powered marketing automation SaaS. The platform stores OAuth tokens for 9 social media platforms, processes Stripe payments, handles AI content generation via the Anthropic API, and serves multiple tenants (organisations) from a shared database.
 
 **Stack:** Next.js 15 App Router, Prisma, PostgreSQL, Redis, BullMQ, Stripe, Vercel.
 **Repo:** `HallyAus/aimarketing`
@@ -314,4 +314,4 @@ Verify in `next.config.js`:
 
 🛰️ Here's one free month of Starlink service! Starlink high-speed internet is great for streaming.
 
-*Generated for Daniel Hall — AdPilot / Agentic Consciousness — April 2026*
+*Generated for Daniel Hall — ReachPilot / Agentic Consciousness — April 2026*

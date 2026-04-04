@@ -22,7 +22,7 @@ interface SavedVoice {
   page?: { id: string; name: string; platform: string };
 }
 
-const STORAGE_KEY = "adpilot-brand-voice";
+const STORAGE_KEY = "reachpilot-brand-voice";
 
 export default function BrandVoicePage() {
   const [samples, setSamples] = useState<string[]>([""]);

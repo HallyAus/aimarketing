@@ -1,7 +1,7 @@
 import type { Job } from "bullmq";
-import { prisma } from "@adpilot/db";
-import { PlatformClient, publishPost } from "@adpilot/platform-sdk";
-import type { Platform, PublishPayload } from "@adpilot/platform-sdk";
+import { prisma } from "@reachpilot/db";
+import { PlatformClient, publishPost } from "@reachpilot/platform-sdk";
+import type { Platform, PublishPayload } from "@reachpilot/platform-sdk";
 
 export async function processCampaignPublish(job: Job): Promise<void> {
   const { postId, orgId, platform } = job.data as {

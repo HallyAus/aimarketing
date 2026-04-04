@@ -5,8 +5,8 @@ const prisma = new PrismaClient();
 
 const ADMIN_EMAIL = "daniel@agenticconsciousness.com.au";
 const ADMIN_NAME = "Daniel";
-const ADMIN_ORG_NAME = "AdPilot Admin";
-const ADMIN_ORG_SLUG = "adpilot-admin";
+const ADMIN_ORG_NAME = "ReachPilot Admin";
+const ADMIN_ORG_SLUG = "reachpilot-admin";
 
 const FEATURE_FLAGS = [
   {

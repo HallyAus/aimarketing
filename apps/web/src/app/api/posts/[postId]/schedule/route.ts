@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { isValidTransition } from "@adpilot/shared";
+import { isValidTransition } from "@reachpilot/shared";
 
 // POST /api/posts/[postId]/schedule — schedule an existing post
 export const POST = withErrorHandler(withRole("EDITOR", async (req, context) => {

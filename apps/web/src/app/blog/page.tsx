@@ -6,15 +6,15 @@ import { blogPosts } from "./data";
 import "@/styles/marketing.css";
 
 export const metadata: Metadata = {
-  title: "Blog | AdPilot",
+  title: "Blog | ReachPilot",
   description:
-    "Insights on AI-powered marketing, social media strategy, and building a global content workflow. From the AdPilot team.",
+    "Insights on AI-powered marketing, social media strategy, and building a global content workflow. From the ReachPilot team.",
   openGraph: {
-    title: "Blog | AdPilot",
+    title: "Blog | ReachPilot",
     description:
       "Insights on AI-powered marketing, social media strategy, and building a global content workflow.",
     type: "website",
-    url: "https://adpilot.au/blog",
+    url: "https://reachpilot.au/blog",
   },
 };
 

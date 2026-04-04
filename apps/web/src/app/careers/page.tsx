@@ -5,15 +5,15 @@ import { Footer } from "@/components/marketing/footer";
 import "@/styles/marketing.css";
 
 export const metadata: Metadata = {
-  title: "Careers | AdPilot",
+  title: "Careers | ReachPilot",
   description:
-    "Join the AdPilot team. We're building AI-powered marketing automation for businesses everywhere.",
+    "Join the ReachPilot team. We're building AI-powered marketing automation for businesses everywhere.",
   openGraph: {
-    title: "Careers | AdPilot",
+    title: "Careers | ReachPilot",
     description:
-      "Join the AdPilot team. We're building AI-powered marketing automation for businesses everywhere.",
+      "Join the ReachPilot team. We're building AI-powered marketing automation for businesses everywhere.",
     type: "website",
-    url: "https://adpilot.au/careers",
+    url: "https://reachpilot.au/careers",
   },
 };
 
@@ -65,7 +65,7 @@ export default function CareersPage() {
                 className="marketing-body max-w-2xl mx-auto"
                 style={{ color: "var(--text-secondary)" }}
               >
-                AdPilot is building the future of AI-powered marketing
+                ReachPilot is building the future of AI-powered marketing
                 automation. We don't have open roles right now, but we're always
                 interested in hearing from exceptional people.
               </p>
@@ -120,10 +120,10 @@ export default function CareersPage() {
               >
                 We're a small, focused team that hires intentionally. If you
                 think you'd be a great fit, we'd love to hear from you. Drop us
-                a note with what you've built and why AdPilot interests you.
+                a note with what you've built and why ReachPilot interests you.
               </p>
-              <a href="mailto:careers@adpilot.com.au" className="btn-cta">
-                careers@adpilot.com.au
+              <a href="mailto:careers@reachpilot.com.au" className="btn-cta">
+                careers@reachpilot.com.au
               </a>
               <p
                 className="text-xs mt-6"
@@ -140,7 +140,7 @@ export default function CareersPage() {
                 className="text-sm font-medium"
                 style={{ color: "var(--accent-blue)" }}
               >
-                Learn more about AdPilot &rarr;
+                Learn more about ReachPilot &rarr;
               </Link>
             </div>
           </div>

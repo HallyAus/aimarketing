@@ -48,7 +48,7 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
   try {
     const res = await fetch(url, {
       headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; AdPilot/1.0)",
+        "User-Agent": "Mozilla/5.0 (compatible; ReachPilot/1.0)",
         Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
       },
       signal: AbortSignal.timeout(10000),

@@ -35,7 +35,7 @@ interface PageContextValue {
 /*  Cookie helper                                                      */
 /* ------------------------------------------------------------------ */
 
-const COOKIE_KEY = "adpilot-active-page";
+const COOKIE_KEY = "reachpilot-active-page";
 
 function setCookie(key: string, value: string) {
   document.cookie = `${key}=${encodeURIComponent(value)};path=/;max-age=${60 * 60 * 24 * 365};SameSite=Lax`;

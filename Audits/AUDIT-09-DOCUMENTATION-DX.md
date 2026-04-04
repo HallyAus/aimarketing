@@ -1,4 +1,4 @@
-# AdPilot — Audit 9: Documentation & Developer Experience
+# ReachPilot — Audit 9: Documentation & Developer Experience
 
 > **For use in Claude Code against the `HallyAus/aimarketing` repo**
 > Run autonomously. Write docs, fix DX issues, commit, move on.
@@ -20,7 +20,7 @@ Rewrite `README.md` to include every section below. This is the single most impo
 ### Sections Required:
 
 **1. Project Overview** (2-3 sentences)
-- What AdPilot is, who it's for, what it does
+- What ReachPilot is, who it's for, what it does
 
 **2. Tech Stack**
 - Next.js 15 (App Router), Prisma, PostgreSQL 16, Redis, BullMQ, Stripe, Anthropic Claude API, Tailwind CSS, Vercel
@@ -348,4 +348,4 @@ Create `.github/ISSUE_TEMPLATE/bug_report.md` and `.github/ISSUE_TEMPLATE/featur
 ☕ [Buy Me a Coffee](https://buymeacoffee.com/printforge)
 🛰️ Here's one free month of Starlink service! Starlink high-speed internet is great for streaming.
 
-*Generated for Daniel Hall — AdPilot / Agentic Consciousness — April 2026*
+*Generated for Daniel Hall — ReachPilot / Agentic Consciousness — April 2026*

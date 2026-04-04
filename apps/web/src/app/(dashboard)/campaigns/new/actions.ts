@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { getSessionOrg } from "@/lib/auth";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { createCampaignSchema, sanitizeHtml } from "@adpilot/shared";
+import { createCampaignSchema, sanitizeHtml } from "@reachpilot/shared";
 
 export type CreateCampaignState = {
   error?: string;

@@ -1,16 +1,16 @@
 services:
   db:
     image: postgres:16-alpine
-    container_name: adpilot-db
+    container_name: reachpilot-db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: adpilot
-      POSTGRES_USER: adpilot
+      POSTGRES_DB: reachpilot
+      POSTGRES_USER: reachpilot
       POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U adpilot"]
+      test: ["CMD-SHELL", "pg_isready -U reachpilot"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -26,7 +26,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: adpilot-redis
+    container_name: reachpilot-redis
     restart: unless-stopped
     command: redis-server --maxmemory 256mb --maxmemory-policy noeviction --appendonly yes --requirepass ${REDIS_PASSWORD:?Set REDIS_PASSWORD}
     environment:
@@ -48,13 +48,13 @@ services:
       context: .
       dockerfile: Dockerfile
       target: web
-    container_name: adpilot-web
+    container_name: reachpilot-web
     restart: unless-stopped
     ports:
       - "3000:3000"
     env_file: .env
     environment:
-      DATABASE_URL: postgresql://adpilot:${DB_PASSWORD}@db:5432/adpilot
+      DATABASE_URL: postgresql://reachpilot:${DB_PASSWORD}@db:5432/reachpilot
       REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
     depends_on:
       db:
@@ -82,11 +82,11 @@ services:
       context: .
       dockerfile: Dockerfile
       target: worker
-    container_name: adpilot-worker
+    container_name: reachpilot-worker
     restart: unless-stopped
     env_file: .env
     environment:
-      DATABASE_URL: postgresql://adpilot:${DB_PASSWORD}@db:5432/adpilot
+      DATABASE_URL: postgresql://reachpilot:${DB_PASSWORD}@db:5432/reachpilot
       REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
     depends_on:
       db:
@@ -111,7 +111,7 @@ services:
 
   cloudflared:
     image: cloudflare/cloudflared:latest
-    container_name: adpilot-tunnel
+    container_name: reachpilot-tunnel
     restart: unless-stopped
     command: tunnel --no-autoupdate run --token ${CF_TUNNEL_TOKEN:-}
     depends_on:

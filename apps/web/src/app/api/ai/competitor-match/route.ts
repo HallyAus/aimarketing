@@ -27,7 +27,7 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
   if (url && !competitorContent) {
     try {
       const res = await fetch(url, {
-        headers: { "User-Agent": "AdPilot/1.0 (Content Analyzer)" },
+        headers: { "User-Agent": "ReachPilot/1.0 (Content Analyzer)" },
         signal: AbortSignal.timeout(10000),
       });
       const html = await res.text();

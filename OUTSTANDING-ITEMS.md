@@ -1,17 +1,17 @@
-# AdPilot — Outstanding Items Requiring Owner Input
+# ReachPilot — Outstanding Items Requiring Owner Input
 
 ## API Keys & Services
 
 | Item | Status | Action Required |
 |------|--------|----------------|
 | Resend API Key | Set on Vercel | **Rotate key** — it was shared in chat. Generate new at resend.com/api-keys |
-| Resend Custom Domain | Not configured | Add custom domain (e.g., adpilot.com.au) in Resend dashboard to send from branded email |
+| Resend Custom Domain | Not configured | Add custom domain (e.g., reachpilot.com.au) in Resend dashboard to send from branded email |
 | Stripe Secret Key | Not on Vercel | Add `STRIPE_SECRET_KEY` to Vercel env vars |
 | Stripe Webhook Secret | Not on Vercel | Add `STRIPE_WEBHOOK_SECRET` — configure webhook endpoint in Stripe dashboard |
 | Stripe Price IDs | Not on Vercel | Create products/prices in Stripe, add `STRIPE_PRICE_PRO_MONTHLY`, `STRIPE_PRICE_PRO_ANNUAL`, `STRIPE_PRICE_AGENCY_MONTHLY`, `STRIPE_PRICE_AGENCY_ANNUAL` |
 | Anthropic API Key | On Vercel | Verify it's working for AI content generation |
 | Facebook App Review | Unknown | Check Meta developer dashboard — app may need review for production access |
-| Custom Domain | Not configured | Point a domain (e.g., app.adpilot.com.au) to Vercel |
+| Custom Domain | Not configured | Point a domain (e.g., app.reachpilot.com.au) to Vercel |
 
 ## Vercel Configuration
 
@@ -37,7 +37,7 @@
 |------|----------------|
 | Real Testimonials | Currently placeholder/beta CTA — add real user testimonials when available |
 | OG Image | Using icon-1024.png — create proper 1200x630 social share image |
-| Logo Variants | Currently text-based "AdPilot" — create proper logo files if desired |
+| Logo Variants | Currently text-based "ReachPilot" — create proper logo files if desired |
 | Blog Content | 5 seed posts exist — decide on content publishing cadence |
 
 ## Platform Connections

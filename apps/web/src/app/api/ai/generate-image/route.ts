@@ -115,7 +115,7 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
   return new NextResponse(new Uint8Array(buffer), {
     headers: {
       "Content-Type": "image/png",
-      "Content-Disposition": `inline; filename="adpilot-image.png"`,
+      "Content-Disposition": `inline; filename="reachpilot-image.png"`,
       "Cache-Control": "no-store",
     },
   });

@@ -1,5 +1,5 @@
 /**
- * Timezone utilities for AdPilot.
+ * Timezone utilities for ReachPilot.
  *
  * Comprehensive timezone infrastructure for a global SaaS marketing
  * automation platform. Uses built-in Intl APIs exclusively -- no
@@ -411,7 +411,7 @@ export function isSameOffset(
 /** @deprecated Use `detectBrowserTimezone()` or the cookie-based approach. */
 export function getUserTimezone(): string {
   if (typeof window !== "undefined") {
-    const saved = localStorage.getItem("adpilot-timezone");
+    const saved = localStorage.getItem("reachpilot-timezone");
     if (saved) return saved;
     return Intl.DateTimeFormat().resolvedOptions().timeZone;
   }
@@ -419,8 +419,8 @@ export function getUserTimezone(): string {
 }
 
 export function setUserTimezone(tz: string): void {
-  localStorage.setItem("adpilot-timezone", tz);
-  document.cookie = `adpilot-timezone=${tz}; path=/; max-age=31536000; SameSite=Lax`;
+  localStorage.setItem("reachpilot-timezone", tz);
+  document.cookie = `reachpilot-timezone=${tz}; path=/; max-age=31536000; SameSite=Lax`;
 }
 
 export function formatInTimezone(date: Date | string, tz?: string): string {
@@ -481,7 +481,7 @@ export function getRelativeTime(date: Date | string): string {
  */
 export function getTimezoneFromCookie(cookieHeader: string | null): string {
   if (!cookieHeader) return "UTC";
-  const match = cookieHeader.match(/adpilot-timezone=([^;]+)/);
+  const match = cookieHeader.match(/reachpilot-timezone=([^;]+)/);
   return match?.[1] ? decodeURIComponent(match[1]) : "UTC";
 }
 

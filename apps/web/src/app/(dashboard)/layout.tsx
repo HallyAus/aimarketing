@@ -24,7 +24,7 @@ async function resolveActivePageId(
 ): Promise<string | null> {
   // 1. Try cookie
   const cookieStore = await cookies();
-  const raw = cookieStore.get("adpilot-active-page")?.value;
+  const raw = cookieStore.get("reachpilot-active-page")?.value;
   if (raw && raw !== "all") {
     try {
       const decoded = decodeURIComponent(raw);
@@ -132,7 +132,7 @@ export default async function DashboardLayout({
         {/* Footer */}
         <footer className="px-4 md:px-8 py-4 text-[11px] text-[var(--text-tertiary)] border-t border-[var(--border-secondary)]">
           <div className="w-full flex flex-wrap items-center gap-x-3 gap-y-1">
-            <span>AdPilot &copy; 2026</span>
+            <span>ReachPilot &copy; 2026</span>
             <span className="text-[var(--border-primary)]">&middot;</span>
             <a href="/onboarding" className="hover:text-[var(--text-secondary)] transition-colors">Help</a>
             <span className="text-[var(--border-primary)]">&middot;</span>

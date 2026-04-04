@@ -36,7 +36,7 @@ const STYLES = [
   { id: "educational", label: "Educational" },
 ];
 
-const DRAFTS_KEY = "adpilot-video-script-drafts";
+const DRAFTS_KEY = "reachpilot-video-script-drafts";
 
 export default function VideoScriptsPage() {
   const [topic, setTopic] = useState("");

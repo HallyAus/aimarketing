@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # ---------------------------------------------------------------------------
-# AdPilot pre-push check
+# ReachPilot pre-push check
 # Runs lint, typecheck, tests, and build — reports pass/fail summary.
 # ---------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ run_step() {
 
 echo ""
 echo "${BOLD}========================================${NC}"
-echo "${BOLD}  AdPilot Pre-Push Check${NC}"
+echo "${BOLD}  ReachPilot Pre-Push Check${NC}"
 echo "${BOLD}========================================${NC}"
 echo ""
 

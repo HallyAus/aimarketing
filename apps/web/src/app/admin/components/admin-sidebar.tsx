@@ -260,7 +260,7 @@ export default function AdminSidebar() {
             className="text-base font-bold"
             style={{ color: "var(--text-primary)" }}
           >
-            AdPilot
+            ReachPilot
           </span>
           <span
             className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded"

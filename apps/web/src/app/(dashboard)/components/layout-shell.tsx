@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-const STORAGE_KEY = "adpilot-sidebar-collapsed";
+const STORAGE_KEY = "reachpilot-sidebar-collapsed";
 
 export function LayoutShell({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);

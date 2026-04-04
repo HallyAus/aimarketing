@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { createUtmLinkSchema } from "@adpilot/shared";
+import { createUtmLinkSchema } from "@reachpilot/shared";
 
 // GET /api/utm — list UTM links for current org
 export const GET = withErrorHandler(withRole("VIEWER", async (req) => {

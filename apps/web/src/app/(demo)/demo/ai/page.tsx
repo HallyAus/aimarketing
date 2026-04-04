@@ -313,7 +313,7 @@ export default function DemoAIStudioPage() {
             </h3>
             <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>
               Generate unlimited posts, campaign ideas, and social media images with
-              AdPilot&apos;s AI engine. Book a call to see it in action.
+              ReachPilot&apos;s AI engine. Book a call to see it in action.
             </p>
             <div className="flex gap-3 justify-center">
               <button

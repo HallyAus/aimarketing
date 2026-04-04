@@ -5,7 +5,7 @@
 
 ## Context
 
-AdPilot is built in Australia and used by marketing teams worldwide. Scheduling posts at the right local time is a core feature. The system must:
+ReachPilot is built in Australia and used by marketing teams worldwide. Scheduling posts at the right local time is a core feature. The system must:
 
 - Store all timestamps in UTC for consistency
 - Auto-detect the user's timezone on first visit
@@ -20,7 +20,7 @@ Use the **built-in Intl API** for all timezone operations with a **per-user time
 
 Implementation in `apps/web/src/lib/timezone.ts`:
 
-- **Auto-detection:** `Intl.DateTimeFormat().resolvedOptions().timeZone` on the client, persisted via cookie (`adpilot-timezone`) and saved to the user record.
+- **Auto-detection:** `Intl.DateTimeFormat().resolvedOptions().timeZone` on the client, persisted via cookie (`reachpilot-timezone`) and saved to the user record.
 - **Storage:** All `DateTime` fields in Prisma are UTC. No timezone offsets stored in the database.
 - **Display:** `formatInUserTimezone()` uses `Intl.DateTimeFormat` with the `timeZone` option for locale-aware formatting.
 - **Scheduling:** `toUTC()` converts user-local schedule times to UTC before storage. `fromUTC()` converts back for display.

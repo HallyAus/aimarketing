@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 # =============================================================================
-# AdPilot Cloudflare Tunnel Setup — Run INSIDE the LXC
+# ReachPilot Cloudflare Tunnel Setup — Run INSIDE the LXC
 # =============================================================================
-# Starts a Cloudflare Tunnel to expose AdPilot securely.
+# Starts a Cloudflare Tunnel to expose ReachPilot securely.
 #
 # Prerequisites:
 #   1. Go to https://one.dash.cloudflare.com
 #   2. Networks > Tunnels > Create a tunnel
-#   3. Name: "adpilot"
+#   3. Name: "reachpilot"
 #   4. Select Docker, copy the token (starts with eyJ...)
 #   5. Add public hostname:
-#        Domain: yourdomain.com → http://adpilot-web:3000
-#        www.yourdomain.com    → http://adpilot-web:3000
+#        Domain: yourdomain.com → http://reachpilot-web:3000
+#        www.yourdomain.com    → http://reachpilot-web:3000
 #
 # Usage:
 #   CF_TUNNEL_TOKEN="eyJ..." bash 3-setup-tunnel.sh
-#   bash 3-setup-tunnel.sh --domain adpilot.yourdomain.com
+#   bash 3-setup-tunnel.sh --domain reachpilot.yourdomain.com
 # =============================================================================
 
 set -euo pipefail
 
-INSTALL_DIR="/opt/adpilot"
+INSTALL_DIR="/opt/reachpilot"
 DOMAIN="${DOMAIN:-}"
 
 # Colours
@@ -54,11 +54,11 @@ if [[ -z "${CF_TUNNEL_TOKEN:-}" ]]; then
     echo "To get a tunnel token:"
     echo "  1. Go to https://one.dash.cloudflare.com"
     echo "  2. Networks > Tunnels > Create a tunnel"
-    echo "  3. Name: adpilot"
+    echo "  3. Name: reachpilot"
     echo "  4. Select Docker, copy the token"
     echo "  5. Add public hostname:"
     echo "       Domain: yourdomain.com"
-    echo "       Service: http://adpilot-web:3000"
+    echo "       Service: http://reachpilot-web:3000"
     echo ""
     echo "Then run:"
     echo "  CF_TUNNEL_TOKEN=\"eyJ...\" bash deploy/3-setup-tunnel.sh"
@@ -86,10 +86,10 @@ docker compose -f docker-compose.prod.yml --profile tunnel up -d cloudflared
 
 # Verify tunnel
 sleep 5
-if docker logs adpilot-tunnel 2>&1 | grep -qi "registered"; then
+if docker logs reachpilot-tunnel 2>&1 | grep -qi "registered"; then
     log "Tunnel connected and registered!"
 else
-    warn "Tunnel started but may not be registered yet. Check: docker logs adpilot-tunnel"
+    warn "Tunnel started but may not be registered yet. Check: docker logs reachpilot-tunnel"
 fi
 
 # Rebuild web with new URL if domain was set
@@ -109,5 +109,5 @@ if [[ -n "$DOMAIN" ]]; then
     echo "  Verify: curl -s https://${DOMAIN}/api/health"
 fi
 echo ""
-echo "  Tunnel logs: docker logs -f adpilot-tunnel"
+echo "  Tunnel logs: docker logs -f reachpilot-tunnel"
 echo "============================================"

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Verify Email | AdPilot",
+  title: "Verify Email | ReachPilot",
 };
 
 export default function VerifyEmailLayout({

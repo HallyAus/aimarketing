@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { createOrgSchema, checkPlanLimit } from "@adpilot/shared";
+import { createOrgSchema, checkPlanLimit } from "@reachpilot/shared";
 
 // GET /api/organizations — list user's organizations
 export const GET = withErrorHandler(async (req: NextRequest) => {

@@ -1,9 +1,9 @@
 /**
  * Stripe Product & Price Seeding Script
  *
- * Creates AdPilot Free/Pro/Agency products and their monthly/annual prices
+ * Creates ReachPilot Free/Pro/Agency products and their monthly/annual prices
  * in Stripe. Idempotent — skips products that already exist (matched by
- * metadata.adpilot_plan).
+ * metadata.reachpilot_plan).
  *
  * Usage:
  *   STRIPE_SECRET_KEY=sk_test_xxx npx tsx scripts/seed-stripe.ts
@@ -46,7 +46,7 @@ interface SeedResult {
 const PLANS: PlanDefinition[] = [
   {
     key: "FREE",
-    name: "AdPilot Free",
+    name: "ReachPilot Free",
     monthlyPriceUsd: 0,
     annualPriceUsd: 0,
     features: [
@@ -58,7 +58,7 @@ const PLANS: PlanDefinition[] = [
   },
   {
     key: "PRO",
-    name: "AdPilot Pro",
+    name: "ReachPilot Pro",
     monthlyPriceUsd: 4900, // $49.00 in cents
     annualPriceUsd: 47000, // $470.00 in cents (20% off $588)
     features: [
@@ -72,7 +72,7 @@ const PLANS: PlanDefinition[] = [
   },
   {
     key: "AGENCY",
-    name: "AdPilot Agency",
+    name: "ReachPilot Agency",
     monthlyPriceUsd: 29900, // $299.00 in cents
     annualPriceUsd: 287000, // $2,870.00 in cents (20% off $3,588)
     features: [
@@ -115,7 +115,7 @@ async function findExistingProduct(
 ): Promise<Stripe.Product | null> {
   // Search by metadata — only returns active products
   const products = await stripe.products.search({
-    query: `metadata["adpilot_plan"]:"${planKey}"`,
+    query: `metadata["reachpilot_plan"]:"${planKey}"`,
   });
   return products.data[0] ?? null;
 }
@@ -199,7 +199,7 @@ async function seedPlan(
   // Create new product
   const product = await stripe.products.create({
     name: plan.name,
-    metadata: { adpilot_plan: plan.key },
+    metadata: { reachpilot_plan: plan.key },
     features: plan.features.map((name) => ({ name })),
   });
 
@@ -250,8 +250,8 @@ async function createPrice(
     unit_amount: unitAmount,
     recurring: { interval },
     metadata: {
-      adpilot_plan: planKey,
-      adpilot_interval: interval === "month" ? "monthly" : "annual",
+      reachpilot_plan: planKey,
+      reachpilot_interval: interval === "month" ? "monthly" : "annual",
     },
   });
   return { interval, id: price.id, amount: unitAmount };

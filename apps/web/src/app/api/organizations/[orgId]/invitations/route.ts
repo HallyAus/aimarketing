@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { prisma } from "@/lib/db";
-import { inviteMemberSchema, checkPlanLimit } from "@adpilot/shared";
+import { inviteMemberSchema, checkPlanLimit } from "@reachpilot/shared";
 import { randomBytes } from "crypto";
 
 // GET /api/organizations/[orgId]/invitations — list pending
