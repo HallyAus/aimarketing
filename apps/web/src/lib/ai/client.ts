@@ -59,6 +59,7 @@ export interface CallClaudeParams {
   system?: string | Anthropic.MessageCreateParams["system"];
   maxTokens?: number;
   model?: string;
+  orgId?: string; // for usage tracking + budget enforcement
 }
 
 /* ── In-flight deduplication (prevents double-click waste) ────── */
@@ -90,6 +91,15 @@ export async function callClaude(params: CallClaudeParams): Promise<Anthropic.Me
   const model = params.model
     ?? (HAIKU_FEATURES.has(params.feature) ? "claude-haiku-4-5-20251001" : "claude-sonnet-4-6");
   const maxTokens = params.maxTokens ?? MAX_TOKENS[params.feature] ?? 4096;
+
+  // Check token budget if orgId provided
+  if (params.orgId) {
+    const { checkTokenBudget } = await import("./usage");
+    const budget = await checkTokenBudget(params.orgId);
+    if (!budget.allowed) {
+      throw new Error(budget.message ?? "AI usage limit reached");
+    }
+  }
 
   // Deduplicate identical in-flight requests (same feature + same message start)
   const key = dedupeKey(params);
@@ -138,6 +148,13 @@ export async function callClaude(params: CallClaudeParams): Promise<Anthropic.Me
     ` cache_r=${cacheRead} cache_w=${cacheWrite}` +
     ` cost=$${cost.toFixed(4)} stop=${response.stop_reason}`,
   );
+
+  // Record usage for budget tracking
+  if (params.orgId) {
+    import("./usage").then(({ recordTokenUsage }) =>
+      recordTokenUsage(params.orgId!, params.feature, u.input_tokens + u.output_tokens),
+    ).catch(() => {});
+  }
 
   return response;
 }
