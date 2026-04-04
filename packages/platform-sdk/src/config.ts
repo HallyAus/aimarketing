@@ -63,8 +63,6 @@ function buildConfigs(): Record<Platform, PlatformConfig> {
     authorizeUrl: "https://www.linkedin.com/oauth/v2/authorization",
     tokenUrl: "https://www.linkedin.com/oauth/v2/accessToken",
     scopes: [
-      "openid",
-      "profile",
       "w_member_social",
     ],
     tokenExpirySeconds: 60 * 60 * 24 * 60, // 60 days
