@@ -1,3 +1,3 @@
-export { callClaude, extractText, extractJSON } from "./client";
+export { callClaude, extractText, extractJSON, trimInput } from "./client";
 export type { AIFeature, CallClaudeParams, Anthropic } from "./client";
 export { generatePostContent, generateCampaignIdeas, improvePostContent } from "./generators";

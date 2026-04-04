@@ -17,7 +17,7 @@ export type AIFeature =
   | "analytics_sentiment" | "analytics_audience" | "analytics_best_times"
   | "analytics_benchmarking";
 
-// Tasks that can use Haiku (cheaper, simpler tasks)
+// Tasks that use Haiku (4-5x cheaper for simple tasks)
 const HAIKU_FEATURES: Set<AIFeature> = new Set([
   "hashtag_suggestion", "keyword_scan", "translate", "sentiment_check",
 ]);
@@ -61,26 +61,88 @@ export interface CallClaudeParams {
   model?: string;
 }
 
+/* ── In-flight deduplication (prevents double-click waste) ────── */
+
+const inFlight = new Map<string, Promise<Anthropic.Message>>();
+
+function dedupeKey(params: CallClaudeParams): string {
+  const msgStr = JSON.stringify(params.messages).substring(0, 200);
+  return `${params.feature}:${msgStr}`;
+}
+
+/* ── Cost estimation ─────────────────────────────────────────── */
+
+const PRICING: Record<string, { input: number; output: number }> = {
+  "claude-sonnet-4-6": { input: 3.0, output: 15.0 },
+  "claude-haiku-4-5-20251001": { input: 0.80, output: 4.0 },
+};
+
+function estimateCostUsd(model: string, inputTokens: number, outputTokens: number, cacheRead = 0): number {
+  const p = PRICING[model] ?? PRICING["claude-sonnet-4-6"]!;
+  return (inputTokens / 1_000_000) * p.input
+    + (outputTokens / 1_000_000) * p.output
+    + (cacheRead / 1_000_000) * p.input * 0.1; // cache reads = 10% of input price
+}
+
+/* ── Main API call function ──────────────────────────────────── */
+
 export async function callClaude(params: CallClaudeParams): Promise<Anthropic.Message> {
   const model = params.model
     ?? (HAIKU_FEATURES.has(params.feature) ? "claude-haiku-4-5-20251001" : "claude-sonnet-4-6");
   const maxTokens = params.maxTokens ?? MAX_TOKENS[params.feature] ?? 4096;
 
-  const response = await getAnthropicClient().messages.create({
+  // Deduplicate identical in-flight requests (same feature + same message start)
+  const key = dedupeKey(params);
+  const existing = inFlight.get(key);
+  if (existing) {
+    console.log(`[ai:${params.feature}] deduplicated — reusing in-flight request`);
+    return existing;
+  }
+
+  // Build system with cache_control for prompt caching
+  let system: Anthropic.MessageCreateParams["system"] | undefined;
+  if (typeof params.system === "string" && params.system.length > 0) {
+    // Enable prompt caching on system prompt (>90% cost reduction on cache hits)
+    system = [{
+      type: "text" as const,
+      text: params.system,
+      cache_control: { type: "ephemeral" as const },
+    }];
+  } else if (Array.isArray(params.system)) {
+    system = params.system;
+  }
+
+  const promise = getAnthropicClient().messages.create({
     model,
     max_tokens: maxTokens,
-    ...(params.system ? { system: params.system } : {}),
+    ...(system ? { system } : {}),
     messages: params.messages,
   });
 
-  // Log token usage
+  // Store for deduplication (remove after 30s)
+  inFlight.set(key, promise);
+  promise.finally(() => {
+    setTimeout(() => inFlight.delete(key), 30000);
+  });
+
+  const response = await promise;
+
+  // Log token usage with cost estimate
   const u = response.usage;
+  const cacheRead = (u as unknown as Record<string, number>).cache_read_input_tokens ?? 0;
+  const cacheWrite = (u as unknown as Record<string, number>).cache_creation_input_tokens ?? 0;
+  const cost = estimateCostUsd(model, u.input_tokens, u.output_tokens, cacheRead);
+
   console.log(
-    `[ai:${params.feature}] model=${response.model} in=${u.input_tokens} out=${u.output_tokens} total=${u.input_tokens + u.output_tokens} stop=${response.stop_reason}`,
+    `[ai:${params.feature}] model=${response.model} in=${u.input_tokens} out=${u.output_tokens}` +
+    ` cache_r=${cacheRead} cache_w=${cacheWrite}` +
+    ` cost=$${cost.toFixed(4)} stop=${response.stop_reason}`,
   );
 
   return response;
 }
+
+/* ── Helpers ──────────────────────────────────────────────────── */
 
 /** Extract text from first content block */
 export function extractText(response: Anthropic.Message): string {
@@ -94,6 +156,15 @@ export function extractJSON<T = unknown>(response: Anthropic.Message): T {
   const text = extractText(response);
   const cleaned = text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
   return JSON.parse(cleaned);
+}
+
+/** Clean user input before sending (reduces token waste) */
+export function trimInput(content: string, maxChars = 5000): string {
+  return content
+    .replace(/\n{3,}/g, "\n\n")
+    .replace(/\s{2,}/g, " ")
+    .replace(/^[\s\n]+|[\s\n]+$/g, "")
+    .slice(0, maxChars);
 }
 
 // Re-export Anthropic for types
