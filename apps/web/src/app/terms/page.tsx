@@ -26,18 +26,6 @@ export default function TermsPage() {
         className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20"
         style={{ background: "var(--bg-primary)", minHeight: "100vh" }}
       >
-        <div
-          className="mb-6 rounded-lg px-4 py-3 text-sm font-medium"
-          style={{
-            background: "var(--bg-tertiary)",
-            color: "var(--text-secondary)",
-            border: "1px solid var(--border-primary)",
-          }}
-        >
-          [DRAFT — REQUIRES LEGAL REVIEW] These terms of service are a working
-          draft and have not yet been reviewed by a qualified legal professional.
-        </div>
-
         <h1
           className="text-3xl font-bold mb-2"
           style={{ color: "var(--text-primary)" }}
@@ -134,9 +122,6 @@ export default function TermsPage() {
             >
               4. Billing and Cancellation
             </h2>
-            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
-              [DRAFT — REQUIRES LEGAL REVIEW]
-            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
                 Paid subscriptions are billed monthly in advance and
@@ -176,9 +161,6 @@ export default function TermsPage() {
             >
               5. Data Ownership
             </h2>
-            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
-              [DRAFT — REQUIRES LEGAL REVIEW]
-            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
                 <strong style={{ color: "var(--text-primary)" }}>
@@ -237,9 +219,6 @@ export default function TermsPage() {
             >
               7. AI-Generated Content
             </h2>
-            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
-              [DRAFT — REQUIRES LEGAL REVIEW]
-            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
                 ReachPilot uses AI (powered by Anthropic&apos;s Claude) to assist with
@@ -282,9 +261,6 @@ export default function TermsPage() {
             >
               8. Uptime and Availability
             </h2>
-            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
-              [DRAFT — REQUIRES LEGAL REVIEW]
-            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
                 We target 99.9% uptime for the ReachPilot platform, measured

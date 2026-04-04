@@ -26,18 +26,6 @@ export default function PrivacyPage() {
         className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20"
         style={{ background: "var(--bg-primary)", minHeight: "100vh" }}
       >
-        <div
-          className="mb-6 rounded-lg px-4 py-3 text-sm font-medium"
-          style={{
-            background: "var(--bg-tertiary)",
-            color: "var(--text-secondary)",
-            border: "1px solid var(--border-primary)",
-          }}
-        >
-          [DRAFT — REQUIRES LEGAL REVIEW] This privacy policy is a working draft
-          and has not yet been reviewed by a qualified legal professional.
-        </div>
-
         <h1
           className="text-3xl font-bold mb-2"
           style={{ color: "var(--text-primary)" }}
@@ -146,9 +134,6 @@ export default function PrivacyPage() {
             >
               4. Cookies and Tracking
             </h2>
-            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
-              [DRAFT — REQUIRES LEGAL REVIEW]
-            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
                 ReachPilot uses a cookie consent banner that appears before any
@@ -213,9 +198,6 @@ export default function PrivacyPage() {
             >
               6. Data Retention
             </h2>
-            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
-              [DRAFT — REQUIRES LEGAL REVIEW]
-            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>We retain data for the following periods:</p>
               <ul className="list-disc ml-5 space-y-1">
@@ -301,7 +283,7 @@ export default function PrivacyPage() {
               8. Third-Party Services (Subprocessors)
             </h2>
             <p className="text-sm mb-3" style={{ color: "var(--text-secondary)" }}>
-              [DRAFT — REQUIRES LEGAL REVIEW] We share data with the following
+              We share data with the following
               third-party service providers (subprocessors) to operate ReachPilot:
             </p>
             <div className="overflow-x-auto">
@@ -344,9 +326,6 @@ export default function PrivacyPage() {
             >
               9. Your Rights
             </h2>
-            <p className="text-xs mb-2" style={{ color: "var(--text-tertiary)" }}>
-              [DRAFT — REQUIRES LEGAL REVIEW]
-            </p>
             <div className="space-y-2 text-sm" style={{ color: "var(--text-secondary)" }}>
               <p>
                 Regardless of your location, you have the following rights
@@ -485,7 +464,7 @@ export default function PrivacyPage() {
               13. Children&apos;s Privacy
             </h2>
             <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-              [DRAFT — REQUIRES LEGAL REVIEW] ReachPilot is not directed at
+              ReachPilot is not directed at
               children under the age of 16. We do not knowingly collect personal
               information from children under 16. If we become aware that a
               child under 16 has provided us with personal data, we will take
