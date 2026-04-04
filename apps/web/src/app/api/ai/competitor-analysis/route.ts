@@ -1,16 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractJSON } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { z } from "zod";
-
-let _client: Anthropic | null = null;
-function getClient(): Anthropic {
-  if (!_client) {
-    _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "" });
-  }
-  return _client;
-}
 
 const competitorSchema = z.object({
   url: z.string().min(1, "URL or handle is required").max(2000),
@@ -86,28 +78,12 @@ Return ONLY valid JSON (no markdown, no code fences):
   "recommendations": ["recommendation1", "recommendation2", "recommendation3", "recommendation4", "recommendation5"]
 }`;
 
-    const response = await getClient().messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 2048,
+    const response = await callClaude({
+      feature: "competitor_analysis",
       messages: [{ role: "user", content: prompt }],
     });
 
-    const text = response.content[0];
-    if (text?.type !== "text") {
-      throw new Error("No text in AI response");
-    }
-
-    let analysis;
-    try {
-      const cleaned = text.text
-        .replace(/```json\s*/g, "")
-        .replace(/```\s*/g, "")
-        .trim();
-      analysis = JSON.parse(cleaned);
-    } catch {
-      throw new Error("Failed to parse competitor analysis from AI response");
-    }
-
+    const analysis = extractJSON(response);
     return NextResponse.json({ analysis });
   })
 );

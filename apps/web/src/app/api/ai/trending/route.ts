@@ -1,17 +1,9 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractJSON } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { getCachedInsight, setCachedInsight, canRegenerate } from "@/lib/insight-cache";
 import { z } from "zod";
-
-let _client: Anthropic | null = null;
-function getClient(): Anthropic {
-  if (!_client) {
-    _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "" });
-  }
-  return _client;
-}
 
 const schema = z.object({
   niche: z.string().min(1, "Industry/niche is required").max(500),
@@ -65,13 +57,13 @@ export const POST = withErrorHandler(
       day: "numeric",
     });
 
-    const response = await getClient().messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 4096,
+    const response = await callClaude({
+      feature: "trending_topics",
+      system: "You are a social media trends expert.",
       messages: [
         {
           role: "user",
-          content: `You are a social media trends expert. Generate 8 currently trending topics for the "${niche}" industry as of ${today}. These should be realistic, timely topics that a social media manager would want to create content about.
+          content: `Generate 8 currently trending topics for the "${niche}" industry as of ${today}. These should be realistic, timely topics that a social media manager would want to create content about.
 
 For each topic provide:
 - A catchy title
@@ -96,11 +88,7 @@ Return ONLY valid JSON (no markdown, no code fences):
       ],
     });
 
-    const text = response.content[0];
-    if (text?.type !== "text") throw new Error("No text in AI response");
-
-    const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
-    const result = JSON.parse(cleaned);
+    const result = extractJSON<Record<string, unknown>>(response);
 
     // ── Save to cache ────────────────────────────────────────
     if (pageId) {

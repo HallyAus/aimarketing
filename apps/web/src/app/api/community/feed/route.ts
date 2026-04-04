@@ -1,14 +1,8 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractText } from "@/lib/ai";
 import { withErrorHandler } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { prisma } from "@/lib/db";
-
-let _client: Anthropic | null = null;
-function getClient(): Anthropic {
-  if (!_client) _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "" });
-  return _client;
-}
 
 /* ── Reddit fetcher ────────────────────────────────────────────── */
 
@@ -124,9 +118,8 @@ async function curateWithClaude(
     ),
   ].join("\n");
 
-  const response = await getClient().messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 4096,
+  const response = await callClaude({
+    feature: "community_feed",
     messages: [{
       role: "user",
       content: `You are a social media marketing expert. Curate a community feed for someone interested in: ${topics.join(", ")}
@@ -152,10 +145,7 @@ Sort by relevance descending. Only include items scoring 50+.`,
     }],
   });
 
-  const text = response.content[0];
-  if (text?.type !== "text") return [];
-
-  const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+  const cleaned = extractText(response).replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
   let curated: Array<{ ref: string; engagementSuggestion: string; relevanceScore: number }>;
   try {
     curated = JSON.parse(cleaned);

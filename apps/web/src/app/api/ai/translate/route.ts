@@ -1,14 +1,7 @@
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
-import { withAiUsageTracking } from "@/lib/usage-limits";
-import Anthropic from "@anthropic-ai/sdk";
-
-let _client: Anthropic | null = null;
-function getClient(): Anthropic {
-  if (!_client) _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "" });
-  return _client;
-}
+import { callClaude, extractText } from "@/lib/ai";
 
 const SUPPORTED_LANGUAGES = [
   "Spanish", "French", "German", "Japanese", "Chinese",
@@ -27,9 +20,8 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
     return NextResponse.json({ error: "No valid target languages", code: "VALIDATION_ERROR", statusCode: 400 }, { status: 400 });
   }
 
-  const response = await withAiUsageTracking((req as any).orgId, () => getClient().messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 4096,
+  const response = await callClaude({
+    feature: "translate",
     messages: [
       {
         role: "user",
@@ -51,17 +43,16 @@ Return ONLY a JSON object with language names as keys and translated text as val
 No explanations, just the JSON.`,
       },
     ],
-  }));
+  });
 
-  const text = response.content[0];
-  if (text?.type !== "text") throw new Error("No text in AI response");
+  const rawText = extractText(response);
 
   let translations: Record<string, string>;
   try {
-    translations = JSON.parse(text.text.trim());
+    translations = JSON.parse(rawText.trim());
   } catch {
     // Try extracting JSON from potential markdown code block
-    const jsonMatch = text.text.match(/\{[\s\S]*\}/);
+    const jsonMatch = rawText.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       translations = JSON.parse(jsonMatch[0]);
     } else {

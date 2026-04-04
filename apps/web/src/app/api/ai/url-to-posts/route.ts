@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractText } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { getContentMemory } from "@/lib/content-memory";
@@ -18,17 +18,6 @@ const urlToPostsSchema = z.object({
   postsPerPlatform: z.number().int().min(1).max(10),
   tone: z.string().max(100).optional(),
 });
-
-let _client: Anthropic | null = null;
-
-function getClient(): Anthropic {
-  if (!_client) {
-    _client = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY ?? "",
-    });
-  }
-  return _client;
-}
 
 function stripHtml(html: string): string {
   return html
@@ -84,9 +73,8 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
 
   const contentMemory = await getContentMemory(req.orgId);
 
-  const response = await getClient().messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 4096,
+  const response = await callClaude({
+    feature: "url_to_posts",
     messages: [
       {
         role: "user",
@@ -111,14 +99,11 @@ Generate exactly ${postsPerPlatform} posts per platform. For suggestedTime, sugg
     ],
   });
 
-  const text = response.content[0];
-  if (text?.type !== "text") {
-    return NextResponse.json({ error: "No response from AI" }, { status: 500 });
-  }
+  const rawText = extractText(response);
 
   // Parse the JSON response from Claude
   try {
-    const jsonMatch = text.text.match(/\{[\s\S]*\}/);
+    const jsonMatch = rawText.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       return NextResponse.json({ error: "Failed to parse AI response" }, { status: 500 });
     }

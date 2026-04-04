@@ -1,17 +1,9 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractText } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { getThemeById } from "@/lib/image-gen/themes";
 import { z } from "zod";
-
-/* ── Anthropic client ──────────────────────────────────────────── */
-
-let _client: Anthropic | null = null;
-function getClient(): Anthropic {
-  if (!_client) _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "" });
-  return _client;
-}
 
 /* ── Validation ────────────────────────────────────────────────── */
 
@@ -53,9 +45,8 @@ async function generateSignatureHtml(
     params.website ? `Web: <a href="${params.website}" style="color:inherit;text-decoration:none;">${params.website.replace(/^https?:\/\//, "")}</a>` : null,
   ].filter(Boolean).join(" &nbsp;|&nbsp; ");
 
-  const response = await getClient().messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 4096,
+  const response = await callClaude({
+    feature: "email_signature",
     messages: [
       {
         role: "user",
@@ -94,11 +85,8 @@ Start directly with the outer <table> element.`,
     ],
   });
 
-  const text = response.content[0];
-  if (text?.type !== "text") throw new Error("No text in AI response");
-
   // Strip any accidental markdown fences or explanation text
-  let html = text.text.trim();
+  let html = extractText(response).trim();
   html = html.replace(/^```html\s*/i, "").replace(/^```\s*/i, "").replace(/```\s*$/i, "").trim();
 
   // Ensure it starts with a table tag

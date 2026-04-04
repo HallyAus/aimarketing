@@ -1,19 +1,11 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractText } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { getContentMemory } from "@/lib/content-memory";
 import { prisma } from "@/lib/db";
 import { renderHtmlToJpeg, SIZE_PRESETS } from "@/lib/image-gen/render";
 import { z } from "zod";
-
-/* ── Anthropic client ──────────────────────────────────────────── */
-
-let _client: Anthropic | null = null;
-function getClient(): Anthropic {
-  if (!_client) _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "" });
-  return _client;
-}
 
 /* ── Validation ────────────────────────────────────────────────── */
 
@@ -91,9 +83,8 @@ async function generateCardsHtml(
   const aspectRatio = width > height ? "landscape" : width === height ? "square" : "portrait";
   const theme = getThemeById(themeId ?? "dark-tech");
 
-  const response = await getClient().messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 16384,
+  const response = await callClaude({
+    feature: "image_gen",
     messages: [
       {
         role: "user",
@@ -149,10 +140,7 @@ CRITICAL RULES:
     ],
   });
 
-  const text = response.content[0];
-  if (text?.type !== "text") throw new Error("No text in AI response");
-
-  const raw = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+  const raw = extractText(response).replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
 
   // Try standard JSON parse first
   let caption = "";

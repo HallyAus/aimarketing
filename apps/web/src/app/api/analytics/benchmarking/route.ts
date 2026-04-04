@@ -1,17 +1,9 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractText } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { getCachedInsight, setCachedInsight, canRegenerate } from "@/lib/insight-cache";
 import { z } from "zod";
-
-let _client: Anthropic | null = null;
-function getClient(): Anthropic {
-  if (!_client) {
-    _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "" });
-  }
-  return _client;
-}
 
 const singleSchema = z.object({
   url: z.string().min(1).max(2000),
@@ -65,9 +57,8 @@ export const POST = withErrorHandler(
         .map((c) => `Competitor: ${c.url}\n${JSON.stringify(c.analysis, null, 2)}`)
         .join("\n\n---\n\n");
 
-      const response = await getClient().messages.create({
-        model: "claude-sonnet-4-6",
-        max_tokens: 2048,
+      const response = await callClaude({
+        feature: "analytics_benchmarking",
         messages: [
           {
             role: "user",
@@ -84,9 +75,8 @@ Return ONLY valid JSON (no markdown, no code fences):
         ],
       });
 
-      const text = response.content[0];
-      if (text?.type !== "text") throw new Error("No text in AI response");
-      const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+      const text = extractText(response);
+      const cleaned = text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
       const summary = JSON.parse(cleaned);
       return NextResponse.json({ summary });
     }
@@ -128,9 +118,8 @@ Return ONLY valid JSON (no markdown, no code fences):
     const { url } = parsed.data;
     const content = await fetchUrlContent(url);
 
-    const response = await getClient().messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 2048,
+    const response = await callClaude({
+      feature: "analytics_benchmarking",
       messages: [
         {
           role: "user",
@@ -155,9 +144,8 @@ Return ONLY valid JSON (no markdown, no code fences):
       ],
     });
 
-    const text = response.content[0];
-    if (text?.type !== "text") throw new Error("No text in AI response");
-    const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+    const text = extractText(response);
+    const cleaned = text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
     const analysis = JSON.parse(cleaned);
 
     const result = { analysis };

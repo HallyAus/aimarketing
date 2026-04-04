@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractText } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { getContentMemory } from "@/lib/content-memory";
@@ -10,17 +10,6 @@ const storyTemplateSchema = z.object({
   topic: z.string().min(1).max(2000),
   platform: z.string().min(1).max(50),
 });
-
-let _client: Anthropic | null = null;
-
-function getClient(): Anthropic {
-  if (!_client) {
-    _client = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY ?? "",
-    });
-  }
-  return _client;
-}
 
 export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
   const body = await req.json();
@@ -33,9 +22,8 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
 
   const contentMemory = await getContentMemory(req.orgId);
 
-  const response = await getClient().messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 2048,
+  const response = await callClaude({
+    feature: "story_template",
     messages: [
       {
         role: "user",
@@ -64,13 +52,10 @@ Make the content:
     ],
   });
 
-  const text = response.content[0];
-  if (text?.type !== "text") {
-    return NextResponse.json({ error: "No response from AI" }, { status: 500 });
-  }
+  const rawText = extractText(response);
 
   try {
-    const jsonMatch = text.text.match(/\{[\s\S]*\}/);
+    const jsonMatch = rawText.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       return NextResponse.json({ error: "Failed to parse AI response" }, { status: 500 });
     }

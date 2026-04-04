@@ -1,17 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractJSON } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { getContentMemory } from "@/lib/content-memory";
 import { z } from "zod";
-
-let _client: Anthropic | null = null;
-function getClient(): Anthropic {
-  if (!_client) {
-    _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "" });
-  }
-  return _client;
-}
 
 const videoScriptSchema = z.object({
   topic: z.string().min(1, "Topic is required").max(2000),
@@ -48,9 +40,8 @@ export const POST = withErrorHandler(
 
     const contentMemory = await getContentMemory(req.orgId);
 
-    const response = await getClient().messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 4096,
+    const response = await callClaude({
+      feature: "video_script",
       messages: [
         {
           role: "user",
@@ -81,22 +72,7 @@ Return this exact JSON structure:
       ],
     });
 
-    const text = response.content[0];
-    if (text?.type !== "text") {
-      throw new Error("No text in AI response");
-    }
-
-    let script;
-    try {
-      const cleaned = text.text
-        .replace(/```json\s*/g, "")
-        .replace(/```\s*/g, "")
-        .trim();
-      script = JSON.parse(cleaned);
-    } catch {
-      throw new Error("Failed to parse video script from AI response");
-    }
-
+    const script = extractJSON(response);
     return NextResponse.json({ script });
   })
 );

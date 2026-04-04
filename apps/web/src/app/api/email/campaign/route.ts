@@ -1,14 +1,8 @@
 import { NextResponse } from "next/server";
 import { withRole } from "@/lib/auth-middleware";
 import { withErrorHandler } from "@/lib/api-handler";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractText } from "@/lib/ai";
 import { getContentMemory } from "@/lib/content-memory";
-
-let _client: Anthropic | null = null;
-function getClient(): Anthropic {
-  if (!_client) _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "" });
-  return _client;
-}
 
 // POST /api/email/campaign — create email content via AI or send
 export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
@@ -87,18 +81,14 @@ Return a JSON object with:
 
 Return ONLY the JSON, no explanations.`;
 
-    const response = await getClient().messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: isLandingPage ? 16384 : 8192,
+    const response = await callClaude({
+      feature: isLandingPage ? "landing_page" : "email_campaign",
       messages: [{ role: "user", content: prompt }],
     });
 
-    const text = response.content[0];
-    if (text?.type !== "text") throw new Error("No text in AI response");
-
     if (isLandingPage) {
       // Return raw HTML directly — strip any markdown fences if present
-      let html = text.text.trim();
+      let html = extractText(response).trim();
       if (html.startsWith("```")) {
         html = html.replace(/^```(?:html)?\n?/, "").replace(/\n?```$/, "");
       }
@@ -107,9 +97,11 @@ Return ONLY the JSON, no explanations.`;
 
     let emailData;
     try {
-      emailData = JSON.parse(text.text.trim());
+      const rawText = extractText(response);
+      emailData = JSON.parse(rawText.trim());
     } catch {
-      const match = text.text.match(/\{[\s\S]*\}/);
+      const rawText = extractText(response);
+      const match = rawText.match(/\{[\s\S]*\}/);
       if (match) emailData = JSON.parse(match[0]);
       else throw new Error("Failed to parse email generation response");
     }

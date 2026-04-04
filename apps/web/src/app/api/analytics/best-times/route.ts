@@ -1,17 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractText } from "@/lib/ai";
 import { withErrorHandler } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { prisma } from "@/lib/db";
 import { getCachedInsight, setCachedInsight, canRegenerate } from "@/lib/insight-cache";
-
-let _client: Anthropic | null = null;
-function getClient(): Anthropic {
-  if (!_client) {
-    _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "" });
-  }
-  return _client;
-}
 
 // GET /api/analytics/best-times — analyze best posting times
 export const GET = withErrorHandler(
@@ -148,9 +140,8 @@ export const GET = withErrorHandler(
 
     if (posts.length > 0 && platformSummary.length > 0) {
       try {
-        const response = await getClient().messages.create({
-          model: "claude-sonnet-4-6",
-          max_tokens: 2048,
+        const response = await callClaude({
+          feature: "analytics_best_times",
           messages: [
             {
               role: "user",
@@ -176,12 +167,10 @@ Return ONLY valid JSON (no markdown, no code fences):
           ],
         });
 
-        const text = response.content[0];
-        if (text?.type === "text") {
-          const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
-          const parsed = JSON.parse(cleaned);
-          platformRecommendations = parsed.recommendations || [];
-        }
+        const text = extractText(response);
+        const cleaned = text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+        const parsed = JSON.parse(cleaned);
+        platformRecommendations = parsed.recommendations || [];
       } catch {
         // If AI fails, return heatmap without recommendations
       }

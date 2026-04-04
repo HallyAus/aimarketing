@@ -1,14 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractJSON } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { z } from "zod";
-
-let _client: Anthropic | null = null;
-function getClient(): Anthropic {
-  if (!_client) _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "" });
-  return _client;
-}
 
 const schema = z.object({
   yourUrl: z.string().url().max(2000),
@@ -34,7 +28,7 @@ async function fetchPageText(url: string): Promise<string> {
   }
 }
 
-export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
+export const POST = withErrorHandler(withRole("EDITOR", async (req: NextRequest) => {
   const body = await req.json();
   const parsed = schema.safeParse(body);
   if (!parsed.success) {
@@ -53,9 +47,8 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
     `--- Competitor ${i + 1} (${u}) ---\n${competitorTexts[i]}`
   ).join("\n\n");
 
-  const response = await getClient().messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 3000,
+  const response = await callClaude({
+    feature: "keyword_scan",
     messages: [{
       role: "user",
       content: `Analyze the keyword strategy for these websites. Compare the user's site vs competitors.
@@ -83,14 +76,6 @@ Return ONLY valid JSON (no markdown, no code fences):
     }],
   });
 
-  const text = response.content[0];
-  if (text?.type !== "text") throw new Error("No text in AI response");
-
-  try {
-    const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
-    const result = JSON.parse(cleaned);
-    return NextResponse.json(result);
-  } catch {
-    throw new Error("Failed to parse AI response");
-  }
+  const result = extractJSON(response);
+  return NextResponse.json(result);
 }));

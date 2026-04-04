@@ -1,16 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractJSON } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { z } from "zod";
-
-let _client: Anthropic | null = null;
-function getClient(): Anthropic {
-  if (!_client) {
-    _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY ?? "" });
-  }
-  return _client;
-}
 
 const brandVoiceSchema = z.object({
   samples: z
@@ -34,9 +26,8 @@ export const POST = withErrorHandler(
       .map((s, i) => `--- Sample ${i + 1} ---\n${s}`)
       .join("\n\n");
 
-    const response = await getClient().messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 2048,
+    const response = await callClaude({
+      feature: "brand_voice",
       messages: [
         {
           role: "user",
@@ -57,22 +48,7 @@ Return this exact JSON structure:
       ],
     });
 
-    const text = response.content[0];
-    if (text?.type !== "text") {
-      throw new Error("No text in AI response");
-    }
-
-    let profile;
-    try {
-      const cleaned = text.text
-        .replace(/```json\s*/g, "")
-        .replace(/```\s*/g, "")
-        .trim();
-      profile = JSON.parse(cleaned);
-    } catch {
-      throw new Error("Failed to parse brand voice profile from AI response");
-    }
-
+    const profile = extractJSON(response);
     return NextResponse.json({ profile });
   })
 );

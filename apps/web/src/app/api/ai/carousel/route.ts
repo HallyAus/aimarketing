@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { callClaude, extractText } from "@/lib/ai";
 import { withErrorHandler, ZodValidationError } from "@/lib/api-handler";
 import { withRole } from "@/lib/auth-middleware";
 import { getContentMemory } from "@/lib/content-memory";
@@ -13,17 +13,6 @@ const carouselSchema = z.object({
   tone: z.string().max(100).optional(),
   content: z.string().max(10000).optional(),
 });
-
-let _client: Anthropic | null = null;
-
-function getClient(): Anthropic {
-  if (!_client) {
-    _client = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY ?? "",
-    });
-  }
-  return _client;
-}
 
 /* ── Design system prompt (mirrors image-gen aesthetic) ─────────── */
 
@@ -61,9 +50,9 @@ export const POST = withErrorHandler(withRole("EDITOR", async (req) => {
   const platformName = platform === "instagram" ? "Instagram" : "LinkedIn";
   const contentMemory = await getContentMemory(req.orgId);
 
-  const response = await getClient().messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 32000,
+  const response = await callClaude({
+    feature: "carousel",
+    maxTokens: 32000,
     messages: [
       {
         role: "user",
@@ -105,14 +94,9 @@ CRITICAL:
     ],
   });
 
-  const text = response.content[0];
-  if (text?.type !== "text") {
-    return NextResponse.json({ error: "No response from AI" }, { status: 500 });
-  }
-
   let parsed2: { caption?: string; slides?: Array<{ slideNumber: number; html: string }> };
   try {
-    const cleaned = text.text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+    const cleaned = extractText(response).replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
     try {
       parsed2 = JSON.parse(cleaned);
     } catch {
