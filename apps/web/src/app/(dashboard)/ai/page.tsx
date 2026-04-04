@@ -335,6 +335,7 @@ function GeneratePostTab() {
   const [customPrompt, setCustomPrompt] = useState("");
   const [brandVoices, setBrandVoices] = useState<Array<{ id: string; name: string; page: { name: string } }>>([]);
   const [brandVoiceId, setBrandVoiceId] = useState("");
+  const [useBrandContext, setUseBrandContext] = useState(false);
 
   // Load brand voices on mount
   useState(() => {
@@ -370,6 +371,7 @@ function GeneratePostTab() {
           includeEmojis,
           ...(mode === "custom" ? { customPrompt } : {}),
           ...(brandVoiceId ? { brandVoiceId } : {}),
+          useBrandContext,
         }),
       });
       const data = await res.json();
@@ -424,6 +426,26 @@ function GeneratePostTab() {
             </select>
           </div>
         )}
+
+        {/* Brand Context Toggle */}
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            role="switch"
+            aria-checked={useBrandContext}
+            onClick={() => setUseBrandContext(!useBrandContext)}
+            className="relative inline-flex h-5 w-9 shrink-0 rounded-full transition-colors"
+            style={{ background: useBrandContext ? "var(--accent-blue)" : "var(--bg-tertiary, #374151)" }}
+          >
+            <span
+              className="pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow transform transition-transform"
+              style={{ transform: useBrandContext ? "translateX(16px) translateY(2px)" : "translateX(2px) translateY(2px)" }}
+            />
+          </button>
+          <label className="text-sm" style={{ color: "var(--text-secondary)" }}>
+            Use my brand context
+          </label>
+        </div>
 
         {/* Custom Prompt (shown in custom mode) */}
         {mode === "custom" && (
