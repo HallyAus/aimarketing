@@ -116,9 +116,10 @@ export const POST = withErrorHandler(async (req) => {
         },
       }),
 
-      // Analytics snapshots for user's posts
+      // Analytics snapshots for user's posts (excluding LinkedIn per API terms)
       prisma.analyticsSnapshot.findMany({
         where: {
+          platform: { notIn: ["LINKEDIN", "LINKEDIN_PAGE"] },
           post: {
             organization: {
               memberships: { some: { userId } },

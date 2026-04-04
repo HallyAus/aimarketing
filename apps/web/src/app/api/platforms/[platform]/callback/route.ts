@@ -220,6 +220,8 @@ export async function GET(
     }
 
     // Trigger historical data ingestion for all newly connected pages
+    // Skip for LinkedIn — member data storage restricted to 48 hours per API terms
+    const LINKEDIN_PLATFORMS = ["LINKEDIN", "LINKEDIN_PAGE"];
     try {
       const connectedPages = await prisma.page.findMany({
         where: {
@@ -231,6 +233,7 @@ export async function GET(
       });
 
       for (const connectedPage of connectedPages) {
+        if (LINKEDIN_PLATFORMS.includes(platformKey)) continue;
         // Create an IngestionJob record — the worker will pick it up
         const existingJob = await prisma.ingestionJob.findFirst({
           where: {

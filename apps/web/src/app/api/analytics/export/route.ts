@@ -24,6 +24,8 @@ export const GET = withErrorHandler(withRole("VIEWER", async (req) => {
   const where: Record<string, unknown> = {
     orgId: req.orgId,
     status: "PUBLISHED",
+    // LinkedIn Marketing API restricts exporting member data outside the app
+    platform: { notIn: ["LINKEDIN", "LINKEDIN_PAGE"] },
   };
   if (campaignId) where.campaignId = campaignId;
   if (pageId) where.pageId = pageId;
