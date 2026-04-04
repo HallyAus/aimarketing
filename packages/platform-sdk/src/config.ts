@@ -71,6 +71,22 @@ function buildConfigs(): Record<Platform, PlatformConfig> {
     refreshTokenExpiryDays: undefined, // No refresh tokens with 3-legged OAuth
     usesPkce: false,
   },
+  LINKEDIN_PAGE: {
+    platform: "LINKEDIN_PAGE",
+    displayName: "LinkedIn (Company)",
+    clientId: env("LINKEDIN_PAGE_CLIENT_ID"),
+    clientSecret: env("LINKEDIN_PAGE_CLIENT_SECRET"),
+    authorizeUrl: "https://www.linkedin.com/oauth/v2/authorization",
+    tokenUrl: "https://www.linkedin.com/oauth/v2/accessToken",
+    scopes: [
+      "r_organization_social",
+      "w_organization_social",
+      "rw_organization_admin",
+    ],
+    tokenExpirySeconds: 60 * 60 * 24 * 60, // 60 days
+    refreshTokenExpiryDays: undefined,
+    usesPkce: false,
+  },
   TWITTER_X: {
     platform: "TWITTER_X",
     displayName: "Twitter / X",

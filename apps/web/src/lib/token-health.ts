@@ -43,7 +43,8 @@ export const TOKEN_TTL: Record<Platform, { accessTokenTTL: number | null; suppor
   INSTAGRAM: { accessTokenTTL: 5_184_000, supportsRefresh: false }, // 60 days
   TIKTOK: { accessTokenTTL: 86_400, supportsRefresh: true }, // 24 hours
   TWITTER_X: { accessTokenTTL: 7_200, supportsRefresh: true }, // 2 hours
-  LINKEDIN: { accessTokenTTL: 5_184_000, supportsRefresh: true }, // 60 days
+  LINKEDIN: { accessTokenTTL: 5_184_000, supportsRefresh: false }, // 60 days
+  LINKEDIN_PAGE: { accessTokenTTL: 5_184_000, supportsRefresh: false }, // 60 days
   YOUTUBE: { accessTokenTTL: 3_600, supportsRefresh: true }, // 1 hour
   GOOGLE_ADS: { accessTokenTTL: 3_600, supportsRefresh: true }, // 1 hour
   PINTEREST: { accessTokenTTL: 2_592_000, supportsRefresh: true }, // 30 days

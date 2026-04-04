@@ -17,4 +17,5 @@ export { publishToFacebook } from "./facebook";
 export { publishToInstagram } from "./instagram";
 export { publishToTwitter } from "./twitter";
 export { publishToLinkedin } from "./linkedin";
+export { publishToLinkedinPage } from "./linkedin-page";
 export { publishPost } from "./router";

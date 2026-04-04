@@ -122,10 +122,37 @@ export async function GET(
       select: { id: true },
     });
 
-    // Auto-create a default Page record so the account appears in the selector.
-    // For Facebook, pages are selected separately via /api/platforms/facebook/pages.
-    // For all other platforms, create a page using the account name.
-    if (connection && platformKey !== "FACEBOOK") {
+    // Auto-create Page records so accounts appear in the selector.
+    // Facebook: pages fetched separately below.
+    // LinkedIn Page: create a Page per administered organization.
+    // All others: create a single Page for the user account.
+    if (connection && platformKey === "LINKEDIN_PAGE") {
+      const orgs = (tokens.metadata?.organizations ?? []) as Array<{ id: string; name: string }>;
+      for (const org of orgs) {
+        await prisma.page.upsert({
+          where: {
+            orgId_platform_platformPageId: {
+              orgId: oauthState.orgId,
+              platform: platformKey,
+              platformPageId: org.id,
+            },
+          },
+          update: {
+            name: org.name,
+            accessToken: encrypt(tokens.accessToken, masterKey),
+            isActive: true,
+          },
+          create: {
+            orgId: oauthState.orgId,
+            connectionId: connection.id,
+            platform: platformKey,
+            platformPageId: org.id,
+            name: org.name,
+            accessToken: encrypt(tokens.accessToken, masterKey),
+          },
+        });
+      }
+    } else if (connection && platformKey !== "FACEBOOK") {
       await prisma.page.upsert({
         where: {
           orgId_platform_platformPageId: {

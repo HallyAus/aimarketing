@@ -3,6 +3,7 @@ import { FacebookAdapter } from "./facebook";
 import { InstagramAdapter } from "./instagram";
 import { TiktokAdapter } from "./tiktok";
 import { LinkedinAdapter } from "./linkedin";
+import { LinkedinPageAdapter } from "./linkedin-page";
 import { TwitterAdapter } from "./twitter";
 import { YoutubeAdapter } from "./youtube";
 import { GoogleAdsAdapter } from "./google-ads";
@@ -14,6 +15,7 @@ const adapters: Record<Platform, () => PlatformAdapter> = {
   INSTAGRAM: () => new InstagramAdapter(),
   TIKTOK: () => new TiktokAdapter(),
   LINKEDIN: () => new LinkedinAdapter(),
+  LINKEDIN_PAGE: () => new LinkedinPageAdapter(),
   TWITTER_X: () => new TwitterAdapter(),
   YOUTUBE: () => new YoutubeAdapter(),
   GOOGLE_ADS: () => new GoogleAdsAdapter(),

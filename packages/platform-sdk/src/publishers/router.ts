@@ -3,6 +3,7 @@ import { publishToFacebook } from "./facebook";
 import { publishToInstagram } from "./instagram";
 import { publishToTwitter } from "./twitter";
 import { publishToLinkedin } from "./linkedin";
+import { publishToLinkedinPage } from "./linkedin-page";
 
 const SUPPORTED_PUBLISHERS: Record<
   string,
@@ -12,6 +13,7 @@ const SUPPORTED_PUBLISHERS: Record<
   INSTAGRAM: publishToInstagram,
   TWITTER_X: publishToTwitter,
   LINKEDIN: publishToLinkedin,
+  LINKEDIN_PAGE: publishToLinkedinPage,
 };
 
 /**

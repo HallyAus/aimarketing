@@ -3,6 +3,7 @@ export type Platform =
   | "INSTAGRAM"
   | "TIKTOK"
   | "LINKEDIN"
+  | "LINKEDIN_PAGE"
   | "TWITTER_X"
   | "YOUTUBE"
   | "GOOGLE_ADS"

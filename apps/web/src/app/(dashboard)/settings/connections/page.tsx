@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 const PLATFORM_ORDER: Platform[] = [
-  "FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "TWITTER_X",
+  "FACEBOOK", "INSTAGRAM", "TIKTOK", "LINKEDIN", "LINKEDIN_PAGE", "TWITTER_X",
   "YOUTUBE", "GOOGLE_ADS", "PINTEREST", "SNAPCHAT",
 ];
 
